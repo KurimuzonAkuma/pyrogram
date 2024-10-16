@@ -47,6 +47,6 @@ class Initialize:
 
         await self.dispatcher.start()
 
-        self.updates_watchdog_task = asyncio.create_task(self.updates_watchdog())
+        self.updates_watchdog_task = asyncio.create_task(self.updates_watchdog(), name="updates-watchdog")
 
         self.is_initialized = True

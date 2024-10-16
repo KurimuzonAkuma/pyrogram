@@ -35,6 +35,6 @@ class Disconnect:
         if self.is_initialized:
             raise ConnectionError("Can't disconnect an initialized client")
 
-        await self.session.stop()
+        await self.session_pool.aclose()
         await self.storage.close()
         self.is_connected = False

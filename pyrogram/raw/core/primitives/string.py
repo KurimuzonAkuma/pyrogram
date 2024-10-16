@@ -28,4 +28,4 @@ class String(Bytes):
         return cast(bytes, super(String, String).read(data)).decode(errors="replace")
 
     def __new__(cls, value: str) -> bytes:  # type: ignore
-        return super().__new__(cls, value.encode())
+        return super().__new__(cls, value.encode()) # TODO: utf-8 encoding

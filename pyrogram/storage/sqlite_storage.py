@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import inspect
-import sqlite3
 import time
 from typing import List, Tuple, Any
 

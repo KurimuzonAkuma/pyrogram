@@ -17,19 +17,15 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from typing import Optional, Tuple
+from typing import Optional
 
-from .tcp import TCP, Proxy
+from .tcp import TCP
 
 log = logging.getLogger(__name__)
 
 
 class TCPAbridged(TCP):
-    def __init__(self, ipv6: bool, proxy: Proxy) -> None:
-        super().__init__(ipv6, proxy)
-
-    async def connect(self, address: Tuple[str, int]) -> None:
-        await super().connect(address)
+    async def connect(self) -> None:
         await super().send(b"\xef")
 
     async def send(self, data: bytes, *args) -> None:

@@ -50,6 +50,8 @@ BOT_POLLS_DISABLED	Sending polls by bots has been disabled
 BOT_RESPONSE_TIMEOUT	The bot did not answer to the callback query in time
 BOT_SCORE_NOT_MODIFIED	The bot score was not modified
 BOT_WEBVIEW_DISABLED	A webview cannot be opened in the specified conditions: emitted for example if `from_bot_menu` or `url` are set and `peer` is not the chat with the bot.
+BOT_SHARETEXT_INVALID	The bot share text invalid
+BOT_DESC_INVALID	The bot description invalid
 BROADCAST_CALLS_DISABLED	Broadcast calls disabled
 BROADCAST_ID_INVALID	The channel is invalid
 BROADCAST_PUBLIC_VOTERS_FORBIDDEN	Polls with public voters cannot be sent in channels
@@ -119,6 +121,7 @@ CONTACT_NAME_EMPTY	The provided contact name is empty
 CONTACT_REQ_MISSING	Missing contact request
 CREATE_CALL_FAILED	An error occurred while creating the call
 CURRENCY_TOTAL_AMOUNT_INVALID	The total amount of all prices is invalid
+CURRENCY_INVALID	The currency invalid
 CUSTOM_REACTIONS_TOO_MANY	Too many custom reactions were specified.
 DATA_INVALID	The encrypted data is invalid
 DATA_JSON_INVALID	The provided JSON data is invalid

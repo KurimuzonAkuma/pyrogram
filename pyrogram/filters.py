@@ -24,6 +24,10 @@ import pyrogram
 from pyrogram import enums
 from pyrogram.types import Message, CallbackQuery, InlineQuery, PreCheckoutQuery, InlineKeyboardMarkup, ReplyKeyboardMarkup, Update
 
+# TODO: impl magic filter
+# TODO: impl filters cache support (hashable)
+# TODO: impl filters optimization
+# TODO: impl FilterCallback with is_awaitable cache like aiogram
 
 class Filter:
     async def __call__(self, client: "pyrogram.Client", update: Update):

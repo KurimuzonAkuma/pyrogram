@@ -18,22 +18,24 @@
 
 import logging
 from binascii import crc32
-from struct import pack, unpack
-from typing import Optional, Tuple
+from struct import (
+    pack,
+    unpack,
+)
+from typing import (
+    Optional,
+)
 
-from .tcp import TCP, Proxy
+from .connector.base import Connector
+from .tcp import TCP
 
 log = logging.getLogger(__name__)
 
 
 class TCPFull(TCP):
-    def __init__(self, ipv6: bool, proxy: Proxy) -> None:
-        super().__init__(ipv6, proxy)
+    def __init__(self, connector: Connector) -> None:
+        super().__init__(connector)
 
-        self.seq_no: Optional[int] = None
-
-    async def connect(self, address: Tuple[str, int]) -> None:
-        await super().connect(address)
         self.seq_no = 0
 
     async def send(self, data: bytes, *args) -> None:

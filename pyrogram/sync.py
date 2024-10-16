@@ -27,6 +27,9 @@ from pyrogram.methods.utilities import idle as idle_module, compose as compose_m
 
 
 def async_to_sync(obj, name):
+
+    # TODO: Либо полностью избавиться от sync, либо сделать кэширование inspect вызовов
+
     function = getattr(obj, name)
     main_loop = asyncio.get_event_loop()
 

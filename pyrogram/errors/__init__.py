@@ -54,7 +54,8 @@ class SecurityError(Exception):
 class SecurityCheckMismatch(SecurityError):
     """Raised when a security check mismatch occurs."""
 
-    def __init__(self, msg: str = None):
+    def __init__(self, msg: str = None, fatal: bool = False):
+        self.fatal = fatal
         super().__init__("A security check mismatch has occurred." if msg is None else msg)
 
 

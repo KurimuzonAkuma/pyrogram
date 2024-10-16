@@ -70,7 +70,7 @@ def unpack(
         message = Message.read(data)
     except KeyError as e:
         if e.args[0] == 0:
-            raise ConnectionError(f"Received empty data. Check your internet connection.")
+            raise ConnectionError("Received empty data. Check your internet connection.")
 
         left = data.read().hex()
 

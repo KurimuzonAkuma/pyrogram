@@ -25,9 +25,8 @@ import pyrogram
 from pyrogram import raw
 from pyrogram import types
 from pyrogram import utils
-from pyrogram.errors import RPCError, MediaEmpty
+from pyrogram.errors import MediaEmpty
 from pyrogram.file_id import FileType
-from .inline_session import get_session
 
 
 class EditInlineMedia:
@@ -197,14 +196,14 @@ class EditInlineMedia:
         unpacked = utils.unpack_inline_message_id(inline_message_id)
         dc_id = unpacked.dc_id
 
-        session = await get_session(self, dc_id)
-
         if is_uploaded_file:
             uploaded_media = await self.invoke(
                 raw.functions.messages.UploadMedia(
                     peer=raw.types.InputPeerSelf(),
                     media=media
-                )
+                ),
+                dc_id=dc_id,
+                is_media=True # TODO: remove?
             )
 
             actual_media = raw.types.InputMediaPhoto(
@@ -227,19 +226,16 @@ class EditInlineMedia:
 
         for i in range(self.MAX_RETRIES):
             try:
-                return await session.invoke(
+                return await self.invoke(
                     raw.functions.messages.EditInlineBotMessage(
                         id=unpacked,
                         media=actual_media,
                         reply_markup=await reply_markup.write(self) if reply_markup else None,
                         **await utils.parse_text_entities(self, caption, parse_mode, caption_entities)
                     ),
-                    sleep_threshold=self.sleep_threshold
+                    dc_id=dc_id,
+                    is_media=True # TODO: remove?
                 )
-            except RPCError as e:
-                if i == self.MAX_RETRIES - 1:
-                    raise
-
-                if isinstance(e, MediaEmpty):
-                    # Must wait due to a server race condition
-                    await asyncio.sleep(1)
+            except MediaEmpty:
+                # Must wait due to a server race condition
+                await asyncio.sleep(1)

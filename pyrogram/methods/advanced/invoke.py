@@ -21,8 +21,7 @@ import logging
 import pyrogram
 from pyrogram import raw
 from pyrogram.raw.core import TLObject
-from pyrogram.session import Session
-from pyrogram.methods.messages.business_session import get_session
+from pyrogram.session.session import Session
 
 log = logging.getLogger(__name__)
 
@@ -34,7 +33,10 @@ class Invoke:
         retries: int = Session.MAX_RETRIES,
         timeout: float = Session.WAIT_TIMEOUT,
         sleep_threshold: float = None,
-        business_connection_id: str = None
+        business_connection_id: str = None,
+        dc_id: int = None,
+        is_media: bool = False,
+        is_cdn: bool = False
     ):
         """Invoke raw Telegram functions.
 
@@ -75,21 +77,23 @@ class Invoke:
         if not self.is_connected:
             raise ConnectionError("Client has not been started yet")
 
-        session = self.session
-
         if business_connection_id:
             query = raw.functions.InvokeWithBusinessConnection(
                 connection_id=business_connection_id,
                 query=query
             )
 
-            session = await get_session(self, business_connection_id)
-
         if self.no_updates:
             query = raw.functions.InvokeWithoutUpdates(query=query)
 
         if self.takeout_id:
             query = raw.functions.InvokeWithTakeout(takeout_id=self.takeout_id, query=query)
+
+        if dc_id is None:
+            dc_id = self.session_pool.main_simple_session.dc_id
+
+        log.debug("invoke: %s", query)
+        session = await self.session_pool.get_session(dc_id=dc_id, is_media=is_media, is_cdn=is_cdn)
 
         r = await session.invoke(
             query, retries, timeout,

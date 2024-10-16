@@ -31,7 +31,7 @@ class GetForumTopicsByID:
         self: "pyrogram.Client",
         chat_id: Union[int, str],
         topic_ids: Union[int, Iterable[int]]
-    ) -> Union["types.ForumTopic", List["types.ForumTopic"]]:
+    ) -> Union["types.ForumTopic", List["types.ForumTopic"], None]:
         """Get one or more topic from a chat by using topic identifiers.
 
         .. include:: /_includes/usable-by/users.rst
@@ -61,6 +61,9 @@ class GetForumTopicsByID:
             ValueError: In case of invalid arguments.
         """
         is_iterable = not isinstance(topic_ids, int)
+        if self.me and self.me.is_bot:
+            return [] if is_iterable else None
+
         ids = list(topic_ids) if is_iterable else [topic_ids]
 
         r = await self.invoke(

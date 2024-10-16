@@ -17,20 +17,26 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from io import BytesIO
-from typing import Any
+from typing import (
+    Any,
+    Generic,
+    TypeVar,
+)
 
 from .primitives.int import Int, Long
 from .tl_object import TLObject
 
+BodyT = TypeVar("BodyT", bound=TLObject)
 
-class Message(TLObject):
+
+class Message(TLObject, Generic[BodyT]):
     ID = 0x5BB8E511  # hex(crc32(b"message msg_id:long seqno:int bytes:int body:Object = Message"))
 
     __slots__ = ["msg_id", "seq_no", "length", "body"]
 
     QUALNAME = "Message"
 
-    def __init__(self, body: TLObject, msg_id: int, seq_no: int, length: int):
+    def __init__(self, body: BodyT, msg_id: int, seq_no: int, length: int):
         self.msg_id = msg_id
         self.seq_no = seq_no
         self.length = length

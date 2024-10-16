@@ -21,20 +21,33 @@ import base64
 import functools
 import hashlib
 import os
+import re
 import struct
 from concurrent.futures.thread import ThreadPoolExecutor
-from datetime import datetime, timezone
+from datetime import (
+    datetime,
+    timezone,
+)
 from getpass import getpass
-import re
-from typing import Union, List, Dict, Optional
+from typing import (
+    Dict,
+    List,
+    Optional,
+    Union,
+)
 
 import pyrogram
-from pyrogram import raw, enums
-from pyrogram import types
-from pyrogram.errors import AuthBytesInvalid
-from pyrogram.file_id import FileId, FileType, PHOTO_TYPES, DOCUMENT_TYPES
-from pyrogram.session import Session
-from pyrogram.session.auth import Auth
+from pyrogram import (
+    enums,
+    raw,
+    types,
+)
+from pyrogram.file_id import (
+    DOCUMENT_TYPES,
+    FileId,
+    FileType,
+    PHOTO_TYPES,
+)
 
 
 async def ainput(prompt: str = "", *, hide: bool = False):
@@ -91,15 +104,25 @@ def get_input_media_from_file_id(
     raise ValueError(f"Unknown file id: {file_id}")
 
 
+class FakeUsers(dict):
+    def __missing__(self, user_id):
+        return raw.types.UserEmpty(id=user_id)
+
+
+class FakeChats(dict):
+    def __missing__(self, chat_id):
+        return raw.types.ChatForbidden(id=chat_id, title=f"Forbidden {chat_id}")
+
+
 async def parse_messages(
     client: "pyrogram.Client",
     messages: Union["raw.base.messages.Messages", "raw.base.Updates"],
     replies: int = 1,
     business_connection_id: str = None
 ) -> List["types.Message"]:
-    users = {i.id: i for i in getattr(messages, "users", [])}
-    chats = {i.id: i for i in getattr(messages, "chats", [])}
-    topics = {i.id: i for i in getattr(messages, "topics", [])}
+    users = FakeUsers({i.id: i for i in messages.users})
+    chats = FakeChats({i.id: i for i in messages.chats})
+    topics = {i.id: i for i in messages.topics} if hasattr(messages, "topics") else None
 
     parsed_messages = []
 
@@ -287,6 +310,7 @@ def unpack_inline_message_id(inline_message_id: str) -> "raw.base.InputBotInline
         )
 
 
+# TODO: Взять значения с TDLib и TDesktop
 MIN_CHANNEL_ID_OLD = -1002147483647
 MIN_CHANNEL_ID = -100999999999999
 MAX_CHANNEL_ID = -1000000000000

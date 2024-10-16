@@ -19,6 +19,7 @@
 import asyncio
 import logging
 import signal
+from contextlib import suppress
 from signal import signal as signal_fn, SIGINT, SIGTERM, SIGABRT
 
 log = logging.getLogger(__name__)
@@ -69,19 +70,14 @@ async def idle():
 
             asyncio.run(main())
     """
-    task = None
+    event = asyncio.Event()
 
     def signal_handler(signum, __):
         logging.info(f"Stop signal received ({signals[signum]}). Exiting...")
-        task.cancel()
+        event.set()
 
     for s in (SIGINT, SIGTERM, SIGABRT):
         signal_fn(s, signal_handler)
 
-    while True:
-        task = asyncio.create_task(asyncio.sleep(600))
-
-        try:
-            await task
-        except asyncio.CancelledError:
-            break
+    with suppress(asyncio.CancelledError):
+        await event.wait()

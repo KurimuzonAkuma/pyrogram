@@ -27,8 +27,9 @@ from pyrogram.raw.core import Bytes, String
 
 log = logging.getLogger(__name__)
 
-
 def b64_encode(s: bytes) -> str:
+    # TODO: Move to utils
+
     """Encode bytes into a URL-safe Base64 string without padding
 
     Parameters:
@@ -42,6 +43,8 @@ def b64_encode(s: bytes) -> str:
 
 
 def b64_decode(s: str) -> bytes:
+    # TODO: Move to utils
+
     """Decode a URL-safe Base64 string without padding to bytes
 
     Parameters:
@@ -55,6 +58,8 @@ def b64_decode(s: str) -> bytes:
 
 
 def rle_encode(s: bytes) -> bytes:
+    # TODO: Move to utils, cython
+
     """Zero-value RLE encoder
 
     Parameters:
@@ -84,6 +89,8 @@ def rle_encode(s: bytes) -> bytes:
 
 
 def rle_decode(s: bytes) -> bytes:
+    # TODO: Move to utils, cython
+
     """Zero-value RLE decoder
 
     Parameters:
@@ -109,6 +116,8 @@ def rle_decode(s: bytes) -> bytes:
 
     return bytes(r)
 
+
+# TODO: Сверить с TDLib, TDesktop, php mtproto
 
 class FileType(IntEnum):
     """Known file types"""

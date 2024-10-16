@@ -17,7 +17,7 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from typing import Union, Optional, AsyncGenerator
+from typing import Union, AsyncGenerator
 
 import pyrogram
 from pyrogram import raw, types, enums

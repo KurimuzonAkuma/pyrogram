@@ -27,9 +27,17 @@ from typing import Optional
 import pyrogram
 from pyrogram import raw
 from pyrogram.connection import Connection
-from pyrogram.crypto import aes, rsa, prime
+from pyrogram.crypto import (
+    aes,
+    prime,
+    rsa,
+)
 from pyrogram.errors import SecurityCheckMismatch
-from pyrogram.raw.core import TLObject, Long, Int
+from pyrogram.raw.core import (
+    Int,
+    Long,
+    TLObject,
+)
 from .internals import MsgId
 
 log = logging.getLogger(__name__)
@@ -84,19 +92,17 @@ class Auth:
         # The server may close the connection at any time, causing the auth key creation to fail.
         # If that happens, just try again up to MAX_RETRIES times.
         while True:
-            self.connection = self.connection_factory(
-                dc_id=self.dc_id,
-                test_mode=self.test_mode,
-                ipv6=self.ipv6,
-                proxy=self.proxy,
-                media=False,
-                protocol_factory=self.protocol_factory
-            )
-
             try:
                 log.info("Start creating a new auth key on DC%s", self.dc_id)
 
-                await self.connection.connect()
+                self.connection = await self.connection_factory.new(
+                    dc_id=self.dc_id,
+                    test_mode=self.test_mode,
+                    ipv6=self.ipv6,
+                    proxy=self.proxy,
+                    media=False,
+                    protocol_factory=self.protocol_factory
+                )
 
                 # Step 1; Step 2
                 nonce = int.from_bytes(urandom(16), "little", signed=True)
@@ -283,14 +289,17 @@ class Auth:
             except Exception as e:
                 log.info("Retrying due to %s: %s", type(e).__name__, e)
 
-                if retries_left:
-                    retries_left -= 1
-                else:
-                    raise e
+                if retries_left < 1:
+                    raise
 
+                retries_left -= 1
                 await asyncio.sleep(1)
                 continue
             else:
                 return auth_key
             finally:
-                await self.connection.close()
+                await self.close()
+
+    async def close(self) -> None:
+        if self.connection:
+            await self.connection.close()

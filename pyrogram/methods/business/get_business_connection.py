@@ -49,6 +49,22 @@ class GetBusinessConnection:
         )
 
         users = {i.id: i for i in r.users}
-        chats = {i.id: i for i in r.chats}
 
         return types.BusinessConnection._parse(self, r.updates[0].connection, users)
+
+    async def get_business_connection_dc_id(
+        self: "pyrogram.Client",
+        connection_id: str
+    ) -> int:
+        dc_id = self.business_connections.get(connection_id)
+        if dc_id is not None:
+            return dc_id
+
+        r: raw.types.BotBusinessConnection = await self.invoke(
+            raw.functions.account.GetBotBusinessConnection(
+                connection_id=connection_id
+            )
+        )
+
+        self.business_connections[connection_id] = r.dc_id
+        return r.dc_id

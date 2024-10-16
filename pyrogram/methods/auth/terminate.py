@@ -46,11 +46,6 @@ class Terminate:
         await self.storage.save()
         await self.dispatcher.stop()
 
-        for media_session in self.media_sessions.values():
-            await media_session.stop()
-
-        self.media_sessions.clear()
-
         self.updates_watchdog_event.set()
 
         if self.updates_watchdog_task is not None:

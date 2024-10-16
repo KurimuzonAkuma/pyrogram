@@ -18,11 +18,15 @@
 
 import logging
 import os
-from struct import pack, unpack
-from typing import Optional, Tuple
+from struct import (
+    pack,
+    unpack,
+)
+from typing import Optional
 
 from pyrogram.crypto import aes
-from .tcp import TCP, Proxy
+from .connector.base import Connector
+from .tcp import TCP
 
 log = logging.getLogger(__name__)
 
@@ -30,15 +34,13 @@ log = logging.getLogger(__name__)
 class TCPIntermediateO(TCP):
     RESERVED = (b"HEAD", b"POST", b"GET ", b"OPTI", b"\xee" * 4)
 
-    def __init__(self, ipv6: bool, proxy: Proxy) -> None:
-        super().__init__(ipv6, proxy)
+    def __init__(self, connector: Connector) -> None:
+        super().__init__(connector)
 
         self.encrypt = None
         self.decrypt = None
 
-    async def connect(self, address: Tuple[str, int]) -> None:
-        await super().connect(address)
-
+    async def connect(self) -> None:
         while True:
             nonce = bytearray(os.urandom(64))
 

@@ -17,32 +17,103 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
-import bisect
 import logging
-import os
-from hashlib import sha1
+from contextlib import suppress
 from io import BytesIO
-from typing import Optional
-
+from typing import (
+    Any,
+    Awaitable,
+    Callable,
+    Dict,
+    List,
+    Optional,
+    Set,
+    Union,
+)
 import pyrogram
 from pyrogram import raw
 from pyrogram.connection import Connection
 from pyrogram.crypto import mtproto
 from pyrogram.errors import (
-    RPCError, InternalServerError, AuthKeyDuplicated, FloodWait, FloodPremiumWait, ServiceUnavailable, BadMsgNotification,
-    SecurityCheckMismatch, Unauthorized
+    AuthKeyDuplicated,
+    FloodPremiumWait,
+    FloodWait,
+    InternalServerError,
+    RPCError,
+    SecurityCheckMismatch,
+    ServiceUnavailable,
+    Unauthorized,
 )
 from pyrogram.raw.all import layer
-from pyrogram.raw.core import TLObject, MsgContainer, Int, FutureSalts
-from .internals import MsgId, MsgFactory
+from .internals import AuthData
 
 log = logging.getLogger(__name__)
 
 
-class Result:
-    def __init__(self):
-        self.value = None
-        self.event = asyncio.Event()
+class RequestState:
+    def __init__(
+        self,
+        request: raw.core.TLObject,
+    ):
+        self.request = request
+        self.future = asyncio.Future()
+
+    def __str__(self):
+        return str(self.request)
+
+    def done(self) -> bool:
+        return self.future.done()
+
+    def set_result(self, value: Any) -> None:
+        if self.future.done():
+            return None
+        self.future.set_result(value)
+
+    def set_exception(self, value: Exception) -> None:
+        if self.future.done():
+            return None
+        self.future.set_exception(value)
+
+    @property
+    def request_raw(self) -> raw.core.TLObject:
+        request = self.request
+        while isinstance(
+            request, (
+                raw.functions.InvokeAfterMsg,
+                raw.functions.InvokeAfterMsgs,
+                raw.functions.InitConnection,
+                raw.functions.InvokeWithLayer,
+                raw.functions.InvokeWithoutUpdates,
+                raw.functions.InvokeWithMessagesRange,
+                raw.functions.InvokeWithTakeout,
+                raw.functions.InvokeWithBusinessConnection,
+            )
+        ):
+            request = request.query
+
+        return request
+
+    @property
+    def is_content_related(self) -> bool:
+        return not isinstance(
+            self.request_raw, (raw.functions.Ping, raw.types.HttpWait, raw.types.MsgsAck, raw.core.MsgContainer)
+        )
+
+
+async def task_cancel(*tasks: "Optional[asyncio.Task[Any]]") -> None:
+    for task in tasks:
+        if task is None:
+            continue
+
+        if task.done():
+            continue
+
+        task.cancel()
+
+        try:
+            await task
+        except (asyncio.CancelledError, RuntimeError):
+            pass
 
 
 class Session:
@@ -52,9 +123,9 @@ class Session:
     MAX_RETRIES = 10
     ACKS_THRESHOLD = 10
     PING_INTERVAL = 5
-    STORED_MSG_IDS_MAX_SIZE = 1000 * 2
 
     TRANSPORT_ERRORS = {
+        403: "forbidden",
         404: "auth key not found",
         429: "transport flood",
         444: "invalid DC"
@@ -67,54 +138,87 @@ class Session:
         auth_key: bytes,
         test_mode: bool,
         is_media: bool = False,
-        is_cdn: bool = False
+        is_cdn: bool = False,
+        reconnect: bool = True
     ):
         self.client = client
         self.dc_id = dc_id
-        self.auth_key = auth_key
         self.test_mode = test_mode
         self.is_media = is_media
         self.is_cdn = is_cdn
+        self.reconnect = reconnect
+        self.auth_data: AuthData = AuthData(
+            main_auth_key=auth_key
+        )
 
         self.connection: Optional[Connection] = None
 
-        self.auth_key_id = sha1(auth_key).digest()[-8:]
+        self.pending_acks: Set[int] = set()
+        self.pending_requests: "asyncio.Queue[RequestState]" = asyncio.Queue()
 
-        self.session_id = os.urandom(8)
-        self.msg_factory = MsgFactory()
+        self.results: Dict[int, RequestState] = {}
 
-        self.salt = 0
+        self.ping_task: "Optional[asyncio.Task[None]]" = None
+        self.ping_event = asyncio.Event()
+        self.pong_event = asyncio.Event()
 
-        self.pending_acks = set()
-
-        self.results = {}
-
-        self.stored_msg_ids = []
-
-        self.ping_task = None
-        self.ping_task_event = asyncio.Event()
-
-        self.recv_task = None
+        self.recv_task: "Optional[asyncio.Task[None]]" = None
+        self.send_task: "Optional[asyncio.Task[None]]" = None
 
         self.is_started = asyncio.Event()
 
-        self.loop = asyncio.get_event_loop()
+        self.handler_by_constructor_id: Dict[int, Callable[[raw.core.Message], Awaitable[None]]] = {
+            raw.types.RpcResult.ID: self.handle_rpc_result,
+            raw.core.MsgContainer.ID: self.handle_msg_container,
+            raw.core.GzipPacked.ID: self.handle_gzip_packed,
+            raw.types.Pong.ID: self.handle_pong,
+            raw.types.BadServerSalt.ID: self.handle_bad_server_salt,
+            raw.types.BadMsgNotification.ID: self.handle_bad_msg_notification,
+            raw.types.MsgDetailedInfo.ID: self.handle_msg_detailed_info,
+            raw.types.MsgNewDetailedInfo.ID: self.handle_msg_new_detailed_info,
+            raw.types.NewSessionCreated.ID: self.handle_new_session_created,
+            raw.types.MsgsAck.ID: self.handle_msgs_ack,
+            raw.core.FutureSalts.ID: self.handle_future_salts,
+            raw.types.MsgsStateReq.ID: self.handle_state_forgotten,
+            raw.types.MsgResendReq.ID: self.handle_state_forgotten,
+            raw.types.MsgsAllInfo.ID: self.handle_msg_all,
+            raw.types.DestroySessionOk.ID: self.handle_destroy_session,
+            raw.types.DestroySessionNone.ID: self.handle_destroy_session,
+            raw.types.DestroyAuthKeyOk.ID: self.handle_destroy_auth_key,
+            raw.types.DestroyAuthKeyNone.ID: self.handle_destroy_auth_key,
+            raw.types.DestroyAuthKeyFail.ID: self.handle_destroy_auth_key,
+
+            raw.types.Updates.ID: self.handle_update,
+            raw.types.UpdatesCombined.ID: self.handle_update,
+            raw.types.UpdateShortMessage.ID: self.handle_update,
+            raw.types.UpdateShortChatMessage.ID: self.handle_update,
+            raw.types.UpdateShort.ID: self.handle_update,
+            raw.types.UpdatesTooLong.ID: self.handle_update
+        }
+
+        self._loop: Optional[asyncio.AbstractEventLoop] = None
+
+    @property
+    def loop(self) -> asyncio.AbstractEventLoop:
+        if self._loop is None:
+            self._loop = asyncio.get_running_loop()
+
+        return self._loop
 
     async def start(self):
         while True:
-            self.connection = self.client.connection_factory(
-                dc_id=self.dc_id,
-                test_mode=self.test_mode,
-                ipv6=self.client.ipv6,
-                proxy=self.client.proxy,
-                media=self.is_media,
-                protocol_factory=self.client.protocol_factory
-            )
-
             try:
-                await self.connection.connect()
+                self.connection = await self.client.connection_factory.new(
+                    dc_id=self.dc_id,
+                    test_mode=self.test_mode,
+                    ipv6=self.client.ipv6,
+                    proxy=self.client.proxy,
+                    media=self.is_media,
+                    protocol_factory=self.client.protocol_factory
+                )
 
-                self.recv_task = self.loop.create_task(self.recv_worker())
+                self.recv_task = asyncio.create_task(self.recv_worker(), name="recv-worker")
+                self.send_task = asyncio.create_task(self.send_worker(), name="send-worker")
 
                 await self.send(raw.functions.Ping(ping_id=0), timeout=self.START_TIMEOUT)
 
@@ -137,7 +241,7 @@ class Session:
                         timeout=self.START_TIMEOUT
                     )
 
-                self.ping_task = self.loop.create_task(self.ping_worker())
+                self.ping_task = asyncio.create_task(self.ping_worker(), name="ping-worker")
 
                 log.info("Session initialized: Layer %s", layer)
                 log.info("Device: %s - %s", self.client.device_model, self.client.app_version)
@@ -159,20 +263,17 @@ class Session:
 
     async def stop(self):
         self.is_started.clear()
+        self.ping_event.clear()
+        self.pong_event.clear()
 
-        self.stored_msg_ids.clear()
+        await task_cancel(
+            self.ping_task,
+            self.recv_task,
+            self.send_task
+        )
 
-        self.ping_task_event.set()
-
-        if self.ping_task is not None:
-            await self.ping_task
-
-        self.ping_task_event.clear()
-
-        await self.connection.close()
-
-        if self.recv_task:
-            await self.recv_task
+        if self.connection:
+            await self.connection.close()
 
         if not self.is_media and callable(self.client.disconnect_handler):
             try:
@@ -184,132 +285,110 @@ class Session:
 
     async def restart(self):
         await self.stop()
-        await self.start()
 
-    async def handle_packet(self, packet):
-        try:
-            data = await self.loop.run_in_executor(
-                pyrogram.crypto_executor,
-                mtproto.unpack,
-                BytesIO(packet),
-                self.session_id,
-                self.auth_key,
-                self.auth_key_id
-            )
-        except ValueError as e:
-            log.debug(e)
-            self.loop.create_task(self.restart())
-            return
-
-        messages = (
-            data.body.messages
-            if isinstance(data.body, MsgContainer)
-            else [data]
-        )
-
-        log.debug("Received: %s", data)
-
-        for msg in messages:
-            if msg.seq_no % 2 != 0:
-                if msg.msg_id in self.pending_acks:
-                    continue
-                else:
-                    self.pending_acks.add(msg.msg_id)
-
-            try:
-                if len(self.stored_msg_ids) > Session.STORED_MSG_IDS_MAX_SIZE:
-                    del self.stored_msg_ids[:Session.STORED_MSG_IDS_MAX_SIZE // 2]
-
-                if self.stored_msg_ids:
-                    if msg.msg_id < self.stored_msg_ids[0]:
-                        raise SecurityCheckMismatch("The msg_id is lower than all the stored values")
-
-                    if msg.msg_id in self.stored_msg_ids:
-                        raise SecurityCheckMismatch("The msg_id is equal to any of the stored values")
-
-                    time_diff = (msg.msg_id - MsgId()) / 2 ** 32
-
-                    if time_diff > 30:
-                        raise SecurityCheckMismatch("The msg_id belongs to over 30 seconds in the future. "
-                                                    "Most likely the client time has to be synchronized.")
-
-                    if time_diff < -300:
-                        raise SecurityCheckMismatch("The msg_id belongs to over 300 seconds in the past. "
-                                                    "Most likely the client time has to be synchronized.")
-            except SecurityCheckMismatch as e:
-                log.info("Discarding packet: %s", e)
-                await self.connection.close()
-                return
-            else:
-                bisect.insort(self.stored_msg_ids, msg.msg_id)
-
-            if isinstance(msg.body, (raw.types.MsgDetailedInfo, raw.types.MsgNewDetailedInfo)):
-                self.pending_acks.add(msg.body.answer_msg_id)
-                continue
-
-            if isinstance(msg.body, raw.types.NewSessionCreated):
-                continue
-
-            msg_id = None
-
-            if isinstance(msg.body, (raw.types.BadMsgNotification, raw.types.BadServerSalt)):
-                msg_id = msg.body.bad_msg_id
-            elif isinstance(msg.body, (FutureSalts, raw.types.RpcResult)):
-                msg_id = msg.body.req_msg_id
-            elif isinstance(msg.body, raw.types.Pong):
-                msg_id = msg.body.msg_id
-            else:
-                if self.client is not None:
-                    self.loop.create_task(self.client.handle_updates(msg.body))
-
-            if msg_id in self.results:
-                self.results[msg_id].value = getattr(msg.body, "result", msg.body)
-                self.results[msg_id].event.set()
-
-        if len(self.pending_acks) >= self.ACKS_THRESHOLD:
-            log.debug("Sending %s acks", len(self.pending_acks))
-
-            try:
-                await self.send(raw.types.MsgsAck(msg_ids=list(self.pending_acks)), False)
-            except OSError:
-                pass
-            else:
-                self.pending_acks.clear()
+        if self.reconnect:
+            await self.start()
 
     async def ping_worker(self):
         log.info("PingTask started")
 
         while True:
-            try:
-                await asyncio.wait_for(self.ping_task_event.wait(), self.PING_INTERVAL)
-            except asyncio.TimeoutError:
-                pass
-            else:
+            log.debug("wait ping task begin")
+
+            with suppress(asyncio.TimeoutError):
+                await asyncio.wait_for(self.ping_event.wait(), self.WAIT_TIMEOUT + 15)
+
+            log.debug("wait ping task end")
+
+            if not self.pong_event.is_set():
+                log.debug("pong not found")
+                asyncio.create_task(self.restart(), name="session-restart")  # TODO: graceful restart
                 break
 
-            try:
-                await self.send(
+            self.pong_event.clear()
+            self.pending_requests.put_nowait(
+                RequestState(
                     raw.functions.PingDelayDisconnect(
                         ping_id=0, disconnect_delay=self.WAIT_TIMEOUT + 10
-                    ), False
+                    )
                 )
-            except OSError:
-                self.loop.create_task(self.restart())
-                break
-            except RPCError:
-                pass
+            )
 
         log.info("PingTask stopped")
+
+    async def send_worker(self):
+        # TODO: ping
+        # TODO: future salts
+        # TODO: resend_answer
+        # TODO: cancel_answer
+        # TODO: get_state_info
+        # TODO: ack
+        # TODO: gzip
+        # TODO: group batch to containers
+        log.info("SendTask started")
+
+        while True:
+            log.debug("wait pending request")
+            request_state = await self.pending_requests.get()
+            log.debug("pending request: %s", request_state)
+
+            try:
+                if request_state.done():
+                    log.debug("drop request: %s", request_state)
+                    continue
+
+                now = self.auth_data.get_client_time()
+                message = self.auth_data.msg_factory(
+                    body=request_state.request,
+                    is_content_related=request_state.is_content_related,
+                    now=now
+                )
+
+                log.debug("pack message begin")
+                payload = await self.loop.run_in_executor(
+                    pyrogram.crypto_executor,
+                    mtproto.pack,
+                    message,
+                    self.auth_data.get_server_salt(
+                        now=now
+                    ),
+                    self.auth_data.session_id,
+                    self.auth_data.main_auth_key,
+                    self.auth_data.main_auth_key_id
+                )
+                log.debug("pack message end")
+
+                self.results[message.msg_id] = request_state
+
+                try:
+                    log.debug("connection.send begin")
+                    await self.connection.send(payload)
+                    log.debug("connection.send end")
+                except OSError as exc:
+                    log.warning("Connection error: %s", exc)  # TODO: graceful restart
+                    asyncio.create_task(self.restart(), name="session-restart")
+                    break
+                else:
+                    log.debug("Sent: %s", request_state)
+            finally:
+                self.pending_requests.task_done()
+                log.debug("pending request done")
 
     async def recv_worker(self):
         log.info("NetworkTask started")
 
         while True:
+            log.debug("connection.recv begin")
             packet = await self.connection.recv()
+            log.debug("connection.recv end")
+
+            log.debug("packet: %s", packet)
 
             if packet is None or len(packet) == 4:
                 if packet:
-                    error_code = -Int.read(BytesIO(packet))
+                    error_code = -int.from_bytes(packet, byteorder="little", signed=True)
+
+                    log.info("error_code: %s", error_code)
 
                     if error_code == 404:
                         raise Unauthorized(
@@ -323,77 +402,337 @@ class Session:
                     )
 
                 if self.is_started.is_set():
-                    self.loop.create_task(self.restart())
+                    asyncio.create_task(self.restart(), name="session-restart")  # TODO: graceful restart
 
                 break
 
-            self.loop.create_task(self.handle_packet(packet))
+            log.debug("unpack message begin")
+            message = await self.loop.run_in_executor(
+                pyrogram.crypto_executor,
+                mtproto.unpack,
+                BytesIO(packet),
+                self.auth_data.session_id,
+                self.auth_data.main_auth_key,
+                self.auth_data.main_auth_key_id
+            )
+            log.debug("unpack message end")
+
+            try:
+                await self.handle_message(message)
+            except SecurityCheckMismatch as exc:
+                log.info("Discarding packet: %s", exc)
+                if exc.fatal:
+                    await self.connection.close()
+                    return
+            except Exception as exc:
+                log.warning("Unhandled exception: %s", exc)
+
+            log.debug("send acks")
+            await self.send_pending_acks()
 
         log.info("NetworkTask stopped")
 
-    async def send(self, data: TLObject, wait_response: bool = True, timeout: float = WAIT_TIMEOUT):
-        message = self.msg_factory(data)
-        msg_id = message.msg_id
+    def reset_server_time_difference(self, message_id: int) -> None:
+        log.debug("reset server time difference: %s", message_id)
 
-        if wait_response:
-            self.results[msg_id] = Result()
+        diff = (message_id >> 32) - self.auth_data.get_client_time()
+        self.auth_data.reset_server_time_difference(diff)
 
-        log.debug("Sent: %s", message)
+    async def handle_message(self, message: raw.core.Message) -> None:
+        log.debug("handle message: %s", message)
 
-        payload = await self.loop.run_in_executor(
-            pyrogram.crypto_executor,
-            mtproto.pack,
-            message,
-            self.salt,
-            self.session_id,
-            self.auth_key,
-            self.auth_key_id
+        self.auth_data.check_packet(
+            message_id=message.msg_id,
+            now=self.auth_data.get_client_time()
         )
 
-        try:
-            await self.connection.send(payload)
-        except OSError as e:
-            self.results.pop(msg_id, None)
-            raise e
+        if message.seq_no % 2:
+            self.pending_acks.add(message.msg_id)
 
-        if wait_response:
+        handler = self.handler_by_constructor_id.get(message.body.ID)
+        if handler is None:
+            return await self.handle_unknown(message)
+        return await handler(message)
+
+    def set_request_state_result(self, msg_id: int, value: Any) -> None:
+        log.debug("set request state (%s) result: %s", msg_id, value)
+
+        request_state = self.results.pop(msg_id, None)
+        if request_state is None:
+            return None
+
+        request_state.set_result(value)
+        return None
+
+    def set_request_state_exception(self, msg_id: int, value: Exception) -> None:
+        log.debug("set request state (%s) exception: %s", msg_id, value)
+
+        request_state = self.results.pop(msg_id, None)
+        if request_state is None:
+            return None
+
+        request_state.set_exception(value)
+        return None
+
+    async def handle_msg_container(
+        self,
+        message: raw.core.Message[raw.core.MsgContainer],
+    ) -> None:
+        log.debug("raw.core.MsgContainer received: %s", message)
+        for msg in message.body.messages:
             try:
-                await asyncio.wait_for(self.results[msg_id].event.wait(), timeout)
-            except asyncio.TimeoutError:
-                pass
+                await self.handle_message(msg)
+            except SecurityCheckMismatch as exc:
+                log.info("Discarding packet: %s", exc)
+            except Exception as exc:
+                log.warning("Unhandled exception: %s", exc)
 
-            result = self.results.pop(msg_id).value
+        self.set_request_state_result(message.msg_id, message.body)
 
-            if result is None:
-                raise TimeoutError("Request timed out")
+    async def handle_rpc_result(self, message: raw.core.Message[raw.types.RpcResult]) -> None:
+        log.debug("raw.types.RpcResult received: %s", message)
 
-            if isinstance(result, raw.types.RpcError):
-                if isinstance(data, (raw.functions.InvokeWithoutUpdates, raw.functions.InvokeWithTakeout)):
-                    data = data.query
+        if message.msg_id < (message.body.req_msg_id - (15 << 32)):
+            self.reset_server_time_difference(
+                message_id=message.msg_id
+            )
 
-                RPCError.raise_it(result, type(data))
+        request_state = self.results.pop(message.body.req_msg_id, None)
+        if request_state is None:
+            return None
 
-            if isinstance(result, raw.types.BadMsgNotification):
-                log.warning("%s: %s", BadMsgNotification.__name__, BadMsgNotification(result.error_code))
+        if isinstance(message.body.result, raw.types.RpcError):
+            try:
+                RPCError.raise_it(message.body.result, type(request_state.request_raw))
+            except Exception as exc:
+                request_state.set_exception(exc)
+            else:
+                request_state.set_result(None)
+        else:
+            request_state.set_result(message.body.result)
 
-            if isinstance(result, raw.types.BadServerSalt):
-                self.salt = result.new_server_salt
-                return await self.send(data, wait_response, timeout)
+    async def handle_gzip_packed(self, message: raw.core.Message[raw.core.GzipPacked]) -> None:
+        log.debug("raw.core.GzipPacked received: %s", message)
+        # unreachable
+        return None
 
-            return result
+    async def handle_pong(self, message: raw.core.Message[raw.types.Pong]) -> None:
+        log.debug("raw.types.Pong received: %s", message)
+
+        if message.msg_id < (message.body.msg_id - (15 << 32)):
+            self.reset_server_time_difference(
+                message_id=message.msg_id
+            )
+
+        self.pong_event.set()
+        self.set_request_state_result(
+            msg_id=message.body.msg_id,
+            value=message.body
+        )
+
+    async def handle_bad_server_salt(self, message: raw.core.Message[raw.types.BadServerSalt]) -> None:
+        log.debug("raw.types.BadServerSalt received: %s", message)
+
+        self.auth_data.set_server_salt(
+            salt=message.body.new_server_salt,
+            now=self.auth_data.get_client_time()
+        )
+        request_state = self.results.pop(message.body.bad_msg_id, None)
+        if request_state is None:
+            return None
+
+        self.pending_requests.put_nowait(request_state)
+
+    async def handle_bad_msg_notification(self, message: raw.core.Message[raw.types.BadMsgNotification]) -> None:
+        log.debug("raw.types.BadMsgNotification received: %s", message)
+
+        request_state = self.results.pop(message.body.bad_msg_id, None)
+        if request_state is None:
+            return None
+
+        if message.body.error_code in (16, 17, 18):
+            # MsgIdTooLow, MsgIdTooHigh, MsgIdMod4
+            self.reset_server_time_difference(message.msg_id)
+            self.pending_requests.put_nowait(request_state)
+            return None
+
+        if message.body.error_code == 32:
+            # SeqNoTooLow
+            self.auth_data.seq_no += 64
+            self.pending_requests.put_nowait(request_state)
+            return None
+
+        if message.body.error_code == 33:
+            # SeqNoTooHigh
+            self.auth_data.seq_no -= 16
+            self.pending_requests.put_nowait(request_state)
+            return None
+
+        if message.body.error_code in (19, 20, 48):
+            # MsgIdCollision, MsgIdTooOld, BadServerSalt
+            # BadServerSalt unreachable
+            self.pending_requests.put_nowait(request_state)
+            return None
+
+        rpc_name = ".".join(request_state.request_raw.QUALNAME.split(".")[1:])
+        rpc_error_code = f"BAD_MSG_NOTIFICATION_{message.body.error_code}"
+
+        request_state.set_exception(
+            value=RPCError(
+                value=rpc_error_code,
+                rpc_name=rpc_name,
+            )
+        )
+
+    async def handle_msg_detailed_info(self, message: raw.core.Message[raw.types.MsgDetailedInfo]) -> None:
+        log.debug("raw.types.MsgDetailedInfo received: %s", message)
+        self.pending_acks.add(message.body.answer_msg_id)
+
+    async def handle_msg_new_detailed_info(self, message: raw.core.Message[raw.types.MsgNewDetailedInfo]) -> None:
+        log.debug("raw.types.MsgNewDetailedInfo received: %s", message)
+        self.pending_acks.add(message.body.answer_msg_id)
+
+    async def handle_new_session_created(self, message: raw.core.Message[raw.types.NewSessionCreated]) -> None:
+        log.debug("raw.types.NewSessionCreated received: %s", message)
+
+        # TODO: Create new auth key + session, re-send requests
+        self.auth_data.set_server_salt(
+            salt=message.body.server_salt,
+            now=self.auth_data.get_client_time()
+        )
+
+        return None
+
+    async def handle_msgs_ack(self, message: raw.core.Message[raw.types.MsgsAck]) -> None:
+        log.debug("raw.types.MsgsAck received: %s", message)
+
+        for msg_id in message.body.msg_ids:
+            request_state = self.results.get(msg_id)
+            if request_state is None:
+                continue
+
+            if isinstance(request_state.request_raw, raw.functions.auth.LogOut):
+                del self.results[msg_id]
+                request_state.set_result(True)
+
+        return None
+
+    async def handle_future_salts(self, message: raw.core.Message[raw.core.FutureSalts]) -> None:
+        log.debug("raw.core.FutureSalts received: %s", message)
+
+        self.auth_data.set_future_salts(
+            future_salts=message.body.salts,
+            now=self.auth_data.get_client_time()
+        )
+        self.set_request_state_result(
+            msg_id=message.body.req_msg_id,
+            value=message.body
+        )
+
+    async def handle_state_forgotten(
+        self, message: raw.core.Message[Union[raw.types.MsgsStateReq, raw.types.MsgResendReq]]
+    ) -> None:
+        log.debug("raw.types.MsgsStateReq/raw.types.MsgResendReq received: %s", message)
+        return None
+
+    async def handle_msg_all(self, message: raw.core.Message[raw.types.MsgsAllInfo]) -> None:
+        log.debug("raw.types.MsgsAllInfo received: %s", message)
+        return None
+
+    async def handle_destroy_session(
+        self, message: raw.core.Message[Union[raw.types.DestroySessionOk, raw.types.DestroySessionNone]]
+    ) -> None:
+        log.debug("raw.types.DestroySessionOk/raw.types.DestroySessionNone received: %s", message)
+
+        msg_ids: List[int] = []
+
+        for msg_id, request_state in self.results.items():
+            request_raw = request_state.request_raw
+
+            if not isinstance(request_raw, raw.functions.DestroySession):
+                continue
+
+            if request_raw.session_id == message.body.session_id:
+                msg_ids.append(msg_id)
+
+        for msg_id in msg_ids:
+            self.set_request_state_result(msg_id=msg_id, value=message.body)
+
+        return None
+
+    async def handle_destroy_auth_key(
+        self,
+        message: raw.core.Message[
+            Union[raw.types.DestroyAuthKeyOk, raw.types.DestroyAuthKeyNone, raw.types.DestroyAuthKeyFail]]
+    ) -> None:
+        log.debug(
+            "raw.types.DestroyAuthKeyOk/raw.types.DestroyAuthKeyNone/raw.types.DestroyAuthKeyFail received: %s", message
+        )
+
+        # TODO: close connection
+
+        msg_ids: List[int] = []
+
+        for msg_id, request_state in self.results.items():
+            if isinstance(request_state.request_raw, raw.functions.DestroyAuthKey):
+                msg_ids.append(msg_id)
+
+        for msg_id in msg_ids:
+            self.set_request_state_result(msg_id=msg_id, value=message.body)
+
+        return None
+
+    async def handle_update(self, message: raw.core.Message[raw.base.Updates]) -> None:
+        log.debug("raw.base.Updates received: %s", message)
+
+        self.auth_data.check_update(message.msg_id)
+        self.auth_data.recheck_update(message.msg_id)
+
+        await self.client.handle_updates(message.body)
+
+    async def handle_unknown(self, message: raw.core.Message[raw.core.TLObject]) -> None:
+        log.debug("Unknown received: %s", message)
+        return None
+
+    async def send_pending_acks(self) -> None:
+        if len(self.pending_acks) < self.ACKS_THRESHOLD:
+            return None
+
+        log.debug("Sending %s acks", len(self.pending_acks))
+
+        pending_acks = self.pending_acks.copy()
+        self.pending_acks.clear()
+
+        self.pending_requests.put_nowait(
+            RequestState(
+                raw.types.MsgsAck(msg_ids=list(pending_acks))
+            )
+        )
+
+    async def send(self, data: raw.core.TLObject, wait_response: bool = True, timeout: float = WAIT_TIMEOUT):
+        request_state = RequestState(request=data)
+        self.pending_requests.put_nowait(request_state)
+        log.debug("send request_state: %s", request_state)
+
+        if not wait_response:
+            log.debug("no wait response")
+            return None
+
+        try:
+            log.debug("wait response")
+            result = await asyncio.wait_for(request_state.future, timeout)
+        except asyncio.TimeoutError as exc:
+            raise TimeoutError("Request timed out") from exc
+
+        return result
 
     async def invoke(
         self,
-        query: TLObject,
+        query: raw.core.TLObject,
         retries: int = MAX_RETRIES,
         timeout: float = WAIT_TIMEOUT,
         sleep_threshold: float = SLEEP_THRESHOLD
     ):
-        try:
-            await asyncio.wait_for(self.is_started.wait(), self.WAIT_TIMEOUT)
-        except asyncio.TimeoutError:
-            pass
-
         if isinstance(query, (raw.functions.InvokeWithoutUpdates, raw.functions.InvokeWithTakeout)):
             inner_query = query.query
         else:
@@ -410,8 +749,10 @@ class Session:
                 if amount > sleep_threshold >= 0:
                     raise
 
-                log.warning('[%s] Waiting for %s seconds before continuing (required by "%s")',
-                            self.client.name, amount, query_name)
+                log.warning(
+                    '[%s] Waiting for %s seconds before continuing (required by "%s")',
+                    self.client.name, amount, query_name
+                )
 
                 await asyncio.sleep(amount)
             except (OSError, InternalServerError, ServiceUnavailable) as e:

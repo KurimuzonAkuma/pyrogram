@@ -24,6 +24,7 @@ from .get_active_sessions import GetActiveSessions
 from .get_password_hint import GetPasswordHint
 from .initialize import Initialize
 from .log_out import LogOut
+from .migrate import MigrateDC
 from .recover_password import RecoverPassword
 from .resend_code import ResendCode
 from .reset_session import ResetSession
@@ -45,6 +46,7 @@ class Auth(
     GetPasswordHint,
     Initialize,
     LogOut,
+    MigrateDC,
     RecoverPassword,
     ResendCode,
     ResetSession,
@@ -54,6 +56,6 @@ class Auth(
     SignIn,
     SignInBot,
     SignUp,
-    Terminate
+    Terminate,
 ):
     pass

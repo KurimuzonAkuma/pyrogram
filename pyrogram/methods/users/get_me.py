@@ -38,6 +38,7 @@ class GetMe:
                 me = await app.get_me()
                 print(me)
         """
+
         r = await self.invoke(
             raw.functions.users.GetFullUser(
                 id=raw.types.InputUserSelf()
@@ -46,4 +47,5 @@ class GetMe:
 
         users = {u.id: u for u in r.users}
 
-        return types.User._parse(self, users[r.full_user.id])
+        self.me = types.User._parse(self, users[r.full_user.id])
+        return self.me

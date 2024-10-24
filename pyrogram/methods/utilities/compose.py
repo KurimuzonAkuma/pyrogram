@@ -17,7 +17,9 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
-from typing import List
+from typing import (
+    List, Callable, Any, Awaitable
+)
 
 import pyrogram
 from .idle import idle
@@ -25,6 +27,8 @@ from .idle import idle
 
 async def compose(
     clients: List["pyrogram.Client"],
+    on_startup: Callable[[Any, Any], Awaitable[Any]] = None,
+    on_shutdown: Callable[[Any, Any], Awaitable[Any]] = None,
     sequential: bool = False
 ):
     """Run multiple clients at once.
@@ -36,6 +40,12 @@ async def compose(
     Parameters:
         clients (List of :obj:`~pyrogram.Client`):
             A list of client objects to run.
+
+        on_startup (``callable``, *optional*):
+            Function to execute when clients run.
+
+        on_shutdown (``callable``, *optional*):
+            Function to execute when clients shutdown.
 
         sequential (``bool``, *optional*):
             Pass True to run clients sequentially.
@@ -66,13 +76,27 @@ async def compose(
     if sequential:
         for c in clients:
             await c.start()
+        if on_startup:
+            await on_startup()
     else:
-        await asyncio.gather(*[c.start() for c in clients])
+        tasks = []
+        for c in clients:
+            tasks.append(c.start())
+        if on_startup:
+            tasks.append(on_startup())
+        await asyncio.gather(*tasks)
 
     await idle()
 
     if sequential:
         for c in clients:
             await c.stop()
+        if on_shutdown:
+            await on_shutdown()
     else:
-        await asyncio.gather(*[c.stop() for c in clients])
+        tasks = []
+        for c in clients:
+            tasks.append(c.stop())
+        if on_shutdown:
+            tasks.append(on_shutdown())
+        await asyncio.gather(*tasks)

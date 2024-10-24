@@ -17,6 +17,7 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
+from typing import Callable, Any, Awaitable
 
 import pyrogram
 from pyrogram import raw
@@ -26,12 +27,17 @@ log = logging.getLogger(__name__)
 
 class Start:
     async def start(
-        self: "pyrogram.Client"
+        self: "pyrogram.Client",
+        on_startup: Callable[[Any, Any], Awaitable[Any]] = None
     ):
         """Start the client.
 
         This method connects the client to Telegram and, in case of new sessions, automatically manages the
         authorization process using an interactive prompt.
+
+        Parameters:
+            on_startup (``callable``, *optional*):
+                Function to execute when client is started.
 
         Returns:
             :obj:`~pyrogram.Client`: The started client itself.
@@ -64,6 +70,9 @@ class Start:
             if not await self.storage.is_bot() and self.takeout:
                 self.takeout_id = (await self.invoke(raw.functions.account.InitTakeoutSession())).id
                 log.info("Takeout session %s initiated", self.takeout_id)
+
+            if on_startup:
+                await on_startup()
 
             await self.invoke(raw.functions.updates.GetState())
         except (Exception, KeyboardInterrupt):

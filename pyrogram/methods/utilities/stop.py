@@ -16,13 +16,16 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from typing import Callable, Any, Awaitable
+
 import pyrogram
 
 
 class Stop:
     async def stop(
         self: "pyrogram.Client",
-        block: bool = True
+        block: bool = True,
+        on_shutdown: Callable[[Any, Any], Awaitable[Any]] = None
     ):
         """Stop the Client.
 
@@ -33,6 +36,9 @@ class Stop:
                 Blocks the code execution until the client has been stopped. It is useful with ``block=False`` in case
                 you want to stop the own client *within* a handler in order not to cause a deadlock.
                 Defaults to True.
+                
+            on_shutdown (``callable``, *optional*):
+                Function to execute on client's shutdown.
 
         Returns:
             :obj:`~pyrogram.Client`: The stopped client itself.
@@ -58,6 +64,8 @@ class Stop:
         """
 
         async def do_it():
+            if on_shutdown:
+                await on_shutdown()
             await self.terminate()
             await self.disconnect()
 

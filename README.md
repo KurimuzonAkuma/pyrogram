@@ -67,10 +67,8 @@ If you'd like to support my fork, you can consider:
 ### Installing
 
 ``` bash
-pip3 install https://github.com/KurimuzonAkuma/pyrogram/archive/dev.zip --force-reinstall
+pip3 install kurigram --force-reinstall
 ```
-> [!NOTE]
-> I will release my fork to PyPi soon.
 
 ### Resources
 

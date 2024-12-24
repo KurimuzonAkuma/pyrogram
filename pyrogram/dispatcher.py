@@ -213,6 +213,12 @@ class Dispatcher:
         self.update_parsers = {key: value for key_tuple, value in self.update_parsers.items() for key in key_tuple}
 
     async def start(self):
+        if callable(self.client.connect_handler):
+            try:
+                await self.client.connect_handler(self.client)
+            except Exception as e:
+                log.exception(e)
+
         if not self.client.no_updates:
             for i in range(self.client.workers):
                 self.locks_list.append(asyncio.Lock())

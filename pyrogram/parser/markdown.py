@@ -61,34 +61,22 @@ class Markdown:
     def __init__(self, client: Optional["pyrogram.Client"]):
         self.html = HTML(client)
 
-    def _parse_blockquotes(self, text: str):
+    def _parse_blockquotes(self, text: str, strict: bool = False):
         text = html.unescape(text)
         lines = text.split('\n')
         result = []
-        in_blockquote = False
-        current_blockquote = []
 
         for line in lines:
             if line.startswith(BLOCKQUOTE_DELIM):
-                in_blockquote = True
-                current_blockquote.append(line[1:].strip())
-            else:
-                if in_blockquote:
-                    in_blockquote = False
-                    result.append(OPENING_TAG.format("blockquote") + '\n'.join(current_blockquote) + CLOSING_TAG.format("blockquote"))
-                    current_blockquote = []
-                result.append(line)
-
-        if in_blockquote:
-            result.append(OPENING_TAG.format("blockquote") + '\n'.join(current_blockquote) + CLOSING_TAG.format("blockquote"))
+                line = OPENING_TAG.format("blockquote") + line[1:].strip() + CLOSING_TAG.format("blockquote")
+            elif strict:
+                line = html.escape(line)
+            result.append(line)
 
         return '\n'.join(result)
 
     async def parse(self, text: str, strict: bool = False):
-        if strict:
-            text = html.escape(text)
-
-        text = self._parse_blockquotes(text)
+        text = self._parse_blockquotes(text, strict)
 
         delims = set()
         is_fixed_width = False

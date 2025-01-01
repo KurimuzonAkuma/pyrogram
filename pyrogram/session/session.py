@@ -97,6 +97,7 @@ class Session:
         self.recv_task = None
 
         self.is_started = asyncio.Event()
+        self.restart_event = asyncio.Event()
 
         self.loop = asyncio.get_event_loop()
 
@@ -183,8 +184,10 @@ class Session:
         log.info("Session stopped")
 
     async def restart(self):
+        self.restart_event.set()
         await self.stop()
         await self.start()
+        self.restart_event.clear()
 
     async def handle_packet(self, packet):
         try:
@@ -424,6 +427,16 @@ class Session:
                     query_name, str(e) or repr(e)
                 )
 
+                # restart was never being called after Exception block
+                if not self.restart_event.is_set():
+                    self.loop.create_task(self.restart())
+                else:
+                    # multiple Exceptions can be raised in a row, so we need to wait for the restart to finish
+                    try:
+                        await asyncio.wait_for(self.restart_event.wait(), self.WAIT_TIMEOUT)
+                    except asyncio.TimeoutError:
+                        pass
+                    
                 await asyncio.sleep(0.5)
 
                 return await self.invoke(query, retries - 1, timeout)

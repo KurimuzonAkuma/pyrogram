@@ -22,6 +22,7 @@ from .on_chat_join_request import OnChatJoinRequest
 from .on_chat_member_updated import OnChatMemberUpdated
 from .on_chosen_inline_result import OnChosenInlineResult
 from .on_deleted_messages import OnDeletedMessages
+from .on_connect import OnConnect
 from .on_disconnect import OnDisconnect
 from .on_edited_message import OnEditedMessage
 from .on_inline_query import OnInlineQuery
@@ -44,6 +45,7 @@ class Decorators(
     OnCallbackQuery,
     OnChatBoost,
     OnRawUpdate,
+    OnConnect,
     OnDisconnect,
     OnShippingQuery,
     OnUserStatus,

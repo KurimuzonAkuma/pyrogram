@@ -22,6 +22,7 @@ from .chat_join_request_handler import ChatJoinRequestHandler
 from .chat_member_updated_handler import ChatMemberUpdatedHandler
 from .chosen_inline_result_handler import ChosenInlineResultHandler
 from .deleted_messages_handler import DeletedMessagesHandler
+from .connect_handler import ConnectHandler
 from .disconnect_handler import DisconnectHandler
 from .edited_message_handler import EditedMessageHandler
 from .inline_query_handler import InlineQueryHandler

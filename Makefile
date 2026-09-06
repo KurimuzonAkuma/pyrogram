@@ -19,7 +19,7 @@ BLUE   := \033[0;34m
 BOLD   := \033[1m
 RESET  := \033[0m
 
-.PHONY: venv venv-dev venv-docs clean-venv clean-build clean-api clean-docs clean api docs docs-archive build tag dtag lint typecheck test test-unit test-integration
+.PHONY: venv venv-dev venv-docs clean-venv clean-build clean-api clean-docs clean api docs docs-archive build tag dtag lint typecheck test test-unit test-guards test-integration
 
 venv:
 	@if [ ! -d "$(VENV)" ]; then \
@@ -97,6 +97,11 @@ test:
 
 test-unit:
 	$(PYTHON) -m pytest -m 'not integration'
+
+# `test-unit` selects everything that is not integration, so it runs these too. This
+#  target is for working on the guards alone; the two are not disjoint.
+test-guards:
+	$(PYTHON) -m pytest -m guard
 
 test-integration:
 	@$(LOAD_ENV_TEST) $(PYTHON) -m pytest -m integration

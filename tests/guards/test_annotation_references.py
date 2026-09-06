@@ -32,7 +32,7 @@ from types import ModuleType
 from typing import Any, Dict, Iterator, List, Optional, Sequence, Set, Tuple
 
 import pyrogram
-from tests.unit.name_resolution import (
+from tests.guards.name_resolution import (
     REPOSITORY_ROOT,
     attribute_chain,
     hand_written_files,

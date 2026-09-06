@@ -27,7 +27,7 @@ import pathlib
 import re
 from typing import Final, Iterator, List, NamedTuple, Optional, Pattern, Set, Tuple
 
-from tests.unit.name_resolution import REPOSITORY_ROOT, hand_written_files, resolves
+from tests.guards.name_resolution import REPOSITORY_ROOT, hand_written_files, resolves
 
 # `:obj:`Message`` and `:py:obj:`Message`` are the same role, the second one naming the
 #  domain the first one inherits.

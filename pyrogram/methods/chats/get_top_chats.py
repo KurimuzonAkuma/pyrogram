@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import AsyncIterator
+from typing import AsyncGenerator
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -27,7 +27,7 @@ class GetTopChats:
         self: "pyrogram.Client",
         category: "enums.TopChatCategory",
         limit: int = 0,
-    ) -> AsyncIterator["types.Chat"]:
+    ) -> AsyncGenerator["types.Chat", None]:
         """Returns a list of frequently used chats.
 
         .. include:: /_includes/usable-by/users.rst
@@ -82,20 +82,23 @@ class GetTopChats:
             users = {i.id: i for i in r.users}
             chats = {i.id: i for i in r.chats}
 
-            chats = []
+            result_chats = []
 
             for cat in r.categories:
                 for top_peer in cat.peers:
                     peer_id = utils.get_raw_peer_id(top_peer.peer)
 
-                    chats.append(await types.Chat._parse_chat(self, users.get(peer_id) or chats.get(peer_id)))
+                    chat = await types.Chat._parse_chat(self, users.get(peer_id) or chats.get(peer_id))
 
-            if not chats:
+                    if chat is not None:
+                        result_chats.append(chat)
+
+            if not result_chats:
                 return
 
-            offset += len(chats)
+            offset += len(result_chats)
 
-            for chat in chats:
+            for chat in result_chats:
                 yield chat
 
                 current += 1

@@ -65,6 +65,10 @@ class TCPAbridgedO(TCP):
         self.marker_event.set()
 
     async def send(self, data: bytes, *args) -> None:
+        if self.encrypt is None:
+            msg = "`send()` requires `connect()` to have run first"
+            raise RuntimeError(msg)
+
         length = len(data) // 4
         data = (
             bytes([length]) if length <= 126 else b"\x7f" + length.to_bytes(3, "little")
@@ -76,6 +80,10 @@ class TCPAbridgedO(TCP):
         await super().send(payload)
 
     async def recv(self, length: int = 0) -> Optional[bytes]:
+        if self.decrypt is None:
+            msg = "`recv()` requires `connect()` to have run first"
+            raise RuntimeError(msg)
+
         length = await super().recv(1)
 
         if length is None:

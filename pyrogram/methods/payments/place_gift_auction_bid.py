@@ -30,7 +30,7 @@ class PlaceGiftAuctionBid:
         star_count: int,
         user_id: Optional[Union[int, str]] = None,
         text: Optional[Union[str, "types.FormattedText"]] = None,
-        is_private: Optional[bool] = False,
+        is_private: bool = False,
     ) -> bool:
         """Places a bid on an auction gift.
 
@@ -86,7 +86,7 @@ class PlaceGiftAuctionBid:
             hide_name=is_private,
             update_bid=False,
             peer=await self.resolve_peer(user_id or "me"),
-            message=await text.write() if text else None
+            message=await text.write(self) if text else None
         )
 
         form = await self.invoke(

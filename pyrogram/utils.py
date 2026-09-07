@@ -383,10 +383,18 @@ def get_peer_id(peer: Union[raw.base.Peer, raw.base.InputPeer, raw.base.Requeste
     if hasattr(peer, "user_id"):
         return peer.user_id
 
-    if hasattr(peer, "chat_id"):
+    if isinstance(peer, (raw.types.PeerChat, raw.types.InputPeerChat, raw.types.RequestedPeerChat)):
         return -peer.chat_id
 
-    if hasattr(peer, "channel_id"):
+    if isinstance(
+        peer,
+        (
+            raw.types.PeerChannel,
+            raw.types.InputPeerChannel,
+            raw.types.InputPeerChannelFromMessage,
+            raw.types.RequestedPeerChannel,
+        ),
+    ):
         return ZERO_CHANNEL_ID - peer.channel_id
 
     raise ValueError(f"Peer type invalid: {peer}")
@@ -530,6 +538,13 @@ def compute_password_check(
     g = algo.g
 
     B_bytes = r.srp_B
+    # `srp_B`, `current_algo` and `srp_id` share the same `has_password` flag bit: every caller
+    #  of `compute_password_check()` only reaches it once the account is known to already
+    #  have a password set, so this is never actually None.
+    if B_bytes is None:
+        msg = "`compute_password_check()` requires a password already set on the account"
+        raise RuntimeError(msg)
+
     B = btoi(B_bytes)
 
     srp_id = r.srp_id
@@ -739,7 +754,7 @@ def from_inline_bytes(data: bytes, file_name: Optional[str] = None) -> BytesIO:
     return b
 
 
-def obj_to_jsonvalue(obj) -> "raw.base.JsonValue":
+def obj_to_jsonvalue(obj) -> "raw.base.JSONValue":
     if obj is None:
         return raw.types.JsonNull()
     elif isinstance(obj, bool):
@@ -756,7 +771,7 @@ def obj_to_jsonvalue(obj) -> "raw.base.JsonValue":
     raise TypeError(f"Unsupported type: {type(obj)}")
 
 
-def jsonvalue_to_obj(obj: "raw.base.JsonValue"):
+def jsonvalue_to_obj(obj: "raw.base.JSONValue"):
     if isinstance(obj, raw.types.JsonNull):
         return None
     elif isinstance(obj, raw.types.JsonBool):

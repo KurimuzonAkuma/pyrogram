@@ -26,5 +26,8 @@ class List(list):
         # noinspection PyCallByClass
         return Object.__str__(self)
 
-    def __repr__(self):
-        return f"pyrogram.types.List([{','.join(Object.__repr__(i) for i in self)}])"
+    def __repr__(self) -> str:
+        # `Object.__repr__` reads `__dict__`, which only an `Object` has, so it raised
+        #  `AttributeError` on a list of ids or of nested `List`s. Every `Object` inherits
+        #  that same `__repr__` and none overrides it, so `repr` reaches it anyway.
+        return f"pyrogram.types.List([{','.join(repr(item) for item in self)}])"

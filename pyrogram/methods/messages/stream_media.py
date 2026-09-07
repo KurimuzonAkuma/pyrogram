@@ -17,7 +17,7 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import math
-from typing import AsyncIterator, Union
+from typing import AsyncGenerator, Union
 
 import pyrogram
 from pyrogram import types
@@ -30,7 +30,7 @@ class StreamMedia:
         message: Union["types.Message", str],
         limit: int = 0,
         offset: int = 0
-    ) -> AsyncIterator[bytes]:
+    ) -> AsyncGenerator[bytes, None]:
         """Stream the media from a message chunk by chunk.
 
         You can use this method to partially download a file into memory or to selectively download chunks of file.

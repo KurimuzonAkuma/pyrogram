@@ -34,7 +34,7 @@ from importlib import import_module
 from io import BytesIO
 from mimetypes import MimeTypes
 from pathlib import Path
-from typing import Any, AsyncIterator, Callable, List, Optional, Type, Union
+from typing import Any, AsyncGenerator, Callable, List, Optional, Sequence, Tuple, Type, Union
 
 import pyrogram
 from pyrogram import __license__, __version__, enums, raw, utils
@@ -69,6 +69,18 @@ from .parser import Parser
 from .session.internals import MsgId
 
 log = logging.getLogger(__name__)
+
+
+def _plugin_handlers(target: Any) -> Optional[Sequence[Tuple[Handler, int]]]:
+    handlers = getattr(target, "handlers", None)
+
+    # A PyMongo collection answers any attribute with a sub-collection, so `hasattr` is
+    #  `True` and the loop below raises `TypeError: 'Collection' object is not iterable`.
+    #  https://github.com/mongodb/mongo-python-driver/blob/77cd7ab9f6dc48e72a3bae94d2cca2e4200e6978/pymongo/synchronous/collection.py#L270
+    if not isinstance(handlers, (list, tuple)):
+        return None
+
+    return handlers
 
 
 class Client(Methods):
@@ -256,7 +268,7 @@ class Client(Methods):
         init_connection_params (``dict`` | :obj:`~pyrogram.raw.base.JSONValue`, *optional*):
             Additional initConnection parameters.
             For now, only the tz_offset field is supported, for specifying timezone offset in seconds.
-            A dict is converted on connect; an already built JsonValue is sent as it is.
+            A dict is converted on connect; an already built JSONValue is sent as it is.
     """
 
     APP_VERSION = f"Pyrogram {__version__}"
@@ -299,9 +311,9 @@ class Client(Methods):
         lang_pack: str = LANG_PACK,
         lang_code: str = LANG_CODE,
         system_lang_code: str = SYSTEM_LANG_CODE,
-        ipv6: Optional[bool] = False,
+        ipv6: bool = False,
         proxy: Optional[Union[str, ProxyDict, Proxy]] = None,
-        test_mode: Optional[bool] = False,
+        test_mode: bool = False,
         bot_token: Optional[str] = None,
         session_string: Optional[str] = None,
         in_memory: Optional[bool] = None,
@@ -313,21 +325,21 @@ class Client(Methods):
         plugins: Optional[dict] = None,
         parse_mode: "enums.ParseMode" = enums.ParseMode.DEFAULT,
         no_updates: Optional[bool] = None,
-        skip_updates: Optional[bool] = True,
+        skip_updates: bool = True,
         takeout: Optional[bool] = None,
         sleep_threshold: int = Session.SLEEP_THRESHOLD,
-        hide_password: Optional[bool] = False,
+        hide_password: bool = False,
         max_concurrent_transmissions: int = MAX_CONCURRENT_TRANSMISSIONS,
         max_message_cache_size: int = MAX_MESSAGE_CACHE_SIZE,
         max_topic_cache_size: int = MAX_TOPIC_CACHE_SIZE,
         storage_engine: Optional[Storage] = None,
         client_platform: "enums.ClientPlatform" = enums.ClientPlatform.OTHER,
         link_preview_options: Optional[LinkPreviewOptions] = None,
-        fetch_replies: Optional[bool] = True,
-        fetch_topics: Optional[bool] = True,
-        fetch_stories: Optional[bool] = True,
-        fetch_stickers: Optional[bool] = True,
-        init_connection_params: Optional[Union[dict, "raw.base.JsonValue"]] = None,
+        fetch_replies: bool = True,
+        fetch_topics: bool = True,
+        fetch_stories: bool = True,
+        fetch_stickers: bool = True,
+        init_connection_params: Optional[Union[dict, "raw.base.JSONValue"]] = None,
         connection_factory: Type[Connection] = Connection,
         protocol_factory: Type[TCP] = TCPAbridged,
         loop: Optional[asyncio.AbstractEventLoop] = None
@@ -456,7 +468,10 @@ class Client(Methods):
 
     def __exit__(self, *args):
         try:
-            self.stop()
+            # `Client.stop` is only a plain coroutine function here when `pyrogram.sync`
+            #  hasn't patched it into a blocking sync wrapper (see pyrogram/sync.py);
+            #  `ty` can't see that runtime substitution.
+            self.stop()  # ty: ignore[unused-awaitable]
         except ConnectionError:
             pass
 
@@ -653,7 +668,7 @@ class Client(Methods):
         return signed_up
 
     async def authorize_qr(self, except_ids: List[int] = []) -> "User":
-        from qrcode import QRCode
+        from qrcode import QRCode  # ty: ignore[unresolved-import] - optional, not a project dependency
 
         qr_login = QRLogin(self, except_ids)
         await qr_login.recreate()
@@ -877,8 +892,8 @@ class Client(Methods):
                                             max_id=update.message.id
                                         )]
                                     ),
-                                    pts=pts - pts_count,
-                                    limit=pts,
+                                    pts=update.pts - update.pts_count,
+                                    limit=update.pts,
                                     force=False
                                 )
                             )
@@ -1018,8 +1033,10 @@ class Client(Methods):
                     for name in vars(module).keys():
                         # The name comes from the module's own `__dict__`, so it always resolves.
                         target_attr = getattr(module, name)
-                        if hasattr(target_attr, "handlers"):
-                            for handler, group in target_attr.handlers:
+                        target_handlers = _plugin_handlers(target_attr)
+
+                        if target_handlers is not None:
+                            for handler, group in target_handlers:
                                 if isinstance(handler, Handler) and isinstance(group, int):
                                     self.add_handler(handler, group)
 
@@ -1027,6 +1044,17 @@ class Client(Methods):
                                         self.name, type(handler).__name__, name, group, module_path))
 
                                     count += 1
+
+                                else:
+                                    log.warning(
+                                        '[%s] [LOAD] Ignoring "%s" from "%s": expected a handler '
+                                        'in an int group, got %s in %s',
+                                        self.name,
+                                        name,
+                                        module_path,
+                                        type(handler).__name__,
+                                        type(group).__name__,
+                                    )
             else:
                 for path, handlers in include:
                     module_path = root + "." + path
@@ -1048,8 +1076,10 @@ class Client(Methods):
 
                     for name in handlers:
                         target_attr = getattr(module, name, None)
-                        if hasattr(target_attr, "handlers"):
-                            for handler, group in target_attr.handlers:
+                        target_handlers = _plugin_handlers(target_attr)
+
+                        if target_handlers is not None:
+                            for handler, group in target_handlers:
                                 if isinstance(handler, Handler) and isinstance(group, int):
                                     self.add_handler(handler, group)
 
@@ -1057,6 +1087,17 @@ class Client(Methods):
                                         self.name, type(handler).__name__, name, group, module_path))
 
                                     count += 1
+
+                                else:
+                                    log.warning(
+                                        '[%s] [LOAD] Ignoring "%s" from "%s": expected a handler '
+                                        'in an int group, got %s in %s',
+                                        self.name,
+                                        name,
+                                        module_path,
+                                        type(handler).__name__,
+                                        type(group).__name__,
+                                    )
                         elif warn_non_existent_functions:
                             log.warning('[{}] [LOAD] Ignoring non-existent function "{}" from "{}"'.format(
                                 self.name, name, module_path))
@@ -1082,8 +1123,10 @@ class Client(Methods):
 
                     for name in handlers:
                         target_attr = getattr(module, name, None)
-                        if hasattr(target_attr, "handlers"):
-                            for handler, group in target_attr.handlers:
+                        target_handlers = _plugin_handlers(target_attr)
+
+                        if target_handlers is not None:
+                            for handler, group in target_handlers:
                                 if isinstance(handler, Handler) and isinstance(group, int):
                                     self.remove_handler(handler, group)
 
@@ -1091,6 +1134,17 @@ class Client(Methods):
                                         self.name, type(handler).__name__, name, group, module_path))
 
                                     count -= 1
+
+                                else:
+                                    log.warning(
+                                        '[%s] [UNLOAD] Ignoring "%s" from "%s": expected a handler '
+                                        'in an int group, got %s in %s',
+                                        self.name,
+                                        name,
+                                        module_path,
+                                        type(handler).__name__,
+                                        type(group).__name__,
+                                    )
                         elif warn_non_existent_functions:
                             log.warning('[{}] [UNLOAD] Ignoring non-existent function "{}" from "{}"'.format(
                                 self.name, name, module_path))
@@ -1138,24 +1192,32 @@ class Client(Methods):
         offset: int = 0,
         progress: Optional[Callable] = None,
         progress_args: tuple = ()
-    ) -> AsyncIterator[bytes]:
+    ) -> AsyncGenerator[bytes, None]:
         async with self.get_file_semaphore:
             file_type = file_id.file_type
 
             if file_type == FileType.CHAT_PHOTO:
-                if file_id.chat_id > 0:
+                # `read_photo_tail()` only sets `chat_id` for the `CHAT_PHOTO` thumbnail sources,
+                #  so a `FileId` of this `file_type` always carries one.
+                chat_id = file_id.chat_id
+
+                if chat_id is None:
+                    msg = "Unexpected error. `CHAT_PHOTO` must always carry a `chat_id`"
+                    raise RuntimeError(msg)
+
+                if chat_id > 0:
                     peer = raw.types.InputPeerUser(
-                        user_id=file_id.chat_id,
+                        user_id=chat_id,
                         access_hash=file_id.chat_access_hash
                     )
                 else:
                     if file_id.chat_access_hash == 0:
                         peer = raw.types.InputPeerChat(
-                            chat_id=-file_id.chat_id
+                            chat_id=-chat_id
                         )
                     else:
                         peer = raw.types.InputPeerChannel(
-                            channel_id=utils.get_channel_id(file_id.chat_id),
+                            channel_id=utils.get_channel_id(chat_id),
                             access_hash=file_id.chat_access_hash
                         )
 
@@ -1323,13 +1385,13 @@ class Client(Methods):
     async def get_session(
         self,
         dc_id: Optional[int] = None,
-        is_media: Optional[bool] = False,
-        is_cdn: Optional[bool] = False,
+        is_media: bool = False,
+        is_cdn: bool = False,
         business_connection_id: Optional[str] = None,
-        export_authorization: Optional[bool] = True,
+        export_authorization: bool = True,
         server_address: Optional[str] = None,
         port: Optional[int] = None,
-        temporary: Optional[bool] = False
+        temporary: bool = False
     ) -> "Session":
         """Get existing session or create a new one.
 

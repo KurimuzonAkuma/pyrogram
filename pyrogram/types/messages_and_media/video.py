@@ -98,7 +98,7 @@ class Video(Object):
         thumbs: Optional[List["types.Thumbnail"]] = None,
         video_cover: Optional["types.Photo"] = None,
         video_start_timestamp: Optional[int] = None,
-        alternative_videos: Optional[List["types.Video"]] = []
+        alternative_videos: Optional[List["types.Video"]] = None
     ):
         super().__init__(client)
 

@@ -29,13 +29,13 @@ class AddProfileAudio:
     async def add_profile_audio(
         self: "pyrogram.Client",
         audio: Union[str, BinaryIO],
-        duration: Optional[int] = 0,
+        duration: int = 0,
         performer: Optional[str] = None,
         title: Optional[str] = None,
         thumb: Optional[Union[str, BinaryIO]] = None,
         file_name: Optional[str] = None,
         progress: Optional[Callable] = None,
-        progress_args: Optional[tuple] = (),
+        progress_args: tuple = (),
     ) -> Optional[bool]:
         """Adds an audio file to the beginning of the profile audio files of the current user.
 

@@ -26,8 +26,8 @@ class SearchMessagesCount:
     async def search_messages_count(
         self: "pyrogram.Client",
         chat_id: Union[int, str],
-        query: Optional[str] = "",
-        filter: Optional["enums.MessagesFilter"] = enums.MessagesFilter.EMPTY,
+        query: str = "",
+        filter: "enums.MessagesFilter" = enums.MessagesFilter.EMPTY,
         from_user: Optional[Union[int, str]] = None,
         message_thread_id: Optional[int] = None
     ) -> int:

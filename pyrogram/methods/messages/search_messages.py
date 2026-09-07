@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Union, List, AsyncIterator, Optional
+from typing import Union, List, AsyncGenerator, Optional
 from datetime import datetime
 
 import pyrogram
@@ -70,18 +70,18 @@ class SearchMessages:
     async def search_messages(
         self: "pyrogram.Client",
         chat_id: Union[int, str],
-        query: Optional[str] = "",
-        offset: Optional[int] = 0,
-        offset_id: Optional[int] = 0,
-        min_date: Optional[datetime] = utils.zero_datetime(),
-        max_date: Optional[datetime] = utils.zero_datetime(),
-        min_id: Optional[int] = 0,
-        max_id: Optional[int] = 0,
-        filter: Optional["enums.MessagesFilter"] = enums.MessagesFilter.EMPTY,
-        limit: Optional[int] = 0,
+        query: str = "",
+        offset: int = 0,
+        offset_id: int = 0,
+        min_date: datetime = utils.zero_datetime(),
+        max_date: datetime = utils.zero_datetime(),
+        min_id: int = 0,
+        max_id: int = 0,
+        filter: "enums.MessagesFilter" = enums.MessagesFilter.EMPTY,
+        limit: int = 0,
         from_user: Optional[Union[int, str]] = None,
         message_thread_id: Optional[int] = None
-    ) -> AsyncIterator["types.Message"]:
+    ) -> AsyncGenerator["types.Message", None]:
         """Search for text and media messages inside a specific chat.
 
         If you want to get the messages count only, see :meth:`~pyrogram.Client.search_messages_count`.

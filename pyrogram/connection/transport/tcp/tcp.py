@@ -272,7 +272,7 @@ class TCP:
         # Stays `async` because `SocksProxy.__init__` calls
         #  `asyncio.get_event_loop()`, which raises "There is no current event
         #  loop" outside a running one.
-        #  https://github.com/romis2012/python-socks/blob/8794dfc734cc6fb98c61099905a9f8de186719b9/python_socks/async_/asyncio/_proxy.py#L38
+        #  https://github.com/romis2012/python-socks/blob/bc543bb8449bb9b3db372bd28116548d40d73915/python_socks/async_/asyncio/_proxy.py#L43
         proxy = self.proxy
 
         if not isinstance(proxy, (SOCKS4Proxy, SOCKS5Proxy, HTTPProxy)):
@@ -282,7 +282,7 @@ class TCP:
         # Passing the fields rather than a URL: `parse_proxy_url` drops a
         #  username that comes without a password, and `unquote()`s both, so a
         #  credential holding `@`, `:` or `%` does not survive the round trip.
-        #  https://github.com/romis2012/python-socks/blob/8794dfc734cc6fb98c61099905a9f8de186719b9/python_socks/_helpers.py#L76-L79
+        #  https://github.com/romis2012/python-socks/blob/bc543bb8449bb9b3db372bd28116548d40d73915/python_socks/_helpers.py#L79-L82
         return SocksProxy(
             proxy_type=_PYTHON_SOCKS_TYPES[proxy.scheme],
             host=proxy.hostname,

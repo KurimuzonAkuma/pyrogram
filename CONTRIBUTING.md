@@ -95,6 +95,9 @@ A few conventions that have come up repeatedly in code review but aren't enforce
   `list[str]` and `int | None` in a signature pass on a modern interpreter and fail the matrix
   with `TypeError: 'type' object is not subscriptable` and `TypeError: unsupported operand
   type(s) for |: 'type' and 'NoneType'`. Use `List[str]` and `Optional[int]` from `typing`.
+- **A dependency is declared with a floor, never a ceiling.** `pyproject.toml` carries the
+  reasoning beside the declarations. Where a major version genuinely breaks us, add the upper
+  bound and name the breakage in a comment next to it.
 - **No `assert` for runtime guards in library code.** `assert` statements are stripped when
   Python runs with `-O`, and raise a bare `AssertionError` with no context for library consumers.
   Raise `RuntimeError` (or a more specific exception) instead.

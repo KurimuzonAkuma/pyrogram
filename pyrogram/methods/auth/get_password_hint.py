@@ -28,7 +28,7 @@ log = logging.getLogger(__name__)
 class GetPasswordHint:
     async def get_password_hint(
         self: "pyrogram.Client",
-    ) -> Optional[str]:
+    ) -> str | None:
         """Get your Two-Step Verification password hint.
 
         .. include:: /_includes/usable-by/users.rst

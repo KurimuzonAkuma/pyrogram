@@ -55,9 +55,9 @@ class AvailableEffect(Object):
         emoji: str,
         effect_sticker_id: int,
         sticker: Optional["types.Sticker"] = None,
-        is_premium: Optional[bool] = None,
-        static_icon_id: Optional[int] = None,
-        effect_animation_id: Optional[int] = None
+        is_premium: bool | None = None,
+        static_icon_id: int | None = None,
+        effect_animation_id: int | None = None
     ):
         super().__init__()
 

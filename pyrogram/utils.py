@@ -47,7 +47,7 @@ def get_event_loop() -> asyncio.AbstractEventLoop:
     return loop
 
 
-async def ainput(prompt: str = "", *, hide: bool = False, loop: Optional[asyncio.AbstractEventLoop] = None):
+async def ainput(prompt: str = "", *, hide: bool = False, loop: asyncio.AbstractEventLoop | None = None):
     """Just like the built-in input, but async"""
     if isinstance(loop, asyncio.AbstractEventLoop):
         loop = loop
@@ -61,13 +61,13 @@ async def ainput(prompt: str = "", *, hide: bool = False, loop: Optional[asyncio
 
 def get_input_media_from_file_id(
     file_id: str,
-    expected_file_type: Optional[FileType] = None,
-    ttl_seconds: Optional[int] = None,
-    has_spoiler: Optional[bool] = None,
+    expected_file_type: FileType | None = None,
+    ttl_seconds: int | None = None,
+    has_spoiler: bool | None = None,
     video_cover: Optional["raw.types.InputPhoto"] = None,
-    video_start_timestamp: Optional[int] = None,
-    live_photo: Optional[bool] = None,
-    live_photo_video_file_id: Optional[str] = None
+    video_start_timestamp: int | None = None,
+    live_photo: bool | None = None,
+    live_photo_video_file_id: str | None = None
 ) -> Union["raw.types.InputMediaPhoto", "raw.types.InputMediaDocument"]:
     try:
         decoded = FileId.decode(file_id)
@@ -145,7 +145,7 @@ async def parse_messages(
     client: "pyrogram.Client",
     messages: Union["raw.base.messages.Messages", "raw.base.Updates"],
     replies: int = 1
-) -> List["types.Message"]:
+) -> list["types.Message"]:
     users = {i.id: i for i in getattr(messages, "users", [])}
     chats = {i.id: i for i in getattr(messages, "chats", [])}
     topics = {i.id: i for i in getattr(messages, "topics", [])}
@@ -196,7 +196,7 @@ async def parse_messages(
                 chat_id = next((m.chat.id for m in parsed_messages if m.chat), 0)
 
                 is_all_replies_in_same_chat = not any(m.reply_to_peer_id for m in messages_with_replies.values())
-                reply_messages: List["types.Message"] = []
+                reply_messages: list[types.Message] = []
 
                 if is_all_replies_in_same_chat:
                     reply_messages = await client.get_messages(
@@ -255,7 +255,7 @@ async def parse_messages(
     return types.List(parsed_messages)
 
 
-async def parse_deleted_messages(client, update, users, chats) -> List["types.Message"]:
+async def parse_deleted_messages(client, update, users, chats) -> list["types.Message"]:
     is_ephemeral = isinstance(update, raw.types.UpdateDeleteEphemeralMessages)
 
     messages = update.ids if is_ephemeral else update.messages
@@ -349,7 +349,7 @@ MAX_USER_ID = (1 << 40) - 1
 MAX_CHAT_ID = 999999999999
 
 
-def get_raw_peer_id(peer: Union[int, raw.base.Peer, raw.base.InputPeer, raw.base.RequestedPeer]) -> Optional[int]:
+def get_raw_peer_id(peer: int | raw.base.Peer | raw.base.InputPeer | raw.base.RequestedPeer) -> int | None:
     """Get the raw peer id from a Peer object or high-lvl id"""
 
     if isinstance(peer, int):
@@ -378,7 +378,7 @@ def get_raw_peer_id(peer: Union[int, raw.base.Peer, raw.base.InputPeer, raw.base
     return None
 
 
-def get_peer_id(peer: Union[raw.base.Peer, raw.base.InputPeer, raw.base.RequestedPeer]) -> int:
+def get_peer_id(peer: raw.base.Peer | raw.base.InputPeer | raw.base.RequestedPeer) -> int:
     """Get the non-raw peer id from a Peer object"""
     if hasattr(peer, "user_id"):
         return peer.user_id
@@ -423,8 +423,8 @@ def get_peer_type(peer_id: int) -> str:
 async def get_reply_to(
     client: "pyrogram.Client",
     reply_parameters: Optional["types.ReplyParameters"] = None,
-    message_thread_id: Optional[int] = None,
-    direct_messages_topic_id: Optional[int] = None
+    message_thread_id: int | None = None,
+    direct_messages_topic_id: int | None = None
 ) -> Optional["raw.base.InputReplyTo"]:
     """Get InputReply for reply_to argument"""
     if reply_parameters:
@@ -479,7 +479,7 @@ async def get_reply_to(
 
 
 def get_file_name(
-    media: Union[io.BytesIO, str],
+    media: io.BytesIO | str,
     *,
     file_name: str = "",
     fallback: str = ""
@@ -595,9 +595,9 @@ def compute_password_check(
 async def parse_text_entities(
     client: "pyrogram.Client",
     text: str,
-    parse_mode: Optional[enums.ParseMode],
-    entities: Optional[List["types.MessageEntity"]]
-) -> Dict[str, Union[str, List[raw.base.MessageEntity]]]:
+    parse_mode: enums.ParseMode | None,
+    entities: list["types.MessageEntity"] | None
+) -> dict[str, str | list[raw.base.MessageEntity]]:
     if entities:
         # Inject the client instance because parsing user mentions requires it
         for entity in entities:
@@ -621,11 +621,11 @@ def max_datetime() -> datetime:
     return datetime.fromtimestamp((1 << 31) - 1, timezone.utc)
 
 
-def timestamp_to_datetime(ts: Optional[int]) -> Optional[datetime]:
+def timestamp_to_datetime(ts: int | None) -> datetime | None:
     return datetime.fromtimestamp(ts) if ts else None
 
 
-def datetime_to_timestamp(dt: Optional[Union[datetime, timedelta]]) -> Optional[int]:
+def datetime_to_timestamp(dt: datetime | timedelta | None) -> int | None:
     if isinstance(dt, timedelta):
         return int((datetime.now() + dt).timestamp())
     elif isinstance(dt, datetime):
@@ -641,7 +641,7 @@ def get_first_url(text):
     return f"{matches[0][0]}://{matches[0][1]}{matches[0][2]}" if matches else None
 
 
-def split_text(text: str, max_length: int = 4096) -> List[str]:
+def split_text(text: str, max_length: int = 4096) -> list[str]:
     """Split text into chunks no longer than max_length"""
     if len(text) <= max_length:
         return [text]
@@ -745,7 +745,7 @@ def expand_inline_bytes(bytes_data: bytes):
     return header + bytes_data[3:] + footer
 
 
-def from_inline_bytes(data: bytes, file_name: Optional[str] = None) -> BytesIO:
+def from_inline_bytes(data: bytes, file_name: str | None = None) -> BytesIO:
     b = BytesIO()
 
     b.write(data)

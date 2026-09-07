@@ -16,7 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Iterable, Union
+from typing import Union
+from collections.abc import Iterable
 
 import pyrogram
 from pyrogram import raw
@@ -26,7 +27,7 @@ class DeleteBusinessMessages:
     async def delete_business_messages(
         self: "pyrogram.Client",
         business_connection_id: str,
-        message_ids: Union[int, Iterable[int]]
+        message_ids: int | Iterable[int]
     ) -> int:
         """Delete messages on behalf of a business account.
 

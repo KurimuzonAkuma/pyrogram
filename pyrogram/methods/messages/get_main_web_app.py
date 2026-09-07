@@ -25,8 +25,8 @@ from pyrogram import raw, enums
 class GetMainWebApp:
     async def get_main_web_app(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        bot_user_id: Union[int, str],
+        chat_id: int | str,
+        bot_user_id: int | str,
         start_parameter: str = "",
         platform: Optional["enums.ClientPlatform"] = None
     ) -> str:

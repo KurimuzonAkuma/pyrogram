@@ -25,8 +25,8 @@ from pyrogram import raw, types, utils
 class EditEphemeralMessageMedia:
     async def edit_ephemeral_message_media(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        receiver_user_id: Union[int, str],
+        chat_id: int | str,
+        receiver_user_id: int | str,
         ephemeral_message_id: int,
         media: "types.InputMedia",
         reply_markup: Optional["types.InlineKeyboardMarkup"] = None,

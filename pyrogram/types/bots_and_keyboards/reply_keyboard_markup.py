@@ -62,13 +62,13 @@ class ReplyKeyboardMarkup(Object):
 
     def __init__(
         self,
-        keyboard: List[List[Union["types.KeyboardButton", str]]],
-        is_persistent: Optional[bool] = None,
-        resize_keyboard: Optional[bool] = None,
-        one_time_keyboard: Optional[bool] = None,
-        selective: Optional[bool] = None,
-        placeholder: Optional[str] = None,
-        force_reply: Optional[bool] = None,
+        keyboard: list[list[Union["types.KeyboardButton", str]]],
+        is_persistent: bool | None = None,
+        resize_keyboard: bool | None = None,
+        one_time_keyboard: bool | None = None,
+        selective: bool | None = None,
+        placeholder: str | None = None,
+        force_reply: bool | None = None,
     ):
         super().__init__()
 

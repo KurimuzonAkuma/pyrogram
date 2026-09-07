@@ -64,7 +64,7 @@ class ChatPhoto(Object):
         small_photo_unique_id: str,
         big_file_id: str,
         big_photo_unique_id: str,
-        added_date: Optional[datetime] = None,
+        added_date: datetime | None = None,
         animation: Optional["types.AnimatedChatPhoto"] = None,
         sticker: Optional["types.ChatPhotoSticker"] = None,
     ):
@@ -125,7 +125,7 @@ class ChatPhoto(Object):
         ).encode()
 
         if isinstance(chat_photo, raw.types.Photo):
-            sizes: List[raw.types.PhotoSize] = sorted(
+            sizes: list[raw.types.PhotoSize] = sorted(
                 [size for size in chat_photo.sizes if isinstance(size, raw.types.PhotoSize)],
                 key=lambda size: size.w * size.h,
             )

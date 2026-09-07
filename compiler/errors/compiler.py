@@ -36,11 +36,11 @@ _PLAIN_VALUE_NAME: Final[str] = "value"
 # `pyrogram/errors/__init__.py` imports the hand-written errors after the generated ones, so a
 # generated class of either name never reaches the caller: a 400 `UNKNOWN_ERROR` used to arrive as
 # the hand-written `UnknownError`, which reports code 520 and is no `BadRequest`.
-_RESERVED_CLASS_NAMES: Final[Tuple[str, ...]] = ("RPCError", "UnknownError")
+_RESERVED_CLASS_NAMES: Final[tuple[str, ...]] = ("RPCError", "UnknownError")
 
 # A class name may not start with a digit. `2FA_CONFIRM_WAIT_X` is the only id that does, and any
 # other would need a word of its own here rather than a module Python cannot import.
-_LEADING_DIGIT_WORDS: Final[Dict[str, str]] = {"2": "Two"}
+_LEADING_DIGIT_WORDS: Final[dict[str, str]] = {"2": "Two"}
 
 
 @dataclass(frozen=True)
@@ -68,7 +68,7 @@ class _Error:
     """A row, once every claimant of the name it asks for is known and it has one of its own."""
     row: _Row
     class_name: str
-    bases: List[str]
+    bases: list[str]
     primary: Optional["_Error"]
 
     @property
@@ -136,7 +136,7 @@ def _read_table(path: Path) -> _Table:
     )
 
 
-def _read_rows(table: _Table) -> List[_Row]:
+def _read_rows(table: _Table) -> list[_Row]:
     with table.path.open(encoding="utf-8", newline="") as table_file:
         reader = csv.reader(table_file, delimiter="\t")
         next(reader)  # The header.
@@ -145,7 +145,7 @@ def _read_rows(table: _Table) -> List[_Row]:
         return [_read_row(table, line=line) for line in reader if line]
 
 
-def _read_row(table: _Table, *, line: List[str]) -> _Row:
+def _read_row(table: _Table, *, line: list[str]) -> _Row:
     error_id, message = line
 
     return _Row(
@@ -202,8 +202,8 @@ def _value_name_of(*, error_id: str, message: str) -> str:
     return placeholders[0]
 
 
-def _name_errors(rows: List[_Row]) -> List[_Error]:
-    claimants: Dict[str, List[_Row]] = {}
+def _name_errors(rows: list[_Row]) -> list[_Error]:
+    claimants: dict[str, list[_Row]] = {}
 
     for row in rows:
         claimants.setdefault(row.base_name, []).append(row)
@@ -212,7 +212,7 @@ def _name_errors(rows: List[_Row]) -> List[_Error]:
         for row in claimants.pop(reserved_name, []):
             claimants.setdefault("{}{}".format(reserved_name, row.table.code), []).append(row)
 
-    named: Dict[_Row, _Error] = {}
+    named: dict[_Row, _Error] = {}
 
     for base_name, group in claimants.items():
         group.sort(key=lambda claimant: (claimant.table.code, claimant.error_id))
@@ -261,8 +261,8 @@ def _subclass_of(primary: _Error, *, row: _Row) -> _Error:
     )
 
 
-def _by_table(errors: List[_Error]) -> Dict[_Table, List[_Error]]:
-    grouped: Dict[_Table, List[_Error]] = {}
+def _by_table(errors: list[_Error]) -> dict[_Table, list[_Error]]:
+    grouped: dict[_Table, list[_Error]] = {}
 
     for error in errors:
         grouped.setdefault(error.table, []).append(error)
@@ -296,15 +296,15 @@ def _value_block(templates: _Templates, *, error: _Error) -> str:
     return ""
 
 
-def _typing_import(errors: List[_Error]) -> str:
+def _typing_import(errors: list[_Error]) -> str:
     if all(error.row.value_name == _PLAIN_VALUE_NAME for error in errors):
         return ""
 
     return "from typing import Optional\n\n"
 
 
-def _import_block(table: _Table, *, errors: List[_Error]) -> str:
-    imports: Dict[str, Set[str]] = {}
+def _import_block(table: _Table, *, errors: list[_Error]) -> str:
+    imports: dict[str, set[str]] = {}
 
     for error in errors:
         if error.primary is not None and error.primary.table != table:
@@ -321,14 +321,14 @@ def _import_block(table: _Table, *, errors: List[_Error]) -> str:
     ])
 
 
-def _write_init(tables: List[_Table], *, notice: str) -> None:
+def _write_init(tables: list[_Table], *, notice: str) -> None:
     imports = ["from .{} import *".format(table.module_name) for table in tables]
 
     _write(_DEST / "__init__.py", lines=[notice, ""] + imports)
 
 
-def _write_all(tables: Dict[_Table, List[_Error]], *, notice: str, count: int) -> None:
-    lines: List[str] = [notice, "", "count = {}".format(count), "", "exceptions = {"]
+def _write_all(tables: dict[_Table, list[_Error]], *, notice: str, count: int) -> None:
+    lines: list[str] = [notice, "", "count = {}".format(count), "", "exceptions = {"]
 
     for table, errors in tables.items():
         lines.append("    {}: {{".format(table.code))
@@ -344,13 +344,13 @@ def _write_all(tables: Dict[_Table, List[_Error]], *, notice: str, count: int) -
     _write(_DEST / "all.py", lines=lines)
 
 
-def _write(path: Path, *, lines: List[str]) -> None:
+def _write(path: Path, *, lines: list[str]) -> None:
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def _write_module(table: _Table, *, errors: List[_Error], notice: str, templates: _Templates) -> None:
-    sub_classes: List[str] = []
-    written: Set[str] = set()
+def _write_module(table: _Table, *, errors: list[_Error], notice: str, templates: _Templates) -> None:
+    sub_classes: list[str] = []
+    written: set[str] = set()
 
     for error in errors:
         primary = error.primary
@@ -394,7 +394,7 @@ def start() -> None:
     # Every table is read before a single class is written. The name an error compiles to is not
     # its own to take - 52 of them are claimed by more than one error - and which claimant keeps
     # the plain name is only known once they all are.
-    rows: List[_Row] = []
+    rows: list[_Row] = []
 
     for path in sorted((_HOME / "source").iterdir()):
         rows.extend(_read_rows(_read_table(path)))

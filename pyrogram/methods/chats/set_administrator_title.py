@@ -25,8 +25,8 @@ from pyrogram import raw
 class SetAdministratorTitle:
     async def set_administrator_title(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        user_id: Union[int, str],
+        chat_id: int | str,
+        user_id: int | str,
         title: str,
     ) -> bool:
         """Set a custom title (rank) to an administrator of a supergroup.

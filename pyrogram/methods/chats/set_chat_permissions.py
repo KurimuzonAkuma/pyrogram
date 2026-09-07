@@ -26,7 +26,7 @@ from pyrogram import types
 class SetChatPermissions:
     async def set_chat_permissions(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         permissions: Optional["types.ChatPermissions"] = None
     ) -> "types.Chat":
         """Set default chat permissions for all members.

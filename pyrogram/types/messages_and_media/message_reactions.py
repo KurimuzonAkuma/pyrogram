@@ -47,10 +47,10 @@ class MessageReactions(Object):
         self,
         *,
         client: Optional["pyrogram.Client"] = None,
-        reactions: List["types.Reaction"],
-        are_tags: Optional[bool] = None,
-        paid_reactors: Optional[List["types.PaidReactor"]] = None,
-        can_get_added_reactions: Optional[bool] = None,
+        reactions: list["types.Reaction"],
+        are_tags: bool | None = None,
+        paid_reactors: list["types.PaidReactor"] | None = None,
+        can_get_added_reactions: bool | None = None,
     ):
         super().__init__(client)
 
@@ -63,8 +63,8 @@ class MessageReactions(Object):
     async def _parse(
         client: "pyrogram.Client",
         message_reactions: Optional["raw.base.MessageReactions"],
-        users: Dict[int, "types.User"],
-        chats: Dict[int, "types.Chat"],
+        users: dict[int, "types.User"],
+        chats: dict[int, "types.Chat"],
     ) -> Optional["MessageReactions"]:
         if not message_reactions:
             return None

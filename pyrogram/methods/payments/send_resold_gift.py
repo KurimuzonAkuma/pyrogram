@@ -27,7 +27,7 @@ class SendResoldGift:
     async def send_resold_gift(
         self: "pyrogram.Client",
         gift_link: str,
-        new_owner_chat_id: Union[int, str],
+        new_owner_chat_id: int | str,
         price: "types.GiftResalePrice",
     ) -> Optional["types.Message"]:
         """Send an upgraded gift that is available for resale to another user or channel chat.

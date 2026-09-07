@@ -25,7 +25,7 @@ from pyrogram import raw, types, utils
 class SetChatTTL:
     async def set_chat_ttl(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         ttl_seconds: int
     ) -> Optional["types.Message"]:
         """Set the time-to-live for the chat.

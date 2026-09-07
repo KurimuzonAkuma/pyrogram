@@ -26,12 +26,12 @@ from pyrogram import raw, types, utils
 class EditMessageMedia:
     async def edit_message_media(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         message_id: int,
         media: "types.InputMedia",
-        show_caption_above_media: Optional[bool] = None,
-        schedule_date: Optional[datetime] = None,
-        business_connection_id: Optional[str] = None,
+        show_caption_above_media: bool | None = None,
+        schedule_date: datetime | None = None,
+        business_connection_id: str | None = None,
         reply_markup: Optional["types.InlineKeyboardMarkup"] = None,
     ) -> "types.Message":
         """Edit animation, audio, document, photo or video messages, or to add media to text messages.

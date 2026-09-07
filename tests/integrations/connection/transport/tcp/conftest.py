@@ -29,7 +29,8 @@ import time
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
 from pathlib import Path
-from typing import AsyncGenerator, AsyncIterator, Final, List, NamedTuple, Optional, Type
+from typing import Final, List, NamedTuple, Optional, Type
+from collections.abc import AsyncGenerator, AsyncIterator
 
 import pytest
 
@@ -81,15 +82,15 @@ def relay_proxy(relay_config: RelayConfig) -> WebProxy:
 
 
 @pytest.fixture()
-def relay_transport_class(relay_proxy: WebProxy) -> Type[TCP]:
+def relay_transport_class(relay_proxy: WebProxy) -> type[TCP]:
     # Only the tests that drive a transport directly need this; the ones that go
     #  through `Client` let `Connection` pick the same class from the same proxy.
     return transport_class_for(relay_proxy)
 
 
 class _LinkParams(NamedTuple):
-    links: List[Optional[str]]
-    ids: List[str]
+    links: list[str | None]
+    ids: list[str]
 
 
 def _mtproxy_link_parameters() -> _LinkParams:
@@ -145,7 +146,7 @@ def mtproxy_dc_id() -> int:
 
 
 @pytest.fixture(scope="session")
-def mtproxy_transport_class(mtproxy_proxy: MTProxy) -> Type[TCP]:
+def mtproxy_transport_class(mtproxy_proxy: MTProxy) -> type[TCP]:
     return transport_class_for(mtproxy_proxy)
 
 

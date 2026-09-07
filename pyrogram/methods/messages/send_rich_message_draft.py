@@ -25,12 +25,12 @@ from pyrogram import raw, types
 class SendRichMessageDraft:
     async def send_rich_message_draft(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         draft_id: int,
         rich_message: "types.InputRichMessage",
-        message_thread_id: Optional[int] = None,
-        can_stop: Optional[bool] = None,
-        keep_on_stop: Optional[bool] = None
+        message_thread_id: int | None = None,
+        can_stop: bool | None = None,
+        keep_on_stop: bool | None = None
     ) -> bool:
         """Use this method to stream a partial rich message to a user while the message is being generated.
 

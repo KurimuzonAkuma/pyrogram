@@ -18,7 +18,8 @@
 
 import os
 from datetime import datetime
-from typing import Union, Optional, Callable, BinaryIO, List, Literal, overload
+from typing import Union, Optional, BinaryIO, List, Literal, overload
+from collections.abc import Callable
 
 import pyrogram
 from pyrogram import types, utils
@@ -51,9 +52,9 @@ class DownloadMedia:
         file_name: str = DEFAULT_DOWNLOAD_DIR,
         in_memory: Literal[False] = False,
         block: Literal[True] = True,
-        progress: Optional[Callable] = None,
+        progress: Callable | None = None,
         progress_args: tuple = (),
-    ) -> Union[str, List[str], None]: ...
+    ) -> str | list[str] | None: ...
 
     @overload
     async def download_media(
@@ -78,9 +79,9 @@ class DownloadMedia:
         file_name: str = DEFAULT_DOWNLOAD_DIR,
         in_memory: Literal[True] = True,
         block: Literal[True] = True,
-        progress: Optional[Callable] = None,
+        progress: Callable | None = None,
         progress_args: tuple = (),
-    ) -> Union[BinaryIO, List[BinaryIO], None]: ...
+    ) -> BinaryIO | list[BinaryIO] | None: ...
 
     @overload
     async def download_media(
@@ -106,7 +107,7 @@ class DownloadMedia:
         *,
         in_memory: bool = False,
         block: Literal[False],
-        progress: Optional[Callable] = None,
+        progress: Callable | None = None,
         progress_args: tuple = (),
     ) -> None: ...
 
@@ -133,7 +134,7 @@ class DownloadMedia:
         file_name: str,
         in_memory: bool,
         block: Literal[False],
-        progress: Optional[Callable] = None,
+        progress: Callable | None = None,
         progress_args: tuple = (),
     ) -> None: ...
 
@@ -160,9 +161,9 @@ class DownloadMedia:
         file_name: str = DEFAULT_DOWNLOAD_DIR,
         in_memory: bool = False,
         block: bool = True,
-        progress: Optional[Callable] = None,
+        progress: Callable | None = None,
         progress_args: tuple = (),
-    ) -> Union[str, BinaryIO, List[str], List[BinaryIO], None]: ...
+    ) -> str | BinaryIO | list[str] | list[BinaryIO] | None: ...
 
     async def download_media(
         self: "pyrogram.Client",
@@ -186,9 +187,9 @@ class DownloadMedia:
         file_name: str = DEFAULT_DOWNLOAD_DIR,
         in_memory: bool = False,
         block: bool = True,
-        progress: Optional[Callable] = None,
+        progress: Callable | None = None,
         progress_args: tuple = ()
-    ) -> Union[str, BinaryIO, List[str], List[BinaryIO], None]:
+    ) -> str | BinaryIO | list[str] | list[BinaryIO] | None:
         """Download the media from a message.
 
         .. include:: /_includes/usable-by/users-bots.rst

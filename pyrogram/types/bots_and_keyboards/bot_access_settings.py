@@ -35,7 +35,7 @@ class BotAccessSettings(Object):
     """
 
     def __init__(
-        self, is_access_restricted: bool, added_users: Optional[List["types.User"]] = None
+        self, is_access_restricted: bool, added_users: list["types.User"] | None = None
     ):
         super().__init__()
 

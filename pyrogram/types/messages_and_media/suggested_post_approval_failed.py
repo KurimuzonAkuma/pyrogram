@@ -42,7 +42,7 @@ class SuggestedPostApprovalFailed(Object):
     """
     def __init__(
         self, *,
-        suggested_post_message_id: Optional[int] = None,
+        suggested_post_message_id: int | None = None,
         suggested_post_message: Optional["types.Message"] = None,
         price: Optional["types.SuggestedPostPrice"] = None
     ):
@@ -57,7 +57,7 @@ class SuggestedPostApprovalFailed(Object):
         client: "pyrogram.Client",
         message: "raw.types.MessageService"
     ) -> "SuggestedPostApprovalFailed":
-        action: "raw.types.MessageActionSuggestedPostApproval" = message.action
+        action: raw.types.MessageActionSuggestedPostApproval = message.action
 
         if not isinstance(action, raw.types.MessageActionSuggestedPostApproval):
             return None

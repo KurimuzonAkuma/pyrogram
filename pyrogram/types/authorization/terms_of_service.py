@@ -37,7 +37,7 @@ class TermsOfService(Object):
             Special entities like URLs that appear in the text.
     """
 
-    def __init__(self, *, id: str, text: str, entities: List["types.MessageEntity"]):
+    def __init__(self, *, id: str, text: str, entities: list["types.MessageEntity"]):
         super().__init__()
 
         self.id = id

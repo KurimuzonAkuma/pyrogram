@@ -25,7 +25,9 @@ and carries on, so a dead reference looks almost right and nothing reports it.
 import ast
 import pathlib
 import re
-from typing import Final, Iterator, List, NamedTuple, Optional, Pattern, Set, Tuple
+from typing import Final, List, NamedTuple, Optional, Set, Tuple
+from re import Pattern
+from collections.abc import Iterator
 
 from tests.guards.name_resolution import REPOSITORY_ROOT, hand_written_files, resolves
 
@@ -34,7 +36,7 @@ from tests.guards.name_resolution import REPOSITORY_ROOT, hand_written_files, re
 #  https://www.sphinx-doc.org/en/master/usage/domains/python.html#cross-referencing-python-objects
 _CROSS_REFERENCE: Final[Pattern[str]] = re.compile(r":(?:py:)?(?:obj|class|meth|func|attr|data|mod|exc):`([^`]+)`")
 
-_DOCUMENTED_NODES: Final[Tuple[type, ...]] = (ast.Module, ast.ClassDef, ast.FunctionDef, ast.AsyncFunctionDef)
+_DOCUMENTED_NODES: Final[tuple[type, ...]] = (ast.Module, ast.ClassDef, ast.FunctionDef, ast.AsyncFunctionDef)
 
 # A label is free text as often as it is a name, and prose is a suffix of nothing: a label
 #  reading "send a message" over `pyrogram.Client.send_message` is correct Sphinx.
@@ -45,7 +47,7 @@ class Reference(NamedTuple):
     target: str
     path: pathlib.Path
     line: int
-    label: Optional[str] = None
+    label: str | None = None
 
     def __str__(self) -> str:
         body = self.target if self.label is None else "{} <{}>".format(self.label, self.target)
@@ -53,7 +55,7 @@ class Reference(NamedTuple):
         return "{}:{}: {}".format(self.path.relative_to(REPOSITORY_ROOT), self.line, body)
 
 
-def components(dotted: str) -> List[str]:
+def components(dotted: str) -> list[str]:
     """Split a dotted name the way Sphinx reads one, with the decoration taken off.
 
     A leading `~` prints the last component only and a leading `.` asks Sphinx to search;
@@ -62,7 +64,7 @@ def components(dotted: str) -> List[str]:
     return dotted.strip().lstrip("~.").rstrip("()").split(".")
 
 
-def references_in(text: str) -> Iterator[Tuple[Optional[str], str]]:
+def references_in(text: str) -> Iterator[tuple[str | None, str]]:
     """Take the label and the target out of every cross-reference in `text`."""
     for body in _CROSS_REFERENCE.findall(text):
         # A reference is either a target with the text to print in front of it, or a bare
@@ -92,7 +94,7 @@ def label_agrees_with_target(label: str, *, target: str) -> bool:
     return label_parts == components(target)[-len(label_parts):]
 
 
-def docstrings_of(path: pathlib.Path) -> Iterator[Tuple[str, int]]:
+def docstrings_of(path: pathlib.Path) -> Iterator[tuple[str, int]]:
     lines = path.read_text(encoding="utf-8").splitlines()
 
     for node in ast.walk(ast.parse("\n".join(lines))):
@@ -103,8 +105,8 @@ def docstrings_of(path: pathlib.Path) -> Iterator[Tuple[str, int]]:
         yield "\n".join(lines[literal.lineno - 1 : literal.end_lineno]), literal.lineno
 
 
-def hand_written_references() -> List[Reference]:
-    references: List[Reference] = []
+def hand_written_references() -> list[Reference]:
+    references: list[Reference] = []
 
     for path in hand_written_files():
         for docstring, first_line in docstrings_of(path):
@@ -130,7 +132,7 @@ def test_every_cross_reference_in_a_docstring_resolves() -> None:
 def test_the_sweep_reads_the_docstrings_it_claims_to() -> None:
     """A regex that stopped matching would leave the test above passing over nothing."""
     references = hand_written_references()
-    targets: Set[str] = {one.target for one in references}
+    targets: set[str] = {one.target for one in references}
 
     assert len(targets) > 500
     assert "pyrogram.types.Message" in targets

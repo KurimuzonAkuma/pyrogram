@@ -294,7 +294,7 @@ def test_client_proxy_address_reports_a_web_proxy_on_the_https_port() -> None:
         HTTPProxy(hostname="1.2.3.4", port=8080),
     ],
 )
-def test_client_proxy_address_reports_nothing_for_a_proxy_telegram_does_not_own(proxy: Optional[Proxy]) -> None:
+def test_client_proxy_address_reports_nothing_for_a_proxy_telegram_does_not_own(proxy: Proxy | None) -> None:
     assert client_proxy_address(proxy) is None
 
 

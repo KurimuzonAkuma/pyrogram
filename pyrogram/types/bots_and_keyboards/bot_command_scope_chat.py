@@ -32,7 +32,7 @@ class BotCommandScopeChat(BotCommandScope):
             @supergroupusername).
     """
 
-    def __init__(self, chat_id: Union[int, str]):
+    def __init__(self, chat_id: int | str):
         super().__init__("chat")
 
         self.chat_id = chat_id

@@ -25,7 +25,7 @@ from pyrogram import raw
 class GetChatOnlineCount:
     async def get_chat_online_count(
         self: "pyrogram.Client",
-        chat_id: Union[int, str]
+        chat_id: int | str
     ) -> int:
         """Get the number of members that are currently online in a chat.
 

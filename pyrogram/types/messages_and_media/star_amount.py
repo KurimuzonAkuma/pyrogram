@@ -37,8 +37,8 @@ class StarAmount(Object):
 
     def __init__(
         self, *,
-        star_count: Optional[int] = None,
-        nanostar_count: Optional[int] = None
+        star_count: int | None = None,
+        nanostar_count: int | None = None
     ):
         super().__init__()
 

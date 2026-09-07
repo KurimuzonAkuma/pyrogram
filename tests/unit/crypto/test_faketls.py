@@ -45,7 +45,7 @@ _CURVE25519_ORDER: Final[int] = 2**252 + 27742317777372353535851937790883648493
 # The extension types the ClientHello carries, whatever order the permutation
 #  puts them in. Read off TDLib's op list, so a dropped extension shows up here.
 #  https://github.com/tdlib/td/blob/d1085f9cebc5a62379991ae1652673954f229c1f/td/mtproto/TlsInit.cpp#L211-L230
-_EXPECTED_EXTENSIONS: Final[FrozenSet[int]] = frozenset(
+_EXPECTED_EXTENSIONS: Final[frozenset[int]] = frozenset(
     {
         0x0000,
         0x0005,
@@ -73,7 +73,7 @@ def _is_grease(extension_type: int) -> bool:
     return high == low and low & 0x0F == 0x0A
 
 
-def _parse_extensions(record: bytes) -> Dict[int, bytes]:
+def _parse_extensions(record: bytes) -> dict[int, bytes]:
     """Every length field in the greeting, checked on the way to the extensions."""
     assert record[:3] == b"\x16\x03\x01"
 
@@ -95,7 +95,7 @@ def _parse_extensions(record: bytes) -> Dict[int, bytes]:
     cursor += 2
     assert cursor + extensions_length == len(record)
 
-    extensions: Dict[int, bytes] = {}
+    extensions: dict[int, bytes] = {}
 
     while cursor < len(record):
         extension_type = int.from_bytes(record[cursor : cursor + 2], "big")
@@ -220,11 +220,11 @@ class _KeyShareEntry(NamedTuple):
     key: bytes
 
 
-def _key_share_entries(record: bytes) -> List[_KeyShareEntry]:
+def _key_share_entries(record: bytes) -> list[_KeyShareEntry]:
     body = _parse_extensions(record)[0x0033]  # the key_share extension
     assert int.from_bytes(body[:2], "big") == len(body) - 2
 
-    entries: List[_KeyShareEntry] = []
+    entries: list[_KeyShareEntry] = []
     cursor = 2
 
     while cursor < len(body):

@@ -70,13 +70,13 @@ class MessageEntity(Object):
         type: "enums.MessageEntityType",
         offset: int,
         length: int,
-        url: Optional[str] = None,
+        url: str | None = None,
         user: Optional["types.User"] = None,
-        language: Optional[str] = None,
-        custom_emoji_id: Optional[str] = None,
-        expandable: Optional[bool] = None,
-        unix_time: Optional[int] = None,
-        date_time_format: Optional[str] = None
+        language: str | None = None,
+        custom_emoji_id: str | None = None,
+        expandable: bool | None = None,
+        unix_time: int | None = None,
+        date_time_format: str | None = None
     ):
         super().__init__(client)
 

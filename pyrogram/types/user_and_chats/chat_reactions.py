@@ -40,9 +40,9 @@ class ChatReactions(Object):
         self,
         *,
         client: Optional["pyrogram.Client"] = None,
-        all_are_enabled: Optional[bool] = None,
-        allow_custom_emoji: Optional[bool] = None,
-        reactions: Optional[List["types.Reaction"]] = None,
+        all_are_enabled: bool | None = None,
+        allow_custom_emoji: bool | None = None,
+        reactions: list["types.Reaction"] | None = None,
     ):
         super().__init__(client)
 

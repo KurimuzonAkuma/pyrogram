@@ -37,7 +37,7 @@ class UsersShared(Object):
     def __init__(
         self, *,
         button_id: int,
-        users: List["types.User"],
+        users: list["types.User"],
     ):
         super().__init__()
 
@@ -51,7 +51,7 @@ class UsersShared(Object):
             "raw.types.MessageActionRequestedPeer",
             "raw.types.MessageActionRequestedPeerSentMe"
         ],
-        users: Dict[int, "raw.base.User"] = {}
+        users: dict[int, "raw.base.User"] = {}
     ) -> "UsersShared":
         requested_users = types.List()
 

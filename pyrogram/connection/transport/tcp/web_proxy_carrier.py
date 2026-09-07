@@ -26,7 +26,8 @@ import ssl
 from dataclasses import dataclass
 from enum import IntEnum
 from http import HTTPStatus
-from typing import Coroutine, Dict, Final, FrozenSet, List, Optional, Set
+from typing import Dict, Final, FrozenSet, List, Optional, Set
+from collections.abc import Coroutine
 
 from pyrogram.connection.proxy import HTTPS_PORT
 
@@ -62,7 +63,7 @@ class FrameType(IntEnum):
     BYE = 0x1F
 
 
-_KNOWN_FRAME_TYPES: Final[FrozenSet[int]] = frozenset(frame_type.value for frame_type in FrameType)
+_KNOWN_FRAME_TYPES: Final[frozenset[int]] = frozenset(frame_type.value for frame_type in FrameType)
 
 # The stream id is three bytes wide.
 _MAX_STREAM_ID: Final[int] = 0x00FFFFFF
@@ -100,7 +101,7 @@ def serialize_frame(frame_type: FrameType, *, stream_id: int, payload: bytes) ->
 
 @dataclass(frozen=True)
 class ParsedFrames:
-    frames: List[Frame]
+    frames: list[Frame]
     consumed: int  # a trailing partial frame is left unconsumed
 
 
@@ -109,7 +110,7 @@ def parse_frames(wire: bytes) -> ParsedFrames:
     #  into one response, so a count limit would turn a legal batch into a parse
     #  error.
     #  https://github.com/telegramdesktop/tdesktop/blob/23dff657fc857c3223fa20472aa8614b9ab2c7eb/docs/web-proxy-plan.md#L246
-    frames: List[Frame] = []
+    frames: list[Frame] = []
     offset = 0
     wire_len = len(wire)
 
@@ -139,7 +140,7 @@ def parse_frames(wire: bytes) -> ParsedFrames:
     return ParsedFrames(frames=frames, consumed=offset)
 
 
-def parse_frame_message(body: bytes) -> List[Frame]:
+def parse_frame_message(body: bytes) -> list[Frame]:
     # One HTTP body must be one or more complete frames, nothing more, nothing less.
     if not body:
         msg = "frame: empty message"
@@ -212,7 +213,7 @@ class WebCarrierError(ConnectionError):
 @dataclass(frozen=True)
 class StatusAndHeaders:
     status: int
-    headers: Dict[str, str]
+    headers: dict[str, str]
 
 
 _CRLF: Final[bytes] = b"\r\n"
@@ -249,7 +250,7 @@ _WINDOW_PAYLOAD_SIZE: Final[int] = 4
 @dataclass(frozen=True)
 class HttpResponse:
     status: int
-    headers: Dict[str, str]
+    headers: dict[str, str]
     body: bytes
 
 
@@ -262,8 +263,8 @@ class _HttpConnection:
         self._port = port
         self._ssl_context = ssl_context
 
-        self._reader: Optional[asyncio.StreamReader] = None
-        self._writer: Optional[asyncio.StreamWriter] = None
+        self._reader: asyncio.StreamReader | None = None
+        self._writer: asyncio.StreamWriter | None = None
         self._lock = asyncio.Lock()
 
     async def _ensure_connected(self) -> None:
@@ -301,10 +302,10 @@ class _HttpConnection:
         *,
         path: str,
         body: bytes = b"",
-        headers: Optional[Dict[str, str]] = None,
+        headers: dict[str, str] | None = None,
         timeout: float = _REQUEST_TIMEOUT,
     ) -> HttpResponse:
-        last_error: Optional[Exception] = None
+        last_error: Exception | None = None
         last_detail: str = ""
 
         # Retries on a fresh connection - the pooled one may have died silently
@@ -341,9 +342,9 @@ class _HttpConnection:
         *,
         path: str,
         body: bytes,
-        headers: Optional[Dict[str, str]],
+        headers: dict[str, str] | None,
     ) -> HttpResponse:
-        request_headers: Dict[str, str] = {
+        request_headers: dict[str, str] = {
             "Host": self._host,
             "Connection": "keep-alive",
             "Content-Length": str(len(body)),
@@ -352,7 +353,7 @@ class _HttpConnection:
         if headers:
             request_headers.update(headers)
 
-        lines: List[str] = [f"{method} {path} HTTP/1.1"]
+        lines: list[str] = [f"{method} {path} HTTP/1.1"]
         lines += [f"{name}: {value}" for name, value in request_headers.items()]
         request = ("\r\n".join(lines) + "\r\n\r\n").encode("ascii") + body
 
@@ -370,7 +371,7 @@ class _HttpConnection:
 
         return HttpResponse(status=head.status, headers=head.headers, body=response_body)
 
-    async def _read_body(self, status: int, *, response_headers: Dict[str, str]) -> bytes:
+    async def _read_body(self, status: int, *, response_headers: dict[str, str]) -> bytes:
         # A reverse proxy in front of the relay re-frames anything it cannot
         #  buffer whole, so every downlink batch above a few KiB arrives as
         #  `transfer-encoding: chunked` with no `Content-Length`. Reading only
@@ -383,7 +384,7 @@ class _HttpConnection:
         if "chunked" in transfer_encoding:
             return await self._read_chunked_body()
 
-        content_length_header: Optional[str] = response_headers.get("content-length")
+        content_length_header: str | None = response_headers.get("content-length")
 
         if content_length_header is not None:
             try:
@@ -405,7 +406,7 @@ class _HttpConnection:
         raise ConnectionError(msg)
 
     async def _read_chunked_body(self) -> bytes:
-        chunks: List[bytes] = []
+        chunks: list[bytes] = []
 
         while True:
             size_line: bytes = await self._reader.readline()
@@ -457,7 +458,7 @@ class _HttpConnection:
             msg = f"malformed HTTP status line: {status_line!r}"
             raise ConnectionError(msg) from e
 
-        headers: Dict[str, str] = {}
+        headers: dict[str, str] = {}
 
         while True:
             line: bytes = await self._reader.readline()
@@ -483,7 +484,7 @@ class WebProxyCarrier:
         *,
         secret: bytes,
         port: int = HTTPS_PORT,
-        loop: Optional[asyncio.AbstractEventLoop] = None,
+        loop: asyncio.AbstractEventLoop | None = None,
     ) -> None:
         self._hostname = hostname
         self._secret = secret
@@ -501,7 +502,7 @@ class WebProxyCarrier:
         self._down = _HttpConnection(hostname, port=port, ssl_context=ssl_context)
         self._up_send_lock = asyncio.Lock()
 
-        self._session_id: Optional[str] = None
+        self._session_id: str | None = None
         self._up_seq = 0
         self._down_cursor = 0
 
@@ -512,14 +513,14 @@ class WebProxyCarrier:
         self._recv_window_remaining = _INITIAL_STREAM_WINDOW
         self._recv_buffer = bytearray()
         self._pending_grant = 0
-        self._grant_flush_task: Optional["asyncio.Task"] = None
+        self._grant_flush_task: asyncio.Task | None = None
 
-        self._recv_queue: "asyncio.Queue[Optional[bytes]]" = asyncio.Queue()
+        self._recv_queue: asyncio.Queue[bytes | None] = asyncio.Queue()
         self._welcome_event = asyncio.Event()
         self._closed = False
-        self._fail_exc: Optional[Exception] = None
-        self._poll_task: Optional["asyncio.Task"] = None
-        self._background_tasks: Set["asyncio.Task"] = set()
+        self._fail_exc: Exception | None = None
+        self._poll_task: asyncio.Task | None = None
+        self._background_tasks: set[asyncio.Task] = set()
 
     async def start(self) -> None:
         # The relay authenticates the session by the bridge capability alone:
@@ -579,7 +580,7 @@ class WebProxyCarrier:
         if not data:
             return
 
-        pending: List[bytes] = []
+        pending: list[bytes] = []
         offset = 0
 
         while offset < len(data):
@@ -604,7 +605,7 @@ class WebProxyCarrier:
         if pending:
             await self._send_frames(pending)
 
-    async def recv(self, length: int) -> Optional[bytes]:
+    async def recv(self, length: int) -> bytes | None:
         # The relay hands over frames of its own choosing, so the buffer is what
         #  turns them into the exact count the caller asked for.
         while len(self._recv_buffer) < length:
@@ -756,7 +757,7 @@ class WebProxyCarrier:
         finally:
             self._grant_flush_task = None
 
-    async def _send_frames(self, frames: List[bytes]) -> None:
+    async def _send_frames(self, frames: list[bytes]) -> None:
         body = b"".join(frames)
 
         async with self._up_send_lock:

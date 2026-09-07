@@ -52,13 +52,13 @@ class Location(Object):
     def __init__(
         self,
         *,
-        longitude: Optional[float] = None,
-        latitude: Optional[float] = None,
-        accuracy_radius: Optional[int] = None,
-        address: Optional[str] = None,
-        live_period: Optional[int] = None,
-        heading: Optional[int] = None,
-        proximity_alert_radius: Optional[int] = None
+        longitude: float | None = None,
+        latitude: float | None = None,
+        accuracy_radius: int | None = None,
+        address: str | None = None,
+        live_period: int | None = None,
+        heading: int | None = None,
+        proximity_alert_radius: int | None = None
     ):
         super().__init__()
 

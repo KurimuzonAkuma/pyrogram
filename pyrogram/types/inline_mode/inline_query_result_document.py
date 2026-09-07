@@ -78,14 +78,14 @@ class InlineQueryResultDocument(InlineQueryResult):
         document_url: str,
         title: str,
         mime_type: str = "application/zip",
-        id: Optional[str] = None,
+        id: str | None = None,
         caption: str = "",
         parse_mode: Optional["enums.ParseMode"] = None,
-        caption_entities: Optional[List["types.MessageEntity"]] = None,
+        caption_entities: list["types.MessageEntity"] | None = None,
         description: str = "",
         reply_markup: Optional["types.InlineKeyboardMarkup"] = None,
         input_message_content: Optional["types.InputMessageContent"] = None,
-        thumb_url: Optional[str] = None,
+        thumb_url: str | None = None,
         thumb_width: int = 0,
         thumb_height: int = 0
     ):

@@ -52,8 +52,8 @@ class ProximityAlertTriggered(Object):
     async def _parse(
         client: "pyrogram.Client",
         action: "raw.types.MessageActionGeoProximityReached",
-        users: Dict[int, "raw.base.User"],
-        chats: Dict[int, "raw.base.Chat"]
+        users: dict[int, "raw.base.User"],
+        chats: dict[int, "raw.base.Chat"]
     ) -> "ProximityAlertTriggered":
         from_id = utils.get_raw_peer_id(action.from_id)
         to_id = utils.get_raw_peer_id(action.to_id)

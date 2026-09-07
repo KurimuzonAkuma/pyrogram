@@ -62,7 +62,7 @@ class ChatMemberUpdated(Object, Update):
         old_chat_member: Optional["types.ChatMember"] = None,
         new_chat_member: Optional["types.ChatMember"] = None,
         invite_link: Optional["types.ChatInviteLink"] = None,
-        via_join_request: Optional[bool] = None
+        via_join_request: bool | None = None
     ):
         super().__init__(client)
 
@@ -78,8 +78,8 @@ class ChatMemberUpdated(Object, Update):
     async def _parse(
         client: "pyrogram.Client",
         update: Union["raw.types.UpdateChatParticipant", "raw.types.UpdateChannelParticipant"],
-        users: Dict[int, "raw.types.User"],
-        chats: Dict[int, "raw.types.Chat"]
+        users: dict[int, "raw.types.User"],
+        chats: dict[int, "raw.types.Chat"]
     ) -> "ChatMemberUpdated":
         chat_id = getattr(update, "chat_id", None) or getattr(update, "channel_id")
 

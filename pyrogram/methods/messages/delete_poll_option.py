@@ -25,7 +25,7 @@ from pyrogram import raw, types, utils
 class DeletePollOption:
     async def delete_poll_option(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         message_id: int,
         option: Union[str, "types.InputPollOption"],
     ) -> Union["types.Message", bool]:

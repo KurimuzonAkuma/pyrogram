@@ -22,7 +22,8 @@ import sqlite3
 import struct
 import time
 from pathlib import Path
-from typing import Any, Iterable, List, Optional, Tuple, Type, Union
+from typing import Any, List, Optional, Tuple, Type, Union
+from collections.abc import Iterable
 
 from pyrogram import raw
 
@@ -150,12 +151,12 @@ class SQLiteStorage(Storage):
         self,
         name: str,
         workdir: Path,
-        session_string: Optional[str] = None,
+        session_string: str | None = None,
         in_memory: bool = False,
         use_wal: bool = False,
     ):
         self.name = name
-        self._conn: Optional[sqlite3.Connection] = None
+        self._conn: sqlite3.Connection | None = None
 
         self.session_string = session_string
         self.in_memory = in_memory
@@ -178,7 +179,7 @@ class SQLiteStorage(Storage):
         return self._conn
 
     @conn.setter
-    def conn(self, value: Optional[sqlite3.Connection]) -> None:
+    def conn(self, value: sqlite3.Connection | None) -> None:
         self._conn = value
 
     async def update(self):
@@ -332,12 +333,12 @@ class SQLiteStorage(Storage):
         if not self.in_memory:
             Path(self.database).unlink()
 
-    async def update_peers(self, peers: Iterable[Tuple[int, int, str, Optional[str]]]):
+    async def update_peers(self, peers: Iterable[tuple[int, int, str, str | None]]):
         self.conn.executemany(
             "REPLACE INTO peers (id, access_hash, type, phone_number) VALUES (?, ?, ?, ?)", peers
         )
 
-    async def update_usernames(self, usernames: Iterable[Tuple[int, List[Optional[str]]]]):
+    async def update_usernames(self, usernames: Iterable[tuple[int, list[str | None]]]):
         usernames = list(usernames)
 
         if not usernames:
@@ -361,7 +362,7 @@ class SQLiteStorage(Storage):
             ],
         )
 
-    async def get_update_states(self, ids: Optional[Union[int, Iterable[int]]] = None):
+    async def get_update_states(self, ids: int | Iterable[int] | None = None):
         query = "SELECT id, pts, qts, date, seq FROM update_state"
 
         if ids is not None:
@@ -378,7 +379,7 @@ class SQLiteStorage(Storage):
         rows = self.conn.execute(query + " ORDER BY date ASC", state_ids).fetchall()
         return [UpdateState(*row) for row in rows]
 
-    async def set_update_state(self, update_state: Union[UpdateState, Iterable[UpdateState]]):
+    async def set_update_state(self, update_state: UpdateState | Iterable[UpdateState]):
         states = [update_state] if isinstance(update_state, UpdateState) else update_state
 
         self.conn.executemany(
@@ -465,32 +466,32 @@ class SQLiteStorage(Storage):
     # `object` (the class, not an instance) is the sentinel for "no value passed"
     #  (read the column instead of writing to it), so every accessor's parameter type
     #  has to include it alongside the column's real type.
-    async def dc_id(self, value: Union[int, Type[object]] = object):
+    async def dc_id(self, value: int | type[object] = object):
         return await self._accessor("sessions", "dc_id", value)
 
-    async def server_address(self, value: Union[str, Type[object]] = object):
+    async def server_address(self, value: str | type[object] = object):
         return await self._accessor("sessions", "server_address", value)
 
-    async def port(self, value: Union[int, Type[object]] = object):
+    async def port(self, value: int | type[object] = object):
         return await self._accessor("sessions", "port", value)
 
-    async def api_id(self, value: Union[int, Type[object]] = object):
+    async def api_id(self, value: int | type[object] = object):
         return await self._accessor("sessions", "api_id", value)
 
-    async def test_mode(self, value: Union[bool, Type[object]] = object):
+    async def test_mode(self, value: bool | type[object] = object):
         return await self._accessor("sessions", "test_mode", value)
 
-    async def auth_key(self, value: Union[bytes, Type[object]] = object):
+    async def auth_key(self, value: bytes | type[object] = object):
         return await self._accessor("sessions", "auth_key", value)
 
-    async def date(self, value: Union[int, Type[object]] = object):
+    async def date(self, value: int | type[object] = object):
         return await self._accessor("sessions", "date", value)
 
-    async def user_id(self, value: Union[int, Type[object]] = object):
+    async def user_id(self, value: int | type[object] = object):
         return await self._accessor("sessions", "user_id", value)
 
-    async def is_bot(self, value: Union[bool, Type[object]] = object):
+    async def is_bot(self, value: bool | type[object] = object):
         return await self._accessor("sessions", "is_bot", value)
 
-    async def version(self, value: Union[int, Type[object]] = object):
+    async def version(self, value: int | type[object] = object):
         return await self._accessor("version", "number", value)

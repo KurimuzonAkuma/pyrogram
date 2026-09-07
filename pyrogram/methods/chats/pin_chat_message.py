@@ -25,11 +25,11 @@ from pyrogram import raw, types, utils
 class PinChatMessage:
     async def pin_chat_message(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         message_id: int,
         disable_notification: bool = False,
         both_sides: bool = False,
-        business_connection_id: Optional[str] = None,
+        business_connection_id: str | None = None,
     ) -> Optional["types.Message"]:
         """Pin a message in a group, channel or your own chat.
         You must be an administrator in the chat for this to work and must have the "can_pin_messages" admin right in

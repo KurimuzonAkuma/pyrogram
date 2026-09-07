@@ -71,13 +71,13 @@ class Markdown:
 
     @staticmethod
     def escape_and_create_quotes(text: str, strict: bool):
-        text_lines: List[Union[str, None]] = text.splitlines()
+        text_lines: list[str | None] = text.splitlines()
 
         # Indexes of Already escaped lines
-        html_escaped_list: List[int] = []
+        html_escaped_list: list[int] = []
 
         # Temporary Queue to hold lines to be quoted
-        to_quote_list: List[Tuple[int, str]] = []
+        to_quote_list: list[tuple[int, str]] = []
 
         def create_blockquote(expandable: bool = False) -> None:
             """
@@ -247,7 +247,7 @@ class Markdown:
         return await self.html.parse(text)
 
     @staticmethod
-    def unparse(text: str, entities: List["types.MessageEntity"]):
+    def unparse(text: str, entities: list["types.MessageEntity"]):
         text = utils.add_surrogates(text)
 
         entities_offsets = []

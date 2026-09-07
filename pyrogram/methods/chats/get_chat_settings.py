@@ -25,7 +25,7 @@ from pyrogram import raw, types
 class GetChatSettings:
     async def get_chat_settings(
         self: "pyrogram.Client",
-        chat_id: Union[int, str]
+        chat_id: int | str
     ) -> "types.ChatSettings":
         """Get information about a chat settings.
 

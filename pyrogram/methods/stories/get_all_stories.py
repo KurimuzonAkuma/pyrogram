@@ -16,7 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import AsyncGenerator, Optional
+from typing import Optional
+from collections.abc import AsyncGenerator
 
 import pyrogram
 from pyrogram import raw
@@ -26,9 +27,9 @@ from pyrogram import types
 class GetAllStories:
     async def get_all_stories(
         self: "pyrogram.Client",
-        next: Optional[bool] = None,
-        hidden: Optional[bool] = None,
-        state: Optional[str] = None,
+        next: bool | None = None,
+        hidden: bool | None = None,
+        state: str | None = None,
     ) -> AsyncGenerator["types.Story", None]:
         """Get all active or hidden stories that displayed on the action bar on the homescreen.
 

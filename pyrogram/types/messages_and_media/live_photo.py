@@ -62,8 +62,8 @@ class LivePhoto(Object):
         width: int,
         height: int,
         duration: int,
-        mime_type: Optional[str] = None,
-        file_size: Optional[int] = None,
+        mime_type: str | None = None,
+        file_size: int | None = None,
     ):
         super().__init__(client)
 

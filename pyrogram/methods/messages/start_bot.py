@@ -26,7 +26,7 @@ from pyrogram import types
 class StartBot:
     async def start_bot(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         param: str = ""
     ) -> Optional["types.Message"]:
         """Start bot

@@ -26,7 +26,7 @@ from pyrogram import types
 class RevokeChatInviteLink:
     async def revoke_chat_invite_link(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         invite_link: str,
     ) -> Optional["types.ChatInviteLink"]:
         """Revoke a previously created invite link.

@@ -28,7 +28,7 @@ log = logging.getLogger(__name__)
 
 class GetGiftAuctionState:
     async def get_gift_auction_state(
-        self: "pyrogram.Client", auction_id: Union[str, int]
+        self: "pyrogram.Client", auction_id: str | int
     ) -> "types.GiftAuctionState":
         """Returns auction state for a gift.
 

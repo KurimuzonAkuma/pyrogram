@@ -43,7 +43,7 @@ class StubConnection:
         self.closed = asyncio.Event()
         self.packets = [_PACKET]
 
-    async def recv(self) -> Optional[bytes]:
+    async def recv(self) -> bytes | None:
         if self.packets:
             return self.packets.pop()
 

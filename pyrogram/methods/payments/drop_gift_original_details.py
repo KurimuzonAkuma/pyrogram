@@ -26,7 +26,7 @@ class DropGiftOriginalDetails:
     async def drop_gift_original_details(
         self: "pyrogram.Client",
         owned_gift_id: str,
-        star_count: Optional[int] = None,
+        star_count: int | None = None,
     ) -> bool:
         """Drops original details for an upgraded gift.
 

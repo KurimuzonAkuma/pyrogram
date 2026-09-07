@@ -25,11 +25,11 @@ from pyrogram import enums, raw, types, utils
 class OpenWebApp:
     async def open_web_app(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        bot_user_id: Union[int, str],
-        url: Optional[str] = None,
-        message_thread_id: Optional[int] = None,
-        direct_messages_topic_id: Optional[int] = None,
+        chat_id: int | str,
+        bot_user_id: int | str,
+        url: str | None = None,
+        message_thread_id: int | None = None,
+        direct_messages_topic_id: int | None = None,
         reply_parameters: Optional["types.ReplyParameters"] = None,
         platform: Optional["enums.ClientPlatform"] = None
     ) -> str:

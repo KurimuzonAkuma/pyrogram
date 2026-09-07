@@ -28,25 +28,18 @@ log = logging.getLogger(__name__)
 class SendChecklist:
     async def send_checklist(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         checklist: "types.InputChecklist",
-        disable_notification: Optional[bool] = None,
-        protect_content: Optional[bool] = None,
-        message_thread_id: Optional[int] = None,
-        effect_id: Optional[int] = None,
+        disable_notification: bool | None = None,
+        protect_content: bool | None = None,
+        message_thread_id: int | None = None,
+        effect_id: int | None = None,
         reply_parameters: Optional["types.ReplyParameters"] = None,
-        schedule_date: Optional[datetime] = None,
-        repeat_period: Optional[int] = None,
-        business_connection_id: Optional[str] = None,
-        paid_message_star_count: Optional[int] = None,
-        reply_markup: Optional[
-            Union[
-                "types.InlineKeyboardMarkup",
-                "types.ReplyKeyboardMarkup",
-                "types.ReplyKeyboardRemove",
-                "types.ForceReply"
-            ]
-        ] = None,
+        schedule_date: datetime | None = None,
+        repeat_period: int | None = None,
+        business_connection_id: str | None = None,
+        paid_message_star_count: int | None = None,
+        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
     ) -> Optional["types.Message"]:
         """Send a new checklist.
 

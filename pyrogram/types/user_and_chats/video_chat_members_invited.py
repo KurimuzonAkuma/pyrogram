@@ -33,7 +33,7 @@ class VideoChatMembersInvited(Object):
 
     def __init__(
         self, *,
-        users: List["types.User"]
+        users: list["types.User"]
     ):
         super().__init__()
 
@@ -43,7 +43,7 @@ class VideoChatMembersInvited(Object):
     async def _parse(
         client,
         action: "raw.types.MessageActionInviteToGroupCall",
-        users: Dict[int, "raw.types.User"]
+        users: dict[int, "raw.types.User"]
     ) -> "VideoChatMembersInvited":
         users = [await types.User._parse(client, users[i]) for i in action.users]
 

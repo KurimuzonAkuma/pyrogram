@@ -27,7 +27,7 @@ class SetBotInfoDescription:
         self: "pyrogram.Client",
         description: str,
         language_code: str = "",
-        for_my_bot: Optional[Union[int, str]] = None,
+        for_my_bot: int | str | None = None,
     ) -> bool:
         """Use this method to change the bot's description, which is shown in the chat with the bot if the chat is empty.
 

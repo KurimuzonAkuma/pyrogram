@@ -40,8 +40,8 @@ class PrivacyRule(Object):
     def __init__(
         self, *,
         type: "enums.PrivacyRuleType",
-        users: Optional[List["types.User"]] = None,
-        chats: Optional[List["types.Chat"]] = None
+        users: list["types.User"] | None = None,
+        chats: list["types.Chat"] | None = None
     ):
         super().__init__(None)
 

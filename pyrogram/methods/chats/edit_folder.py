@@ -26,23 +26,23 @@ class EditFolder:
     async def edit_folder(
         self: "pyrogram.Client",
         folder_id: int,
-        name: Optional[str] = None,
+        name: str | None = None,
         parse_mode: Optional["enums.ParseMode"] = None,
-        entities: Optional[List["types.MessageEntity"]] = None,
-        animate_custom_emoji: Optional[bool] = None,
-        icon: Optional[str] = None,
+        entities: list["types.MessageEntity"] | None = None,
+        animate_custom_emoji: bool | None = None,
+        icon: str | None = None,
         color: Optional["enums.FolderColor"] = None,
-        pinned_chats: Optional[List[Union[int, str]]] = None,
-        included_chats: Optional[List[Union[int, str]]] = None,
-        excluded_chats: Optional[List[Union[int, str]]] = None,
-        exclude_muted: Optional[bool] = None,
-        exclude_read: Optional[bool] = None,
-        exclude_archived: Optional[bool] = None,
-        include_contacts: Optional[bool] = None,
-        include_non_contacts: Optional[bool] = None,
-        include_bots: Optional[bool] = None,
-        include_groups: Optional[bool] = None,
-        include_channels: Optional[bool] = None
+        pinned_chats: list[int | str] | None = None,
+        included_chats: list[int | str] | None = None,
+        excluded_chats: list[int | str] | None = None,
+        exclude_muted: bool | None = None,
+        exclude_read: bool | None = None,
+        exclude_archived: bool | None = None,
+        include_contacts: bool | None = None,
+        include_non_contacts: bool | None = None,
+        include_bots: bool | None = None,
+        include_groups: bool | None = None,
+        include_channels: bool | None = None
     ) -> bool:
         """Update chat folder.
 

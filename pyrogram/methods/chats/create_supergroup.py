@@ -27,9 +27,9 @@ class CreateSupergroup:
         self: "pyrogram.Client",
         title: str,
         description: str = "",
-        is_forum: Optional[bool] = None,
-        message_auto_delete_time: Optional[int] = None,
-        for_import: Optional[bool] = None
+        is_forum: bool | None = None,
+        message_auto_delete_time: int | None = None,
+        for_import: bool | None = None
     ) -> "types.Chat":
         """Create a new supergroup.
 

@@ -69,13 +69,13 @@ class Audio(Object):
         file_id: str,
         file_unique_id: str,
         duration: int,
-        performer: Optional[str] = None,
-        title: Optional[str] = None,
-        file_name: Optional[str] = None,
-        mime_type: Optional[str] = None,
-        file_size: Optional[int] = None,
-        date: Optional[datetime] = None,
-        thumbs: Optional[List["types.Thumbnail"]] = None
+        performer: str | None = None,
+        title: str | None = None,
+        file_name: str | None = None,
+        mime_type: str | None = None,
+        file_size: int | None = None,
+        date: datetime | None = None,
+        thumbs: list["types.Thumbnail"] | None = None
     ):
         super().__init__(client)
 

@@ -49,11 +49,11 @@ class InputChecklist(Object):
     def __init__(
         self,
         title: str,
-        tasks: List["types.InputChecklistTask"],
+        tasks: list["types.InputChecklistTask"],
         parse_mode: Optional["enums.ParseMode"] = None,
-        entities: Optional[List["types.MessageEntity"]] = None,
-        others_can_add_tasks: Optional[bool] = None,
-        others_can_mark_tasks_as_done: Optional[bool] = None,
+        entities: list["types.MessageEntity"] | None = None,
+        others_can_add_tasks: bool | None = None,
+        others_can_mark_tasks_as_done: bool | None = None,
     ):
         super().__init__()
 

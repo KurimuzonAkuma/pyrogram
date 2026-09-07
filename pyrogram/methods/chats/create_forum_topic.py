@@ -25,10 +25,10 @@ from pyrogram import raw, types
 class CreateForumTopic:
     async def create_forum_topic(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         title: str,
-        icon_color: Optional[int] = None,
-        icon_emoji_id: Optional[int] = None
+        icon_color: int | None = None,
+        icon_emoji_id: int | None = None
     ) -> "types.ForumTopicCreated":
         """Create a new forum topic.
 

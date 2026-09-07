@@ -17,7 +17,8 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
-from typing import Union, Iterable
+from typing import Union
+from collections.abc import Iterable
 
 import pyrogram
 from pyrogram import raw, utils
@@ -34,7 +35,7 @@ class InputPrivacyRuleDisallowChats(InputPrivacyRule):
 
     def __init__(
         self,
-        chat_ids: Union[int, str, Iterable[Union[int, str]]],
+        chat_ids: int | str | Iterable[int | str],
     ):
         super().__init__()
 

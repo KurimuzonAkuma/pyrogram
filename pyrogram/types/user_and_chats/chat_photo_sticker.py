@@ -47,9 +47,9 @@ class ChatPhotoSticker(Object):
         *,
         client: Optional["pyrogram.Client"] = None,
         type: "enums.ChatPhotoStickerType",
-        set_name: Optional[str] = None,
-        sticker_id: Optional[int] = None,
-        custom_emoji_id: Optional[str] = None,
+        set_name: str | None = None,
+        sticker_id: int | None = None,
+        custom_emoji_id: str | None = None,
     ):
         super().__init__(client)
 
@@ -59,7 +59,7 @@ class ChatPhotoSticker(Object):
         self.custom_emoji_id = custom_emoji_id
 
     @staticmethod
-    async def _parse(client, video_sizes: List["raw.base.VideoSize"]):
+    async def _parse(client, video_sizes: list["raw.base.VideoSize"]):
         if not isinstance(video_sizes, list):
             return None
 

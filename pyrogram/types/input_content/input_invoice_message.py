@@ -36,7 +36,7 @@ class InputInvoiceMessage(InputInvoice):
     """
     def __init__(
         self,
-        chat_id: Union[int, str],
+        chat_id: int | str,
         message_id: int,
     ):
         super().__init__()

@@ -51,7 +51,7 @@ class ChatShared(Object):
             "raw.types.MessageActionRequestedPeer",
             "raw.types.MessageActionRequestedPeerSentMe"
         ],
-        chats: Dict[int, "raw.base.Chat"] = {}
+        chats: dict[int, "raw.base.Chat"] = {}
     ) -> Optional["ChatShared"]:
         peer = action.peers[0]
 

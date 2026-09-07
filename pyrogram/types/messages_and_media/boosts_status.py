@@ -59,10 +59,10 @@ class BoostsStatus(Object):
         current_level_boosts: int,
         boosts: int,
         boost_url: str,
-        my_boost: Optional[bool] = None,
-        gift_boosts: Optional[int] = None,
-        next_level_boosts: Optional[int] = None,
-        my_boost_slots: Optional[List[int]] = None
+        my_boost: bool | None = None,
+        gift_boosts: int | None = None,
+        next_level_boosts: int | None = None,
+        my_boost_slots: list[int] | None = None
     ):
         super().__init__()
 

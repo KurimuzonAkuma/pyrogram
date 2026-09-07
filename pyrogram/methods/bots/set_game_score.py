@@ -26,12 +26,12 @@ from pyrogram import types
 class SetGameScore:
     async def set_game_score(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         message_id: int,
-        user_id: Union[int, str],
+        user_id: int | str,
         score: int,
-        force: Optional[bool] = None,
-        disable_edit_message: Optional[bool] = None
+        force: bool | None = None,
+        disable_edit_message: bool | None = None
     ) -> Union["types.Message", bool]:
         # inline_message_id: str = None):  TODO Add inline_message_id
         """Set the score of the specified user in a game.

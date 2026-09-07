@@ -19,7 +19,8 @@
 import io
 import pathlib
 import re
-from typing import BinaryIO, Callable, Optional, Union
+from typing import BinaryIO, Optional, Union
+from collections.abc import Callable
 
 import pyrogram
 from pyrogram import raw, utils
@@ -46,7 +47,7 @@ class InputMediaSticker(InputMedia):
 
     def __init__(
         self,
-        media: Union[str, BinaryIO],
+        media: str | BinaryIO,
         emoji: str = "",
     ) -> None:
         super().__init__(media)
@@ -57,8 +58,8 @@ class InputMediaSticker(InputMedia):
         self,
         *,
         client: "pyrogram.Client",
-        chat_id: Optional[Union[int, str]] = None,
-        progress: Optional[Callable] = None,
+        chat_id: int | str | None = None,
+        progress: Callable | None = None,
         progress_args: tuple = (),
         **kwargs
     ) -> "raw.base.InputMedia":

@@ -25,7 +25,7 @@ from pyrogram import raw
 class CheckUsername:
     async def check_username(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         username: str
     ) -> bool:
         """Check if a username is available.

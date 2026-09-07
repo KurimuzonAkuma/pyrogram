@@ -30,7 +30,7 @@ class Parser:
         self.html = HTML(client)
         self.markdown = Markdown(client)
 
-    async def parse(self, text: str, mode: Optional[enums.ParseMode] = None) -> dict:
+    async def parse(self, text: str, mode: enums.ParseMode | None = None) -> dict:
         text = str(text or "").strip()
 
         if mode is None:

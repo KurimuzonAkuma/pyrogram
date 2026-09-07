@@ -25,10 +25,10 @@ from pyrogram import raw, types
 class AddChatMembers:
     async def add_chat_members(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        user_ids: Union[Union[int, str], List[Union[int, str]]],
+        chat_id: int | str,
+        user_ids: int | str | list[int | str],
         forward_limit: int = 100
-    ) -> List["types.FailedToAddMember"]:
+    ) -> list["types.FailedToAddMember"]:
         """Add new chat members to a group, supergroup or channel.
         This method can't be used to join a chat. Members can't be added to a channel if it has more than 200 members.
 

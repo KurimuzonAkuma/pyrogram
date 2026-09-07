@@ -29,12 +29,12 @@ from typing import (
     Literal,
     NamedTuple,
     Optional,
-    Pattern,
     Tuple,
     Type,
     TypedDict,
     Union,
 )
+from re import Pattern
 from urllib.parse import parse_qs, urlsplit
 
 from pyrogram.enums import ProxyScheme
@@ -49,8 +49,8 @@ class SOCKS4Proxy:
 
     hostname: str
     port: int
-    username: Optional[str] = None
-    password: Optional[str] = None
+    username: str | None = None
+    password: str | None = None
 
 
 @dataclass(frozen=True)
@@ -59,8 +59,8 @@ class SOCKS5Proxy:
 
     hostname: str
     port: int
-    username: Optional[str] = None
-    password: Optional[str] = None
+    username: str | None = None
+    password: str | None = None
 
 
 @dataclass(frozen=True)
@@ -69,8 +69,8 @@ class HTTPProxy:
 
     hostname: str
     port: int
-    username: Optional[str] = None
-    password: Optional[str] = None
+    username: str | None = None
+    password: str | None = None
 
 
 # The obfuscated2 key is 16 bytes, and a dd or ee marker prefixes it with one
@@ -92,7 +92,7 @@ class MTProxy:
     secret: bytes  # decoded, dd marker kept when present
     # Only an ee secret sets this: the domain its fake-TLS ClientHello presents
     #  as SNI, and the one the proxy checks the connection against.
-    sni_hostname: Optional[str] = None
+    sni_hostname: str | None = None
 
 
 # The relay is always reached over HTTPS, so a WEB proxy carries no port field.
@@ -116,7 +116,7 @@ class ProxyAddress(NamedTuple):
     port: int
 
 
-def client_proxy_address(proxy: Optional[Proxy]) -> Optional[ProxyAddress]:
+def client_proxy_address(proxy: Proxy | None) -> ProxyAddress | None:
     """The address `initConnection` reports, or None when there is nothing to report.
 
     tdesktop reports one for the MTProxy and WEB schemes and for no other, since a
@@ -129,7 +129,7 @@ def client_proxy_address(proxy: Optional[Proxy]) -> Optional[ProxyAddress]:
     return None
 
 
-def uses_random_padding(proxy: Optional[Proxy]) -> bool:
+def uses_random_padding(proxy: Proxy | None) -> bool:
     """Whether a proxy's secret asks for random padding on every packet.
 
     TDLib reads the same answer off the encoded secret's length, before the
@@ -147,10 +147,10 @@ def uses_random_padding(proxy: Optional[Proxy]) -> bool:
     return len(proxy.secret) == MARKED_SECRET_SIZE
 
 
-_PROXY_TYPES: Final[Tuple[type, ...]] = (SOCKS4Proxy, SOCKS5Proxy, HTTPProxy, MTProxy, WebProxy)
+_PROXY_TYPES: Final[tuple[type, ...]] = (SOCKS4Proxy, SOCKS5Proxy, HTTPProxy, MTProxy, WebProxy)
 
 # Schemes python_socks dials for us; the rest need a transport of their own.
-_DIALED_PROXY_TYPES: Final[Dict[ProxyScheme, Type[Union[SOCKS4Proxy, SOCKS5Proxy, HTTPProxy]]]] = {
+_DIALED_PROXY_TYPES: Final[dict[ProxyScheme, type[SOCKS4Proxy | SOCKS5Proxy | HTTPProxy]]] = {
     ProxyScheme.SOCKS4: SOCKS4Proxy,
     ProxyScheme.SOCKS5: SOCKS5Proxy,
     ProxyScheme.HTTP: HTTPProxy,
@@ -270,7 +270,7 @@ _WEB_FAKE_TLS_REJECTION: Final[str] = (
 
 class _DecodedSecret(NamedTuple):
     secret: bytes  # bare 16 bytes, or 17 with the dd marker kept
-    sni_hostname: Optional[str]  # the domain an ee secret appends, else None
+    sni_hostname: str | None  # the domain an ee secret appends, else None
 
 
 def _decode_fake_tls_secret(full_secret: bytes) -> _DecodedSecret:
@@ -294,7 +294,7 @@ def _decode_fake_tls_secret(full_secret: bytes) -> _DecodedSecret:
     return _DecodedSecret(secret=full_secret[1:MARKED_SECRET_SIZE], sni_hostname=sni_hostname)
 
 
-def _base64_decoded(encoded_secret: str, *, altchars: bytes) -> Optional[bytes]:
+def _base64_decoded(encoded_secret: str, *, altchars: bytes) -> bytes | None:
     # Telegram's own links drop the `=` padding that `base64` still requires.
     padded = encoded_secret + "=" * (-len(encoded_secret) % 4)
 
@@ -371,7 +371,7 @@ def _build_web_proxy(*, hostname: str, encoded_secret: str) -> WebProxy:
     )
 
 
-def _build_mtproxy(*, hostname: str, port: Union[int, str], encoded_secret: str) -> MTProxy:
+def _build_mtproxy(*, hostname: str, port: int | str, encoded_secret: str) -> MTProxy:
     decoded = _decode_mtproxy_secret(encoded_secret, scheme=ProxyScheme.MTPROXY)
 
     return MTProxy(
@@ -386,16 +386,16 @@ def _build_dialed_proxy(
     *,
     scheme: ProxyScheme,
     hostname: str,
-    port: Union[int, str],
-    username: Optional[str] = None,
-    password: Optional[str] = None,
-) -> Union[SOCKS4Proxy, SOCKS5Proxy, HTTPProxy]:
+    port: int | str,
+    username: str | None = None,
+    password: str | None = None,
+) -> SOCKS4Proxy | SOCKS5Proxy | HTTPProxy:
     proxy_type = _DIALED_PROXY_TYPES[scheme]
 
     return proxy_type(hostname=hostname, port=int(port), username=username, password=password)
 
 
-def _parse_scheme(scheme_value: Optional[str]) -> ProxyScheme:
+def _parse_scheme(scheme_value: str | None) -> ProxyScheme:
     if not scheme_value:
         msg = "proxy dict must contain 'scheme'"
         raise ValueError(msg)
@@ -419,7 +419,7 @@ _SOCKS_LINK_RE: Final[Pattern[str]] = re.compile(
 )
 
 
-def _query_param(query_parameters: Dict[str, List[str]], *, name: str) -> Optional[str]:
+def _query_param(query_parameters: dict[str, list[str]], *, name: str) -> str | None:
     values = query_parameters.get(name)
 
     return values[0] if values else None
@@ -529,7 +529,7 @@ def _parse_proxy_dict(proxy: ProxyDict) -> Proxy:
     )
 
 
-def normalize_proxy(proxy: Union[str, ProxyDict, Proxy, None]) -> Optional[Proxy]:
+def normalize_proxy(proxy: str | ProxyDict | Proxy | None) -> Proxy | None:
     if proxy is None:
         return None
 

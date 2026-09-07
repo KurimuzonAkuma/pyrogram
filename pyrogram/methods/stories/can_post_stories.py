@@ -25,7 +25,7 @@ from pyrogram import raw
 class CanPostStories:
     async def can_post_stories(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
     ) -> int:
         """Check whether we can post stories as the specified chat.
 

@@ -27,7 +27,7 @@ class GetBotCommands:
         self: "pyrogram.Client",
         scope: "types.BotCommandScope" = types.BotCommandScopeDefault(),
         language_code: str = "",
-    ) -> List["types.BotCommand"]:
+    ) -> list["types.BotCommand"]:
         """Get the current list of the bot's commands for the given scope and user language.
         Returns Array of BotCommand on success. If commands aren't set, an empty list is returned.
 

@@ -42,10 +42,10 @@ class InputPollMedia(InputMedia):
 
     def __init__(
         self,
-        media: Optional[Union[str, BinaryIO]] = None,
+        media: str | BinaryIO | None = None,
         caption: str = "",
-        parse_mode: Optional[str] = None,
-        caption_entities: Optional[List[MessageEntity]] = None,
+        parse_mode: str | None = None,
+        caption_entities: list[MessageEntity] | None = None,
     ):
         super().__init__()
 

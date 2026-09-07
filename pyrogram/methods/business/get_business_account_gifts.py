@@ -16,7 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import AsyncGenerator, Optional
+from typing import Optional
+from collections.abc import AsyncGenerator
 
 import pyrogram
 from pyrogram import raw, types
@@ -27,16 +28,16 @@ class GetBusinessAccountGifts:
     async def get_business_account_gifts(
         self: "pyrogram.Client",
         business_connection_id: str,
-        collection_id: Optional[int] = None,
-        exclude_unsaved: Optional[bool] = None,
-        exclude_saved: Optional[bool] = None,
-        exclude_unlimited: Optional[bool] = None,
-        exclude_upgradable: Optional[bool] = None,
-        exclude_non_upgradable: Optional[bool] = None,
-        exclude_upgraded: Optional[bool] = None,
-        exclude_without_colors: Optional[bool] = None,
-        exclude_hosted: Optional[bool] = None,
-        sort_by_price: Optional[bool] = None,
+        collection_id: int | None = None,
+        exclude_unsaved: bool | None = None,
+        exclude_saved: bool | None = None,
+        exclude_unlimited: bool | None = None,
+        exclude_upgradable: bool | None = None,
+        exclude_non_upgradable: bool | None = None,
+        exclude_upgraded: bool | None = None,
+        exclude_without_colors: bool | None = None,
+        exclude_hosted: bool | None = None,
+        sort_by_price: bool | None = None,
         limit: int = 0,
         offset: str = "",
     ) -> AsyncGenerator["types.Gift", None]:

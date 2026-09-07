@@ -43,10 +43,10 @@ class VerificationStatus(Object):
     def __init__(
         self,
         *,
-        is_verified: Optional[bool] = None,
-        is_scam: Optional[bool] = None,
-        is_fake: Optional[bool] = None,
-        bot_verification_icon_custom_emoji_id: Optional[str] = None,
+        is_verified: bool | None = None,
+        is_scam: bool | None = None,
+        is_fake: bool | None = None,
+        bot_verification_icon_custom_emoji_id: str | None = None,
     ):
         super().__init__()
 

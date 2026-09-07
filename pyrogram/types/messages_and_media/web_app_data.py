@@ -37,7 +37,7 @@ class WebAppData(Object):
     def __init__(
         self,
         *,
-        data: Optional[str],
+        data: str | None,
         button_text: str,
     ):
         super().__init__()

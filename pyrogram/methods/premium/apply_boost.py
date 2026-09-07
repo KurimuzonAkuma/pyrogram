@@ -26,7 +26,7 @@ from pyrogram import types
 class ApplyBoost:
     async def apply_boost(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
     ) -> bool:
         """Apply boost
 

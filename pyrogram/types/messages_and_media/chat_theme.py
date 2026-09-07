@@ -37,7 +37,7 @@ class ChatTheme(Object):
             For themes based on an upgraded gifts.
     """
 
-    def __init__(self, *, name: Optional[str] = None, gift: Optional["types.Gift"] = None):
+    def __init__(self, *, name: str | None = None, gift: Optional["types.Gift"] = None):
         super().__init__()
 
         self.name = name

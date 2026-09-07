@@ -41,10 +41,10 @@ class FactCheck(Object):
     """
     def __init__(
         self, *,
-        need_check: Optional[bool] = None,
-        country: Optional[str] = None,
-        text: Optional[str] = None,
-        entities: Optional[List["types.MessageEntity"]] = None
+        need_check: bool | None = None,
+        country: str | None = None,
+        text: str | None = None,
+        entities: list["types.MessageEntity"] | None = None
     ):
         super().__init__()
 
@@ -57,7 +57,7 @@ class FactCheck(Object):
     async def _parse(
         client: "pyrogram.Client",
         fact_check: "raw.types.FactCheck",
-        users: Dict[int, List["raw.base.User"]]
+        users: dict[int, list["raw.base.User"]]
     ) -> Optional["FactCheck"]:
         if not fact_check:
             return None

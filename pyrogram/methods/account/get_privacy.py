@@ -26,7 +26,7 @@ class GetPrivacy:
     async def get_privacy(
         self: "pyrogram.Client",
         key: "enums.PrivacyKey"
-    ) -> List["types.PrivacyRule"]:
+    ) -> list["types.PrivacyRule"]:
         """Get account privacy rules.
 
         .. include:: /_includes/usable-by/users.rst

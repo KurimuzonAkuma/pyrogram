@@ -25,9 +25,9 @@ from pyrogram import raw, types
 class VotePoll:
     async def vote_poll(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         message_id: int,
-        options: Union[int, List[int]]
+        options: int | list[int]
     ) -> "types.Poll":
         """Vote a poll.
 

@@ -190,7 +190,7 @@ class HTML:
         }
 
     @staticmethod
-    def unparse(text: str, entities: List["types.MessageEntity"]) -> str:
+    def unparse(text: str, entities: list["types.MessageEntity"]) -> str:
         def parse_one(entity: "types.MessageEntity"):
             """
             Parses a single entity and returns (start_tag, start), (end_tag, end)

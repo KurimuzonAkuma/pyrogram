@@ -64,16 +64,16 @@ class EmojiStatus(Object):
         self,
         *,
         client: Optional["pyrogram.Client"] = None,
-        custom_emoji_id: Optional[str] = None,
-        gift_id: Optional[int] = None,
-        until_date: Optional[datetime] = None,
-        title: Optional[str] = None,
-        name: Optional[str] = None,
-        pattern_custom_emoji_id: Optional[str] = None,
-        center_color: Optional[int] = None,
-        edge_color: Optional[int] = None,
-        pattern_color: Optional[int] = None,
-        text_color: Optional[int] = None
+        custom_emoji_id: str | None = None,
+        gift_id: int | None = None,
+        until_date: datetime | None = None,
+        title: str | None = None,
+        name: str | None = None,
+        pattern_custom_emoji_id: str | None = None,
+        center_color: int | None = None,
+        edge_color: int | None = None,
+        pattern_color: int | None = None,
+        text_color: int | None = None
     ):
         super().__init__(client)
 

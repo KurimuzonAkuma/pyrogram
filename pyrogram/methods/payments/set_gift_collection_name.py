@@ -24,7 +24,7 @@ from pyrogram import raw, types
 class SetGiftCollectionName:
     async def set_gift_collection_name(
         self: "pyrogram.Client",
-        owner_id: Union[int, str],
+        owner_id: int | str,
         collection_id: int,
         name: str
     ) -> "types.GiftCollection":

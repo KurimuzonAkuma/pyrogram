@@ -44,9 +44,9 @@ class PaidMediaPreview(Object):
     def __init__(
         self,
         *,
-        width: Optional[int] = None,
-        height: Optional[int] = None,
-        duration: Optional[int] = None,
+        width: int | None = None,
+        height: int | None = None,
+        duration: int | None = None,
         thumbnail: Optional["types.StrippedThumbnail"] = None
     ):
         super().__init__()

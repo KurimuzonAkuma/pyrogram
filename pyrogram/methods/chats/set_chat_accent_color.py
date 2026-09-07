@@ -25,9 +25,9 @@ from pyrogram import raw
 class SetChatAccentColor:
     async def set_chat_accent_color(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        accent_color_id: Optional[int] = None,
-        background_custom_emoji_id: Optional[str] = None,
+        chat_id: int | str,
+        accent_color_id: int | None = None,
+        background_custom_emoji_id: str | None = None,
     ) -> bool:
         """Update color
 

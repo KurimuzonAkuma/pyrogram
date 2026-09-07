@@ -67,15 +67,15 @@ class GiftedPremium(Object):
         *,
         gifter: Optional["types.User"] = None,
         receiver: "types.User",
-        currency: Optional[str] = None,
-        amount: Optional[int] = None,
-        cryptocurrency: Optional[str] = None,
-        cryptocurrency_amount: Optional[int] = None,
-        month_count: Optional[int] = None,
-        day_count: Optional[int] = None,
+        currency: str | None = None,
+        amount: int | None = None,
+        cryptocurrency: str | None = None,
+        cryptocurrency_amount: int | None = None,
+        month_count: int | None = None,
+        day_count: int | None = None,
         sticker: Optional["types.Sticker"] = None,
-        caption: Optional[str] = None,
-        caption_entities: Optional[List["types.MessageEntity"]] = None
+        caption: str | None = None,
+        caption_entities: list["types.MessageEntity"] | None = None
     ):
         super().__init__()
 
@@ -97,7 +97,7 @@ class GiftedPremium(Object):
         action: "raw.types.MessageActionGiftPremium",
         gifter: "raw.base.User",
         receiver: "raw.base.User",
-        users: Dict[int, "raw.base.User"]
+        users: dict[int, "raw.base.User"]
     ) -> "GiftedPremium":
         raw_stickers = await client.invoke(
             raw.functions.messages.GetStickerSet(

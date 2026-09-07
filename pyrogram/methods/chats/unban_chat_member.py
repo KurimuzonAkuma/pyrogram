@@ -25,8 +25,8 @@ from pyrogram import raw
 class UnbanChatMember:
     async def unban_chat_member(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        user_id: Union[int, str]
+        chat_id: int | str,
+        user_id: int | str
     ) -> bool:
         """Unban a previously banned user in a supergroup or channel.
         The user will **not** return to the group or channel automatically, but will be able to join via link, etc.

@@ -62,12 +62,12 @@ class GiftedStars(Object):
         *,
         gifter: Optional["types.User"] = None,
         receiver: "types.User",
-        currency: Optional[str] = None,
-        amount: Optional[int] = None,
-        cryptocurrency: Optional[str] = None,
-        cryptocurrency_amount: Optional[int] = None,
-        star_count: Optional[int] = None,
-        transaction_id: Optional[str] = None,
+        currency: str | None = None,
+        amount: int | None = None,
+        cryptocurrency: str | None = None,
+        cryptocurrency_amount: int | None = None,
+        star_count: int | None = None,
+        transaction_id: str | None = None,
         sticker: Optional["types.Sticker"] = None,
     ):
         super().__init__()

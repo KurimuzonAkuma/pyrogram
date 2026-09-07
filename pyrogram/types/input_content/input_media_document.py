@@ -19,7 +19,8 @@
 import io
 import pathlib
 import re
-from typing import BinaryIO, Callable, List, Optional, Union
+from typing import BinaryIO, List, Optional, Union
+from collections.abc import Callable
 
 import pyrogram
 from pyrogram import raw, utils
@@ -65,12 +66,12 @@ class InputMediaDocument(InputMedia):
 
     def __init__(
         self,
-        media: Union[str, BinaryIO],
-        thumb: Optional[str] = None,
+        media: str | BinaryIO,
+        thumb: str | None = None,
         caption: str = "",
         parse_mode: Optional["enums.ParseMode"] = None,
-        caption_entities: Optional[List[MessageEntity]] = None,
-        file_name: Optional[str] = None
+        caption_entities: list[MessageEntity] | None = None,
+        file_name: str | None = None
     ):
         super().__init__(media, caption, parse_mode, caption_entities)
 
@@ -81,8 +82,8 @@ class InputMediaDocument(InputMedia):
         self,
         *,
         client: "pyrogram.Client",
-        chat_id: Optional[Union[int, str]] = None,
-        progress: Optional[Callable] = None,
+        chat_id: int | str | None = None,
+        progress: Callable | None = None,
         progress_args: tuple = (),
         **kwargs
     ) -> "raw.base.InputMedia":

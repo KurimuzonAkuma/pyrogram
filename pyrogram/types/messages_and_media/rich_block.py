@@ -107,11 +107,11 @@ class RichBlock(Object):
     async def _parse(
         client: "pyrogram.Client",
         rich_block: "raw.base.PageBlock",
-        photos: Dict[int, "raw.base.Photo"] = {},
-        documents: Dict[int, "raw.base.Document"] = {},
-        part: Optional[bool] = None,
-        users: Dict[int, "raw.base.User"] = {},
-        chats: Dict[int, "raw.base.Chat"] = {},
+        photos: dict[int, "raw.base.Photo"] = {},
+        documents: dict[int, "raw.base.Document"] = {},
+        part: bool | None = None,
+        users: dict[int, "raw.base.User"] = {},
+        chats: dict[int, "raw.base.Chat"] = {},
     ) -> "RichBlock":
         if isinstance(rich_block, raw.types.PageBlockParagraph):
             return RichBlockParagraph(
@@ -383,11 +383,11 @@ class RichBlockTableCell(RichBlock):
     def __init__(
         self,
         text: Optional["types.RichText"] = None,
-        is_header: Optional[bool] = None,
-        colspan: Optional[int] = None,
-        rowspan: Optional[int] = None,
-        align: Optional[str] = None,
-        valign: Optional[str] = None,
+        is_header: bool | None = None,
+        colspan: int | None = None,
+        rowspan: int | None = None,
+        align: str | None = None,
+        valign: str | None = None,
     ):
         super().__init__()
 
@@ -451,11 +451,11 @@ class RichBlockListItem(RichBlock):
     def __init__(
         self,
         label: str,
-        blocks: List["types.RichBlock"],
-        has_checkbox: Optional[bool] = None,
-        is_checked: Optional[bool] = None,
-        value: Optional[int] = None,
-        type: Optional[str] = None,
+        blocks: list["types.RichBlock"],
+        has_checkbox: bool | None = None,
+        is_checked: bool | None = None,
+        value: int | None = None,
+        type: str | None = None,
     ):
         super().__init__()
 
@@ -592,7 +592,7 @@ class RichBlockPreformatted(RichBlock):
     def __init__(
         self,
         text: "types.RichText",
-        language: Optional[str] = None,
+        language: str | None = None,
     ):
         super().__init__()
 
@@ -657,7 +657,7 @@ class RichBlockList(RichBlock):
             Items of the list.
     """
 
-    def __init__(self, items: List["types.RichBlockListItem"]):
+    def __init__(self, items: list["types.RichBlockListItem"]):
         super().__init__()
 
         self.items = items
@@ -674,7 +674,7 @@ class RichBlockBlockQuotation(RichBlock):
             Credit of the block.
     """
 
-    def __init__(self, blocks: List["types.RichBlock"], credit: Optional["types.RichText"] = None):
+    def __init__(self, blocks: list["types.RichBlock"], credit: Optional["types.RichText"] = None):
         super().__init__()
 
         self.blocks = blocks
@@ -711,7 +711,7 @@ class RichBlockCollage(RichBlock):
     """
 
     def __init__(
-        self, blocks: List["types.RichBlock"], caption: Optional["types.RichBlockCaption"] = None
+        self, blocks: list["types.RichBlock"], caption: Optional["types.RichBlockCaption"] = None
     ):
         super().__init__()
 
@@ -731,7 +731,7 @@ class RichBlockSlideshow(RichBlock):
     """
 
     def __init__(
-        self, blocks: List["types.RichBlock"], caption: Optional["types.RichBlockCaption"] = None
+        self, blocks: list["types.RichBlock"], caption: Optional["types.RichBlockCaption"] = None
     ):
         super().__init__()
 
@@ -758,9 +758,9 @@ class RichBlockTable(RichBlock):
 
     def __init__(
         self,
-        cells: List[List["types.RichBlockTableCell"]],
-        is_bordered: Optional[bool] = None,
-        is_striped: Optional[bool] = None,
+        cells: list[list["types.RichBlockTableCell"]],
+        is_bordered: bool | None = None,
+        is_striped: bool | None = None,
         caption: Optional["types.RichBlockCaption"] = None,
     ):
         super().__init__()
@@ -810,8 +810,8 @@ class RichBlockDetails(RichBlock):
     def __init__(
         self,
         summary: "types.RichText",
-        blocks: List["types.RichBlock"],
-        is_open: Optional[bool] = None,
+        blocks: list["types.RichBlock"],
+        is_open: bool | None = None,
     ):
         super().__init__()
 
@@ -874,7 +874,7 @@ class RichBlockAnimation(RichBlock):
     def __init__(
         self,
         animation: "types.Animation",
-        has_spoiler: Optional[bool] = None,
+        has_spoiler: bool | None = None,
         caption: Optional["types.RichBlockCaption"] = None,
     ):
         super().__init__()
@@ -919,7 +919,7 @@ class RichBlockPhoto(RichBlock):
     def __init__(
         self,
         photo: "types.Photo",
-        has_spoiler: Optional[bool] = None,
+        has_spoiler: bool | None = None,
         caption: Optional["types.RichBlockCaption"] = None,
     ):
         super().__init__()
@@ -946,7 +946,7 @@ class RichBlockVideo(RichBlock):
     def __init__(
         self,
         video: "types.Video",
-        has_spoiler: Optional[bool] = None,
+        has_spoiler: bool | None = None,
         caption: Optional["types.RichBlockCaption"] = None,
     ):
         super().__init__()

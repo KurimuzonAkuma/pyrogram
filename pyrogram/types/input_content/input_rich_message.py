@@ -45,10 +45,10 @@ class InputRichMessage(Object):
 
     def __init__(
         self,
-        html: Optional[str] = None,
-        markdown: Optional[str] = None,
-        is_rtl: Optional[bool] = None,
-        skip_entity_detection: Optional[bool] = None,
+        html: str | None = None,
+        markdown: str | None = None,
+        is_rtl: bool | None = None,
+        skip_entity_detection: bool | None = None,
     ):
         super().__init__()
 

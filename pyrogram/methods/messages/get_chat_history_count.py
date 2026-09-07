@@ -28,7 +28,7 @@ log = logging.getLogger(__name__)
 class GetChatHistoryCount:
     async def get_chat_history_count(
         self: "pyrogram.Client",
-        chat_id: Union[int, str]
+        chat_id: int | str
     ) -> int:
         """Get the total count of messages in a chat.
 

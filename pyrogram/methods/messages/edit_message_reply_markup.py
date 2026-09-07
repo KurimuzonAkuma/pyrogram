@@ -28,9 +28,9 @@ from pyrogram import utils
 class EditMessageReplyMarkup:
     async def edit_message_reply_markup(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         message_id: int,
-        schedule_date: Optional[datetime] = None,
+        schedule_date: datetime | None = None,
         reply_markup: Optional["types.InlineKeyboardMarkup"] = None,
     ) -> "types.Message":
         """Edit only the reply markup of messages sent by the bot.

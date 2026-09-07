@@ -17,7 +17,8 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from typing import AsyncGenerator, Union
+from typing import Union
+from collections.abc import AsyncGenerator
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -28,7 +29,7 @@ log = logging.getLogger(__name__)
 class GetUserPersonalChatMessages:
     async def get_user_personal_chat_messages(
         self: "pyrogram.Client",
-        user_id: Union[int, str],
+        user_id: int | str,
         limit: int = 0,
         min_id: int = 0,
         max_id: int = 0,

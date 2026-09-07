@@ -17,7 +17,8 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from typing import List, Match, Optional, Union
+from typing import List, Optional, Union
+from re import Match
 
 import pyrogram
 from pyrogram import enums, raw, types
@@ -75,12 +76,12 @@ class CallbackQuery(Object, Update):
         client: Optional["pyrogram.Client"] = None,
         id: str,
         from_user: "types.User",
-        chat_instance: Optional[str] = None,
+        chat_instance: str | None = None,
         message: Optional["types.Message"] = None,
-        inline_message_id: Optional[str] = None,
-        data: Optional[Union[str, bytes]] = None,
-        game_short_name: Optional[str] = None,
-        matches: Optional[List[Match]] = None
+        inline_message_id: str | None = None,
+        data: str | bytes | None = None,
+        game_short_name: str | None = None,
+        matches: list[Match] | None = None
     ):
         super().__init__(client)
 
@@ -167,7 +168,7 @@ class CallbackQuery(Object, Update):
             client=client
         )
 
-    async def answer(self, text: Optional[str] = None, show_alert: Optional[bool] = None, url: Optional[str] = None, cache_time: int = 0):
+    async def answer(self, text: str | None = None, show_alert: bool | None = None, url: str | None = None, cache_time: int = 0):
         """Bound method *answer* of :obj:`~pyrogram.types.CallbackQuery`.
 
         Use this method as a shortcut for:
@@ -213,12 +214,12 @@ class CallbackQuery(Object, Update):
 
     async def edit_message_text(
         self,
-        text: Optional[str] = None,
+        text: str | None = None,
         parse_mode: Optional["enums.ParseMode"] = None,
         link_preview_options: Optional["types.LinkPreviewOptions"] = None,
         rich_message: Optional["types.InputRichMessage"] = None,
         reply_markup: Optional["types.InlineKeyboardMarkup"] = None,
-        disable_web_page_preview: Optional[bool] = None,
+        disable_web_page_preview: bool | None = None,
     ) -> Union["types.Message", bool]:
         """Edit the text of messages attached to callback queries.
 

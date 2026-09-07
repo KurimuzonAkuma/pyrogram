@@ -26,9 +26,9 @@ class UpgradeGift:
     async def upgrade_gift(
         self: "pyrogram.Client",
         owned_gift_id: str,
-        keep_original_details: Optional[bool] = None,
-        star_count: Optional[int] = None,
-        business_connection_id: Optional[str] = None
+        keep_original_details: bool | None = None,
+        star_count: int | None = None,
+        business_connection_id: str | None = None
     ) -> Optional["types.Message"]:
         """Upgrade a given regular gift to a unique gift.
 

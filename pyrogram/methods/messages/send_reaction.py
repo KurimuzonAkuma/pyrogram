@@ -25,12 +25,12 @@ from pyrogram import raw
 class SendReaction:
     async def send_reaction(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        message_id: Optional[int] = None,
-        emoji: Optional[Union[int, str, List[Union[int, str]]]] = None,
-        story_id: Optional[int] = None,
+        chat_id: int | str,
+        message_id: int | None = None,
+        emoji: int | str | list[int | str] | None = None,
+        story_id: int | None = None,
         big: bool = False,
-        business_connection_id: Optional[str] = None
+        business_connection_id: str | None = None
     ) -> bool:
         """Send a reaction to a message or story.
 
@@ -79,7 +79,7 @@ class SendReaction:
                 # Retract a reaction
                 await app.send_reaction(chat_id, message_id=message_id)
         """
-        reactions: Optional[List[Union["raw.types.ReactionCustomEmoji", "raw.types.ReactionEmoji"]]]
+        reactions: list[raw.types.ReactionCustomEmoji | raw.types.ReactionEmoji] | None
 
         if isinstance(emoji, list):
             reactions = [

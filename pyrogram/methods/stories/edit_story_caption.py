@@ -24,11 +24,11 @@ from pyrogram import enums, raw, types, utils
 class EditStoryCaption:
     async def edit_story_caption(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         story_id: int,
         caption: str,
         parse_mode: Optional["enums.ParseMode"] = None,
-        caption_entities: Optional[List["types.MessageEntity"]] = None,
+        caption_entities: list["types.MessageEntity"] | None = None,
     ) -> "types.Story":
         """Edit the caption of story.
 

@@ -25,7 +25,7 @@ from pyrogram import raw
 class ShowChatStories:
     async def show_chat_stories(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
     ) -> bool:
         """Show the active stories of a user and display them in the action bar on the homescreen.
 

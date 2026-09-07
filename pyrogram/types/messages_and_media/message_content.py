@@ -153,8 +153,8 @@ class MessageContent(Object):
         client,
         media: "raw.base.MessageMedia",
         message: Optional["raw.base.TextWithEntities"] = None,
-        users: Dict[int, "raw.types.User"] = {},
-        chats: Dict[int, "raw.types.Chat"] = {},
+        users: dict[int, "raw.types.User"] = {},
+        chats: dict[int, "raw.types.Chat"] = {},
     ) -> "MessageContent":
         photo = None
         location = None

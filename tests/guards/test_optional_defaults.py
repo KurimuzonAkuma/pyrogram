@@ -18,7 +18,8 @@
 
 import ast
 import pathlib
-from typing import Dict, Final, Iterator, List, Tuple
+from typing import Dict, Final, List, Tuple
+from collections.abc import Iterator
 
 from tests.guards.name_resolution import REPOSITORY_ROOT, hand_written_files
 
@@ -27,7 +28,7 @@ from tests.guards.name_resolution import REPOSITORY_ROOT, hand_written_files
 #  always only the second is true, and the body then never handles the `None` it advertises.
 #
 # The exemptions are the cases where both really are true, keyed by file and parameter name.
-_EXEMPTIONS: Final[Dict[Tuple[str, str], str]] = {
+_EXEMPTIONS: Final[dict[tuple[str, str], str]] = {
     (
         "pyrogram/filters.py",
         "prefixes",
@@ -81,9 +82,9 @@ def defaults_to_none(node: ast.expr) -> bool:
     return isinstance(node, ast.Constant) and node.value is None
 
 
-def parameters_with_defaults(node: ast.AST) -> Iterator[Tuple[ast.arg, ast.expr]]:
+def parameters_with_defaults(node: ast.AST) -> Iterator[tuple[ast.arg, ast.expr]]:
     arguments = node.args
-    positional: List[ast.arg] = arguments.posonlyargs + arguments.args
+    positional: list[ast.arg] = arguments.posonlyargs + arguments.args
 
     for parameter, default in zip(reversed(positional), reversed(arguments.defaults)):
         yield parameter, default
@@ -93,8 +94,8 @@ def parameters_with_defaults(node: ast.AST) -> Iterator[Tuple[ast.arg, ast.expr]
             yield parameter, default
 
 
-def optional_parameters_that_do_not_default_to_none() -> List[Tuple[str, int, str]]:
-    found: List[Tuple[str, int, str]] = []
+def optional_parameters_that_do_not_default_to_none() -> list[tuple[str, int, str]]:
+    found: list[tuple[str, int, str]] = []
 
     for path in hand_written_files():
         relative = path.relative_to(REPOSITORY_ROOT).as_posix()

@@ -38,14 +38,14 @@ class TCPIntermediatePadded(TCP):
     def __init__(
         self,
         ipv6: bool = False,
-        proxy: Optional[Proxy] = None,
+        proxy: Proxy | None = None,
         crypto_executor_workers: int = 1,
-        loop: Optional[asyncio.AbstractEventLoop] = None,
-        dc_id: Optional[int] = None,
+        loop: asyncio.AbstractEventLoop | None = None,
+        dc_id: int | None = None,
     ) -> None:
         super().__init__(ipv6, proxy, crypto_executor_workers, loop, dc_id=dc_id)
 
-    async def connect(self, address: Tuple[str, int]) -> None:
+    async def connect(self, address: tuple[str, int]) -> None:
         self.marker_event.clear()
         await super().connect(address)
         if not self.opens_with_obfuscated2_header:
@@ -58,7 +58,7 @@ class TCPIntermediatePadded(TCP):
         padding = os.urandom(os.urandom(1)[0] & 0x0F)
         await super().send(pack("<i", len(data) + len(padding)) + data + padding)
 
-    async def recv(self, length: int = 0) -> Optional[bytes]:
+    async def recv(self, length: int = 0) -> bytes | None:
         length = await super().recv(4)
 
         if length is None:

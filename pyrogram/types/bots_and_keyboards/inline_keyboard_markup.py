@@ -38,8 +38,8 @@ class InlineKeyboardMarkup(Object):
 
     def __init__(
         self,
-        inline_keyboard: List[List["types.InlineKeyboardButton"]],
-        force_reply: Optional[bool] = None,
+        inline_keyboard: list[list["types.InlineKeyboardButton"]],
+        force_reply: bool | None = None,
     ):
         super().__init__()
 

@@ -24,7 +24,7 @@ from pyrogram import raw, types, utils
 class SendScreenshotNotification:
     async def send_screenshot_notification(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         reply_parameters: Optional["types.ReplyParameters"] = None
     ) -> Optional["types.Message"]:
         """Notify the other user in a private chat that a screenshot of the chat was taken.

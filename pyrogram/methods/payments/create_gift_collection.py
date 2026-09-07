@@ -25,9 +25,9 @@ from pyrogram import raw, types, utils
 class CreateGiftCollection:
     async def create_gift_collection(
         self: "pyrogram.Client",
-        owner_id: Union[int, str],
+        owner_id: int | str,
         name: str,
-        gift_ids: List[str]
+        gift_ids: list[str]
     ) -> "types.GiftCollection":
         """Creates a collection from gifts on the current user's or a channel's profile page.
 

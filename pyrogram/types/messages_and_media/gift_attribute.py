@@ -87,27 +87,19 @@ class GiftAttribute(Object):
         *,
         client: Optional["pyrogram.Client"] = None,
         type: "enums.GiftAttributeType",
-        name: Optional[str] = None,
-        backdrop_id: Optional[int] = None,
-        rarity: Optional[
-            Union[
-                "types.UpgradedGiftAttributeRarityPerMille",
-                "types.UpgradedGiftAttributeRarityUncommon",
-                "types.UpgradedGiftAttributeRarityRare",
-                "types.UpgradedGiftAttributeRarityEpic",
-                "types.UpgradedGiftAttributeRarityLegendary",
-            ]
-        ] = None,
-        date: Optional[datetime] = None,
-        caption: Optional[str] = None,
-        caption_entities: Optional[List["types.MessageEntity"]] = None,
+        name: str | None = None,
+        backdrop_id: int | None = None,
+        rarity: Union["types.UpgradedGiftAttributeRarityPerMille", "types.UpgradedGiftAttributeRarityUncommon", "types.UpgradedGiftAttributeRarityRare", "types.UpgradedGiftAttributeRarityEpic", "types.UpgradedGiftAttributeRarityLegendary"] | None = None,
+        date: datetime | None = None,
+        caption: str | None = None,
+        caption_entities: list["types.MessageEntity"] | None = None,
         from_user: Optional["types.User"] = None,
         to_user: Optional["types.User"] = None,
         sticker: Optional["types.Sticker"] = None,
-        center_color: Optional[int] = None,
-        edge_color: Optional[int] = None,
-        pattern_color: Optional[int] = None,
-        text_color: Optional[int] = None,
+        center_color: int | None = None,
+        edge_color: int | None = None,
+        pattern_color: int | None = None,
+        text_color: int | None = None,
     ):
         super().__init__(client)
 
@@ -130,8 +122,8 @@ class GiftAttribute(Object):
     async def _parse(
         client,
         attr: "raw.base.StarGiftAttribute",
-        users: Dict[int, "raw.base.User"],
-        chats: Dict[int, "raw.base.Chat"],
+        users: dict[int, "raw.base.User"],
+        chats: dict[int, "raw.base.Chat"],
     ) -> "GiftAttribute":
         caption = None
         caption_entities = None

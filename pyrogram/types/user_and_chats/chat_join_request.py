@@ -59,9 +59,9 @@ class ChatJoinRequest(Object, Update):
         chat: "types.Chat",
         from_user: "types.User",
         date: datetime,
-        bio: Optional[str] = None,
+        bio: str | None = None,
         invite_link: Optional["types.ChatInviteLink"] = None,
-        query_id: Optional[str] = None,
+        query_id: str | None = None,
     ):
         super().__init__(client)
 
@@ -76,8 +76,8 @@ class ChatJoinRequest(Object, Update):
     async def _parse(
         client: "pyrogram.Client",
         update: "raw.types.UpdateBotChatInviteRequester",
-        users: Dict[int, "raw.types.User"],
-        chats: Dict[int, "raw.types.Chat"],
+        users: dict[int, "raw.types.User"],
+        chats: dict[int, "raw.types.Chat"],
     ) -> "ChatJoinRequest":
         chat_id = utils.get_raw_peer_id(update.peer)
 

@@ -51,10 +51,10 @@ class GiveawayCompleted(Object):
         *,
         client: Optional["pyrogram.Client"] = None,
         winner_count: int,
-        unclaimed_prize_count: Optional[int] = None,
-        giveaway_message_id: Optional[int] = None,
+        unclaimed_prize_count: int | None = None,
+        giveaway_message_id: int | None = None,
         giveaway_message: Optional["types.Message"] = None,
-        is_star_giveaway: Optional[bool] = None
+        is_star_giveaway: bool | None = None
     ):
         super().__init__(client)
 
@@ -70,7 +70,7 @@ class GiveawayCompleted(Object):
         client,
         giveaway_results: "raw.types.MessageActionGiveawayResults",
         chat: Optional["types.Chat"] = None,
-        message_id: Optional[int] = None
+        message_id: int | None = None
     ) -> "GiveawayCompleted":
         if not isinstance(giveaway_results, raw.types.MessageActionGiveawayResults):
             return

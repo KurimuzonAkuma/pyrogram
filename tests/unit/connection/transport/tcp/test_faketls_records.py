@@ -41,7 +41,7 @@ class _Wire:
         self._data = data
         self._offset = 0
 
-    async def __call__(self, length: int) -> Optional[bytes]:
+    async def __call__(self, length: int) -> bytes | None:
         if self._offset + length > len(self._data):
             return None
 
@@ -59,8 +59,8 @@ def _record(payload: bytes) -> bytes:
     return APPLICATION_DATA_PREFIX + len(payload).to_bytes(RECORD_LENGTH_SIZE, "big") + payload
 
 
-def _record_payloads(wire: bytes) -> List[bytes]:
-    payloads: List[bytes] = []
+def _record_payloads(wire: bytes) -> list[bytes]:
+    payloads: list[bytes] = []
     offset = 0
 
     while offset < len(wire):

@@ -48,7 +48,7 @@ class UserRating(Object):
         is_maximum_level_reached: bool,
         rating: int,
         current_level_rating: int,
-        next_level_rating: Optional[int] = None
+        next_level_rating: int | None = None
     ):
         super().__init__(None)
 

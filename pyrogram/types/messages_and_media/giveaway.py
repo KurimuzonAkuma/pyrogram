@@ -64,15 +64,15 @@ class Giveaway(Object):
         self,
         *,
         client: Optional["pyrogram.Client"] = None,
-        chats: Optional[List["types.Chat"]] = None,
-        quantity: Optional[int] = None,
-        months: Optional[int] = None,
-        until_date: Optional[datetime] = None,
-        description: Optional[str] = None,
-        only_new_subscribers: Optional[bool] = None,
-        only_for_countries: Optional[List[str]] = None,
-        winners_are_visible: Optional[bool] = None,
-        stars: Optional[int] = None
+        chats: list["types.Chat"] | None = None,
+        quantity: int | None = None,
+        months: int | None = None,
+        until_date: datetime | None = None,
+        description: str | None = None,
+        only_new_subscribers: bool | None = None,
+        only_for_countries: list[str] | None = None,
+        winners_are_visible: bool | None = None,
+        stars: int | None = None
     ):
         super().__init__(client)
 

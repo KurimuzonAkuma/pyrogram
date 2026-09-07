@@ -16,7 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import AsyncGenerator, Optional
+from typing import Optional
+from collections.abc import AsyncGenerator
 
 import pyrogram
 from pyrogram import raw, enums
@@ -29,9 +30,9 @@ class SearchGlobal:
         self: "pyrogram.Client",
         query: str = "",
         filter: "enums.MessagesFilter" = enums.MessagesFilter.EMPTY,
-        channels_only: Optional[bool] = None,
-        groups_only: Optional[bool] = None,
-        users_only: Optional[bool] = None,
+        channels_only: bool | None = None,
+        groups_only: bool | None = None,
+        users_only: bool | None = None,
         limit: int = 0,
     ) -> AsyncGenerator["types.Message", None]:
         """Search messages globally from all of your chats.

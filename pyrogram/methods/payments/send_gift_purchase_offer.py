@@ -25,11 +25,11 @@ from pyrogram import raw, types, utils
 class SendGiftPurchaseOffer:
     async def send_gift_purchase_offer(
         self: "pyrogram.Client",
-        owner_id: Union[int, str],
+        owner_id: int | str,
         gift_name: str,
         price: "types.GiftResalePrice",
         duration: int,
-        paid_message_star_count: Optional[int] = None
+        paid_message_star_count: int | None = None
     ) -> Optional["types.Message"]:
         """Sends an offer to purchase an upgraded gift.
 

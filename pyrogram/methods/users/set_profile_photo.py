@@ -28,9 +28,9 @@ class SetProfilePhoto:
     async def set_profile_photo(
         self: "pyrogram.Client",
         photo: Optional["types.InputChatPhoto"] = None,
-        is_public: Optional[bool] = None,
+        is_public: bool | None = None,
         *,
-        video: Optional[Union[str, BinaryIO]] = None
+        video: str | BinaryIO | None = None
     ) -> bool:
         """Changes a profile photo for the current user.
 
@@ -101,7 +101,7 @@ class SetProfilePhoto:
 class SetBotProfilePhoto:
     async def set_bot_profile_photo(
         self: "pyrogram.Client",
-        bot_user_id: Union[int, str],
+        bot_user_id: int | str,
         photo: Optional["types.InputChatPhoto"] = None,
     ) -> bool:
         """Changes a profile photo for a bot.

@@ -26,12 +26,12 @@ from pyrogram import enums, raw, types, utils
 class GiftPremiumWithStars:
     async def gift_premium_with_stars(
         self: "pyrogram.Client",
-        user_id: Union[int, str],
+        user_id: int | str,
         month_count: int,
-        text: Optional[str] = None,
+        text: str | None = None,
         parse_mode: Optional["enums.ParseMode"] = None,
-        entities: Optional[List["types.MessageEntity"]] = None,
-        star_count: Optional[int] = None,
+        entities: list["types.MessageEntity"] | None = None,
+        star_count: int | None = None,
     ) -> Optional["types.Message"]:
         """Allows to buy a Telegram Premium subscription for another user with payment in Telegram Stars.
 

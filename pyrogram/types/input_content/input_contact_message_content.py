@@ -48,8 +48,8 @@ class InputContactMessageContent(InputMessageContent):
         self,
         phone_number: str,
         first_name: str,
-        last_name: Optional[str] = None,
-        vcard: Optional[str] = None
+        last_name: str | None = None,
+        vcard: str | None = None
     ):
         super().__init__()
 

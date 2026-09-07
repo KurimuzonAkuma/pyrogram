@@ -83,8 +83,8 @@ class Dialog(Object):
         unread_poll_vote_count: int,
         unread_mark: bool,
         is_pinned: bool,
-        folder_id: Optional[int] = None,
-        ttl_period: Optional[int] = None,
+        folder_id: int | None = None,
+        ttl_period: int | None = None,
         raw: Optional["raw.types.Dialog"] = None
     ):
         super().__init__(client)

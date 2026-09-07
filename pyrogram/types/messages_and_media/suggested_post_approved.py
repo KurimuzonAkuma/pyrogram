@@ -44,10 +44,10 @@ class SuggestedPostApproved(Object):
     """
     def __init__(
         self, *,
-        suggested_post_message_id: Optional[int] = None,
+        suggested_post_message_id: int | None = None,
         suggested_post_message: Optional["types.Message"] = None,
         price: Optional["types.SuggestedPostPrice"] = None,
-        send_date: Optional[datetime] = None
+        send_date: datetime | None = None
     ):
         super().__init__()
 
@@ -61,7 +61,7 @@ class SuggestedPostApproved(Object):
         client: "pyrogram.Client",
         message: "raw.types.MessageService"
     ) -> "SuggestedPostApproved":
-        action: "raw.types.MessageActionSuggestedPostApproval" = message.action
+        action: raw.types.MessageActionSuggestedPostApproval = message.action
 
         if not isinstance(action, raw.types.MessageActionSuggestedPostApproval):
             return None

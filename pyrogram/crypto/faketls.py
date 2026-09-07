@@ -31,7 +31,8 @@ import hmac
 import secrets
 from dataclasses import dataclass
 from enum import Enum, auto
-from typing import Final, List, NamedTuple, Sequence, Tuple
+from typing import Final, List, NamedTuple, Tuple
+from collections.abc import Sequence
 
 # GREASE values are drawn once per greeting and referenced by index, because the
 #  same value has to appear in more than one extension.
@@ -100,7 +101,7 @@ class _Op:
     data: bytes = b""
     length: int = 0
     seed: int = 0
-    parts: Tuple[Tuple["_Op", ...], ...] = ()
+    parts: tuple[tuple["_Op", ...], ...] = ()
 
 
 def _string(data: bytes) -> _Op:
@@ -151,7 +152,7 @@ def _padding() -> _Op:
     return _Op(kind=_OpKind.PADDING)
 
 
-def _client_hello_ops() -> Tuple[_Op, ...]:
+def _client_hello_ops() -> tuple[_Op, ...]:
     """TDLib's non-Apple op list, entry for entry.
 
     The byte strings are the fixed fields of a Chrome ClientHello - record and
@@ -325,7 +326,7 @@ def _generate_ml_kem_768_key() -> bytes:
     return bytes(key) + secrets.token_bytes(_ML_KEM_768_SEED_SIZE)
 
 
-def _shuffled(parts: List[bytes]) -> List[bytes]:
+def _shuffled(parts: list[bytes]) -> list[bytes]:
     shuffled = list(parts)
 
     for index in range(len(shuffled) - 1):
@@ -341,7 +342,7 @@ class _HelloWriter:
         self._domain = domain
 
         self._out = bytearray()
-        self._scopes: List[int] = []
+        self._scopes: list[int] = []
 
     def render(self, ops: Sequence[_Op]) -> bytearray:
         for op in ops:
@@ -404,7 +405,7 @@ class _HelloWriter:
 
         self._out[begin : begin + _SCOPE_LENGTH_SIZE] = size.to_bytes(_SCOPE_LENGTH_SIZE, "big")
 
-    def _write_permutation(self, parts: Tuple[Tuple[_Op, ...], ...]) -> None:
+    def _write_permutation(self, parts: tuple[tuple[_Op, ...], ...]) -> None:
         # Each extension is rendered on its own, then the finished blocks are
         #  shuffled - so no scope ever spans two of them.
         #  https://github.com/tdlib/td/blob/d1085f9cebc5a62379991ae1652673954f229c1f/td/mtproto/TlsInit.cpp#L467-L489

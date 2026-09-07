@@ -40,7 +40,7 @@ class ChecklistTasksAdded(Object):
         self,
         *,
         checklist_message_id: int,
-        tasks: List["types.ChecklistTask"]
+        tasks: list["types.ChecklistTask"]
     ):
 
         super().__init__()
@@ -52,10 +52,10 @@ class ChecklistTasksAdded(Object):
     async def _parse(
         client: "pyrogram.Client",
         message: "raw.types.MessageService",
-        users: Dict[int, "raw.base.User"],
-        chats: Dict[int, "raw.base.Chat"]
+        users: dict[int, "raw.base.User"],
+        chats: dict[int, "raw.base.Chat"]
     ) -> "ChecklistTasksAdded":
-        action: "raw.types.MessageActionTodoAppendTasks" = message.action
+        action: raw.types.MessageActionTodoAppendTasks = message.action
 
         return ChecklistTasksAdded(
             checklist_message_id=getattr(message.reply_to, "reply_to_msg_id", None),

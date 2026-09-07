@@ -25,8 +25,8 @@ class CreateFolderInviteLink:
     async def create_folder_invite_link(
         self: "pyrogram.Client",
         chat_folder_id: int,
-        chat_ids: List[Union[int, str]],
-        name: Optional[str] = None,
+        chat_ids: list[int | str],
+        name: str | None = None,
     ) -> "types.FolderInviteLink":
         """Create a new invite link for a chat folder.
 

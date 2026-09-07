@@ -35,10 +35,10 @@ class Invoke:
         query: TLObject[ReturnType],
         retries: int = Session.MAX_RETRIES,
         timeout: float = Session.WAIT_TIMEOUT,
-        sleep_threshold: Optional[float] = None,
+        sleep_threshold: float | None = None,
         retry_delay: float = Session.RETRY_DELAY,
-        recaptcha_token: Optional[str] = None,
-        business_connection_id: Optional[str] = None
+        recaptcha_token: str | None = None,
+        business_connection_id: str | None = None
     ) -> ReturnType:
         """Invoke raw Telegram functions.
 

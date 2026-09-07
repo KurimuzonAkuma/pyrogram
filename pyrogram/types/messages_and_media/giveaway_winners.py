@@ -83,15 +83,15 @@ class GiveawayWinners(Object):
         winners_selection_date: datetime,
         quantity: int,
         winner_count: int,
-        unclaimed_prize_count: Optional[int] = None,
-        winners: List["types.User"],
+        unclaimed_prize_count: int | None = None,
+        winners: list["types.User"],
         giveaway_message: Optional["types.Message"] = None,
-        additional_chat_count: Optional[int] = None,
-        prize_star_count: Optional[int] = None,
-        premium_subscription_month_count: Optional[int] = None,
-        only_new_members: Optional[bool] = None,
-        was_refunded: Optional[bool] = None,
-        prize_description: Optional[str] = None
+        additional_chat_count: int | None = None,
+        prize_star_count: int | None = None,
+        premium_subscription_month_count: int | None = None,
+        only_new_members: bool | None = None,
+        was_refunded: bool | None = None,
+        prize_description: str | None = None
     ):
         super().__init__(client)
 

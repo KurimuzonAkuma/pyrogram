@@ -30,7 +30,7 @@ class Start:
     async def start(
         self: "pyrogram.Client", *,
         use_qr: bool = False,
-        except_ids: List[int] = [],
+        except_ids: list[int] = [],
     ) -> "pyrogram.Client":
         """Start the client.
 

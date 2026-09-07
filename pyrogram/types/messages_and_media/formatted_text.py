@@ -44,7 +44,7 @@ class FormattedText(Object):
         *,
         text: Str,
         parse_mode: Optional["enums.ParseMode"] = None,
-        entities: Optional[List["types.MessageEntity"]] = None,
+        entities: list["types.MessageEntity"] | None = None,
     ):
         super().__init__()
 

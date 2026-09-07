@@ -38,7 +38,7 @@ class BotCommand(Object):
             True, if the command sends an ephemeral message, which can be seen only by the sender of the message and the bot.
     """
 
-    def __init__(self, command: str, description: str, is_ephemeral: Optional[bool] = None):
+    def __init__(self, command: str, description: str, is_ephemeral: bool | None = None):
         super().__init__()
 
         self.command = command

@@ -41,9 +41,9 @@ class EphemeralMessageParameters(Object):
     def __init__(
         self,
         *,
-        receiver_user_id: Union[int, str],
-        callback_query_id: Optional[str] = None,
-        replace_callback_query_message: Optional[bool] = None,
+        receiver_user_id: int | str,
+        callback_query_id: str | None = None,
+        replace_callback_query_message: bool | None = None,
     ):
         super().__init__()
 

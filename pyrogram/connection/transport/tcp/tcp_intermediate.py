@@ -31,14 +31,14 @@ class TCPIntermediate(TCP):
     def __init__(
         self,
         ipv6: bool,
-        proxy: Optional[Proxy] = None,
+        proxy: Proxy | None = None,
         crypto_executor_workers: int = 1,
-        loop: Optional[asyncio.AbstractEventLoop] = None,
-        dc_id: Optional[int] = None,
+        loop: asyncio.AbstractEventLoop | None = None,
+        dc_id: int | None = None,
     ) -> None:
         super().__init__(ipv6, proxy, crypto_executor_workers, loop, dc_id=dc_id)
 
-    async def connect(self, address: Tuple[str, int]) -> None:
+    async def connect(self, address: tuple[str, int]) -> None:
         self.marker_event.clear()
         await super().connect(address)
         await super().send(b"\xee" * 4, wait_for_marker=False)
@@ -47,7 +47,7 @@ class TCPIntermediate(TCP):
     async def send(self, data: bytes, *args) -> None:
         await super().send(pack("<i", len(data)) + data)
 
-    async def recv(self, length: int = 0) -> Optional[bytes]:
+    async def recv(self, length: int = 0) -> bytes | None:
         length = await super().recv(4)
 
         if length is None:

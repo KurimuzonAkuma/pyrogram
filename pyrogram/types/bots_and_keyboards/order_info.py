@@ -44,9 +44,9 @@ class OrderInfo(Object):
     def __init__(
         self,
         *,
-        name: Optional[str] = None,
-        phone_number: Optional[str] = None,
-        email: Optional[str] = None,
+        name: str | None = None,
+        phone_number: str | None = None,
+        email: str | None = None,
         shipping_address: Optional["types.ShippingAddress"] = None
     ):
         super().__init__()

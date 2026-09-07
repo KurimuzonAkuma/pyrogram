@@ -23,7 +23,8 @@ import os
 from enum import Enum, auto
 from hashlib import sha1
 from io import BytesIO
-from typing import Any, Coroutine, Dict, List, Optional, Set
+from typing import Any, Dict, List, Optional, Set
+from collections.abc import Coroutine
 
 import pyrogram
 from pyrogram import raw, utils
@@ -113,7 +114,7 @@ class Session:
         self.is_media = is_media
         self.is_cdn = is_cdn
 
-        self.connection: Optional[Connection] = None
+        self.connection: Connection | None = None
 
         self._state = SessionState.STOPPED
         self._state_lock = asyncio.Lock()
@@ -127,19 +128,19 @@ class Session:
 
         self.ignore_count = 0
 
-        self.pending_acks: Set[int] = set()
+        self.pending_acks: set[int] = set()
 
-        self.results: Dict[int, Result] = {}
+        self.results: dict[int, Result] = {}
 
-        self.stored_msg_ids: List[int] = []
-        self.recent_msg_ids: List[int] = []
+        self.stored_msg_ids: list[int] = []
+        self.recent_msg_ids: list[int] = []
 
-        self.ping_task: Optional[asyncio.Task] = None
+        self.ping_task: asyncio.Task | None = None
         self.ping_task_event = asyncio.Event()
 
-        self.recv_task: Optional[asyncio.Task] = None
+        self.recv_task: asyncio.Task | None = None
 
-        self.pending_tasks: Set[asyncio.Task] = set()
+        self.pending_tasks: set[asyncio.Task] = set()
 
         self.is_started = asyncio.Event()
         self.restart_lock = asyncio.Lock()
@@ -219,7 +220,7 @@ class Session:
 
             # Telegram wants to know which proxy a client sits behind.
             proxy_address = client_proxy_address(self.client.proxy)
-            client_proxy: Optional[raw.types.InputClientProxy] = None
+            client_proxy: raw.types.InputClientProxy | None = None
 
             if proxy_address is not None:
                 client_proxy = raw.types.InputClientProxy(

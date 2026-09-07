@@ -17,7 +17,8 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from typing import Iterable, Optional, Tuple, Union
+from typing import Optional, Tuple, Union
+from collections.abc import Iterable
 
 import pyrogram
 from pyrogram import raw
@@ -35,8 +36,8 @@ log = logging.getLogger(__name__)
 
 class RecoverGaps:
     async def recover_gaps(
-        self: "pyrogram.Client", ids: Optional[Union[int, Iterable[int]]] = None
-    ) -> Tuple[int, int]:
+        self: "pyrogram.Client", ids: int | Iterable[int] | None = None
+    ) -> tuple[int, int]:
         """Restores updates for the time while the client was offline.
 
         .. include:: /_includes/usable-by/users-bots.rst

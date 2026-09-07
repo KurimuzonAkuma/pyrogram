@@ -25,7 +25,7 @@ from pyrogram import raw, types
 class GetManagedBotAccessSettings:
     async def get_managed_bot_access_settings(
         self: "pyrogram.Client",
-        user_id: Union[int, str],
+        user_id: int | str,
     ) -> "types.BotAccessSettings":
         """Use this method to get the access settings of a managed bot.
 

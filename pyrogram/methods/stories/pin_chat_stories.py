@@ -16,7 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import List, Union, Iterable
+from typing import List, Union
+from collections.abc import Iterable
 
 import pyrogram
 from pyrogram import raw
@@ -26,9 +27,9 @@ from pyrogram import types
 class PinChatStories:
     async def pin_chat_stories(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        stories_ids: Union[int, Iterable[int]]
-    ) -> List[int]:
+        chat_id: int | str,
+        stories_ids: int | Iterable[int]
+    ) -> list[int]:
         """Pin one or more stories in a chat by using stories identifiers.
 
         .. include:: /_includes/usable-by/users.rst

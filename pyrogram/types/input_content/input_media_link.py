@@ -16,7 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Callable, Optional, Union
+from typing import Optional, Union
+from collections.abc import Callable
 
 import pyrogram
 from pyrogram import raw
@@ -44,8 +45,8 @@ class InputMediaLink(InputMedia):
         self,
         *,
         client: "pyrogram.Client",
-        chat_id: Optional[Union[int, str]] = None,
-        progress: Optional[Callable] = None,
+        chat_id: int | str | None = None,
+        progress: Callable | None = None,
         progress_args: tuple = (),
         **kwargs,
     ) -> "raw.base.InputMedia":

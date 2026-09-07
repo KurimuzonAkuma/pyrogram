@@ -17,21 +17,22 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass
-from typing import Optional, Sequence, Union
+from typing import Optional, Union
+from collections.abc import Sequence
 
 from pyrogram.filters import Filter
 
 
 @dataclass(frozen=True)
 class UnboundArguments:
-    filters: Optional[Filter]
+    filters: Filter | None
     group: int
 
 
 def unbound_arguments(
-    receiver: Optional[Filter],
+    receiver: Filter | None,
     *,
-    filters: Union[Filter, int, None],
+    filters: Filter | int | None,
     group: int,
 ) -> UnboundArguments:
     """Read what `@Client.on_*(...)` was given, whichever way it was written.
@@ -55,15 +56,15 @@ ExceptionsType = Union[Exception, Sequence[Exception], None]
 @dataclass(frozen=True)
 class UnboundErrorArguments:
     exceptions: ExceptionsType
-    filters: Optional[Filter]
+    filters: Filter | None
     group: int
 
 
 def unbound_error_arguments(
     receiver: ExceptionsType,
     *,
-    exceptions: Union[ExceptionsType, Filter],
-    filters: Union[Filter, int, None],
+    exceptions: ExceptionsType | Filter,
+    filters: Filter | int | None,
     group: int,
 ) -> UnboundErrorArguments:
     """Read what `@Client.on_error(...)` was given, whichever way it was written.

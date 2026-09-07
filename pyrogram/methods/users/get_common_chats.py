@@ -26,8 +26,8 @@ from pyrogram import types
 class GetCommonChats:
     async def get_common_chats(
         self: "pyrogram.Client",
-        user_id: Union[int, str]
-    ) -> List["types.Chat"]:
+        user_id: int | str
+    ) -> list["types.Chat"]:
         """Get the common chats you have with a user.
 
         .. include:: /_includes/usable-by/users.rst

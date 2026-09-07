@@ -46,7 +46,7 @@ class AnimatedChatPhoto(Object):
         client: Optional["pyrogram.Client"] = None,
         length: int,
         animation: "types.Animation",
-        main_frame_timestamp: Optional[float] = None,
+        main_frame_timestamp: float | None = None,
     ):
         super().__init__(client)
 

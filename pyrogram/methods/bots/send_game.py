@@ -27,23 +27,18 @@ log = logging.getLogger(__name__)
 class SendGame:
     async def send_game(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         game_short_name: str,
-        disable_notification: Optional[bool] = None,
-        message_thread_id: Optional[int] = None,
-        effect_id: Optional[int] = None,
+        disable_notification: bool | None = None,
+        message_thread_id: int | None = None,
+        effect_id: int | None = None,
         reply_parameters: Optional["types.ReplyParameters"] = None,
-        protect_content: Optional[bool] = None,
-        allow_paid_broadcast: Optional[bool] = None,
-        reply_markup: Optional[Union[
-            "types.InlineKeyboardMarkup",
-            "types.ReplyKeyboardMarkup",
-            "types.ReplyKeyboardRemove",
-            "types.ForceReply",
-        ]] = None,
+        protect_content: bool | None = None,
+        allow_paid_broadcast: bool | None = None,
+        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
 
-        reply_to_message_id: Optional[int] = None,
-        reply_to_chat_id: Optional[Union[int, str]] = None,
+        reply_to_message_id: int | None = None,
+        reply_to_chat_id: int | str | None = None,
     ) -> Optional["types.Message"]:
         """Send a game.
 

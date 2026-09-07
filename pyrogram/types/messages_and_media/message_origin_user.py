@@ -41,7 +41,7 @@ class MessageOriginUser(MessageOrigin):
         self,
         *,
         type: "enums.MessageOriginType" = enums.MessageOriginType.USER,
-        date: Optional[datetime] = None,
+        date: datetime | None = None,
         sender_user: Optional["types.User"] = None
     ):
         super().__init__(

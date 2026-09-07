@@ -19,7 +19,8 @@
 import io
 import pathlib
 import re
-from typing import BinaryIO, Callable, List, Optional, Union
+from typing import BinaryIO, List, Optional, Union
+from collections.abc import Callable
 
 import pyrogram
 from pyrogram import raw, utils
@@ -68,14 +69,14 @@ class InputMediaLivePhoto(InputMedia):
 
     def __init__(
         self,
-        media: Union[str, BinaryIO],
-        photo: Union[str, BinaryIO],
-        thumb: Optional[str] = None,
+        media: str | BinaryIO,
+        photo: str | BinaryIO,
+        thumb: str | None = None,
         caption: str = "",
         parse_mode: Optional["enums.ParseMode"] = None,
-        caption_entities: Optional[List[MessageEntity]] = None,
-        show_caption_above_media: Optional[bool] = None,
-        has_spoiler: Optional[bool] = None,
+        caption_entities: list[MessageEntity] | None = None,
+        show_caption_above_media: bool | None = None,
+        has_spoiler: bool | None = None,
 
     ):
         super().__init__(media, caption, parse_mode, caption_entities)
@@ -89,10 +90,10 @@ class InputMediaLivePhoto(InputMedia):
         self,
         *,
         client: "pyrogram.Client",
-        chat_id: Optional[Union[int, str]] = None,
+        chat_id: int | str | None = None,
         width: int = 0,
         height: int = 0,
-        progress: Optional[Callable] = None,
+        progress: Callable | None = None,
         progress_args: tuple = (),
         **kwargs
     ) -> "raw.base.InputMedia":

@@ -26,7 +26,7 @@ from pyrogram import raw
 class SetDirectMessagesChatTopicIsMarkedAsUnread:
     async def set_direct_messages_chat_topic_is_marked_as_unread(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         topic_id: int,
         is_marked_as_unread: bool = True
     ) -> int:

@@ -17,7 +17,8 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
-from typing import Optional, Union, List, Iterable, overload
+from typing import Optional, Union, List, overload
+from collections.abc import Iterable
 
 import pyrogram
 from pyrogram import raw
@@ -30,19 +31,19 @@ class GetUsers:
     @overload
     async def get_users(  # type: ignore[overload-overlap]
         self: "pyrogram.Client",
-        user_ids: Union[int, str]
+        user_ids: int | str
     ) -> Optional["types.User"]: ...
 
     @overload
     async def get_users(
         self: "pyrogram.Client",
-        user_ids: Iterable[Union[int, str]]
-    ) -> List["types.User"]: ...
+        user_ids: Iterable[int | str]
+    ) -> list["types.User"]: ...
 
     async def get_users(
         self: "pyrogram.Client",
-        user_ids: Union[int, str, Iterable[Union[int, str]]]
-    ) -> Optional[Union["types.User", List["types.User"]]]:
+        user_ids: int | str | Iterable[int | str]
+    ) -> Union["types.User", list["types.User"]] | None:
         """Get information about a user.
         You can retrieve up to 200 users at once.
 

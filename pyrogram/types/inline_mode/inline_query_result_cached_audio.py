@@ -58,10 +58,10 @@ class InlineQueryResultCachedAudio(InlineQueryResult):
     def __init__(
         self,
         audio_file_id: str,
-        id: Optional[str] = None,
+        id: str | None = None,
         caption: str = "",
         parse_mode: Optional["enums.ParseMode"] = None,
-        caption_entities: Optional[List["types.MessageEntity"]] = None,
+        caption_entities: list["types.MessageEntity"] | None = None,
         reply_markup: Optional["types.InlineKeyboardMarkup"] = None,
         input_message_content: Optional["types.InputMessageContent"] = None
     ):

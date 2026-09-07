@@ -25,9 +25,9 @@ from pyrogram import raw
 class UpdateBirthday:
     async def update_birthday(
         self: "pyrogram.Client",
-        day: Optional[int] = None,
-        month: Optional[int] = None,
-        year: Optional[int] = None
+        day: int | None = None,
+        month: int | None = None,
+        year: int | None = None
     ) -> bool:
         """Update birthday in your profile.
 

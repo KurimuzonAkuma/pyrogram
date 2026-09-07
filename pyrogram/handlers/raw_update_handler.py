@@ -16,7 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import TYPE_CHECKING, Any, Callable, Dict
+from typing import TYPE_CHECKING, Any, Dict
+from collections.abc import Callable
 
 from .handler import Handler
 
@@ -77,8 +78,8 @@ class RawUpdateHandler(Handler):
             [
                 "pyrogram.Client",
                 "raw.base.Update",
-                Dict[int, "raw.base.User"],
-                Dict[int, "raw.base.Chat"],
+                dict[int, "raw.base.User"],
+                dict[int, "raw.base.Chat"],
             ],
             Any,
         ],

@@ -26,7 +26,7 @@ from pyrogram import raw
 class BuyGiftUpgrade:
     async def buy_gift_upgrade(
         self: "pyrogram.Client",
-        owner_id: Union[int, str],
+        owner_id: int | str,
         prepaid_upgrade_hash: str,
         star_count: int
     ) -> bool:

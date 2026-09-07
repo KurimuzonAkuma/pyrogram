@@ -26,19 +26,19 @@ class DeleteContacts:
     @overload
     async def delete_contacts(
         self: "pyrogram.Client",
-        user_ids: Union[int, str]
+        user_ids: int | str
     ) -> Optional["types.User"]: ...
 
     @overload
     async def delete_contacts(
         self: "pyrogram.Client",
-        user_ids: List[Union[int, str]]
-    ) -> Optional[List["types.User"]]: ...
+        user_ids: list[int | str]
+    ) -> list["types.User"] | None: ...
 
     async def delete_contacts(
         self: "pyrogram.Client",
-        user_ids: Union[int, str, List[Union[int, str]]]
-    ) -> Union["types.User", List["types.User"], None]:
+        user_ids: int | str | list[int | str]
+    ) -> Union["types.User", list["types.User"], None]:
         """Delete contacts from your Telegram address book.
 
         .. include:: /_includes/usable-by/users.rst

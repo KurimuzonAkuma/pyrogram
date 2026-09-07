@@ -75,15 +75,15 @@ class InlineQueryResultPhoto(InlineQueryResult):
     def __init__(
         self,
         photo_url: str,
-        thumb_url: Optional[str] = None,
+        thumb_url: str | None = None,
         photo_width: int = 0,
         photo_height: int = 0,
-        id: Optional[str] = None,
-        title: Optional[str] = None,
-        description: Optional[str] = None,
+        id: str | None = None,
+        title: str | None = None,
+        description: str | None = None,
         caption: str = "",
         parse_mode: Optional["enums.ParseMode"] = None,
-        caption_entities: Optional[List["types.MessageEntity"]] = None,
+        caption_entities: list["types.MessageEntity"] | None = None,
         reply_markup: Optional["types.InlineKeyboardMarkup"] = None,
         input_message_content: Optional["types.InputMessageContent"] = None
     ):

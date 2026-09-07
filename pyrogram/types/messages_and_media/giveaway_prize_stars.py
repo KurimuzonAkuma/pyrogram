@@ -60,7 +60,7 @@ class GiveawayPrizeStars(Object):
         boosted_chat: "types.Chat",
         giveaway_message_id: int,
         giveaway_message: Optional["types.Message"] = None,
-        is_unclaimed: Optional[bool] = None,
+        is_unclaimed: bool | None = None,
         sticker: Optional["types.Sticker"] = None
     ):
         super().__init__()
@@ -77,7 +77,7 @@ class GiveawayPrizeStars(Object):
     async def _parse(
         client: "pyrogram.Client",
         action: "raw.types.MessageActionPrizeStars",
-        chats: Dict[int, "raw.base.Chat"],
+        chats: dict[int, "raw.base.Chat"],
     ) -> "GiveawayPrizeStars":
         raw_stickers = await client.invoke(
             raw.functions.messages.GetStickerSet(

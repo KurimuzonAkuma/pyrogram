@@ -66,8 +66,8 @@ class Photo(Object):
         height: int,
         file_size: int,
         date: datetime,
-        ttl_seconds: Optional[int] = None,
-        thumbs: Optional[List["types.Thumbnail"]] = None
+        ttl_seconds: int | None = None,
+        thumbs: list["types.Thumbnail"] | None = None
     ):
         super().__init__(client)
 
@@ -81,9 +81,9 @@ class Photo(Object):
         self.thumbs = thumbs
 
     @staticmethod
-    def _parse(client, photo: "raw.types.Photo", ttl_seconds: Optional[int] = None) -> "Photo":
+    def _parse(client, photo: "raw.types.Photo", ttl_seconds: int | None = None) -> "Photo":
         if isinstance(photo, raw.types.Photo):
-            photos: List[raw.types.PhotoSize] = []
+            photos: list[raw.types.PhotoSize] = []
 
             for p in photo.sizes:
                 if isinstance(p, raw.types.PhotoSize):

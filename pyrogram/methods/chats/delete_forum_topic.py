@@ -25,7 +25,7 @@ from pyrogram import raw
 class DeleteForumTopic:
     async def delete_forum_topic(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         topic_id: int
     ) -> bool:
         """Delete a forum topic.

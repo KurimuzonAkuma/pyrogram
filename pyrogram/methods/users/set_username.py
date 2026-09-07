@@ -25,7 +25,7 @@ from pyrogram import raw
 class SetUsername:
     async def set_username(
         self: "pyrogram.Client",
-        username: Optional[str]
+        username: str | None
     ) -> bool:
         """Set your own username.
 

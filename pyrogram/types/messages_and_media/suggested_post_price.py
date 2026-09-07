@@ -96,7 +96,7 @@ class SuggestedPostPrice(Object):
     @staticmethod
     def _parse(
         suggested_post_price: "raw.base.StarsAmount"
-    ) -> Optional[Union["SuggestedPostPriceStar", "SuggestedPostPriceTon"]]:
+    ) -> Union["SuggestedPostPriceStar", "SuggestedPostPriceTon"] | None:
         if isinstance(suggested_post_price, raw.types.StarsAmount):
             return SuggestedPostPriceStar._parse(suggested_post_price)
         elif isinstance(suggested_post_price, raw.types.StarsTonAmount):

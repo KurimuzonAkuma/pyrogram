@@ -77,9 +77,9 @@ class AuctionStateActive(AuctionState):
         start_date: datetime,
         end_date: datetime,
         min_bid: int,
-        bid_levels: List["types.AuctionBid"],
-        top_bidder_user_ids: List[int],
-        auction_rounds: List["types.AuctionRound"],
+        bid_levels: list["types.AuctionBid"],
+        top_bidder_user_ids: list[int],
+        auction_rounds: list["types.AuctionRound"],
         current_round_end_date: datetime,
         current_round_number: int,
         total_round_count: int,
@@ -145,9 +145,9 @@ class AuctionStateFinished(AuctionState):
         start_date: datetime,
         end_date: datetime,
         average_price: int,
-        telegram_listed_item_count: Optional[int] = None,
-        fragment_listed_item_count: Optional[int] = None,
-        fragment_url: Optional[str] = None,
+        telegram_listed_item_count: int | None = None,
+        fragment_listed_item_count: int | None = None,
+        fragment_url: str | None = None,
     ):
         super().__init__()
 

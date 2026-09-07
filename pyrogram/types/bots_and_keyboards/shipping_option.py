@@ -42,7 +42,7 @@ class ShippingOption(Object):
         self,
         id: str,
         title: str,
-        prices: List["types.LabeledPrice"]
+        prices: list["types.LabeledPrice"]
     ):
         super().__init__()
 

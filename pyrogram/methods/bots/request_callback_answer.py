@@ -25,10 +25,10 @@ from pyrogram import raw, utils
 class RequestCallbackAnswer:
     async def request_callback_answer(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         message_id: int,
-        callback_data: Union[str, bytes],
-        password: Optional[str] = None,
+        callback_data: str | bytes,
+        password: str | None = None,
         timeout: int = 10
     ) -> "raw.base.messages.BotCallbackAnswer":
         """Request a callback answer from bots.

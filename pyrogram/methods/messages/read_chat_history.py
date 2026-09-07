@@ -25,7 +25,7 @@ from pyrogram import raw
 class ReadChatHistory:
     async def read_chat_history(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         max_id: int = 0
     ) -> bool:
         """Mark a chat's message history as read.

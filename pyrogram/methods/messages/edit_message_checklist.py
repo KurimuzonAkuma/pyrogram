@@ -25,10 +25,10 @@ from pyrogram import raw, types, utils
 class EditMessageChecklist:
     async def edit_message_checklist(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         message_id: int,
         checklist: "types.InputChecklist",
-        business_connection_id: Optional[str] = None,
+        business_connection_id: str | None = None,
         reply_markup: Optional["types.InlineKeyboardMarkup"] = None,
     ) -> "types.Message":
         """Use this method to edit a checklist.

@@ -47,7 +47,7 @@ class UpgradedGiftOriginalDetails(Object):
         sender: Optional["types.Chat"] = None,
         receiver: Optional["types.Chat"] = None,
         text: Optional["types.FormattedText"] = None,
-        date: Optional[datetime] = None
+        date: datetime | None = None
     ):
         super().__init__()
 
@@ -60,8 +60,8 @@ class UpgradedGiftOriginalDetails(Object):
     async def _parse(
         client,
         attr: "raw.types.StarGiftAttributeOriginalDetails",
-        users: Dict[int, "raw.base.User"],
-        chats: Dict[int, "raw.base.Chat"]
+        users: dict[int, "raw.base.User"],
+        chats: dict[int, "raw.base.Chat"]
     ) -> "UpgradedGiftOriginalDetails":
         sender_id = utils.get_raw_peer_id(attr.sender_id)
         recipient_id = utils.get_raw_peer_id(attr.recipient_id)

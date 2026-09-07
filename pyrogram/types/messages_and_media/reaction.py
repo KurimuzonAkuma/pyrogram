@@ -48,11 +48,11 @@ class Reaction(Object):
         self,
         *,
         client: Optional["pyrogram.Client"] = None,
-        emoji: Optional[str] = None,
-        custom_emoji_id: Optional[str] = None,
-        count: Optional[int] = None,
-        chosen_order: Optional[int] = None,
-        is_paid: Optional[bool] = None
+        emoji: str | None = None,
+        custom_emoji_id: str | None = None,
+        count: int | None = None,
+        chosen_order: int | None = None,
+        is_paid: bool | None = None
     ):
         super().__init__(client)
 

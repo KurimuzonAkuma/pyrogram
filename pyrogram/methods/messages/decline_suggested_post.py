@@ -23,9 +23,9 @@ from pyrogram import raw
 class DeclineSuggestedPost():
     async def decline_suggested_post(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         message_id: int,
-        comment: Optional[str] = None
+        comment: str | None = None
     ) -> bool:
         """Use this method to decline a suggested post in a direct messages chat.
 

@@ -56,7 +56,7 @@ class Auth:
         self.protocol_factory = client.protocol_factory
         self.loop = client.loop
 
-        self.connection: Optional[Connection] = None
+        self.connection: Connection | None = None
 
     @staticmethod
     def pack(data: TLObject, server_time: float) -> bytes:

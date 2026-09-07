@@ -25,8 +25,8 @@ from pyrogram import raw, utils
 class SetPinnedGifts:
     async def set_pinned_gifts(
         self: "pyrogram.Client",
-        owner_id: Union[int, str],
-        owned_gift_ids: List[str],
+        owner_id: int | str,
+        owned_gift_ids: list[str],
     ) -> bool:
         """Change the list of pinned gifts on the current user.
 

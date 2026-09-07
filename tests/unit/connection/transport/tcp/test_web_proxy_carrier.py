@@ -255,14 +255,14 @@ class _UplinkRecorder:
     carrier puts on the wire instead of POSTing it."""
 
     def __init__(self, carrier: WebProxyCarrier) -> None:
-        self.frames: List[bytes] = []
+        self.frames: list[bytes] = []
         carrier._send_frames = self._record
 
-    async def _record(self, frames: List[bytes]) -> None:
+    async def _record(self, frames: list[bytes]) -> None:
         self.frames.extend(frames)
 
     @property
-    def payload_sizes(self) -> List[int]:
+    def payload_sizes(self) -> list[int]:
         return [len(one_frame) - FRAME_HEADER_SIZE for one_frame in self.frames]
 
     @property
@@ -438,7 +438,7 @@ async def _run_failing_tracked_task(carrier: WebProxyCarrier) -> None:
     assert carrier._background_tasks == set(), "a finished task must not stay in the tracking set"
 
 
-def _carrier_records(caplog: pytest.LogCaptureFixture) -> List[logging.LogRecord]:
+def _carrier_records(caplog: pytest.LogCaptureFixture) -> list[logging.LogRecord]:
     # `caplog` collects at the root, so `asyncio` logging "Task was destroyed but it is
     #  pending!" over a task an earlier test left behind is otherwise read below as a
     #  line this module emitted.

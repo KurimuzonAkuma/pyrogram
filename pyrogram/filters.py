@@ -18,7 +18,9 @@
 
 import inspect
 import re
-from typing import Callable, Final, FrozenSet, List, Optional, Pattern, Tuple, Type, Union
+from typing import Final, FrozenSet, List, Optional, Tuple, Type, Union
+from re import Pattern
+from collections.abc import Callable
 
 import pyrogram
 from pyrogram import enums
@@ -147,13 +149,13 @@ CUSTOM_FILTER_NAME: Final[str] = "CustomFilter"
 # skips it, so membership goes against the aliases rather than against the stored one.
 _ME: Final[str] = "me"
 _SELF: Final[str] = "self"
-_ME_ALIASES: Final[FrozenSet[str]] = frozenset({_ME, _SELF})
+_ME_ALIASES: Final[frozenset[str]] = frozenset({_ME, _SELF})
 
 
 # `Update` declares none of these (an inline query happens in no chat, a poll update
 #  has no sender), so each field names the types that carry it. Kept in sync by
 #  `test_the_filters_name_every_update_type_that_carries_the_field`.
-_WITH_A_SENDER: Final[Tuple[Type[Update], ...]] = (
+_WITH_A_SENDER: Final[tuple[type[Update], ...]] = (
     CallbackQuery,
     ChatJoinRequest,
     ChatMemberUpdated,
@@ -166,7 +168,7 @@ _WITH_A_SENDER: Final[Tuple[Type[Update], ...]] = (
     Story,
 )
 
-_WITH_A_CHAT: Final[Tuple[Type[Update], ...]] = (
+_WITH_A_CHAT: Final[tuple[type[Update], ...]] = (
     CallbackQuery,
     ChatBoostUpdated,
     ChatJoinRequest,
@@ -178,9 +180,9 @@ _WITH_A_CHAT: Final[Tuple[Type[Update], ...]] = (
     Story,
 )
 
-_WITH_A_SENDER_CHAT: Final[Tuple[Type[Update], ...]] = (Message, Story)
+_WITH_A_SENDER_CHAT: Final[tuple[type[Update], ...]] = (Message, Story)
 
-_CAN_BE_OUTGOING: Final[Tuple[Type[Update], ...]] = (Message, Story)
+_CAN_BE_OUTGOING: Final[tuple[type[Update], ...]] = (Message, Story)
 
 # Three more shapes that the tuples above cannot express: the attribute is there, but not
 #  under the name the tuples read.
@@ -192,20 +194,20 @@ _CAN_BE_OUTGOING: Final[Tuple[Type[Update], ...]] = (Message, Story)
 #  down, in `boost.from_user`.
 #
 #  Reading them here rather than renaming the attributes leaves the public API untouched.
-_IS_ITS_OWN_SENDER: Final[Tuple[Type[Update], ...]] = (User,)
+_IS_ITS_OWN_SENDER: Final[tuple[type[Update], ...]] = (User,)
 
-_WITH_A_SENDER_NAMED_USER: Final[Tuple[Type[Update], ...]] = (
+_WITH_A_SENDER_NAMED_USER: Final[tuple[type[Update], ...]] = (
     BusinessConnection,
     ManagedBotUpdated,
     MessageReactionUpdated,
 )
 
-_WITH_A_SENDER_CHAT_NAMED_ACTOR_CHAT: Final[Tuple[Type[Update], ...]] = (MessageReactionUpdated,)
+_WITH_A_SENDER_CHAT_NAMED_ACTOR_CHAT: Final[tuple[type[Update], ...]] = (MessageReactionUpdated,)
 
-_WITH_A_BOOSTER: Final[Tuple[Type[Update], ...]] = (ChatBoostUpdated,)
+_WITH_A_BOOSTER: Final[tuple[type[Update], ...]] = (ChatBoostUpdated,)
 
 
-def _sender_of(update: Update) -> Optional[User]:
+def _sender_of(update: Update) -> User | None:
     if isinstance(update, _IS_ITS_OWN_SENDER):
         return update
 
@@ -218,11 +220,11 @@ def _sender_of(update: Update) -> Optional[User]:
     return update.from_user if isinstance(update, _WITH_A_SENDER) else None
 
 
-def _chat_of(update: Update) -> Optional[Chat]:
+def _chat_of(update: Update) -> Chat | None:
     return update.chat if isinstance(update, _WITH_A_CHAT) else None
 
 
-def _sender_chat_of(update: Update) -> Optional[Chat]:
+def _sender_chat_of(update: Update) -> Chat | None:
     if isinstance(update, _WITH_A_SENDER_CHAT):
         return update.sender_chat
 
@@ -243,17 +245,17 @@ def _is_outgoing(update: Update) -> bool:
 #  filters that read them cannot take the field off the update the way the ones above do.
 #  They go through the message the update is about instead, which is the same message the
 #  user is looking at when a button under it is pressed.
-_WITH_A_MESSAGE: Final[Tuple[Type[Update], ...]] = (CallbackQuery,)
+_WITH_A_MESSAGE: Final[tuple[type[Update], ...]] = (CallbackQuery,)
 
 
-def _message_of(update: Update) -> Optional[Message]:
+def _message_of(update: Update) -> Message | None:
     if isinstance(update, Message):
         return update
 
     return update.message if isinstance(update, _WITH_A_MESSAGE) else None
 
 
-def create(func: Callable, name: Optional[str] = None, **kwargs) -> Filter:
+def create(func: Callable, name: str | None = None, **kwargs) -> Filter:
     """Easily create a custom filter.
 
     Custom filters give you extra control over which updates are allowed or not to be processed by your handlers.
@@ -1130,7 +1132,7 @@ ephemeral = create(lambda _, __, message: message.ephemeral_message_id is not No
 # endregion
 
 # region command_filter
-def command(commands: Union[str, List[str]], prefixes: Optional[Union[str, List[str]]] = "/", case_sensitive: bool = False):
+def command(commands: str | list[str], prefixes: str | list[str] | None = "/", case_sensitive: bool = False):
     """Filter commands, i.e.: text messages starting with "/" or any other custom prefix.
 
     Parameters:
@@ -1204,7 +1206,7 @@ def command(commands: Union[str, List[str]], prefixes: Optional[Union[str, List[
 
 # endregion
 
-def regex(pattern: Union[str, Pattern], flags: int = 0):
+def regex(pattern: str | Pattern, flags: int = 0):
     """Filter updates that match a given regular expression pattern.
 
     Can be applied to handlers that receive one of the following updates:
@@ -1264,7 +1266,7 @@ class user(Filter, set):
             Defaults to None (no users).
     """
 
-    def __init__(self, users: Optional[Union[int, str, List[Union[int, str]]]] = None):
+    def __init__(self, users: int | str | list[int | str] | None = None):
         users = [] if users is None else users if isinstance(users, list) else [users]
 
         super().__init__(
@@ -1296,7 +1298,7 @@ class chat(Filter, set):
             Defaults to None (no chats).
     """
 
-    def __init__(self, chats: Optional[Union[int, str, List[Union[int, str]]]] = None):
+    def __init__(self, chats: int | str | list[int | str] | None = None):
         chats = [] if chats is None else chats if isinstance(chats, list) else [chats]
 
         super().__init__(
@@ -1336,7 +1338,7 @@ class topic(Filter, set):
             Defaults to None (no topics).
     """
 
-    def __init__(self, topics: Optional[Union[int, List[int]]] = None):
+    def __init__(self, topics: int | list[int] | None = None):
         topics = [] if topics is None else topics if isinstance(topics, list) else [topics]
 
         super().__init__(

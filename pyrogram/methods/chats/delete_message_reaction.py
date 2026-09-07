@@ -25,11 +25,11 @@ from pyrogram import raw
 class DeleteMessageReaction:
     async def delete_message_reaction(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         message_id: int,
         *,
-        user_id: Optional[Union[int, str]] = None,
-        actor_chat_id: Optional[Union[int, str]] = None,
+        user_id: int | str | None = None,
+        actor_chat_id: int | str | None = None,
     ) -> bool:
         """Use this method to remove a reaction from a message in a group or a supergroup chat.
 

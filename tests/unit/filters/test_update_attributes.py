@@ -317,8 +317,8 @@ def test_callback_query_chat_stays_out_of_the_serialized_form():
 
 def a_reaction(
     *,
-    user: Optional[User] = None,
-    actor_chat: Optional[Chat] = None,
+    user: User | None = None,
+    actor_chat: Chat | None = None,
 ) -> types.MessageReactionUpdated:
     return types.MessageReactionUpdated(
         chat=CHANNEL,

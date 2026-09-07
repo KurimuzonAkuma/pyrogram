@@ -25,7 +25,7 @@ from pyrogram import raw, types
 class GetSuitableDiscussionChats:
     async def get_suitable_discussion_chats(
         self: "pyrogram.Client"
-    ) -> List["types.Chat"]:
+    ) -> list["types.Chat"]:
         """Return a list of basic group and supergroup chats, which can be used as a discussion group for a channel.
 
         Returned basic group chats must be first upgraded to supergroups before they can be set as a discussion group.

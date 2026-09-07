@@ -26,7 +26,7 @@ from pyrogram import errors
 class ToggleJoinToSend:
     async def toggle_join_to_send(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         enabled: bool = False
     ) -> bool:
         """Enable or disable guest users' ability to send messages in a supergroup.

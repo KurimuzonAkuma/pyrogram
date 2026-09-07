@@ -93,24 +93,24 @@ class ChatPermissions(Object):
     def __init__(
         self,
         *,
-        can_send_messages: Optional[bool] = None,  # Text, contacts, locations and venues
-        can_send_audios: Optional[bool] = None,
-        can_send_documents: Optional[bool] = None,
-        can_send_photos: Optional[bool] = None,
-        can_send_videos: Optional[bool] = None,
-        can_send_video_notes: Optional[bool] = None,
-        can_send_voice_notes: Optional[bool] = None,
-        can_send_polls: Optional[bool] = None,
-        can_send_other_messages: Optional[bool] = None,  # Stickers, animations, games, inline bots
-        can_add_web_page_previews: Optional[bool] = None,
-        can_react_to_messages: Optional[bool] = None,
-        can_edit_tag: Optional[bool] = None,
-        can_change_info: Optional[bool] = None,
-        can_invite_users: Optional[bool] = None,
-        can_pin_messages: Optional[bool] = None,
-        can_manage_topics: Optional[bool] = None,
+        can_send_messages: bool | None = None,  # Text, contacts, locations and venues
+        can_send_audios: bool | None = None,
+        can_send_documents: bool | None = None,
+        can_send_photos: bool | None = None,
+        can_send_videos: bool | None = None,
+        can_send_video_notes: bool | None = None,
+        can_send_voice_notes: bool | None = None,
+        can_send_polls: bool | None = None,
+        can_send_other_messages: bool | None = None,  # Stickers, animations, games, inline bots
+        can_add_web_page_previews: bool | None = None,
+        can_react_to_messages: bool | None = None,
+        can_edit_tag: bool | None = None,
+        can_change_info: bool | None = None,
+        can_invite_users: bool | None = None,
+        can_pin_messages: bool | None = None,
+        can_manage_topics: bool | None = None,
 
-        can_send_media_messages: Optional[bool] = None,  # Audio files, documents, photos, videos, video notes and voice notes. Deprecated
+        can_send_media_messages: bool | None = None,  # Audio files, documents, photos, videos, video notes and voice notes. Deprecated
     ):
         super().__init__(None)
 

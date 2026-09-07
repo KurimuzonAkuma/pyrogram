@@ -27,9 +27,9 @@ class SearchGlobalCount:
         self: "pyrogram.Client",
         query: str = "",
         filter: "enums.MessagesFilter" = enums.MessagesFilter.EMPTY,
-        channels_only: Optional[bool] = None,
-        groups_only: Optional[bool] = None,
-        users_only: Optional[bool] = None,
+        channels_only: bool | None = None,
+        groups_only: bool | None = None,
+        users_only: bool | None = None,
     ) -> int:
         """Get the count of messages resulting from a global search.
 

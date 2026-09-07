@@ -37,8 +37,8 @@ class ActiveSessions(Object):
     def __init__(
         self,
         *,
-        inactive_session_ttl_days: Optional[int] = None,
-        active_sessions: Optional[List["types.ActiveSession"]] = None
+        inactive_session_ttl_days: int | None = None,
+        active_sessions: list["types.ActiveSession"] | None = None
     ):
         super().__init__()
 

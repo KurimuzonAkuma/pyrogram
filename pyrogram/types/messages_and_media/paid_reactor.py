@@ -50,10 +50,10 @@ class PaidReactor(Object):
         self,
         *,
         sender: Optional["types.Chat"] = None,
-        star_count: Optional[int] = None,
-        is_top: Optional[bool] = None,
-        is_me: Optional[bool] = None,
-        is_anonymous: Optional[bool] = None,
+        star_count: int | None = None,
+        is_top: bool | None = None,
+        is_me: bool | None = None,
+        is_anonymous: bool | None = None,
     ):
         super().__init__()
 
@@ -67,8 +67,8 @@ class PaidReactor(Object):
     async def _parse(
         client: "pyrogram.Client",
         paid_reactor: Optional["raw.base.MessageReactor"],
-        users: Dict[int, "raw.base.User"],
-        chats: Dict[int, "raw.base.Chat"],
+        users: dict[int, "raw.base.User"],
+        chats: dict[int, "raw.base.Chat"],
     ) -> Optional["PaidReactor"]:
         if not paid_reactor:
             return None

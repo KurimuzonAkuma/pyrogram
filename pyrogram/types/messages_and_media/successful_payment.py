@@ -69,12 +69,12 @@ class SuccessfulPayment(Object):
         invoice_payload: str,
         telegram_payment_charge_id: str,
         provider_payment_charge_id: str,
-        shipping_option_id: Optional[str] = None,
+        shipping_option_id: str | None = None,
         order_info: Optional["types.OrderInfo"] = None,
-        is_recurring: Optional[bool] = None,
-        is_first_recurring: Optional[bool] = None,
-        invoice_slug: Optional[str] = None,
-        subscription_expiration_date: Optional[datetime] = None,
+        is_recurring: bool | None = None,
+        is_first_recurring: bool | None = None,
+        invoice_slug: str | None = None,
+        subscription_expiration_date: datetime | None = None,
     ):
         super().__init__()
 

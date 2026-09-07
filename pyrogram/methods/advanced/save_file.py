@@ -25,7 +25,8 @@ import math
 import os
 from hashlib import md5
 from pathlib import PurePath
-from typing import List, Union, BinaryIO, Callable, Optional, overload
+from typing import List, Union, BinaryIO, Optional, overload
+from collections.abc import Callable
 
 import pyrogram
 from pyrogram import StopTransmission
@@ -46,40 +47,40 @@ class SaveFile:
     async def save_file(
         self: "pyrogram.Client",
         path: None,
-        file_id: Optional[int] = None,
+        file_id: int | None = None,
         file_part: int = 0,
-        progress: Optional[Callable] = None,
+        progress: Callable | None = None,
         progress_args: tuple = ()
     ) -> None: ...
 
     @overload
     async def save_file(
         self: "pyrogram.Client",
-        path: Union[str, BinaryIO],
+        path: str | BinaryIO,
         file_id: int,
         file_part: int = 0,
-        progress: Optional[Callable] = None,
+        progress: Callable | None = None,
         progress_args: tuple = ()
     ) -> None: ...
 
     @overload
     async def save_file(
         self: "pyrogram.Client",
-        path: Union[str, BinaryIO],
+        path: str | BinaryIO,
         file_id: None = None,
         file_part: int = 0,
-        progress: Optional[Callable] = None,
+        progress: Callable | None = None,
         progress_args: tuple = ()
     ) -> Union["raw.types.InputFile", "raw.types.InputFileBig"]: ...
 
     async def save_file(
         self: "pyrogram.Client",
-        path: Optional[Union[str, BinaryIO]],
-        file_id: Optional[int] = None,
+        path: str | BinaryIO | None,
+        file_id: int | None = None,
         file_part: int = 0,
-        progress: Optional[Callable] = None,
+        progress: Callable | None = None,
         progress_args: tuple = ()
-    ) -> Optional[Union["raw.types.InputFile", "raw.types.InputFileBig"]]:
+    ) -> Union["raw.types.InputFile", "raw.types.InputFileBig"] | None:
         """Upload a file onto Telegram servers, without actually sending the message to anyone.
         Useful whenever an InputFile type is required.
 
@@ -136,7 +137,7 @@ class SaveFile:
             if path is None:
                 return None
 
-            failures: List[Exception] = []
+            failures: list[Exception] = []
 
             async def worker(session):
                 while True:

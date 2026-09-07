@@ -27,7 +27,7 @@ from pyrogram.errors import PeerIdInvalid
 class ResolvePeer:
     async def resolve_peer(
         self: "pyrogram.Client",
-        peer_id: Union[int, str]
+        peer_id: int | str
     ) -> Optional["raw.base.InputPeer"]:
         """Get the InputPeer of a known peer id. Useful whenever an InputPeer type is required.
 

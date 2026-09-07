@@ -25,7 +25,7 @@ from pyrogram import raw, types
 class DeleteGiftCollection:
     async def delete_gift_collection(
         self: "pyrogram.Client",
-        owner_id: Union[int, str],
+        owner_id: int | str,
         collection_id: int
     ) -> "types.GiftCollection":
         """Deletes a gift collection.

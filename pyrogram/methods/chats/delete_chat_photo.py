@@ -25,7 +25,7 @@ from pyrogram import raw
 class DeleteChatPhoto:
     async def delete_chat_photo(
         self: "pyrogram.Client",
-        chat_id: Union[int, str]
+        chat_id: int | str
     ) -> bool:
         """Delete a chat photo.
 

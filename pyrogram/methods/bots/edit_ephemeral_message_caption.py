@@ -28,13 +28,13 @@ if TYPE_CHECKING:
 class EditEphemeralMessageCaption:
     async def edit_ephemeral_message_caption(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        receiver_user_id: Union[int, str],
+        chat_id: int | str,
+        receiver_user_id: int | str,
         ephemeral_message_id: int,
         caption: str = "",
         parse_mode: Optional["enums.ParseMode"] = None,
-        caption_entities: Optional[List["types.MessageEntity"]] = None,
-        show_caption_above_media: Optional[bool] = None,
+        caption_entities: list["types.MessageEntity"] | None = None,
+        show_caption_above_media: bool | None = None,
         reply_markup: Optional["types.InlineKeyboardMarkup"] = None,
     ) -> Optional["types.Message"]:
         """Use this method to edit the caption of an ephemeral message.

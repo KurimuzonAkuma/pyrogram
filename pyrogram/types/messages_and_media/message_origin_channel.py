@@ -47,10 +47,10 @@ class MessageOriginChannel(MessageOrigin):
         self,
         *,
         type: "enums.MessageOriginType" = enums.MessageOriginType.CHANNEL,
-        date: Optional[datetime] = None,
+        date: datetime | None = None,
         chat: Optional["types.Chat"] = None,
-        message_id: Optional[int] = None,
-        author_signature: Optional[str] = None
+        message_id: int | None = None,
+        author_signature: str | None = None
     ):
         super().__init__(
             type=type,

@@ -25,7 +25,7 @@ from pyrogram import raw
 class EditUserStarSubscription:
     async def edit_user_star_subscription(
         self: "pyrogram.Client",
-        user_id: Union[int, str],
+        user_id: int | str,
         telegram_payment_charge_id: str,
         is_canceled: bool,
     ) -> bool:

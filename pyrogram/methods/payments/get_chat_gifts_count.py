@@ -28,7 +28,7 @@ log = logging.getLogger(__name__)
 class GetChatGiftsCount:
     async def get_chat_gifts_count(
         self: "pyrogram.Client",
-        chat_id: Union[int, str]
+        chat_id: int | str
     ) -> int:
         """Get the total count of owned gifts of specified chat.
 

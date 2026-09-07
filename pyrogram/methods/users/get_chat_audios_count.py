@@ -25,7 +25,7 @@ from pyrogram import raw
 class GetChatAudiosCount:
     async def get_chat_audios_count(
         self: "pyrogram.Client",
-        chat_id: Union[int, str]
+        chat_id: int | str
     ) -> int:
         """Get the total count of audios for a chat.
 

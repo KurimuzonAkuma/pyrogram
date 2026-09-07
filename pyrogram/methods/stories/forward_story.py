@@ -26,24 +26,19 @@ from pyrogram import raw, types, utils
 class ForwardStory:
     async def forward_story(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        from_chat_id: Union[int, str],
+        chat_id: int | str,
+        from_chat_id: int | str,
         story_id: int,
-        disable_notification: Optional[bool] = None,
-        message_thread_id: Optional[int] = None,
-        schedule_date: Optional[datetime] = None,
-        repeat_period: Optional[int] = None,
-        paid_message_star_count: Optional[int] = None,
-        protect_content: Optional[bool] = None,
-        allow_paid_broadcast: Optional[bool] = None,
+        disable_notification: bool | None = None,
+        message_thread_id: int | None = None,
+        schedule_date: datetime | None = None,
+        repeat_period: int | None = None,
+        paid_message_star_count: int | None = None,
+        protect_content: bool | None = None,
+        allow_paid_broadcast: bool | None = None,
         reply_parameters: Optional["types.ReplyParameters"] = None,
-        reply_markup: Optional[Union[
-            "types.InlineKeyboardMarkup",
-            "types.ReplyKeyboardMarkup",
-            "types.ReplyKeyboardRemove",
-            "types.ForceReply"
-        ]] = None,
-        message_effect_id: Optional[int] = None
+        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
+        message_effect_id: int | None = None
     ) -> Optional["types.Message"]:
         """Forward story.
 

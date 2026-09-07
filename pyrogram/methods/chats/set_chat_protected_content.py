@@ -24,7 +24,7 @@ from pyrogram import raw, types, utils
 
 class SetChatProtectedContent:
     async def set_chat_protected_content(
-        self: "pyrogram.Client", chat_id: Union[int, str], enabled: bool
+        self: "pyrogram.Client", chat_id: int | str, enabled: bool
     ) -> Union["types.Message", bool]:
         """Set the chat protected content setting.
 

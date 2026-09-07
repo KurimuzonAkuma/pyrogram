@@ -83,15 +83,15 @@ class InlineQueryResultVideo(InlineQueryResult):
         video_url: str,
         thumb_url: str,
         title: str,
-        id: Optional[str] = None,
+        id: str | None = None,
         mime_type: str = "video/mp4",
         video_width: int = 0,
         video_height: int = 0,
         video_duration: int = 0,
-        description: Optional[str] = None,
+        description: str | None = None,
         caption: str = "",
         parse_mode: Optional["enums.ParseMode"] = None,
-        caption_entities: Optional[List["types.MessageEntity"]] = None,
+        caption_entities: list["types.MessageEntity"] | None = None,
         reply_markup: Optional["types.InlineKeyboardMarkup"] = None,
         input_message_content: Optional["types.InputMessageContent"] = None
     ):

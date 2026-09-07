@@ -16,7 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Union, AsyncGenerator
+from typing import Union
+from collections.abc import AsyncGenerator
 
 import pyrogram
 from pyrogram import types, raw
@@ -25,7 +26,7 @@ from pyrogram import types, raw
 class GetCallMembers:
     async def get_call_members(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         limit: int = 0
     ) -> AsyncGenerator["types.GroupCallMember", None]:
         """Get the members list of a chat call.

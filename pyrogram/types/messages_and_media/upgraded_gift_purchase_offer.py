@@ -61,8 +61,8 @@ class UpgradedGiftPurchaseOffer(Object):
     async def _parse(
         client: "pyrogram.Client",
         action: "raw.types.MessageActionStarGiftPurchaseOffer",
-        users: Dict[int, "raw.base.User"] = {},
-        chats: Dict[int, "raw.base.Chat"] = {},
+        users: dict[int, "raw.base.User"] = {},
+        chats: dict[int, "raw.base.Chat"] = {},
     ) -> "UpgradedGiftPurchaseOffer":
         price = None
 
@@ -119,9 +119,9 @@ class UpgradedGiftPurchaseOfferRejected(Object):
     async def _parse(
         client: "pyrogram.Client",
         action: "raw.types.MessageActionStarGiftPurchaseOfferDeclined",
-        offer_message_id: Optional[int] = None,
-        users: Dict[int, "raw.base.User"] = {},
-        chats: Dict[int, "raw.base.Chat"] = {},
+        offer_message_id: int | None = None,
+        users: dict[int, "raw.base.User"] = {},
+        chats: dict[int, "raw.base.Chat"] = {},
     ) -> "UpgradedGiftPurchaseOfferRejected":
         price = None
 

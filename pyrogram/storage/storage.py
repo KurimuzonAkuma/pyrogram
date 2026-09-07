@@ -20,7 +20,8 @@ import base64
 import struct
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Iterable, List, Optional, Tuple, Union
+from typing import TYPE_CHECKING, List, Optional, Tuple, Union
+from collections.abc import Iterable
 
 if TYPE_CHECKING:
     from pyrogram import raw
@@ -29,10 +30,10 @@ if TYPE_CHECKING:
 @dataclass(frozen=True)
 class UpdateState:
     id: int
-    pts: Optional[int]
-    qts: Optional[int]
-    date: Optional[int]
-    seq: Optional[int]
+    pts: int | None
+    qts: int | None
+    date: int | None
+    seq: int | None
 
 
 class Storage(ABC):
@@ -66,7 +67,7 @@ class Storage(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def update_peers(self, peers: Iterable[Tuple[int, int, str, Optional[str]]]):
+    async def update_peers(self, peers: Iterable[tuple[int, int, str, str | None]]):
         """
         Update the peers table with the provided information.
 
@@ -83,7 +84,7 @@ class Storage(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def update_usernames(self, usernames: Iterable[Tuple[int, List[Optional[str]]]]):
+    async def update_usernames(self, usernames: Iterable[tuple[int, list[str | None]]]):
         """
         Update the usernames table with the provided information.
 
@@ -99,8 +100,8 @@ class Storage(ABC):
 
     @abstractmethod
     async def get_update_states(
-        self, ids: Optional[Union[int, Iterable[int]]] = None
-    ) -> List[UpdateState]:
+        self, ids: int | Iterable[int] | None = None
+    ) -> list[UpdateState]:
         """Get the update state of the current session.
 
         Parameters:
@@ -114,7 +115,7 @@ class Storage(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def set_update_state(self, update_state: Union[UpdateState, Iterable[UpdateState]]):
+    async def set_update_state(self, update_state: UpdateState | Iterable[UpdateState]):
         """Set the update state of the current session.
 
         Parameters:
@@ -124,7 +125,7 @@ class Storage(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def delete_update_state(self, state_id: Union[int, Iterable[int]]):
+    async def delete_update_state(self, state_id: int | Iterable[int]):
         """Delete the update state of the current session.
 
         Parameters:
@@ -173,7 +174,7 @@ class Storage(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def dc_id(self, value: Optional[int] = None) -> int:
+    async def dc_id(self, value: int | None = None) -> int:
         """Get or set the DC ID of the current session.
 
         Parameters:
@@ -183,7 +184,7 @@ class Storage(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def api_id(self, value: Optional[int] = None) -> int:
+    async def api_id(self, value: int | None = None) -> int:
         """Get or set the API ID of the current session.
 
         Parameters:
@@ -193,7 +194,7 @@ class Storage(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def server_address(self, value: Optional[str] = None) -> str:
+    async def server_address(self, value: str | None = None) -> str:
         """Get or set the server address of the current session.
 
         Parameters:
@@ -203,7 +204,7 @@ class Storage(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def port(self, value: Optional[int] = None) -> int:
+    async def port(self, value: int | None = None) -> int:
         """Get or set the server port of the current session.
 
         Parameters:
@@ -213,7 +214,7 @@ class Storage(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def test_mode(self, value: Optional[bool] = None) -> bool:
+    async def test_mode(self, value: bool | None = None) -> bool:
         """Get or set the test mode of the current session.
 
         Parameters:
@@ -223,7 +224,7 @@ class Storage(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def auth_key(self, value: Optional[bytes] = None) -> bytes:
+    async def auth_key(self, value: bytes | None = None) -> bytes:
         """Get or set the authorization key of the current session.
 
         Parameters:
@@ -233,7 +234,7 @@ class Storage(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def date(self, value: Optional[int] = None) -> int:
+    async def date(self, value: int | None = None) -> int:
         """Get or set the date of the current session.
 
         Parameters:
@@ -243,7 +244,7 @@ class Storage(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def user_id(self, value: Optional[int] = None) -> int:
+    async def user_id(self, value: int | None = None) -> int:
         """Get or set the user ID of the current session.
 
         Parameters:
@@ -253,7 +254,7 @@ class Storage(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def is_bot(self, value: Optional[bool] = None) -> bool:
+    async def is_bot(self, value: bool | None = None) -> bool:
         """Get or set the bot flag of the current session.
 
         Parameters:

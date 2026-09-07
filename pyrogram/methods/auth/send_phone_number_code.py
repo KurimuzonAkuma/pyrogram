@@ -33,16 +33,16 @@ class SendPhoneNumberCode:
         phone_number: str,
         settings: Optional["types.PhoneNumberAuthenticationSettings"] = None,
         type: "enums.PhoneNumberCodeType" = enums.PhoneNumberCodeType.AUTHENTICATION,
-        recaptcha_token: Optional[str] = None,
+        recaptcha_token: str | None = None,
         # Deprecated params
-        current_number: Optional[bool] = None,
-        allow_flashcall: Optional[bool] = None,
-        allow_app_hash: Optional[bool] = None,
-        allow_missed_call: Optional[bool] = None,
-        allow_firebase: Optional[bool] = None,
-        logout_tokens: Optional[List[bytes]] = None,
-        token: Optional[str] = None,
-        app_sandbox: Optional[bool] = None,
+        current_number: bool | None = None,
+        allow_flashcall: bool | None = None,
+        allow_app_hash: bool | None = None,
+        allow_missed_call: bool | None = None,
+        allow_firebase: bool | None = None,
+        logout_tokens: list[bytes] | None = None,
+        token: str | None = None,
+        app_sandbox: bool | None = None,
     ) -> "types.SentCode":
         """Sends a code to the specified phone number. Aborts previous phone number verification if there was one.
 

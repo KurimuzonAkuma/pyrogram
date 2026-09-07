@@ -25,7 +25,7 @@ from pyrogram import raw, types
 class GetBoostsStatus:
     async def get_boosts_status(
         self: "pyrogram.Client",
-        chat_id: Union[int, str]
+        chat_id: int | str
     ) -> "types.BoostsStatus":
         """Get boosts status of channel
 

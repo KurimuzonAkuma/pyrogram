@@ -24,7 +24,7 @@ from typing import Union
 class PinForumTopic:
     async def pin_forum_topic(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         topic_id: int
     ) -> bool:
         """Pin a forum topic.

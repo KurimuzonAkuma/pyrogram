@@ -40,9 +40,9 @@ class WriteAccessAllowed(Object):
     def __init__(
         self,
         *,
-        from_request: Optional[bool] = None,
-        web_app_name: Optional[str] = None,
-        from_attachment_menu: Optional[bool] = None,
+        from_request: bool | None = None,
+        web_app_name: str | None = None,
+        from_attachment_menu: bool | None = None,
     ):
         super().__init__()
 

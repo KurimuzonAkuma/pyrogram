@@ -40,7 +40,7 @@ class MessageGenerationStopped(Object, Update):
     """
 
     def __init__(
-        self, *, chat: "types.Chat", message_thread_id: Optional[int] = None, draft_id: int
+        self, *, chat: "types.Chat", message_thread_id: int | None = None, draft_id: int
     ):
         super().__init__()
 
@@ -55,8 +55,8 @@ class MessageGenerationStopped(Object, Update):
             "raw.types.UpdateUserTyping",
             "raw.types.UpdateChannelUserTyping",
         ],
-        users: List["raw.base.User"],
-        chats: List["raw.base.Chat"],
+        users: list["raw.base.User"],
+        chats: list["raw.base.Chat"],
     ) -> "MessageGenerationStopped":
         action: raw.types.SendMessageStopDraftAction = update.action
 

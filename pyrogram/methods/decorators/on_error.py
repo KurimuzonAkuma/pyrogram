@@ -16,7 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Callable, Optional, Sequence, Union
+from typing import Optional, Union
+from collections.abc import Callable, Sequence
 
 import pyrogram
 from pyrogram.filters import Filter
@@ -26,9 +27,9 @@ from .unbound_arguments import unbound_error_arguments
 
 class OnError:
     def on_error(
-        self: Optional[Union["OnError", Exception, Sequence[Exception]]] = None,
-        exceptions: Optional[Union[Exception, Sequence[Exception]]] = None,
-        filters: Optional[Filter] = None,
+        self: Union["OnError", Exception, Sequence[Exception]] | None = None,
+        exceptions: Exception | Sequence[Exception] | None = None,
+        filters: Filter | None = None,
         group: int = 0,
     ) -> Callable[[HandlerType], HandlerType]:
         """Decorator for handling unexpected errors.

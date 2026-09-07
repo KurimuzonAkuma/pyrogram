@@ -16,7 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Union, List, AsyncGenerator, Optional
+from typing import Union, List, Optional
+from collections.abc import AsyncGenerator
 from datetime import datetime
 
 import pyrogram
@@ -26,7 +27,7 @@ from pyrogram import raw, types, utils, enums
 # noinspection PyShadowingBuiltins
 async def get_chunk(
     client,
-    chat_id: Union[int, str],
+    chat_id: int | str,
     query: str = "",
     filter: "enums.MessagesFilter" = enums.MessagesFilter.EMPTY,
     offset: int = 0,
@@ -36,9 +37,9 @@ async def get_chunk(
     limit: int = 100,
     min_id: int = 0,
     max_id: int = 0,
-    from_user: Optional[Union[int, str]] = None,
-    message_thread_id: Optional[int] = None
-) -> List["types.Message"]:
+    from_user: int | str | None = None,
+    message_thread_id: int | None = None
+) -> list["types.Message"]:
     r = await client.invoke(
         raw.functions.messages.Search(
             peer=await client.resolve_peer(chat_id),
@@ -69,7 +70,7 @@ class SearchMessages:
     # noinspection PyShadowingBuiltins
     async def search_messages(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         query: str = "",
         offset: int = 0,
         offset_id: int = 0,
@@ -79,8 +80,8 @@ class SearchMessages:
         max_id: int = 0,
         filter: "enums.MessagesFilter" = enums.MessagesFilter.EMPTY,
         limit: int = 0,
-        from_user: Optional[Union[int, str]] = None,
-        message_thread_id: Optional[int] = None
+        from_user: int | str | None = None,
+        message_thread_id: int | None = None
     ) -> AsyncGenerator["types.Message", None]:
         """Search for text and media messages inside a specific chat.
 

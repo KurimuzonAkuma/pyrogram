@@ -106,7 +106,7 @@ NAMED_ERRORS: Final[int] = 32
 def test_an_error_says_what_its_value_means(
     code: int,
     message: str,
-    error_type: Type[RPCError],
+    error_type: type[RPCError],
     value_name: str,
     value: int
 ) -> None:
@@ -169,7 +169,7 @@ def test_no_message_asks_for_more_than_one_value() -> None:
 
 def test_every_named_value_is_the_value_under_another_name() -> None:
     errors: ModuleType = import_module("pyrogram.errors")
-    named: Set[Type[RPCError]] = set()
+    named: set[type[RPCError]] = set()
 
     for table in exceptions.values():
         for class_name in table.values():

@@ -70,12 +70,12 @@ class ChatBoost(Object):
         expire_date: datetime,
         multiplier: int,
         from_user: Optional["types.User"] = None,
-        is_gift: Optional[bool] = None,
-        is_giveaway: Optional[bool] = None,
-        is_unclaimed: Optional[bool] = None,
-        giveaway_message_id: Optional[int] = None,
-        used_gift_slug: Optional[str] = None,
-        stars: Optional[int] = None
+        is_gift: bool | None = None,
+        is_giveaway: bool | None = None,
+        is_unclaimed: bool | None = None,
+        giveaway_message_id: int | None = None,
+        used_gift_slug: str | None = None,
+        stars: int | None = None
     ):
         super().__init__()
 

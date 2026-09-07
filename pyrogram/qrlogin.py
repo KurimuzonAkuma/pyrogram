@@ -29,10 +29,10 @@ log = logging.getLogger(__name__)
 
 
 class QRLogin:
-    def __init__(self, client, except_ids: List[int] = []):
-        self.client: "pyrogram.Client" = client
-        self.except_ids: List[int] = except_ids
-        self.r: "raw.base.auth.LoginToken" = None
+    def __init__(self, client, except_ids: list[int] = []):
+        self.client: pyrogram.Client = client
+        self.except_ids: list[int] = except_ids
+        self.r: raw.base.auth.LoginToken = None
 
     async def recreate(self):
         self.r = await self.client.invoke(
@@ -43,7 +43,7 @@ class QRLogin:
             )
         )
 
-    async def wait(self, timeout: Optional[float] = None) -> Optional["types.User"]:
+    async def wait(self, timeout: float | None = None) -> Optional["types.User"]:
         if timeout is None:
             timeout = self.r.expires - int(datetime.datetime.now().timestamp())
 

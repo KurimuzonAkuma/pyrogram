@@ -31,7 +31,7 @@ class KeyboardButtonPollType(Object):
 
     def __init__(
         self, *,
-        is_quiz: Optional[bool] = None
+        is_quiz: bool | None = None
     ):
         super().__init__()
 

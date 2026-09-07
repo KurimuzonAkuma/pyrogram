@@ -16,7 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Union, Optional, AsyncGenerator
+from typing import Union, Optional
+from collections.abc import AsyncGenerator
 
 import pyrogram
 from pyrogram import raw
@@ -26,7 +27,7 @@ from pyrogram import types
 class GetChatJoinRequests:
     async def get_chat_join_requests(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         limit: int = 0,
         query: str = ""
     ) -> AsyncGenerator["types.ChatJoiner", None]:

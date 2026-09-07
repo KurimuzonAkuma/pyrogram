@@ -42,8 +42,8 @@ class ChecklistTasksDone(Object):
         self,
         *,
         checklist_message_id: int,
-        marked_as_done_task_ids: List[int],
-        marked_as_not_done_task_ids: List[int]
+        marked_as_done_task_ids: list[int],
+        marked_as_not_done_task_ids: list[int]
     ):
 
         super().__init__()
@@ -54,7 +54,7 @@ class ChecklistTasksDone(Object):
 
     @staticmethod
     def _parse(message: "raw.types.MessageService") -> "ChecklistTasksDone":
-        action: "raw.types.MessageActionTodoCompletions" = message.action
+        action: raw.types.MessageActionTodoCompletions = message.action
 
         return ChecklistTasksDone(
             checklist_message_id=getattr(message.reply_to, "reply_to_msg_id", None),

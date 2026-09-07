@@ -35,17 +35,17 @@ class TCPIntermediateO(TCP):
     def __init__(
         self,
         ipv6: bool,
-        proxy: Optional[Proxy] = None,
+        proxy: Proxy | None = None,
         crypto_executor_workers: int = 1,
-        loop: Optional[asyncio.AbstractEventLoop] = None,
-        dc_id: Optional[int] = None,
+        loop: asyncio.AbstractEventLoop | None = None,
+        dc_id: int | None = None,
     ) -> None:
         super().__init__(ipv6, proxy, crypto_executor_workers, loop, dc_id=dc_id)
 
         self.encrypt = None
         self.decrypt = None
 
-    async def connect(self, address: Tuple[str, int]) -> None:
+    async def connect(self, address: tuple[str, int]) -> None:
         self.marker_event.clear()
         await super().connect(address)
 
@@ -77,7 +77,7 @@ class TCPIntermediateO(TCP):
 
         await super().send(aes.ctr256_encrypt(pack("<i", len(data)) + data, *self.encrypt))
 
-    async def recv(self, length: int = 0) -> Optional[bytes]:
+    async def recv(self, length: int = 0) -> bytes | None:
         if self.decrypt is None:
             msg = "`recv()` requires `connect()` to have run first"
             raise RuntimeError(msg)

@@ -109,19 +109,19 @@ class MediaArea(Object):
         height: float,
         rotation: float,
         type: "enums.MediaAreaType",
-        radius: Optional[float] = None,
+        radius: float | None = None,
         sender_chat: Optional["types.Chat"] = None,
-        message_id: Optional[int] = None,
+        message_id: int | None = None,
         message: Optional["types.Message"] = None,
         location: Optional["types.Location"] = None,
         reaction: Optional["types.Reaction"] = None,
-        is_dark: Optional[bool] = None,
-        is_flipped: Optional[bool] = None,
-        url: Optional[str] = None,
+        is_dark: bool | None = None,
+        is_flipped: bool | None = None,
+        url: str | None = None,
         venue: Optional["types.Venue"] = None,
-        emoji: Optional[str] = None,
-        temperature: Optional[float] = None,
-        color: Optional[int] = None,
+        emoji: str | None = None,
+        temperature: float | None = None,
+        color: int | None = None,
         gift: Optional["types.Gift"] = None
     ):
         super().__init__(client)
@@ -151,7 +151,7 @@ class MediaArea(Object):
     async def _parse(
         client: "pyrogram.Client",
         area: "raw.base.MediaArea",
-        chats: Dict[int, "raw.base.Chat"]
+        chats: dict[int, "raw.base.Chat"]
     ) -> "MediaArea":
         sender_chat = None
         message_id = None
@@ -218,16 +218,7 @@ class MediaArea(Object):
 
     async def write(
         self, client: "pyrogram.Client"
-    ) -> Optional[
-        Union[
-            "raw.types.InputMediaAreaChannelPost",
-            "raw.types.MediaAreaGeoPoint",
-            "raw.types.MediaAreaSuggestedReaction",
-            "raw.types.MediaAreaUrl",
-            "raw.types.MediaAreaWeather",
-            "raw.types.MediaAreaStarGift"
-        ]
-    ]:
+    ) -> Union["raw.types.InputMediaAreaChannelPost", "raw.types.MediaAreaGeoPoint", "raw.types.MediaAreaSuggestedReaction", "raw.types.MediaAreaUrl", "raw.types.MediaAreaWeather", "raw.types.MediaAreaStarGift"] | None:
         coordinates = raw.types.MediaAreaCoordinates(
             x=self.x,
             y=self.y,

@@ -25,7 +25,7 @@ from pyrogram import raw
 class SetPersonalChannel:
     async def set_personal_channel(
         self: "pyrogram.Client",
-        chat_id: Optional[Union[int, str]] = None
+        chat_id: int | str | None = None
     ) -> bool:
         """Set a personal channel in bio.
 

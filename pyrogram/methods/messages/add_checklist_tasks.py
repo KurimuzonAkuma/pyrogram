@@ -25,9 +25,9 @@ from pyrogram import raw, types
 class AddChecklistTasks:
     async def add_checklist_tasks(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         message_id: int,
-        tasks: List["types.InputChecklistTask"]
+        tasks: list["types.InputChecklistTask"]
     ) -> int:
         """Add tasks to a checklist in a message.
 

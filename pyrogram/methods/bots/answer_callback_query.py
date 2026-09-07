@@ -26,9 +26,9 @@ class AnswerCallbackQuery:
     async def answer_callback_query(
         self: "pyrogram.Client",
         callback_query_id: str,
-        text: Optional[str] = None,
-        show_alert: Optional[bool] = None,
-        url: Optional[str] = None,
+        text: str | None = None,
+        show_alert: bool | None = None,
+        url: str | None = None,
         cache_time: int = 0
     ) -> bool:
         """Send answers to callback queries sent from inline keyboards.

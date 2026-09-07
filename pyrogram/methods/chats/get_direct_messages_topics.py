@@ -16,7 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import AsyncGenerator, Optional, Union
+from typing import Optional, Union
+from collections.abc import AsyncGenerator
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -25,9 +26,9 @@ from pyrogram import raw, types, utils
 class GetDirectMessagesTopics:
     async def get_direct_messages_topics(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         limit: int = 0,
-        exclude_pinned: Optional[bool] = None
+        exclude_pinned: bool | None = None
     ) -> AsyncGenerator["types.DirectMessagesTopic", None]:
         """Get one or more topic from a direct messages channel chat.
 

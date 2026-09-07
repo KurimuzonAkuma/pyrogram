@@ -43,7 +43,7 @@ class SuggestedPostInfo(Object):
     def __init__(
         self, *,
         price: Optional["types.SuggestedPostPrice"] = None,
-        send_date: Optional[datetime] = None,
+        send_date: datetime | None = None,
         state: Optional["enums.SuggestedPostState"] = None
     ):
         super().__init__()

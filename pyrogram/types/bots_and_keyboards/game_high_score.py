@@ -44,7 +44,7 @@ class GameHighScore(Object):
         client: Optional["pyrogram.Client"] = None,
         user: "types.User",
         score: int,
-        position: Optional[int] = None
+        position: int | None = None
     ):
         super().__init__(client)
 

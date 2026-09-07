@@ -26,7 +26,7 @@ from pyrogram import types
 class GetDiscussionMessage:
     async def get_discussion_message(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         message_id: int,
     ) -> "types.Message":
         """Get the first discussion message of a channel post or a discussion thread in a group.

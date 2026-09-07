@@ -25,7 +25,7 @@ from pyrogram import raw
 class GetStarsBalance:
     async def get_stars_balance(
         self: "pyrogram.Client",
-        chat_id: Optional[Union[int, str]] = None,
+        chat_id: int | str | None = None,
     ) -> float:
         """Get the current Telegram Stars balance of the current account.
 

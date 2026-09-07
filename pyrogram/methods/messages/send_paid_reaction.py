@@ -25,11 +25,11 @@ from pyrogram import enums, raw
 class SendPaidReaction:
     async def send_paid_reaction(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         message_id: int,
         amount: int,
         privacy: Optional["enums.PaidReactionPrivacy"] = None,
-        send_as: Optional[Union[int, str]] = None,
+        send_as: int | str | None = None,
     ) -> bool:
         """Send a paid reaction to a message.
 

@@ -71,11 +71,11 @@ class Animation(Object):
         width: int,
         height: int,
         duration: int,
-        file_name: Optional[str] = None,
-        mime_type: Optional[str] = None,
-        file_size: Optional[int] = None,
-        date: Optional[datetime] = None,
-        thumbs: Optional[List["types.Thumbnail"]] = None
+        file_name: str | None = None,
+        mime_type: str | None = None,
+        file_size: int | None = None,
+        date: datetime | None = None,
+        thumbs: list["types.Thumbnail"] | None = None
     ):
         super().__init__(client)
 
@@ -153,7 +153,7 @@ class Animation(Object):
             if not video.video_sizes:
                 return None
 
-            videos: List[raw.types.VideoSize] = []
+            videos: list[raw.types.VideoSize] = []
 
             for v in video.video_sizes:
                 if isinstance(v, raw.types.VideoSize):

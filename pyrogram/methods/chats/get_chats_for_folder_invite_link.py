@@ -25,7 +25,7 @@ class GetChatsForFolderInviteLink:
     async def get_chats_for_folder_invite_link(
         self: "pyrogram.Client",
         chat_folder_id: int
-    ) -> List["types.Chat"]:
+    ) -> list["types.Chat"]:
         """Returns chats from a chat folder, suitable for adding to a chat folder invite link.
 
         .. include:: /_includes/usable-by/users.rst

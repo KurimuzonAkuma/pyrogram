@@ -25,7 +25,7 @@ class GetFolderInviteLinks:
     async def get_folder_invite_links(
         self: "pyrogram.Client",
         chat_folder_id: int
-    ) -> List["types.FolderInviteLink"]:
+    ) -> list["types.FolderInviteLink"]:
         """Returns invite links created by the current user for a shareable chat folder.
 
         .. include:: /_includes/usable-by/users.rst

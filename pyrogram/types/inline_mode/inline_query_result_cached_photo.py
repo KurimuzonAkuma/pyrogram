@@ -64,12 +64,12 @@ class InlineQueryResultCachedPhoto(InlineQueryResult):
     def __init__(
         self,
         photo_file_id: str,
-        id: Optional[str] = None,
-        title: Optional[str] = None,
-        description: Optional[str] = None,
+        id: str | None = None,
+        title: str | None = None,
+        description: str | None = None,
         caption: str = "",
         parse_mode: Optional["enums.ParseMode"] = None,
-        caption_entities: Optional[List["types.MessageEntity"]] = None,
+        caption_entities: list["types.MessageEntity"] | None = None,
         reply_markup: Optional["types.InlineKeyboardMarkup"] = None,
         input_message_content: Optional["types.InputMessageContent"] = None
     ):

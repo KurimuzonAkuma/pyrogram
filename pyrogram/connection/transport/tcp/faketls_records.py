@@ -51,14 +51,14 @@ _MAX_RECORD_PAYLOAD: Final[int] = 2878
 #  2-byte length: the ServerHello, then a change-cipher-spec glued to the first
 #  application record. Both are hashed, so they are read rather than skipped.
 #  https://github.com/tdlib/td/blob/d1085f9cebc5a62379991ae1652673954f229c1f/td/mtproto/TlsInit.cpp#L616-L641
-GREETING_RESPONSE_PREFIXES: Final[Tuple[bytes, ...]] = (
+GREETING_RESPONSE_PREFIXES: Final[tuple[bytes, ...]] = (
     b"\x16\x03\x03",
     CHANGE_CIPHER_SPEC + APPLICATION_DATA_PREFIX,
 )
 
 
 class ReadExactly(Protocol):
-    async def __call__(self, length: int) -> Optional[bytes]: ...
+    async def __call__(self, length: int) -> bytes | None: ...
 
 
 class FakeTlsRecords:
@@ -89,7 +89,7 @@ class FakeTlsRecords:
 
         return bytes(wire)
 
-    async def recv(self, length: int) -> Optional[bytes]:
+    async def recv(self, length: int) -> bytes | None:
         # A record boundary has nothing to do with a packet boundary, so reads are
         #  served out of a buffer and a record is pulled in only when it runs dry.
         while len(self._buffer) < length:
@@ -105,7 +105,7 @@ class FakeTlsRecords:
 
         return data
 
-    async def _read_record(self) -> Optional[bytes]:
+    async def _read_record(self) -> bytes | None:
         header = await self._read_exactly(RECORD_HEADER_SIZE)
 
         if header is None:

@@ -43,8 +43,8 @@ class ChatFolderInviteLinkInfo(Object):
         self,
         *,
         chat_folder_info: "types.Folder",
-        missing_chats: Optional[List["types.Chat"]] = None,
-        added_chats: Optional[List["types.Chat"]] = None,
+        missing_chats: list["types.Chat"] | None = None,
+        added_chats: list["types.Chat"] | None = None,
     ):
         self.chat_folder_info = chat_folder_info
         self.missing_chats = missing_chats

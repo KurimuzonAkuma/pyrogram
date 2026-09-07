@@ -39,8 +39,8 @@ class FolderInviteLink(Object):
         self,
         *,
         invite_link: str,
-        name: Optional[str] = None,
-        chat_ids: Optional[List[int]] = None
+        name: str | None = None,
+        chat_ids: list[int] | None = None
     ):
         super().__init__()
 

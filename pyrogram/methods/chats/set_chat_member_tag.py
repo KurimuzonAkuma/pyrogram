@@ -25,9 +25,9 @@ from pyrogram import raw
 class SetChatMemberTag:
     async def set_chat_member_tag(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        user_id: Union[int, str],
-        tag: Optional[str] = None,
+        chat_id: int | str,
+        user_id: int | str,
+        tag: str | None = None,
     ) -> bool:
         """Use this method to set a tag for a regular member in a group or a supergroup.
 

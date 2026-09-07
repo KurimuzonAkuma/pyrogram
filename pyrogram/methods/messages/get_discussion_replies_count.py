@@ -25,7 +25,7 @@ from pyrogram import raw
 class GetDiscussionRepliesCount:
     async def get_discussion_replies_count(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         message_id: int,
     ) -> int:
         """Get the total count of replies in a discussion thread.

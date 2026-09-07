@@ -28,8 +28,8 @@ class EditFolderInviteLink:
         self: "pyrogram.Client",
         chat_folder_id: int,
         invite_link: str,
-        chat_ids: Optional[List[Union[int, str]]] = None,
-        name: Optional[str] = None,
+        chat_ids: list[int | str] | None = None,
+        name: str | None = None,
     ) -> "types.FolderInviteLink":
         """Edits an invite link for a chat folder.
 

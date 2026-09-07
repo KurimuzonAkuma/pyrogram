@@ -41,9 +41,9 @@ class GiftUpgradeVariants(Object):
     def __init__(
         self,
         *,
-        models: List["types.GiftAttribute"],
-        symbols: List["types.GiftAttribute"],
-        backdrops: List["types.GiftAttribute"]
+        models: list["types.GiftAttribute"],
+        symbols: list["types.GiftAttribute"],
+        backdrops: list["types.GiftAttribute"]
     ):
         super().__init__()
 

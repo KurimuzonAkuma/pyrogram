@@ -24,7 +24,7 @@ from pyrogram import raw, types
 class GetAvailableGifts:
     async def get_available_gifts(
         self: "pyrogram.Client",
-    ) -> List["types.Gift"]:
+    ) -> list["types.Gift"]:
         """Get all available star gifts that can be sent to other users.
 
         .. include:: /_includes/usable-by/users-bots.rst

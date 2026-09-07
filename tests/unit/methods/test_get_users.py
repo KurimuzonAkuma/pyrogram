@@ -28,13 +28,13 @@ from pyrogram.methods.users.get_users import GetUsers
 class Answerer(GetUsers):
     """A client that answers `users.GetUsers` with a fixed vector and resolves any peer."""
 
-    def __init__(self, answer: List["raw.base.User"]) -> None:
+    def __init__(self, answer: list["raw.base.User"]) -> None:
         self.answer = answer
 
-    async def resolve_peer(self, peer_id: Union[int, str]) -> "raw.types.InputUser":
+    async def resolve_peer(self, peer_id: int | str) -> "raw.types.InputUser":
         return raw.types.InputUser(user_id=1, access_hash=0)
 
-    async def invoke(self, query: "raw.core.TLObject") -> List["raw.base.User"]:
+    async def invoke(self, query: "raw.core.TLObject") -> list["raw.base.User"]:
         return self.answer
 
 

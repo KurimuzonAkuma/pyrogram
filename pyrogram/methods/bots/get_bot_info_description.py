@@ -26,7 +26,7 @@ class GetBotInfoDescription:
     async def get_bot_info_description(
         self: "pyrogram.Client",
         language_code: str = "",
-        for_my_bot: Optional[Union[int, str]] = None,
+        for_my_bot: int | str | None = None,
     ) -> str:
         """Use this method to get the current / owned bot description for the given user language.
 

@@ -41,7 +41,7 @@ class ChatOwnerLeft(Object):
     async def _parse(
         client: "pyrogram.Client",
         action: "raw.types.MessageActionNewCreatorPending",
-        users: Dict[int, "types.User"],
+        users: dict[int, "types.User"],
     ) -> "ChatOwnerLeft":
         if isinstance(action, raw.types.MessageActionNewCreatorPending):
             return ChatOwnerLeft(

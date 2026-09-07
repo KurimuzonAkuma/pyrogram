@@ -26,12 +26,12 @@ from pyrogram import raw, utils
 class UpdateChatNotifications:
     async def update_chat_notifications(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        mute: Optional[bool] = None,
-        mute_until: Optional[datetime] = None,
-        stories_muted: Optional[bool] = None,
-        stories_hide_sender: Optional[bool] = None,
-        show_previews: Optional[bool] = None
+        chat_id: int | str,
+        mute: bool | None = None,
+        mute_until: datetime | None = None,
+        stories_muted: bool | None = None,
+        stories_hide_sender: bool | None = None,
+        show_previews: bool | None = None
     ) -> bool:
         """Update the notification settings for the selected chat
 

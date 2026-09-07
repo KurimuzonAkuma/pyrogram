@@ -25,12 +25,12 @@ from pyrogram import enums, raw, types, utils
 class EditEphemeralMessageText:
     async def edit_ephemeral_message_text(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        receiver_user_id: Union[int, str],
+        chat_id: int | str,
+        receiver_user_id: int | str,
         ephemeral_message_id: int,
-        text: Optional[str] = None,
+        text: str | None = None,
         parse_mode: Optional["enums.ParseMode"] = None,
-        entities: Optional[List["types.MessageEntity"]] = None,
+        entities: list["types.MessageEntity"] | None = None,
         rich_message: Optional["types.InputRichMessage"] = None,
         link_preview_options: Optional["types.LinkPreviewOptions"] = None,
         reply_markup: Optional["types.InlineKeyboardMarkup"] = None,

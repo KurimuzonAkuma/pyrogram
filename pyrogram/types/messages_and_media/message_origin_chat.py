@@ -44,9 +44,9 @@ class MessageOriginChat(MessageOrigin):
         self,
         *,
         type: "enums.MessageOriginType" = enums.MessageOriginType.CHAT,
-        date: Optional[datetime] = None,
+        date: datetime | None = None,
         sender_chat: Optional["types.Chat"] = None,
-        author_signature: Optional[str] = None
+        author_signature: str | None = None
     ):
         super().__init__(
             type=type,

@@ -16,7 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Callable, Dict, Final, Optional, Union
+from typing import Dict, Final, Optional, Union
+from collections.abc import Callable
 
 import pyrogram
 from pyrogram import raw, enums
@@ -25,7 +26,7 @@ from pyrogram import raw, enums
 #  building the raw action never has to inspect the enum member's name at
 #  runtime, and each lambda is checked against its own concrete raw type
 #  instead of the `raw.base.SendMessageAction` union `action.value` carries.
-_ACTIONS: Final[Dict["enums.ChatAction", Callable[[], "raw.base.SendMessageAction"]]] = {
+_ACTIONS: Final[dict["enums.ChatAction", Callable[[], "raw.base.SendMessageAction"]]] = {
     enums.ChatAction.TYPING: raw.types.SendMessageTypingAction,
     enums.ChatAction.UPLOAD_PHOTO: lambda: raw.types.SendMessageUploadPhotoAction(progress=0),
     enums.ChatAction.RECORD_VIDEO: raw.types.SendMessageRecordVideoAction,
@@ -48,9 +49,9 @@ _ACTIONS: Final[Dict["enums.ChatAction", Callable[[], "raw.base.SendMessageActio
 class SendChatAction:
     async def send_chat_action(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         action: "enums.ChatAction",
-        business_connection_id: Optional[str] = None
+        business_connection_id: str | None = None
     ) -> bool:
         """Tell the other party that something is happening on your side.
 

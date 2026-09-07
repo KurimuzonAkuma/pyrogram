@@ -129,7 +129,7 @@ class Dispatcher:
         self.handler_worker_tasks = []
         self.locks_list = []
 
-        self.updates_queue: "asyncio.Queue[Optional[Tuple[raw.base.Update, Dict[int, raw.base.User], Dict[int, raw.base.Chat]]]]" = asyncio.Queue()
+        self.updates_queue: asyncio.Queue[tuple[raw.base.Update, dict[int, raw.base.User], dict[int, raw.base.Chat]] | None] = asyncio.Queue()
         self.groups = OrderedDict()
 
         async def message_parser(update, users, chats):
@@ -305,8 +305,8 @@ class Dispatcher:
                 "raw.types.UpdateChatUserTyping",
                 "raw.types.UpdateChannelUserTyping",
             ],
-            users: Dict[int, "raw.base.User"],
-            chats: Dict[int, "raw.base.User"],
+            users: dict[int, "raw.base.User"],
+            chats: dict[int, "raw.base.User"],
         ):
             if isinstance(update.action, raw.types.SendMessageStopDraftAction):
                 return (
@@ -501,8 +501,8 @@ class Dispatcher:
         exc: Exception,
         update_handler: Handler,
         update: "pyrogram.raw.base.Update",
-        users: Dict[int, "pyrogram.raw.base.User"],
-        chats: Dict[int, "pyrogram.raw.base.Chat"]
+        users: dict[int, "pyrogram.raw.base.User"],
+        chats: dict[int, "pyrogram.raw.base.Chat"]
     ) -> None:
         handled = False
         try:

@@ -48,11 +48,11 @@ class AcceptedGiftTypes(Object):
     def __init__(
         self,
         *,
-        unlimited_gifts: Optional[bool] = None,
-        limited_gifts: Optional[bool] = None,
-        upgraded_gifts: Optional[bool] = None,
-        gifts_from_channels: Optional[bool] = None,
-        premium_subscription: Optional[bool] = None,
+        unlimited_gifts: bool | None = None,
+        limited_gifts: bool | None = None,
+        upgraded_gifts: bool | None = None,
+        gifts_from_channels: bool | None = None,
+        premium_subscription: bool | None = None,
     ):
         super().__init__()
 

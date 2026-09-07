@@ -17,7 +17,8 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import math
-from typing import AsyncGenerator, Union
+from typing import Union
+from collections.abc import AsyncGenerator
 
 import pyrogram
 from pyrogram import types

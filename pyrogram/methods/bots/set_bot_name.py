@@ -27,7 +27,7 @@ class SetBotName:
         self: "pyrogram.Client",
         name: str,
         language_code: str = "",
-        for_my_bot: Optional[Union[int, str]] = None,
+        for_my_bot: int | str | None = None,
     ) -> str:
         """Use this method to get the current / owned bot name for the given user language.
         

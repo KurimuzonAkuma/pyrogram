@@ -131,7 +131,7 @@ class ExternalReplyInfo(Object):
         video: Optional["types.Video"] = None,
         video_note: Optional["types.VideoNote"] = None,
         voice: Optional["types.Voice"] = None,
-        has_media_spoiler: Optional[bool] = None,
+        has_media_spoiler: bool | None = None,
         checklist: Optional["types.Checklist"] = None,
         contact: Optional["types.Contact"] = None,
         dice: Optional["types.Dice"] = None,
@@ -176,8 +176,8 @@ class ExternalReplyInfo(Object):
     async def _parse(
         client,
         reply: "raw.types.MessageReplyHeader",
-        users: Dict[int, "raw.types.User"],
-        chats: Dict[int, "raw.types.Chat"],
+        users: dict[int, "raw.types.User"],
+        chats: dict[int, "raw.types.Chat"],
     ) -> Optional["ExternalReplyInfo"]:
         if not isinstance(reply, raw.types.MessageReplyHeader):
             return None

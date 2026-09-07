@@ -25,7 +25,7 @@ from pyrogram import raw, types, utils
 class GetFolders:
     async def get_folders(
         self: "pyrogram.Client"
-    ) -> List["types.Folder"]:
+    ) -> list["types.Folder"]:
         """Return information about a chat folders.
 
         .. include:: /_includes/usable-by/users.rst

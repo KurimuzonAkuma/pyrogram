@@ -25,8 +25,8 @@ from pyrogram import raw, enums
 class GetWebAppUrl:
     async def get_web_app_url(
         self: "pyrogram.Client",
-        bot_user_id: Union[int, str],
-        url: Optional[str] = None,
+        bot_user_id: int | str,
+        url: str | None = None,
         platform: Optional["enums.ClientPlatform"] = None
     ) -> str:
         """Returns an HTTPS URL of a Web App to open from the side menu,

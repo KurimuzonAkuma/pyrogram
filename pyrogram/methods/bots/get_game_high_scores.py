@@ -26,10 +26,10 @@ from pyrogram import types
 class GetGameHighScores:
     async def get_game_high_scores(
         self: "pyrogram.Client",
-        user_id: Union[int, str],
-        chat_id: Union[int, str],
+        user_id: int | str,
+        chat_id: int | str,
         message_id: int
-    ) -> List["types.GameHighScore"]:
+    ) -> list["types.GameHighScore"]:
         """Get data for high score tables.
 
         .. include:: /_includes/usable-by/bots.rst

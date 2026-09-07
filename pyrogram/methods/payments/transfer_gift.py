@@ -26,9 +26,9 @@ class TransferGift:
     async def transfer_gift(
         self: "pyrogram.Client",
         owned_gift_id: str,
-        new_owner_chat_id: Union[int, str],
+        new_owner_chat_id: int | str,
         # stars_count: int = None,
-        business_connection_id: Optional[str] = None
+        business_connection_id: str | None = None
     ) -> Optional["types.Message"]:
         """Transfers an owned unique gift to another user.
 

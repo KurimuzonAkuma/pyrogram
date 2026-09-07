@@ -25,7 +25,7 @@ from pyrogram import raw
 class LeaveChat:
     async def leave_chat(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         delete: bool = False
     ):
         """Leave a group chat or channel.

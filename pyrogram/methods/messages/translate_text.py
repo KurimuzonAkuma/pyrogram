@@ -26,8 +26,8 @@ class TranslateText:
     async def translate_text(
         self: "pyrogram.Client",
         text: Union[str, "types.FormattedText"],
-        to_language_code: Optional[str] = None,
-        tone: Optional[str] = None,
+        to_language_code: str | None = None,
+        tone: str | None = None,
     ) -> "types.FormattedText":
         """Translate a text to the given language.
 

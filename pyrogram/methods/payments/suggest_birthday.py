@@ -26,7 +26,7 @@ from pyrogram import raw, types
 class SuggestBirthday:
     async def suggest_birthday(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         birthday: "types.Birthday"
     ) -> bool:
         """Suggests a birthdate to another regular user with common messages and allowing non-paid messages.

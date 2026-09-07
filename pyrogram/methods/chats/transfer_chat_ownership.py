@@ -25,8 +25,8 @@ from pyrogram import raw, utils
 class TransferChatOwnership:
     async def transfer_chat_ownership(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        user_id: Union[int, str],
+        chat_id: int | str,
+        user_id: int | str,
         password: str,
     ) -> bool:
         """Change the owner of a chat or channel.

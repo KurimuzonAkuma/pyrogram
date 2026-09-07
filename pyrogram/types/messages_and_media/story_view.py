@@ -51,8 +51,8 @@ class StoryView(Object):
         client: Optional["pyrogram.Client"] = None,
         from_user: "types.User",
         date: datetime,
-        is_blocked: Optional[bool] = None,
-        is_blocked_my_stories_from: Optional[bool] = None,
+        is_blocked: bool | None = None,
+        is_blocked_my_stories_from: bool | None = None,
         reaction: Optional["types.Reaction"] = None
     ):
         super().__init__(client)
@@ -64,7 +64,7 @@ class StoryView(Object):
         self.reaction = reaction
 
     @staticmethod
-    async def _parse(client, view: "raw.types.StoryView", users: List["raw.types.User"]) -> "StoryView":
+    async def _parse(client, view: "raw.types.StoryView", users: list["raw.types.User"]) -> "StoryView":
         return StoryView(
             from_user=await types.User._parse(client, users[view.user_id]),
             date=utils.timestamp_to_datetime(view.date),

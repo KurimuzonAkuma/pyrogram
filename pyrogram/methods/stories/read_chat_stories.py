@@ -25,9 +25,9 @@ from pyrogram import raw, types
 class ReadChatStories:
     async def read_chat_stories(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         max_id: int = 0,
-    ) -> List[int]:
+    ) -> list[int]:
         """Mark all stories up to a certain identifier as read, for a given chat.
 
         .. include:: /_includes/usable-by/users.rst

@@ -65,7 +65,7 @@ def rle_encode(s: bytes) -> bytes:
     Returns:
         ``bytes``: The encoded bytes
     """
-    r: List[int] = []
+    r: list[int] = []
     n: int = 0
 
     for b in s:
@@ -94,7 +94,7 @@ def rle_decode(s: bytes) -> bytes:
     Returns:
         ``bytes``: The decoded bytes
     """
-    r: List[int] = []
+    r: list[int] = []
     z: bool = False
 
     for b in s:
@@ -181,16 +181,16 @@ class PhotoTail:
 
     Which of them are filled is decided by the source; the rest keep the default `FileId` gives them.
     """
-    volume_id: Optional[int] = None
-    local_id: Optional[int] = None
-    secret: Optional[int] = None
-    thumbnail_file_type: Optional[int] = None
+    volume_id: int | None = None
+    local_id: int | None = None
+    secret: int | None = None
+    thumbnail_file_type: int | None = None
     thumbnail_size: str = ""
-    chat_id: Optional[int] = None
-    chat_access_hash: Optional[int] = None
-    sticker_set_id: Optional[int] = None
-    sticker_set_access_hash: Optional[int] = None
-    sticker_set_version: Optional[int] = None
+    chat_id: int | None = None
+    chat_access_hash: int | None = None
+    sticker_set_id: int | None = None
+    sticker_set_access_hash: int | None = None
+    sticker_set_version: int | None = None
 
 
 def read_photo_tail(buffer: BytesIO, *, thumbnail_source: ThumbnailSource) -> PhotoTail:
@@ -318,20 +318,20 @@ class FileId:
         file_type: FileType,
         dc_id: int,
         file_reference: bytes = b"",
-        url: Optional[str] = None,
-        media_id: Optional[int] = None,
-        access_hash: Optional[int] = None,
-        volume_id: Optional[int] = None,
-        thumbnail_source: Optional[ThumbnailSource] = None,
-        thumbnail_file_type: Optional[FileType] = None,
+        url: str | None = None,
+        media_id: int | None = None,
+        access_hash: int | None = None,
+        volume_id: int | None = None,
+        thumbnail_source: ThumbnailSource | None = None,
+        thumbnail_file_type: FileType | None = None,
         thumbnail_size: str = "",
-        secret: Optional[int] = None,
-        local_id: Optional[int] = None,
-        chat_id: Optional[int] = None,
-        chat_access_hash: Optional[int] = None,
-        sticker_set_id: Optional[int] = None,
-        sticker_set_access_hash: Optional[int] = None,
-        sticker_set_version: Optional[int] = None
+        secret: int | None = None,
+        local_id: int | None = None,
+        chat_id: int | None = None,
+        chat_access_hash: int | None = None,
+        sticker_set_id: int | None = None,
+        sticker_set_access_hash: int | None = None,
+        sticker_set_version: int | None = None
     ):
         self.major = major
         self.minor = minor
@@ -452,7 +452,7 @@ class FileId:
                 access_hash=access_hash
             )
 
-    def encode(self, *, major: Optional[int] = None, minor: Optional[int] = None):
+    def encode(self, *, major: int | None = None, minor: int | None = None):
         major = major if major is not None else self.major
         minor = minor if minor is not None else self.minor
 
@@ -514,10 +514,10 @@ class FileUniqueId:
     def __init__(
         self, *,
         file_unique_type: FileUniqueType,
-        url: Optional[str] = None,
-        media_id: Optional[int] = None,
-        volume_id: Optional[int] = None,
-        local_id: Optional[int] = None
+        url: str | None = None,
+        media_id: int | None = None,
+        volume_id: int | None = None,
+        local_id: int | None = None
     ):
         self.file_unique_type = file_unique_type
         self.url = url

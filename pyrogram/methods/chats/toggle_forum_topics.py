@@ -25,7 +25,7 @@ from pyrogram import errors, raw
 class ToggleForumTopics:
     async def toggle_forum_topics(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         is_forum: bool = False,
         has_forum_tabs: bool = False
     ) -> bool:

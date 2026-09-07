@@ -83,20 +83,20 @@ class ChatMember(Object):
         *,
         client: Optional["pyrogram.Client"] = None,
         status: "enums.ChatMemberStatus",
-        tag: Optional[str] = None,
+        tag: str | None = None,
         user: Optional["types.User"] = None,
         chat: Optional["types.Chat"] = None,
-        custom_title: Optional[str] = None,
-        until_date: Optional[datetime] = None,
-        joined_date: Optional[datetime] = None,
+        custom_title: str | None = None,
+        until_date: datetime | None = None,
+        joined_date: datetime | None = None,
         invited_by: Optional["types.User"] = None,
         promoted_by: Optional["types.User"] = None,
         restricted_by: Optional["types.User"] = None,
-        is_member: Optional[bool] = None,
-        can_be_edited: Optional[bool] = None,
+        is_member: bool | None = None,
+        can_be_edited: bool | None = None,
         permissions: Optional["types.ChatPermissions"] = None,
         privileges: Optional["types.ChatAdministratorRights"] = None,
-        subscription_until_date: Optional[datetime] = None
+        subscription_until_date: datetime | None = None
     ):
         super().__init__(client)
 
@@ -120,8 +120,8 @@ class ChatMember(Object):
     async def _parse(
         client: "pyrogram.Client",
         member: Union["raw.base.ChatParticipant", "raw.base.ChannelParticipant"],
-        users: Dict[int, "raw.base.User"],
-        chats: Dict[int, "raw.base.Chat"]
+        users: dict[int, "raw.base.User"],
+        chats: dict[int, "raw.base.Chat"]
     ) -> "ChatMember":
         # Chat participants
         if isinstance(member, raw.types.ChatParticipant):

@@ -25,7 +25,7 @@ from pyrogram import raw
 class GetManagedBotToken:
     async def get_managed_bot_token(
         self: "pyrogram.Client",
-        user_id: Union[int, str],
+        user_id: int | str,
     ) -> str:
         """Use this method to get the token of a managed bot.
 

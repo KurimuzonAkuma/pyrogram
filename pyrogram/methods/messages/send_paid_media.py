@@ -33,30 +33,30 @@ class SendPaidMedia:
     # TODO: Add progress parameter
     async def send_paid_media(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         stars_amount: int,
-        media: List[Union[
+        media: list[Union[
             "types.InputMediaPhoto",
             "types.InputMediaVideo",
         ]],
         caption: str = "",
-        payload: Optional[str] = None,
+        payload: str | None = None,
         parse_mode: Optional["enums.ParseMode"] = None,
-        caption_entities: Optional[List["types.MessageEntity"]] = None,
-        disable_notification: Optional[bool] = None,
-        direct_messages_topic_id: Optional[int] = None,
+        caption_entities: list["types.MessageEntity"] | None = None,
+        disable_notification: bool | None = None,
+        direct_messages_topic_id: int | None = None,
         reply_parameters: Optional["types.ReplyParameters"] = None,
         suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        schedule_date: Optional[datetime] = None,
-        protect_content: Optional[bool] = None,
-        show_caption_above_media: Optional[bool] = None,
-        business_connection_id: Optional[str] = None,
+        schedule_date: datetime | None = None,
+        protect_content: bool | None = None,
+        show_caption_above_media: bool | None = None,
+        business_connection_id: str | None = None,
 
-        reply_to_message_id: Optional[int] = None,
-        quote_text: Optional[str] = None,
-        quote_entities: Optional[List["types.MessageEntity"]] = None,
-        quote_offset: Optional[int] = None,
-    ) -> List["types.Message"]:
+        reply_to_message_id: int | None = None,
+        quote_text: str | None = None,
+        quote_entities: list["types.MessageEntity"] | None = None,
+        quote_offset: int | None = None,
+    ) -> list["types.Message"]:
         """Send a group or one paid photo/video.
 
         .. include:: /_includes/usable-by/users-bots.rst

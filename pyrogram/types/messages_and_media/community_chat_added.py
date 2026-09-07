@@ -41,7 +41,7 @@ class CommunityChatAdded(Object):
     async def _parse(
         client: "pyrogram.Client",
         action: "raw.types.MessageActionChangeCommunity",
-        chats: Dict[int, "raw.base.Chat"],
+        chats: dict[int, "raw.base.Chat"],
     ) -> "CommunityChatAdded":
         return CommunityChatAdded(
             community=await types.Community._parse(client, chats.get(action.community_id)),

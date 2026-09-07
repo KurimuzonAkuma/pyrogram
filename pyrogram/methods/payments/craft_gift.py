@@ -26,7 +26,7 @@ from pyrogram import utils
 class CraftGift:
     async def craft_gift(
         self: "pyrogram.Client",
-        owned_gift_ids: List[str]
+        owned_gift_ids: list[str]
     ) -> "types.CraftGiftResult":
         """Crafts a new gift from other gifts that will be permanently lost.
 

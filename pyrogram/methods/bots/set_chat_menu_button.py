@@ -26,7 +26,7 @@ from pyrogram import types
 class SetChatMenuButton:
     async def set_chat_menu_button(
         self: "pyrogram.Client",
-        chat_id: Optional[Union[int, str]] = None,
+        chat_id: int | str | None = None,
         menu_button: Optional["types.MenuButton"] = None
     ) -> bool:
         """Change the bot's menu button in a private chat, or the default menu button.

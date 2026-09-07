@@ -25,8 +25,8 @@ from pyrogram import raw, enums
 class GetWebAppLinkUrl:
     async def get_web_app_link_url(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        bot_user_id: Union[int, str],
+        chat_id: int | str,
+        bot_user_id: int | str,
         web_app_short_name: str,
         start_parameter: str = "",
         allow_write_access: bool = False,

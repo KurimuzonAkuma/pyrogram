@@ -28,17 +28,17 @@ log = logging.getLogger(__name__)
 class CopyStory:
     async def copy_story(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        from_chat_id: Union[int, str],
+        chat_id: int | str,
+        from_chat_id: int | str,
         story_id: int,
-        caption: Optional[str] = None,
+        caption: str | None = None,
         parse_mode: Optional["enums.ParseMode"] = None,
-        caption_entities: Optional[List["types.MessageEntity"]] = None,
-        period: Optional[int] = None,
+        caption_entities: list["types.MessageEntity"] | None = None,
+        period: int | None = None,
         privacy: Optional["enums.StoriesPrivacyRules"] = None,
-        allowed_users: Optional[List[Union[int, str]]] = None,
-        disallowed_users: Optional[List[Union[int, str]]] = None,
-        protect_content: Optional[bool] = None
+        allowed_users: list[int | str] | None = None,
+        disallowed_users: list[int | str] | None = None,
+        protect_content: bool | None = None
     ) -> Optional["types.Story"]:
         """Copy story.
 

@@ -33,8 +33,8 @@ class GiftPurchaseLimit(Object):
     def __init__(
         self,
         *,
-        total_count: Optional[int] = None,
-        remaining_count: Optional[int] = None
+        total_count: int | None = None,
+        remaining_count: int | None = None
     ):
         super().__init__()
 

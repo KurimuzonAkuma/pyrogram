@@ -31,7 +31,7 @@ _CHAT_ID: Final[int] = -1001234567890
 class FakeClient(GetChatAdminsWithInviteLinks):
     """A client that answers `messages.GetAdminsWithInvites` with the admins it was given."""
 
-    def __init__(self, admins: List[raw.types.ChatAdminWithInvites]) -> None:
+    def __init__(self, admins: list[raw.types.ChatAdminWithInvites]) -> None:
         self.admins = admins
 
     async def resolve_peer(self, peer_id: int) -> raw.types.InputPeerChannel:

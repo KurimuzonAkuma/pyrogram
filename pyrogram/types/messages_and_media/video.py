@@ -89,16 +89,16 @@ class Video(Object):
         height: int,
         codec: str,
         duration: int,
-        file_name: Optional[str] = None,
-        mime_type: Optional[str] = None,
-        file_size: Optional[int] = None,
-        supports_streaming: Optional[bool] = None,
-        ttl_seconds: Optional[int] = None,
-        date: Optional[datetime] = None,
-        thumbs: Optional[List["types.Thumbnail"]] = None,
+        file_name: str | None = None,
+        mime_type: str | None = None,
+        file_size: int | None = None,
+        supports_streaming: bool | None = None,
+        ttl_seconds: int | None = None,
+        date: datetime | None = None,
+        thumbs: list["types.Thumbnail"] | None = None,
         video_cover: Optional["types.Photo"] = None,
-        video_start_timestamp: Optional[int] = None,
-        alternative_videos: Optional[List["types.Video"]] = None
+        video_start_timestamp: int | None = None,
+        alternative_videos: list["types.Video"] | None = None
     ):
         super().__init__(client)
 
@@ -124,11 +124,11 @@ class Video(Object):
         client,
         video: "raw.types.Document",
         video_attributes: "raw.types.DocumentAttributeVideo",
-        file_name: Optional[str] = None,
-        ttl_seconds: Optional[int] = None,
+        file_name: str | None = None,
+        ttl_seconds: int | None = None,
         video_cover = None,
-        video_start_timestamp: Optional[int] = None,
-        alternative_videos: List["raw.types.Document"] = []
+        video_start_timestamp: int | None = None,
+        alternative_videos: list["raw.types.Document"] = []
     ) -> "Video":
         _alt_videos = types.List()
 

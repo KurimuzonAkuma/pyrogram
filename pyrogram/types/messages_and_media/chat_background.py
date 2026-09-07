@@ -88,21 +88,21 @@ class ChatBackground(Object):
         *,
         id: int,
         document: Optional["types.Document"] = None,
-        is_creator: Optional[bool] = None,
-        is_default: Optional[bool] = None,
-        is_pattern: Optional[bool] = None,
-        is_dark: Optional[bool] = None,
-        is_blurred: Optional[bool] = None,
-        is_moving: Optional[bool] = None,
-        is_same: Optional[bool] = None,
-        only_for_self: Optional[bool] = None,
-        background_color: Optional[int] = None,
-        second_background_color: Optional[int] = None,
-        third_background_color: Optional[int] = None,
-        fourth_background_color: Optional[int] = None,
-        intensity: Optional[int] = None,
-        rotation_angle: Optional[int] = None,
-        emoji: Optional[str] = None,
+        is_creator: bool | None = None,
+        is_default: bool | None = None,
+        is_pattern: bool | None = None,
+        is_dark: bool | None = None,
+        is_blurred: bool | None = None,
+        is_moving: bool | None = None,
+        is_same: bool | None = None,
+        only_for_self: bool | None = None,
+        background_color: int | None = None,
+        second_background_color: int | None = None,
+        third_background_color: int | None = None,
+        fourth_background_color: int | None = None,
+        intensity: int | None = None,
+        rotation_angle: int | None = None,
+        emoji: str | None = None,
         raw: Optional["raw.base.WallPaper"] = None
     ):
         super().__init__()
@@ -130,8 +130,8 @@ class ChatBackground(Object):
     def _parse(
         client: "pyrogram.Client",
         background: "raw.base.WallPaper",
-        is_same: Optional[bool] = None,
-        only_for_self: Optional[bool] = None
+        is_same: bool | None = None,
+        only_for_self: bool | None = None
     ) -> Optional["ChatBackground"]:
         if not background:
             return None

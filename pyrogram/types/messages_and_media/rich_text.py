@@ -66,9 +66,9 @@ class RichText(Object):
     async def _parse(
         client: "pyrogram.Client",
         rich_text: "raw.base.RichText",
-        users: Dict[int, "raw.base.User"] = {},
-        chats: Dict[int, "raw.base.Chat"] = {},
-    ) -> Optional[Union[str, List["RichText"], "RichText"]]:
+        users: dict[int, "raw.base.User"] = {},
+        chats: dict[int, "raw.base.Chat"] = {},
+    ) -> Union[str, list["RichText"], "RichText"] | None:
         # TODO: fix anchors and references
         if isinstance(rich_text, raw.types.TextPlain):
             return rich_text.text
@@ -361,7 +361,7 @@ class RichTextDateTime(RichText):
         self,
         text: "types.RichText",
         date: datetime,
-        date_time_format: Optional[str] = None,
+        date_time_format: str | None = None,
     ):
         super().__init__()
 

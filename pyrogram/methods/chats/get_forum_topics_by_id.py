@@ -17,7 +17,8 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from typing import Iterable, List, Union, overload
+from typing import List, Union, overload
+from collections.abc import Iterable
 
 import pyrogram
 from pyrogram import raw, types
@@ -29,22 +30,22 @@ class GetForumTopicsByID:
     @overload
     async def get_forum_topics_by_id(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         topic_ids: int
     ) -> "types.ForumTopic": ...
 
     @overload
     async def get_forum_topics_by_id(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         topic_ids: Iterable[int]
-    ) -> List["types.ForumTopic"]: ...
+    ) -> list["types.ForumTopic"]: ...
 
     async def get_forum_topics_by_id(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        topic_ids: Union[int, Iterable[int]]
-    ) -> Union["types.ForumTopic", List["types.ForumTopic"]]:
+        chat_id: int | str,
+        topic_ids: int | Iterable[int]
+    ) -> Union["types.ForumTopic", list["types.ForumTopic"]]:
         """Get one or more topic from a chat by using topic identifiers.
 
         .. include:: /_includes/usable-by/users.rst

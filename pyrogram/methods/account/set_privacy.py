@@ -26,7 +26,7 @@ class SetPrivacy:
     async def set_privacy(
         self: "pyrogram.Client",
         key: "enums.PrivacyKey",
-        rules: List[Union[
+        rules: list[Union[
             "types.InputPrivacyRuleAllowAll",
             "types.InputPrivacyRuleAllowBots",
             "types.InputPrivacyRuleAllowChats",
@@ -40,7 +40,7 @@ class SetPrivacy:
             "types.InputPrivacyRuleDisallowContacts",
             "types.InputPrivacyRuleDisallowUsers"
         ]],
-    ) -> List["types.PrivacyRule"]:
+    ) -> list["types.PrivacyRule"]:
         """Set account privacy rules.
 
         .. include:: /_includes/usable-by/users.rst

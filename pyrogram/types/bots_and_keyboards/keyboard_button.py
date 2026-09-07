@@ -77,10 +77,10 @@ class KeyboardButton(Object):
     def __init__(
         self,
         text: str,
-        icon_custom_emoji_id: Optional[str] = None,
+        icon_custom_emoji_id: str | None = None,
         style: "enums.ButtonStyle" = enums.ButtonStyle.DEFAULT,
-        request_contact: Optional[bool] = None,
-        request_location: Optional[bool] = None,
+        request_contact: bool | None = None,
+        request_location: bool | None = None,
         request_poll: Optional["types.KeyboardButtonPollType"] = None,
         request_users: Optional["types.KeyboardButtonRequestUsers"] = None,
         request_chat: Optional["types.KeyboardButtonRequestChat"] = None,

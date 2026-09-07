@@ -27,8 +27,8 @@ class SummarizeMessage:
         self: "pyrogram.Client",
         chat_id: str,
         message_id: int,
-        translate_to_language_code: Optional[str] = None,
-        tone: Optional[str] = None,
+        translate_to_language_code: str | None = None,
+        tone: str | None = None,
     ) -> "types.FormattedText":
         """Summarizes content of the message with non-empty summary_language_code.
 

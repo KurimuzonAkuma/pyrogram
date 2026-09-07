@@ -50,8 +50,8 @@ class GiftedGrams(Object):
         *,
         gifter: Optional["types.User"] = None,
         receiver: "types.User",
-        gram_amount: Optional[int] = None,
-        transaction_id: Optional[str] = None,
+        gram_amount: int | None = None,
+        transaction_id: str | None = None,
         sticker: Optional["types.Sticker"] = None,
     ):
         super().__init__()

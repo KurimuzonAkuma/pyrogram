@@ -25,12 +25,12 @@ from pyrogram import raw
 class EditForumTopic:
     async def edit_forum_topic(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         topic_id: int,
-        title: Optional[str] = None,
-        icon_emoji_id: Optional[int] = None,
-        closed: Optional[bool] = None,
-        hidden: Optional[bool] = None
+        title: str | None = None,
+        icon_emoji_id: int | None = None,
+        closed: bool | None = None,
+        hidden: bool | None = None
     ) -> bool:
         """Edit a forum topic.
 

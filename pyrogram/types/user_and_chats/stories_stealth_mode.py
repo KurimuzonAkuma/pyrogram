@@ -34,7 +34,7 @@ class StoriesStealthMode(Object):
             The date starting from which the user will be allowed to re-enable stealth mode again.
     """
 
-    def __init__(self, *, active_until_date: Optional[datetime] = None, cooldown_until_date: Optional[datetime] = None):
+    def __init__(self, *, active_until_date: datetime | None = None, cooldown_until_date: datetime | None = None):
         super().__init__(None)
 
         self.active_until_date = active_until_date

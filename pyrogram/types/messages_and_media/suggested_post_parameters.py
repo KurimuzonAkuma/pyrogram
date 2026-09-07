@@ -39,7 +39,7 @@ class SuggestedPostParameters(Object):
     def __init__(
         self, *,
         price: Optional["types.SuggestedPostPrice"] = None,
-        send_date: Optional[datetime] = None
+        send_date: datetime | None = None
     ):
         super().__init__()
 

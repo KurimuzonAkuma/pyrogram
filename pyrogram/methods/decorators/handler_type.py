@@ -16,7 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Callable, TypeVar
+from typing import TypeVar
+from collections.abc import Callable
 
 # Every handler decorator returns the function it was handed, unchanged. Binding the
 #  parameter and the return to one type variable is what carries the callback's own

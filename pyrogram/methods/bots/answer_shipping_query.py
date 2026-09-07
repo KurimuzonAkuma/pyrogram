@@ -28,8 +28,8 @@ class AnswerShippingQuery:
         self: "pyrogram.Client",
         shipping_query_id: str,
         ok: bool,
-        shipping_options: Optional[List["types.ShippingOption"]] = None,
-        error_message: Optional[str] = None
+        shipping_options: list["types.ShippingOption"] | None = None,
+        error_message: str | None = None
     ) -> bool:
         """If you sent an invoice requesting a shipping address and the parameter ``is_flexible`` was specified, the API sends the confirmation in the form of an :obj:`~pyrogram.handlers.ShippingQueryHandler`.
 

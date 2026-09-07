@@ -35,7 +35,7 @@ class RichMessage(Object):
             True, if the rich message must be shown right-to-left.
     """
 
-    def __init__(self, *, blocks: List["types.RichBlock"], is_rtl: Optional[bool] = None):
+    def __init__(self, *, blocks: list["types.RichBlock"], is_rtl: bool | None = None):
         super().__init__()
 
         self.blocks = blocks
@@ -45,8 +45,8 @@ class RichMessage(Object):
     async def _parse(
         client: "pyrogram.Client",
         rich_message: "raw.types.RichMessage",
-        users: Dict[int, "raw.base.User"] = {},
-        chats: Dict[int, "raw.base.Chat"] = {},
+        users: dict[int, "raw.base.User"] = {},
+        chats: dict[int, "raw.base.Chat"] = {},
     ) -> "RichMessage":
         if isinstance(rich_message, raw.types.RichMessage):
             photos = {photo.id: photo for photo in rich_message.photos}

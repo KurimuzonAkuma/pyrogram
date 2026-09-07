@@ -27,7 +27,7 @@ class SetBotInfoShortDescription:
         self: "pyrogram.Client",
         short_description: str,
         language_code: str = "",
-        for_my_bot: Optional[Union[int, str]] = None,
+        for_my_bot: int | str | None = None,
     ) -> bool:
         """Use this method to change the bot's short description, which is shown on the bot's profile page and is sent together with the link when users share the bot.
         

@@ -45,11 +45,11 @@ class ForumTopicEdited(Object):
 
     def __init__(
         self, *,
-        title: Optional[str] = None,
-        icon_color: Optional[int] = None,
-        custom_emoji_id: Optional[str] = None,
-        is_closed: Optional[bool] = None,
-        is_hidden: Optional[bool] = None
+        title: str | None = None,
+        icon_color: int | None = None,
+        custom_emoji_id: str | None = None,
+        is_closed: bool | None = None,
+        is_hidden: bool | None = None
     ):
         super().__init__()
 

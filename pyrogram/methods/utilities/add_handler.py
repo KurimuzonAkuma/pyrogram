@@ -28,7 +28,7 @@ class AddHandler:
         self: "pyrogram.Client",
         handler: "Handler",
         group: int = 0
-    ) -> Tuple["Handler", int]:
+    ) -> tuple["Handler", int]:
         """Register an update handler.
 
         You can register multiple handlers, but at most one handler within a group will be used for a single update.

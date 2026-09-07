@@ -46,7 +46,7 @@ class ManagedBotCreated(Object):
     async def _parse(
         client: "pyrogram.Client",
         managed_bot_created: "raw.types.MessageActionManagedBotCreated",
-        users: Dict[int, "raw.types.User"],
+        users: dict[int, "raw.types.User"],
     ) -> "ManagedBotCreated":
         if not isinstance(managed_bot_created, raw.types.MessageActionManagedBotCreated):
             return

@@ -26,7 +26,7 @@ class ConvertGiftToStars:
     async def convert_gift_to_stars(
         self: "pyrogram.Client",
         owned_gift_id: str,
-        business_connection_id: Optional[str] = None
+        business_connection_id: str | None = None
     ) -> bool:
         """Convert a given regular gift to Telegram Stars.
 

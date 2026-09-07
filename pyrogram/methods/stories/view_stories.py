@@ -25,8 +25,8 @@ from pyrogram import raw
 class ViewStories:
     async def view_stories(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        story_id: Union[int, List[int]],
+        chat_id: int | str,
+        story_id: int | list[int],
     ) -> bool:
         """Increment story views.
 

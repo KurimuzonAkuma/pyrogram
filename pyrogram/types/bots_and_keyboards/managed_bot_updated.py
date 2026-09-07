@@ -52,7 +52,7 @@ class ManagedBotUpdated(Object, Update):
     async def _parse(
         client: "pyrogram.Client",
         managed_bot_updated: "raw.types.UpdateManagedBot",
-        users: Dict[int, "raw.types.User"],
+        users: dict[int, "raw.types.User"],
     ) -> "ManagedBotUpdated":
         if not isinstance(managed_bot_updated, raw.types.UpdateManagedBot):
             return

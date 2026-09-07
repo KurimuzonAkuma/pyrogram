@@ -47,11 +47,11 @@ class GiftUpgradePreview(Object):
     def __init__(
         self,
         *,
-        models: Optional[List["types.GiftAttribute"]] = None,
-        symbols: Optional[List["types.GiftAttribute"]] = None,
-        backdrops: Optional[List["types.GiftAttribute"]] = None,
-        prices: Optional[List["types.GiftUpgradePrice"]] = None,
-        next_prices: Optional[List["types.GiftUpgradePrice"]] = None
+        models: list["types.GiftAttribute"] | None = None,
+        symbols: list["types.GiftAttribute"] | None = None,
+        backdrops: list["types.GiftAttribute"] | None = None,
+        prices: list["types.GiftUpgradePrice"] | None = None,
+        next_prices: list["types.GiftUpgradePrice"] | None = None
     ):
         super().__init__()
 

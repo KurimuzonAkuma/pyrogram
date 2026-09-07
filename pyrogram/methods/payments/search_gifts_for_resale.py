@@ -16,7 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import List, Optional, AsyncGenerator
+from typing import List, Optional
+from collections.abc import AsyncGenerator
 
 import pyrogram
 from pyrogram import enums, raw, types
@@ -27,9 +28,9 @@ class SearchGiftsForResale:
         self: "pyrogram.Client",
         gift_id: int,
         order: "enums.GiftForResaleOrder" = enums.GiftForResaleOrder.CHANGE_DATE,
-        for_crafting: Optional[bool] = None,
-        for_stars: Optional[bool] = None,
-        attributes: Optional[List["types.UpgradedGiftAttributeId"]] = None,
+        for_crafting: bool | None = None,
+        for_stars: bool | None = None,
+        attributes: list["types.UpgradedGiftAttributeId"] | None = None,
         limit: int = 0,
         offset: str = ""
     ) -> AsyncGenerator["types.Gift", None]:

@@ -30,8 +30,8 @@ log = logging.getLogger(__name__)
 class GetScheduledMessages:
     async def get_scheduled_messages(
         self: "pyrogram.Client",
-        chat_id: Union[int, str]
-    ) -> List["types.Message"]:
+        chat_id: int | str
+    ) -> list["types.Message"]:
         """Get one or more scheduled messages from a chat.
 
         .. include:: /_includes/usable-by/users.rst

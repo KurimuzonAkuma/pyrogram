@@ -20,13 +20,14 @@ import re
 from dataclasses import dataclass
 from datetime import datetime
 from importlib import import_module
-from typing import Final, Optional, Pattern, Tuple, Type, Union
+from typing import Final, Optional, Tuple, Type, Union
+from re import Pattern
 
 from pyrogram import raw
 from pyrogram.raw.core import TLObject
 from .exceptions.all import exceptions
 
-STRING_PARAMETER_PREFIXES: Final[Tuple[str, ...]] = (
+STRING_PARAMETER_PREFIXES: Final[tuple[str, ...]] = (
     "APNS_VERIFY_CHECK_",
     "INTEGRITY_CHECK_CLASSIC_",
     "RECAPTCHA_CHECK_"
@@ -42,7 +43,7 @@ CATEGORY: Final[str] = "_"
 @dataclass(frozen=True)
 class _MessageParts:
     error_id: str
-    value: Optional[str]
+    value: str | None
 
 
 def _split_error_message(error_message: str) -> _MessageParts:
@@ -87,16 +88,16 @@ def _split_error_message(error_message: str) -> _MessageParts:
 
 
 class RPCError(Exception):
-    ID: Optional[str] = None
-    CODE: Optional[int] = None
-    NAME: Optional[str] = None
+    ID: str | None = None
+    CODE: int | None = None
+    NAME: str | None = None
     MESSAGE: str = "{value}"
     VALUE_NAME: str = "value"
 
     def __init__(
         self,
-        value: Optional[Union[int, str, raw.types.RpcError]] = None,
-        rpc_name: Optional[str] = None,
+        value: int | str | raw.types.RpcError | None = None,
+        rpc_name: str | None = None,
         is_unknown: bool = False,
         is_signed: bool = False
     ):
@@ -108,7 +109,7 @@ class RPCError(Exception):
 
         super().__init__(message)
 
-        self.value: Optional[Union[int, str, raw.types.RpcError]]
+        self.value: int | str | raw.types.RpcError | None
 
         # `isdecimal()`, not `isdigit()`: the latter is true for "²" too, and `int("²")` raises.
         if isinstance(value, str) and value.isdecimal():
@@ -121,7 +122,7 @@ class RPCError(Exception):
                 f.write(f"{datetime.now()}\t{value}\t{rpc_name}\n")
 
     @staticmethod
-    def raise_it(rpc_error: "raw.types.RpcError", rpc_type: Type[TLObject]):
+    def raise_it(rpc_error: "raw.types.RpcError", rpc_type: type[TLObject]):
         error_code = rpc_error.error_code
         is_signed = error_code < 0
         error_message = rpc_error.error_message

@@ -25,7 +25,7 @@ from pyrogram import raw, types
 class SetEmojiStatus:
     async def set_emoji_status(
         self: "pyrogram.Client",
-        chat_id: Optional[Union[int, str]] = None,
+        chat_id: int | str | None = None,
         emoji_status: Optional["types.EmojiStatus"] = None
     ) -> bool:
         """Set the emoji status.

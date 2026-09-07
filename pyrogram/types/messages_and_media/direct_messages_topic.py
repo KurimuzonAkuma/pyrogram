@@ -61,12 +61,12 @@ class DirectMessagesTopic(Object):
         *,
         id: int,
         user: Optional["types.User"] = None,
-        can_send_unpaid_messages: Optional[bool] = None,
-        is_marked_as_unread: Optional[bool] = None,
-        unread_count: Optional[int] = None,
-        last_read_inbox_message_id: Optional[int] = None,
-        last_read_outbox_message_id: Optional[int] = None,
-        unread_reactions_count: Optional[int] = None,
+        can_send_unpaid_messages: bool | None = None,
+        is_marked_as_unread: bool | None = None,
+        unread_count: int | None = None,
+        last_read_inbox_message_id: int | None = None,
+        last_read_outbox_message_id: int | None = None,
+        unread_reactions_count: int | None = None,
         last_message: Optional["types.Message"] = None
     ):
         super().__init__()
@@ -86,8 +86,8 @@ class DirectMessagesTopic(Object):
         client: "pyrogram.Client",
         topic: "raw.types.MonoForumDialog",
         messages: dict = {},
-        users: Dict[int, "raw.base.User"] = {},
-        chats: Dict[int, "raw.base.Chat"] = {}
+        users: dict[int, "raw.base.User"] = {},
+        chats: dict[int, "raw.base.Chat"] = {}
     ) -> "DirectMessagesTopic":
         if not topic:
             return None

@@ -30,7 +30,7 @@ class GetStickers:
     async def get_stickers(
         self: "pyrogram.Client",
         short_name: str
-    ) -> List["types.Sticker"]:
+    ) -> list["types.Sticker"]:
         """Get all stickers from set by short name.
 
         .. include:: /_includes/usable-by/users.rst

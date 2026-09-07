@@ -45,9 +45,9 @@ class SuggestedPostPaid(Object):
     """
     def __init__(
         self, *,
-        suggested_post_message_id: Optional[int] = None,
+        suggested_post_message_id: int | None = None,
         suggested_post_message: Optional["types.Message"] = None,
-        amount: Optional[int] = None,
+        amount: int | None = None,
         star_amount: Optional["types.StarAmount"] = None,
     ):
         super().__init__()
@@ -62,7 +62,7 @@ class SuggestedPostPaid(Object):
         client: "pyrogram.Client",
         message: "raw.types.MessageService"
     ) -> "SuggestedPostPaid":
-        action: "raw.types.MessageActionSuggestedPostSuccess" = message.action
+        action: raw.types.MessageActionSuggestedPostSuccess = message.action
 
         if not isinstance(action, raw.types.MessageActionSuggestedPostSuccess):
             return None

@@ -30,12 +30,12 @@ log = logging.getLogger(__name__)
 class DeleteChatHistory:
     async def delete_chat_history(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         max_id: int = 0,
-        revoke: Optional[bool] = None,
+        revoke: bool | None = None,
         just_clear = None,
-        min_date: Optional[datetime] = None,
-        max_date: Optional[datetime] = None,
+        min_date: datetime | None = None,
+        max_date: datetime | None = None,
     ) -> int:
         """Delete the history of a chat.
 

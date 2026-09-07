@@ -17,7 +17,8 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import re
-from typing import Iterable, List, Optional, Union, overload
+from typing import List, Optional, Union, overload
+from collections.abc import Iterable
 
 import pyrogram
 from pyrogram import raw, types
@@ -27,22 +28,22 @@ class GetStories:
     @overload
     async def get_stories(
         self: "pyrogram.Client",
-        chat_id: Optional[Union[int, str]] = None,
-        story_ids: Optional[Union[int, str]] = None,
+        chat_id: int | str | None = None,
+        story_ids: int | str | None = None,
     ) -> Optional["types.Story"]: ...
 
     @overload
     async def get_stories(
         self: "pyrogram.Client",
-        chat_id: Optional[Union[int, str]],
+        chat_id: int | str | None,
         story_ids: Iterable[int],
-    ) -> List["types.Story"]: ...
+    ) -> list["types.Story"]: ...
 
     async def get_stories(
         self: "pyrogram.Client",
-        chat_id: Optional[Union[int, str]] = None,
-        story_ids: Optional[Union[int, Iterable[int], str]] = None,
-    ) -> Optional[Union["types.Story", List["types.Story"]]]:
+        chat_id: int | str | None = None,
+        story_ids: int | Iterable[int] | str | None = None,
+    ) -> Union["types.Story", list["types.Story"]] | None:
         """Get one or more stories from a chat by using stories identifiers.
 
         .. include:: /_includes/usable-by/users.rst

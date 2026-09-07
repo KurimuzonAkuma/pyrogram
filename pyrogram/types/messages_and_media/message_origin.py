@@ -39,7 +39,7 @@ class MessageOrigin(Object):
     def __init__(
         self,
         type: "enums.MessageOriginType",
-        date: Optional[datetime] = None
+        date: datetime | None = None
     ):
         super().__init__()
 
@@ -50,8 +50,8 @@ class MessageOrigin(Object):
     async def _parse(
         client: "pyrogram.Client",
         fwd_from: "raw.types.MessageFwdHeader",
-        users: Dict[int, "raw.base.User"],
-        chats: Dict[int, "raw.base.Chat"]
+        users: dict[int, "raw.base.User"],
+        chats: dict[int, "raw.base.Chat"]
     ) -> Optional["MessageOrigin"]:
         if not fwd_from:
             return None

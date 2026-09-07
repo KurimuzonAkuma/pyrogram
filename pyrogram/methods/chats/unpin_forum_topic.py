@@ -25,7 +25,7 @@ from pyrogram import raw
 class UnpinForumTopic:
     async def unpin_forum_topic(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         topic_id: int
     ) -> bool:
         """Unpin a forum topic.

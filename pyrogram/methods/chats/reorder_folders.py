@@ -25,7 +25,7 @@ from pyrogram import raw
 class ReorderFolders:
     async def reorder_folders(
         self: "pyrogram.Client",
-        folder_ids: List[int],
+        folder_ids: list[int],
         main_chat_list_position: int = 0
     ) -> bool:
         """Change the order of chat folders.

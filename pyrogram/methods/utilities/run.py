@@ -27,7 +27,7 @@ class Run:
     def run(
         self: "pyrogram.Client", *,
         use_qr: bool = False,
-        except_ids: List[int] = [],
+        except_ids: list[int] = [],
     ):
         """Start the client, idle the main script and finally stop the client.
 

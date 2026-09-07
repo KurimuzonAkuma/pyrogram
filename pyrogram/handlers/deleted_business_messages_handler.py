@@ -16,7 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import TYPE_CHECKING, Any, Callable, List, Optional
+from typing import TYPE_CHECKING, Any, List, Optional
+from collections.abc import Callable
 
 from pyrogram.filters import Filter
 
@@ -54,12 +55,12 @@ class DeletedBusinessMessagesHandler(Handler):
 
     def __init__(
         self,
-        callback: Callable[["pyrogram.Client", List["types.Message"]], Any],
-        filters: Optional[Filter] = None,
+        callback: Callable[["pyrogram.Client", list["types.Message"]], Any],
+        filters: Filter | None = None,
     ):
         super().__init__(callback, filters)
 
-    async def check(self, client: "pyrogram.Client", messages: List["types.Message"]):
+    async def check(self, client: "pyrogram.Client", messages: list["types.Message"]):
         # Every message should be checked, if at least one matches the filter True is returned
         # otherwise, or if the list is empty, False is returned
         for message in messages:

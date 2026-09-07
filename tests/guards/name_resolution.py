@@ -26,7 +26,8 @@ package.
 
 import importlib
 import pathlib
-from typing import Any, Final, Iterator, Sequence
+from typing import Any, Final
+from collections.abc import Iterator, Sequence
 
 REPOSITORY_ROOT: Final[pathlib.Path] = pathlib.Path(__file__).resolve().parents[2]
 PACKAGE_ROOT: Final[pathlib.Path] = REPOSITORY_ROOT / "pyrogram"

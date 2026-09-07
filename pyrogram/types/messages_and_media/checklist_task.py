@@ -53,9 +53,9 @@ class ChecklistTask(Object):
         *,
         id: int,
         text: str,
-        entities: Optional[List["types.MessageEntity"]] = None,
+        entities: list["types.MessageEntity"] | None = None,
         completed_by: Optional["types.Chat"] = None,
-        completion_date: Optional[datetime] = None,
+        completion_date: datetime | None = None,
     ):
         super().__init__()
 
@@ -70,8 +70,8 @@ class ChecklistTask(Object):
         client: "pyrogram.Client",
         item: "raw.types.TodoItem",
         completion: Optional["raw.types.TodoCompletion"],
-        users: Dict[int, "raw.base.User"],
-        chats: Dict[int, "raw.base.Chat"],
+        users: dict[int, "raw.base.User"],
+        chats: dict[int, "raw.base.Chat"],
     ) -> "ChecklistTask":
         text, entities = (
             await utils.parse_text_with_entities(client, item.title, users)

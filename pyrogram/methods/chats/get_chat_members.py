@@ -17,7 +17,8 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from typing import Union, Optional, AsyncGenerator
+from typing import Union, Optional
+from collections.abc import AsyncGenerator
 
 import pyrogram
 from pyrogram import raw, types, enums
@@ -27,7 +28,7 @@ log = logging.getLogger(__name__)
 
 async def get_chunk(
     client: "pyrogram.Client",
-    chat_id: Union[int, str],
+    chat_id: int | str,
     offset: int,
     filter: "enums.ChatMembersFilter",
     limit: int,
@@ -60,7 +61,7 @@ async def get_chunk(
 class GetChatMembers:
     async def get_chat_members(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         query: str = "",
         limit: int = 0,
         filter: "enums.ChatMembersFilter" = enums.ChatMembersFilter.SEARCH

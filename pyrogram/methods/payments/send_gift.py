@@ -26,13 +26,13 @@ from pyrogram import enums, raw, types, utils
 class SendGift:
     async def send_gift(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         gift_id: int,
-        text: Optional[str] = None,
+        text: str | None = None,
         parse_mode: Optional["enums.ParseMode"] = None,
-        entities: Optional[List["types.MessageEntity"]] = None,
-        is_private: Optional[bool] = None,
-        pay_for_upgrade: Optional[bool] = None,
+        entities: list["types.MessageEntity"] | None = None,
+        is_private: bool | None = None,
+        pay_for_upgrade: bool | None = None,
     ) -> Optional["types.Message"]:
         """Send a gift to another user or channel chat. May return an error with a message "STARGIFT_USAGE_LIMITED" if the gift was sold out.
 

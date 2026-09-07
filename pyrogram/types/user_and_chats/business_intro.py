@@ -40,8 +40,8 @@ class BusinessIntro(Object):
     def __init__(
         self,
         *,
-        title: Optional[str] = None,
-        text: Optional[str] = None,
+        title: str | None = None,
+        text: str | None = None,
         sticker: Optional["types.Sticker"] = None
     ):
         super().__init__()

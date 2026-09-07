@@ -25,8 +25,8 @@ from pyrogram import raw
 class DeclineAllChatJoinRequests:
     async def decline_all_chat_join_requests(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        invite_link: Optional[str] = None
+        chat_id: int | str,
+        invite_link: str | None = None
     ) -> bool:
         """Decline all pending join requests in a chat.
 

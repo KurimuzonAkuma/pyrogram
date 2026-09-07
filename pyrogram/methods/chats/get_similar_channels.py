@@ -26,8 +26,8 @@ from pyrogram import types
 class GetSimilarChannels:
     async def get_similar_channels(
         self: "pyrogram.Client",
-        chat_id: Union[int, str]
-    ) -> Optional[List["types.Chat"]]:
+        chat_id: int | str
+    ) -> list["types.Chat"] | None:
         """Get similar channels.
 
         .. include:: /_includes/usable-by/users.rst

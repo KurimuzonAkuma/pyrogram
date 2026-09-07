@@ -25,9 +25,9 @@ from pyrogram import raw, types, utils
 class ReorderCollectionGifts:
     async def reorder_collection_gifts(
         self: "pyrogram.Client",
-        owner_id: Union[int, str],
+        owner_id: int | str,
         collection_id: int,
-        gift_ids: List[str]
+        gift_ids: list[str]
     ) -> "types.GiftCollection":
         """Changes order of gifts in a collection.
 

@@ -25,14 +25,14 @@ from pyrogram import enums, raw, types
 class SendMessageDraft:
     async def send_message_draft(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         draft_id: int,
         text: str = "",
-        message_thread_id: Optional[int] = None,
+        message_thread_id: int | None = None,
         parse_mode: Optional["enums.ParseMode"] = None,
-        entities: Optional[List["types.MessageEntity"]] = None,
-        can_stop: Optional[bool] = None,
-        keep_on_stop: Optional[bool] = None
+        entities: list["types.MessageEntity"] | None = None,
+        can_stop: bool | None = None,
+        keep_on_stop: bool | None = None
     ) -> bool:
         """Use this method to stream a partial message to a user while the message is being generated.
 

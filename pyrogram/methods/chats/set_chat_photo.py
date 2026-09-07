@@ -29,11 +29,11 @@ from pyrogram.file_id import FileType
 class SetChatPhoto:
     async def set_chat_photo(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         *,
-        photo: Optional[Union[str, BinaryIO]] = None,
-        video: Optional[Union[str, BinaryIO]] = None,
-        video_start_ts: Optional[float] = None,
+        photo: str | BinaryIO | None = None,
+        video: str | BinaryIO | None = None,
+        video_start_ts: float | None = None,
     ) -> Optional["types.Message"]:
         """Set a new chat photo or video (H.264/MPEG-4 AVC video, max 5 seconds).
 

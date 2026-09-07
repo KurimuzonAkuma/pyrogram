@@ -44,8 +44,8 @@ class AuctionRound(Object):
         self,
         number: int,
         duration: int,
-        extend_time: Optional[int] = None,
-        top_winner_count: Optional[int] = None,
+        extend_time: int | None = None,
+        top_winner_count: int | None = None,
     ):
         super().__init__()
 

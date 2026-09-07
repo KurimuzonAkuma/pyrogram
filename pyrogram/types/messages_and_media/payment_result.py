@@ -42,7 +42,7 @@ class PaymentResult(Object):
         self,
         *,
         success: bool,
-        verification_url: Optional[str] = None,
+        verification_url: str | None = None,
         raw: Optional["raw.base.payments.PaymentResult"] = None,
     ):
         super().__init__()

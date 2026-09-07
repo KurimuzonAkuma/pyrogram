@@ -29,7 +29,8 @@ import importlib
 import pathlib
 from dataclasses import dataclass
 from types import ModuleType
-from typing import Any, Dict, Iterator, List, Optional, Sequence, Set, Tuple
+from typing import Any, Dict, List, Optional, Set, Tuple
+from collections.abc import Iterator, Sequence
 
 import pyrogram
 from tests.guards.name_resolution import (
@@ -41,7 +42,7 @@ from tests.guards.name_resolution import (
 
 @dataclass(frozen=True)
 class Annotation:
-    name: Tuple[str, ...]
+    name: tuple[str, ...]
     path: pathlib.Path
     line: int
 
@@ -69,7 +70,7 @@ def annotations_of(tree: ast.Module) -> Iterator[ast.expr]:
             continue
 
         arguments = node.args
-        every: List[Optional[ast.arg]] = [
+        every: list[ast.arg | None] = [
             *arguments.posonlyargs,
             *arguments.args,
             *arguments.kwonlyargs,
@@ -85,9 +86,9 @@ def annotations_of(tree: ast.Module) -> Iterator[ast.expr]:
             yield node.returns
 
 
-def dotted_name(node: ast.expr) -> Optional[Tuple[str, ...]]:
+def dotted_name(node: ast.expr) -> tuple[str, ...] | None:
     """The components of `a.b.c`, or `None` for anything that is not a plain dotted name."""
-    parts: List[str] = []
+    parts: list[str] = []
 
     while isinstance(node, ast.Attribute):
         parts.append(node.attr)
@@ -102,7 +103,7 @@ def dotted_name(node: ast.expr) -> Optional[Tuple[str, ...]]:
 
 
 
-def names_in(node: ast.expr, *, line: int) -> Iterator[Tuple[Tuple[str, ...], int]]:
+def names_in(node: ast.expr, *, line: int) -> Iterator[tuple[tuple[str, ...], int]]:
     """Every name an annotation mentions, with the line it was written on.
 
     A string annotation holds a whole type expression rather than a bare name, so it is
@@ -150,7 +151,7 @@ def names_in(node: ast.expr, *, line: int) -> Iterator[Tuple[Tuple[str, ...], in
         yield parts, line
 
 
-def type_checking_imports(tree: ast.Module, *, package: str) -> Dict[str, Any]:
+def type_checking_imports(tree: ast.Module, *, package: str) -> dict[str, Any]:
     """The names a module binds under `if TYPE_CHECKING:`, imported for real.
 
     Most of this package imports `pyrogram`, `types`, `raw` and `enums` only there, to break
@@ -158,7 +159,7 @@ def type_checking_imports(tree: ast.Module, *, package: str) -> Dict[str, Any]:
     module at runtime, so a namespace built from it alone reports every annotation that uses
     one as dead.
     """
-    bindings: Dict[str, Any] = {}
+    bindings: dict[str, Any] = {}
 
     for node in ast.walk(tree):
         if not isinstance(node, ast.If) or (dotted_name(node.test) or ("",))[-1] != "TYPE_CHECKING":
@@ -179,14 +180,14 @@ def type_checking_imports(tree: ast.Module, *, package: str) -> Dict[str, Any]:
     return bindings
 
 
-def namespace_of(module: ModuleType, *, tree: ast.Module) -> Dict[str, Any]:
+def namespace_of(module: ModuleType, *, tree: ast.Module) -> dict[str, Any]:
     namespace = dict(vars(module))
     namespace.update(type_checking_imports(tree, package=module.__name__.rpartition(".")[0]))
 
     return namespace
 
 
-def annotations_in(path: pathlib.Path) -> Iterator[Tuple[Annotation, Dict[str, Any]]]:
+def annotations_in(path: pathlib.Path) -> Iterator[tuple[Annotation, dict[str, Any]]]:
     module = importlib.import_module(module_name_of(path))
     tree = ast.parse(path.read_text(encoding="utf-8"))
     namespace = namespace_of(module, tree=tree)
@@ -196,7 +197,7 @@ def annotations_in(path: pathlib.Path) -> Iterator[Tuple[Annotation, Dict[str, A
             yield Annotation(name, path, line), namespace
 
 
-def resolves_where_written(name: Sequence[str], *, namespace: Dict[str, Any]) -> bool:
+def resolves_where_written(name: Sequence[str], *, namespace: dict[str, Any]) -> bool:
     # A builtin is in scope everywhere and in no module's namespace, so `int` and `str` would
     #  otherwise read as dead names.
     root = namespace.get(name[0], getattr(builtins, name[0], None))
@@ -204,7 +205,7 @@ def resolves_where_written(name: Sequence[str], *, namespace: Dict[str, Any]) ->
     return root is not None and attribute_chain(root, names=name[1:])
 
 
-def dead_annotations() -> List[Annotation]:
+def dead_annotations() -> list[Annotation]:
     return [
         annotation
         for path in hand_written_files()
@@ -222,8 +223,8 @@ def test_every_name_in_an_annotation_resolves_where_it_is_written() -> None:
 
 def test_the_sweep_reads_the_annotations_it_claims_to() -> None:
     """A walk that stopped descending would leave the test above passing over nothing."""
-    read: List[Annotation] = [annotation for path in hand_written_files() for annotation, _ in annotations_in(path)]
-    names: Set[Tuple[str, ...]] = {one.name for one in read}
+    read: list[Annotation] = [annotation for path in hand_written_files() for annotation, _ in annotations_in(path)]
+    names: set[tuple[str, ...]] = {one.name for one in read}
 
     assert len(read) > 5000
     assert ("types", "Message") in names
@@ -232,7 +233,7 @@ def test_the_sweep_reads_the_annotations_it_claims_to() -> None:
 
 
 def test_a_string_annotation_is_read_as_the_expression_it_holds() -> None:
-    def names(source: str) -> List[Tuple[str, ...]]:
+    def names(source: str) -> list[tuple[str, ...]]:
         return [name for name, _ in names_in(ast.parse(source, mode="eval").body, line=1)]
 
     assert names('"types.Chat"') == [("types", "Chat")]
@@ -243,7 +244,7 @@ def test_a_string_annotation_is_read_as_the_expression_it_holds() -> None:
 
 def test_a_literal_holds_values_rather_than_names() -> None:
     """Without this, every string a `Literal` lists would be read as a type that is missing."""
-    def names(source: str) -> List[Tuple[str, ...]]:
+    def names(source: str) -> list[tuple[str, ...]]:
         return [name for name, _ in names_in(ast.parse(source, mode="eval").body, line=1)]
 
     assert names('Literal["socks4", "socks5"]') == [("Literal",)]
@@ -252,7 +253,7 @@ def test_a_literal_holds_values_rather_than_names() -> None:
 
 
 def test_a_name_resolves_against_the_namespace_it_was_written_in() -> None:
-    namespace: Dict[str, Any] = {"types": pyrogram.types}
+    namespace: dict[str, Any] = {"types": pyrogram.types}
 
     assert resolves_where_written(("types", "Chat"), namespace=namespace)
     assert resolves_where_written(("int",), namespace=namespace)

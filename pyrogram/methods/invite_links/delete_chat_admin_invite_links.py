@@ -25,8 +25,8 @@ from pyrogram import raw
 class DeleteChatAdminInviteLinks:
     async def delete_chat_admin_invite_links(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        admin_id: Union[int, str],
+        chat_id: int | str,
+        admin_id: int | str,
     ) -> bool:
         """Delete all revoked invite links of an administrator.
 

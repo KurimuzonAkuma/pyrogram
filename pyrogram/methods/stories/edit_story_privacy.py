@@ -24,11 +24,11 @@ from pyrogram import enums, raw, types
 class EditStoryPrivacy:
     async def edit_story_privacy(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         story_id: int,
         privacy: "enums.StoriesPrivacyRules" = enums.StoriesPrivacyRules.PUBLIC,
-        allowed_users: Optional[List[Union[int, str]]] = None,
-        disallowed_users: Optional[List[Union[int, str]]] = None,
+        allowed_users: list[int | str] | None = None,
+        disallowed_users: list[int | str] | None = None,
     ) -> "types.Story":
         """Edit the privacy of story.
 

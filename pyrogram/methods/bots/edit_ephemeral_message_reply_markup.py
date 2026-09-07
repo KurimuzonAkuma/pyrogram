@@ -25,8 +25,8 @@ from pyrogram import raw, types, utils
 class EditEphemeralMessageReplyMarkup:
     async def edit_ephemeral_message_reply_markup(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        receiver_user_id: Union[int, str],
+        chat_id: int | str,
+        receiver_user_id: int | str,
         ephemeral_message_id: int,
         reply_markup: Optional["types.InlineKeyboardMarkup"] = None,
     ) -> Optional["types.Message"]:

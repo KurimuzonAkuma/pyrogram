@@ -26,7 +26,7 @@ from pyrogram import types
 class GetBoosts:
     async def get_boosts(
         self: "pyrogram.Client",
-    ) -> List["types.MyBoost"]:
+    ) -> list["types.MyBoost"]:
         """Get your boosts list
 
         .. include:: /_includes/usable-by/users.rst

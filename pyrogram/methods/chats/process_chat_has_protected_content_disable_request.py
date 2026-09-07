@@ -24,7 +24,7 @@ from pyrogram import raw, types, utils
 
 class ProcessChatHasProtectedContentDisableRequest:
     async def process_chat_has_protected_content_disable_request(
-        self: "pyrogram.Client", chat_id: Union[int, str], request_message_id: int, approve: bool
+        self: "pyrogram.Client", chat_id: int | str, request_message_id: int, approve: bool
     ) -> Union["types.Message", bool]:
         """Processes request to disable has_protected_content in a chat.
 

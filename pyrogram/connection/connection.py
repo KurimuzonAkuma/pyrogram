@@ -31,7 +31,7 @@ log = logging.getLogger(__name__)
 _TEST_MODE_DC_ID_SHIFT: Final[int] = 10000
 
 
-def transport_class_for(proxy: Optional[Proxy], *, default: Type[TCP] = TCPAbridged) -> Type[TCP]:
+def transport_class_for(proxy: Proxy | None, *, default: type[TCP] = TCPAbridged) -> type[TCP]:
     """The transport a proxy's secret requires, or `default` when it requires none.
 
     A dd- or ee-prefixed secret asks for random padding, so the secret decides the
@@ -65,11 +65,11 @@ class Connection:
         server_address: str,
         port: int,
         test_mode: bool,
-        proxy: Optional[Proxy] = None,
+        proxy: Proxy | None = None,
         media: bool = False,
-        protocol_factory: Type[TCP] = TCPAbridged,
+        protocol_factory: type[TCP] = TCPAbridged,
         crypto_executor_workers: int = 1,
-        loop: Optional[asyncio.AbstractEventLoop] = None
+        loop: asyncio.AbstractEventLoop | None = None
     ) -> None:
         self.dc_id = dc_id
         self.server_address = server_address
@@ -90,7 +90,7 @@ class Connection:
                 self.protocol_factory.__name__,
             )
 
-        self.protocol: Optional[TCP] = None
+        self.protocol: TCP | None = None
         self._protocol_dc_id = _protocol_dc_id(dc_id, test_mode=test_mode, media=media)
 
         if isinstance(loop, asyncio.AbstractEventLoop):
@@ -133,5 +133,5 @@ class Connection:
     async def send(self, data: bytes) -> None:
         await self.protocol.send(data)
 
-    async def recv(self) -> Optional[bytes]:
+    async def recv(self) -> bytes | None:
         return await self.protocol.recv()

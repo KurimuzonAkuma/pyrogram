@@ -27,7 +27,7 @@ from pyrogram.methods.premium.get_boosts import GetBoosts
 class FakeClient(GetBoosts):
     """A client that answers `premium.GetMyBoosts` with the boosts it was given."""
 
-    def __init__(self, my_boosts: List[raw.types.MyBoost]) -> None:
+    def __init__(self, my_boosts: list[raw.types.MyBoost]) -> None:
         self.my_boosts = my_boosts
 
     async def invoke(

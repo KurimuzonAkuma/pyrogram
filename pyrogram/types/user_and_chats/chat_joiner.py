@@ -49,9 +49,9 @@ class ChatJoiner(Object):
         *,
         client: "pyrogram.Client",
         user: "types.User",
-        date: Optional[datetime] = None,
-        bio: Optional[str] = None,
-        pending: Optional[bool] = None,
+        date: datetime | None = None,
+        bio: str | None = None,
+        pending: bool | None = None,
         approved_by: Optional["types.User"] = None,
     ):
         super().__init__(client)
@@ -66,7 +66,7 @@ class ChatJoiner(Object):
     async def _parse(
         client: "pyrogram.Client",
         joiner: "raw.base.ChatInviteImporter",
-        users: Dict[int, "raw.base.User"],
+        users: dict[int, "raw.base.User"],
     ) -> "ChatJoiner":
         return ChatJoiner(
             user=await types.User._parse(client, users[joiner.user_id]),

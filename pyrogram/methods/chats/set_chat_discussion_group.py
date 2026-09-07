@@ -25,8 +25,8 @@ from pyrogram import raw
 class SetChatDiscussionGroup:
     async def set_chat_discussion_group(
         self: "pyrogram.Client", *,
-        chat_id: Optional[Union[int, str]] = None,
-        discussion_chat_id: Optional[Union[int, str]] = None
+        chat_id: int | str | None = None,
+        discussion_chat_id: int | str | None = None
     ) -> bool:
         """Change the discussion group of a channel chat.
 

@@ -24,8 +24,8 @@ from pyrogram import raw, types
 class GetGiftCollections:
     async def get_gift_collections(
         self: "pyrogram.Client",
-        owner_id: Union[int, str]
-    ) -> List["types.GiftCollection"]:
+        owner_id: int | str
+    ) -> list["types.GiftCollection"]:
         """Returns collections of gifts owned by the given user or chat.
 
         .. include:: /_includes/usable-by/users.rst

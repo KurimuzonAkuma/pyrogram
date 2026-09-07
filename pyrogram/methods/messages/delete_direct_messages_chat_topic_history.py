@@ -26,11 +26,11 @@ from pyrogram import raw, utils
 class DeleteDirectMessagesChatTopicHistory:
     async def delete_direct_messages_chat_topic_history(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        topic_id: Optional[int] = None,
+        chat_id: int | str,
+        topic_id: int | None = None,
         max_id: int = 0,
-        min_date: Optional[datetime] = None,
-        max_date: Optional[datetime] = None,
+        min_date: datetime | None = None,
+        max_date: datetime | None = None,
     ) -> int:
         """Delete messages in the topic in a channel direct messages chat administered by the current user.
 

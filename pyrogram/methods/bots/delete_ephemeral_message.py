@@ -25,8 +25,8 @@ from pyrogram import raw
 class DeleteEphemeralMessage:
     async def delete_ephemeral_message(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        receiver_user_id: Union[int, str],
+        chat_id: int | str,
+        receiver_user_id: int | str,
         ephemeral_message_id: int
     ) -> bool:
         """Use this method to delete an ephemeral message.

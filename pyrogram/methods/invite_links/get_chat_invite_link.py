@@ -25,7 +25,7 @@ from pyrogram import raw, types
 class GetChatInviteLink:
     async def get_chat_invite_link(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         invite_link: str,
     ) -> Optional["types.ChatInviteLink"]:
         """Get detailed information about a chat invite link.

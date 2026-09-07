@@ -25,10 +25,10 @@ from pyrogram import raw, types
 class CreateBot:
     async def create_bot(
         self: "pyrogram.Client",
-        manager_bot_user_id: Union[int, str],
+        manager_bot_user_id: int | str,
         name: str,
         username: str,
-        via_link: Optional[bool] = None,
+        via_link: bool | None = None,
     ) -> "types.User":
         """Creates a bot which will be managed by another bot.
 

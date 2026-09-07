@@ -49,9 +49,9 @@ class Contact(Object):
         client: Optional["pyrogram.Client"] = None,
         phone_number: str,
         first_name: str,
-        last_name: Optional[str] = None,
-        user_id: Optional[int] = None,
-        vcard: Optional[str] = None
+        last_name: str | None = None,
+        user_id: int | None = None,
+        vcard: str | None = None
     ):
         super().__init__(client)
 

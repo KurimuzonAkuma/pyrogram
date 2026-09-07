@@ -25,7 +25,7 @@ from pyrogram import raw, types
 class GetPersonalChannels:
     async def get_personal_channels(
         self: "pyrogram.Client"
-    ) -> Optional[List["types.Chat"]]:
+    ) -> list["types.Chat"] | None:
         """Get all your public channels.
 
         .. include:: /_includes/usable-by/users.rst

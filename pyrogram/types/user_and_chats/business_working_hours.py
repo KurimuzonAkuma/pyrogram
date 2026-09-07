@@ -40,8 +40,8 @@ class BusinessWorkingHours(Object):
         self,
         *,
         timezone: str,
-        working_hours: List["types.BusinessWeeklyOpen"],
-        is_open_now: Optional[bool] = None
+        working_hours: list["types.BusinessWeeklyOpen"],
+        is_open_now: bool | None = None
 
     ):
         self.timezone = timezone

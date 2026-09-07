@@ -17,7 +17,8 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import AsyncGenerator, Union
+from typing import Union
+from collections.abc import AsyncGenerator
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -26,7 +27,7 @@ from pyrogram import raw, types, utils
 async def get_chunk(
     *,
     client: "pyrogram.Client",
-    chat_id: Union[int, str],
+    chat_id: int | str,
     topic_id: int,
     limit: int = 0,
     offset: int = 0,
@@ -62,7 +63,7 @@ async def get_chunk(
 class GetDirectMessagesChatTopicHistory:
     async def get_direct_messages_chat_topic_history(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         topic_id: int,
         limit: int = 0,
         offset: int = 0,

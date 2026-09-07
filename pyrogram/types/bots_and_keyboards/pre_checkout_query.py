@@ -59,7 +59,7 @@ class PreCheckoutQuery(Object, Update):
         currency: str,
         total_amount: int,
         invoice_payload: str,
-        shipping_option_id: Optional[str] = None,
+        shipping_option_id: str | None = None,
         order_info: Optional["types.OrderInfo"] = None
     ):
         super().__init__(client)
@@ -103,7 +103,7 @@ class PreCheckoutQuery(Object, Update):
             client=client
         )
 
-    async def answer(self, ok: Optional[bool] = None, error_message: Optional[str] = None) -> bool:
+    async def answer(self, ok: bool | None = None, error_message: str | None = None) -> bool:
         """Bound method *answer* of :obj:`~pyrogram.types.PreCheckoutQuery`.
 
         Use this method as a shortcut for:

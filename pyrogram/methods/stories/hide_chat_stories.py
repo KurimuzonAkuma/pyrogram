@@ -25,7 +25,7 @@ from pyrogram import raw
 class HideChatStories:
     async def hide_chat_stories(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
     ) -> bool:
         """Hide the active stories of a user, preventing them from being displayed on the action bar on the homescreen.
 

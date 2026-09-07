@@ -25,7 +25,7 @@ from pyrogram import raw
 class ReplaceManagedBotToken:
     async def replace_managed_bot_token(
         self: "pyrogram.Client",
-        user_id: Union[int, str],
+        user_id: int | str,
     ) -> str:
         """Use this method to revoke the current token of a managed bot and generate a new one.
 

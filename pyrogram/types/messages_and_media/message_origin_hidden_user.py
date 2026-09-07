@@ -41,8 +41,8 @@ class MessageOriginHiddenUser(MessageOrigin):
         self,
         *,
         type: "enums.MessageOriginType" = enums.MessageOriginType.HIDDEN_USER,
-        date: Optional[datetime] = None,
-        sender_user_name: Optional[str] = None
+        date: datetime | None = None,
+        sender_user_name: str | None = None
     ):
         super().__init__(
             type=type,

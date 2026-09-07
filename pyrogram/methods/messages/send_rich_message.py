@@ -28,25 +28,18 @@ log = logging.getLogger(__name__)
 class SendRichMessage:
     async def send_rich_message(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         rich_message: "types.InputRichMessage",
-        disable_notification: Optional[bool] = None,
-        message_thread_id: Optional[int] = None,
-        direct_messages_topic_id: Optional[int] = None,
+        disable_notification: bool | None = None,
+        message_thread_id: int | None = None,
+        direct_messages_topic_id: int | None = None,
         ephemeral_message_parameters: Optional["types.EphemeralMessageParameters"] = None,
-        effect_id: Optional[int] = None,
+        effect_id: int | None = None,
         reply_parameters: Optional["types.ReplyParameters"] = None,
-        protect_content: Optional[bool] = None,
-        allow_paid_broadcast: Optional[bool] = None,
+        protect_content: bool | None = None,
+        allow_paid_broadcast: bool | None = None,
         suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Optional[
-            Union[
-                "types.InlineKeyboardMarkup",
-                "types.ReplyKeyboardMarkup",
-                "types.ReplyKeyboardRemove",
-                "types.ForceReply",
-            ]
-        ] = None,
+        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
     ) -> Optional["types.Message"]:
         """Send text messages.
 

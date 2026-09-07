@@ -18,7 +18,8 @@
 
 import inspect
 from pathlib import Path
-from typing import Callable, Final, List, Set
+from typing import Final, List, Set
+from collections.abc import Callable
 
 import pytest
 
@@ -28,8 +29,8 @@ from pyrogram.methods import decorators
 from pyrogram.methods.decorators.handler_type import HandlerType
 
 
-def _decorator_names() -> List[str]:
-    names: Set[str] = set()
+def _decorator_names() -> list[str]:
+    names: set[str] = set()
 
     for _, decorator_class in inspect.getmembers(decorators, inspect.isclass):
         for method_name, _ in inspect.getmembers(decorator_class, inspect.isfunction):
@@ -41,10 +42,10 @@ def _decorator_names() -> List[str]:
 
 # `on_error` takes an `exceptions` argument between the two, so it shifts differently
 #  and is covered on its own below.
-_FILTERED_SIGNATURE: Final[List[str]] = ["self", "filters", "group"]
+_FILTERED_SIGNATURE: Final[list[str]] = ["self", "filters", "group"]
 
 
-def _filtered_decorator_names() -> List[str]:
+def _filtered_decorator_names() -> list[str]:
     return [
         name
         for name in _decorator_names()
@@ -52,7 +53,7 @@ def _filtered_decorator_names() -> List[str]:
     ]
 
 
-def _module_names() -> List[str]:
+def _module_names() -> list[str]:
     package_directory = Path(decorators.__file__).parent
 
     return sorted(path.stem for path in package_directory.glob("on_*.py"))

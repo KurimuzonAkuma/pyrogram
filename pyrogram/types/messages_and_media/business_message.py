@@ -59,14 +59,14 @@ class BusinessMessage(Object):
         self,
         *,
         shortcut_id: int,
-        is_greeting: Optional[bool] = None,
-        is_away: Optional[bool] = None,
-        no_activity_days: Optional[int] = None,
-        offline_only: Optional[bool] = None,
-        recipients: Optional[List["types.User"]] = None,
+        is_greeting: bool | None = None,
+        is_away: bool | None = None,
+        no_activity_days: int | None = None,
+        offline_only: bool | None = None,
+        recipients: list["types.User"] | None = None,
         schedule: Optional["enums.BusinessSchedule"] = None,
-        start_date: Optional[datetime] = None,
-        end_date: Optional[datetime] = None,
+        start_date: datetime | None = None,
+        end_date: datetime | None = None,
 
     ):
         self.shortcut_id = shortcut_id
@@ -82,8 +82,8 @@ class BusinessMessage(Object):
     @staticmethod
     async def _parse(
         client,
-        message: Optional[Union["raw.types.BusinessGreetingMessage", "raw.types.BusinessAwayMessage"]] = None,
-        users: Optional[dict] = None
+        message: Union["raw.types.BusinessGreetingMessage", "raw.types.BusinessAwayMessage"] | None = None,
+        users: dict | None = None
     ) -> Optional["BusinessMessage"]:
         if not message:
             return None

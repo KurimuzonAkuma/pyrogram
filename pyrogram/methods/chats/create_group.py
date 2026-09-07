@@ -27,7 +27,7 @@ class CreateGroup:
     async def create_group(
         self: "pyrogram.Client",
         title: str,
-        users: Union[Union[int, str], List[Union[int, str]]]
+        users: int | str | list[int | str]
     ) -> "types.Chat":
         """Create a new basic group.
 

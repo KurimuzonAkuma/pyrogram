@@ -25,9 +25,9 @@ from pyrogram import raw
 class UnpinChatMessage:
     async def unpin_chat_message(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
+        chat_id: int | str,
         message_id: int = 0,
-        business_connection_id: Optional[str] = None,
+        business_connection_id: str | None = None,
     ) -> bool:
         """Unpin a message in a group, channel or your own chat.
         You must be an administrator in the chat for this to work and must have the "can_pin_messages" admin

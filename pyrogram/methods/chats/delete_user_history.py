@@ -25,8 +25,8 @@ from pyrogram import raw
 class DeleteUserHistory:
     async def delete_user_history(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        user_id: Union[int, str],
+        chat_id: int | str,
+        user_id: int | str,
     ) -> bool:
         """Delete all messages sent by a certain user in a supergroup.
 

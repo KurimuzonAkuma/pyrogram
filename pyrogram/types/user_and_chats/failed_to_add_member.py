@@ -39,8 +39,8 @@ class FailedToAddMember(Object):
         self,
         *,
         user_id: int,
-        premium_would_allow_invite: Optional[bool] = None,
-        premium_required_to_send_messages: Optional[bool] = None,
+        premium_would_allow_invite: bool | None = None,
+        premium_required_to_send_messages: bool | None = None,
     ):
         self.user_id = user_id
         self.premium_would_allow_invite = premium_would_allow_invite

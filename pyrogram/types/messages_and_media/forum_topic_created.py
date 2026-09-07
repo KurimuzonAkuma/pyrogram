@@ -45,7 +45,7 @@ class ForumTopicCreated(Object):
         id: int,
         title: str,
         icon_color: int,
-        custom_emoji_id: Optional[str] = None
+        custom_emoji_id: str | None = None
     ):
         super().__init__()
 

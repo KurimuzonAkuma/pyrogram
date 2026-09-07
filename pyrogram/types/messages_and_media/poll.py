@@ -103,21 +103,21 @@ class Poll(Object, Update):
         client: Optional["pyrogram.Client"] = None,
         id: str,
         question: Optional["types.FormattedText"] = None,
-        options: List["types.PollOption"],
-        total_voter_count: Optional[int] = None,
+        options: list["types.PollOption"],
+        total_voter_count: int | None = None,
         is_closed: bool,
-        is_anonymous: Optional[bool] = None,
+        is_anonymous: bool | None = None,
         type: Optional["enums.PollType"] = None,
-        allows_multiple_answers: Optional[bool] = None,
-        allows_revoting: Optional[bool] = None,
-        members_only: Optional[bool] = None,
-        country_codes: Optional[List[str]] = None,
-        chosen_option_ids: Optional[List[int]] = None,
-        correct_option_ids: Optional[List[int]] = None,
+        allows_multiple_answers: bool | None = None,
+        allows_revoting: bool | None = None,
+        members_only: bool | None = None,
+        country_codes: list[str] | None = None,
+        chosen_option_ids: list[int] | None = None,
+        correct_option_ids: list[int] | None = None,
         explanation: Optional["types.FormattedText"] = None,
         explanation_media: Optional["types.MessageContent"] = None,
-        open_period: Optional[int] = None,
-        close_date: Optional[datetime] = None,
+        open_period: int | None = None,
+        close_date: datetime | None = None,
         description: Optional["types.FormattedText"] = None,
         description_media: Optional["types.MessageContent"] = None,
         voter: Optional["types.User"] = None,
@@ -150,12 +150,12 @@ class Poll(Object, Update):
         client,
         media_poll: Union["raw.types.MessageMediaPoll", "raw.types.UpdateMessagePoll"],
         description: Optional["types.FormattedText"] = None,
-        users: Dict[int, "raw.types.User"] = {},
-        chats: Dict[int, "raw.types.Chat"] = {},
+        users: dict[int, "raw.types.User"] = {},
+        chats: dict[int, "raw.types.Chat"] = {},
     ) -> "Poll":
         poll: raw.types.Poll = media_poll.poll
         poll_results: raw.types.PollResults = media_poll.results
-        results: List[raw.types.PollAnswerVoters] = poll_results.results
+        results: list[raw.types.PollAnswerVoters] = poll_results.results
 
         chosen_option_ids = []
         correct_option_ids = []
@@ -262,8 +262,8 @@ class Poll(Object, Update):
     async def _parse_update(
         client,
         update: Union["raw.types.UpdateMessagePoll", "raw.types.UpdateMessagePollVote"],
-        users: Dict[int, "raw.types.User"] = {},
-        chats: Dict[int, "raw.types.Chat"] = {},
+        users: dict[int, "raw.types.User"] = {},
+        chats: dict[int, "raw.types.Chat"] = {},
     ) -> "Poll":
         if isinstance(update, raw.types.UpdateMessagePoll):
             if update.poll is not None:
@@ -310,7 +310,7 @@ class Poll(Object, Update):
             )
 
     @staticmethod
-    def get_vote_percentage(voter_counts: List[int], total_voter_count: int) -> List[int]:
+    def get_vote_percentage(voter_counts: list[int], total_voter_count: int) -> list[int]:
         total = sum(voter_counts)
 
         total_voter_count = min(total_voter_count, total)
@@ -336,7 +336,7 @@ class Poll(Object, Update):
         if percent_sum == 100:
             return result
 
-        options: Dict[int, Dict] = {}
+        options: dict[int, dict] = {}
         for i, vc in enumerate(voter_counts):
             key = vc + 1
             if key not in options:

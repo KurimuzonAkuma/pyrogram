@@ -77,7 +77,7 @@ class InputChatPhotoStatic(InputChatPhoto):
     """
     def __init__(
         self,
-        photo: Union[str, BinaryIO]
+        photo: str | BinaryIO
     ):
         super().__init__()
 
@@ -103,8 +103,8 @@ class InputChatPhotoAnimation(InputChatPhoto):
     """
     def __init__(
         self,
-        animation: Union[str, BinaryIO],
-        main_frame_timestamp: Optional[float] = None
+        animation: str | BinaryIO,
+        main_frame_timestamp: float | None = None
     ):
         super().__init__()
 

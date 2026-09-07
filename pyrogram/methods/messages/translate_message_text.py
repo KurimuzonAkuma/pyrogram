@@ -27,8 +27,8 @@ class TranslateMessageText:
         self: "pyrogram.Client",
         chat_id: str,
         message_id: int,
-        to_language_code: Optional[str] = None,
-        tone: Optional[str] = None
+        to_language_code: str | None = None,
+        tone: str | None = None
     ) -> "types.FormattedText":
         """Extract text or caption of the given message and translates it to the given language.
 

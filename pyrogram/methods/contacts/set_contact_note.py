@@ -25,8 +25,8 @@ from pyrogram import raw, types
 class SetContactNote:
     async def set_contact_note(
         self: "pyrogram.Client",
-        user_id: Union[int, str],
-        note: Optional[Union[str, "types.FormattedText"]] = None,
+        user_id: int | str,
+        note: Union[str, "types.FormattedText"] | None = None,
     ) -> bool:
         """Changes a note of a contact user.
 

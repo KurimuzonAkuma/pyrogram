@@ -38,7 +38,7 @@ class PaidMediaInfo(Object):
         self,
         *,
         stars_amount: int,
-        media: List[Union["types.Photo", "types.Video", "types.PaidMediaPreview"]]
+        media: list[Union["types.Photo", "types.Video", "types.PaidMediaPreview"]]
     ):
         super().__init__()
 

@@ -51,7 +51,7 @@ _OBFUSCATED2_HEADER_SIZE: Final[int] = 64
 
 # An address the transport must never dial when a proxy is configured. TEST-NET-2
 #  is unroutable, so a connect that reaches for it fails instead of passing.
-_UNREACHABLE_DC_ADDRESS: Final[Tuple[str, int]] = ("198.51.100.1", 443)
+_UNREACHABLE_DC_ADDRESS: Final[tuple[str, int]] = ("198.51.100.1", 443)
 
 _DC_ID: Final[int] = 2
 
@@ -91,7 +91,7 @@ class _ProxyStub(NamedTuple):
 
 async def _start_proxy_stub(*, read_bytes: int) -> _ProxyStub:
     """A local server standing in for an MTProxy: reads `read_bytes` and stops."""
-    received: "asyncio.Future[bytes]" = asyncio.get_running_loop().create_future()
+    received: asyncio.Future[bytes] = asyncio.get_running_loop().create_future()
 
     async def serve(reader: asyncio.StreamReader, writer: asyncio.StreamWriter) -> None:
         try:
@@ -133,7 +133,7 @@ class _SlowConnect(TCPAbridged):
         super().__init__(proxy=proxy, dc_id=2)
         self.finished = False
 
-    async def _connect(self, destination: Tuple[str, int]) -> None:
+    async def _connect(self, destination: tuple[str, int]) -> None:
         await asyncio.sleep(TCP.TIMEOUT * 4)
         self.finished = True
 
@@ -235,7 +235,7 @@ def _server_hello(client_random: bytes, *, secret: bytes) -> bytes:
     return response[:_RANDOM_OFFSET] + digest + response[_RANDOM_OFFSET + _RANDOM_SIZE :]
 
 
-def _client_decrypt_args(header: bytes, *, secret: bytes) -> Tuple[bytes, bytearray, bytearray]:
+def _client_decrypt_args(header: bytes, *, secret: bytes) -> tuple[bytes, bytearray, bytearray]:
     # The proxy sends under the client's receive keys, which `build_obfuscated2_header`
     #  derives from the same nonce read backwards.
     tail = bytes(bytearray(header)[55:7:-1])
@@ -262,8 +262,8 @@ async def _start_fake_tls_stub(
 ) -> _FakeTlsStub:
     """A local server standing in for a fake-TLS MTProxy that knows `secret`."""
     loop = asyncio.get_running_loop()
-    hello: "asyncio.Future[bytes]" = loop.create_future()
-    received: "asyncio.Future[bytes]" = loop.create_future()
+    hello: asyncio.Future[bytes] = loop.create_future()
+    received: asyncio.Future[bytes] = loop.create_future()
 
     async def serve(reader: asyncio.StreamReader, writer: asyncio.StreamWriter) -> None:
         try:
@@ -473,7 +473,7 @@ async def test_connect_via_mtproxy_rejects_a_fake_tls_reply_that_is_not_a_server
     ],
 )
 async def test_connect_via_mtproxy_sends_a_header_the_proxy_can_read(
-    protocol_factory: Type[TCP],
+    protocol_factory: type[TCP],
     secret_hex: str,
     expected_tag: bytes,
 ) -> None:
@@ -582,7 +582,7 @@ async def test_build_proxy_rejects_a_scheme_it_cannot_dial() -> None:
 
 # The same seven values TDLib refuses, as the little-endian ints it compares.
 #  https://github.com/tdlib/td/blob/d1085f9cebc5a62379991ae1652673954f229c1f/td/mtproto/TcpTransport.cpp#L99-L101
-_TDLIB_RESERVED_FIRST_INTS: Final[Tuple[int, ...]] = (
+_TDLIB_RESERVED_FIRST_INTS: Final[tuple[int, ...]] = (
     0x44414548,
     0x54534F50,
     0x20544547,

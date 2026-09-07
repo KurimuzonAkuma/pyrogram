@@ -33,7 +33,7 @@ class GetStickers:
     ) -> List["types.Sticker"]:
         """Get all stickers from set by short name.
 
-        .. include:: /_includes/usable-by/users.rst
+        .. include:: /_includes/usable-by/users-bots.rst
 
         Parameters:
             short_name (``str``):

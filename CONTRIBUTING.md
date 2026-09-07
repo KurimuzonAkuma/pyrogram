@@ -12,8 +12,7 @@ Kurigram requires Python `>=3.8`. Dependency and virtual environment management 
 uv sync
 ```
 
-This installs the package together with its development dependencies (linting, type checking,
-testing).
+This installs the package together with its development dependencies (linting, type checking, testing).
 
 ### Generated code
 

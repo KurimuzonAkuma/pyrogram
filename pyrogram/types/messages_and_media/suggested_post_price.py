@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional, Union
 
 from pyrogram import raw
 
@@ -38,7 +37,7 @@ class SuggestedPostPriceStar(Object):
         self.star_count = star_count
 
     @staticmethod
-    def _parse(post_price: "raw.types.StarsAmount") -> Optional["SuggestedPostPriceStar"]:
+    def _parse(post_price: "raw.types.StarsAmount") -> "SuggestedPostPriceStar | None":
         if isinstance(post_price, raw.types.StarsAmount):
             return SuggestedPostPriceStar(
                 star_count=post_price.amount
@@ -67,7 +66,7 @@ class SuggestedPostPriceTon(Object):
         self.toncoin_nano_count = toncoin_nano_count
 
     @staticmethod
-    def _parse(post_price: "raw.types.StarsTonAmount") -> Optional["SuggestedPostPriceTon"]:
+    def _parse(post_price: "raw.types.StarsTonAmount") -> "SuggestedPostPriceTon | None":
         if isinstance(post_price, raw.types.StarsTonAmount):
             return SuggestedPostPriceTon(
                 toncoin_nano_count=post_price.amount
@@ -96,7 +95,7 @@ class SuggestedPostPrice(Object):
     @staticmethod
     def _parse(
         suggested_post_price: "raw.base.StarsAmount"
-    ) -> Union["SuggestedPostPriceStar", "SuggestedPostPriceTon"] | None:
+    ) -> "SuggestedPostPriceStar | SuggestedPostPriceTon | None":
         if isinstance(suggested_post_price, raw.types.StarsAmount):
             return SuggestedPostPriceStar._parse(suggested_post_price)
         elif isinstance(suggested_post_price, raw.types.StarsTonAmount):

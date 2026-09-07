@@ -25,7 +25,7 @@ and carries on, so a dead reference looks almost right and nothing reports it.
 import ast
 import pathlib
 import re
-from typing import Final, List, NamedTuple, Optional, Set, Tuple
+from typing import Final, NamedTuple
 from re import Pattern
 from collections.abc import Iterator
 

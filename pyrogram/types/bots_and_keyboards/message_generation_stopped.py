@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import List, Optional, Union
 
 import pyrogram
 from pyrogram import raw, types
@@ -51,10 +50,7 @@ class MessageGenerationStopped(Object, Update):
     @staticmethod
     async def _parse(
         client: "pyrogram.Client",
-        update: Union[
-            "raw.types.UpdateUserTyping",
-            "raw.types.UpdateChannelUserTyping",
-        ],
+        update: "raw.types.UpdateUserTyping | raw.types.UpdateChannelUserTyping",
         users: list["raw.base.User"],
         chats: list["raw.base.Chat"],
     ) -> "MessageGenerationStopped":

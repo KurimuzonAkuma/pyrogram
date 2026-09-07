@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional
 
 import pyrogram
 from pyrogram import raw
@@ -43,7 +42,7 @@ class PaymentResult(Object):
         *,
         success: bool,
         verification_url: str | None = None,
-        raw: Optional["raw.base.payments.PaymentResult"] = None,
+        raw: "raw.base.payments.PaymentResult | None" = None,
     ):
         super().__init__()
 

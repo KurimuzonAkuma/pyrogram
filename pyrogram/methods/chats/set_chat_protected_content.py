@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Union
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -25,7 +24,7 @@ from pyrogram import raw, types, utils
 class SetChatProtectedContent:
     async def set_chat_protected_content(
         self: "pyrogram.Client", chat_id: int | str, enabled: bool
-    ) -> Union["types.Message", bool]:
+    ) -> "types.Message | bool":
         """Set the chat protected content setting.
 
         .. include:: /_includes/usable-by/users-bots.rst

@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from typing import List, Optional, Union
 
 import pyrogram
 from pyrogram import enums, raw, utils, types
@@ -54,18 +53,18 @@ class SendInvoice:
         disable_notification: bool | None = None,
         protect_content: bool | None = None,
         message_effect_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         allow_paid_broadcast: bool | None = None,
         direct_messages_topic_id: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
         subscription_expiration_date: int | None = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
         caption: str = "",
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
 
         reply_to_message_id: int | None = None,
-    ) -> Optional["types.Message"]:
+    ) -> "types.Message | None":
         """Use this method to send invoices.
 
         .. include:: /_includes/usable-by/bots.rst

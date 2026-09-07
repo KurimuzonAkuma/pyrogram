@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import List, Optional, Union
 
 import pyrogram
 from pyrogram import raw
@@ -48,7 +47,7 @@ class Thumbnail(Object):
     def __init__(
         self,
         *,
-        client: Optional["pyrogram.Client"] = None,
+        client: "pyrogram.Client | None" = None,
         file_id: str,
         file_unique_id: str,
         width: int,
@@ -64,7 +63,7 @@ class Thumbnail(Object):
         self.file_size = file_size
 
     @staticmethod
-    def _parse(client, media: Union["raw.types.Photo", "raw.types.Document"]) -> list["Thumbnail"] | None:
+    def _parse(client, media: "raw.types.Photo | raw.types.Document") -> list["Thumbnail"] | None:
         if isinstance(media, raw.types.Photo):
             raw_thumbs = [i for i in media.sizes if isinstance(i, raw.types.PhotoSize)]
             raw_thumbs.sort(key=lambda p: p.w * p.h)

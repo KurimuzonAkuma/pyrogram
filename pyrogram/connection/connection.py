@@ -18,7 +18,7 @@
 
 import asyncio
 import logging
-from typing import Final, Optional, Type
+from typing import Final
 
 from pyrogram import utils
 from pyrogram.connection.proxy import Proxy, uses_random_padding

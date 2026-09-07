@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Optional
 
 from pyrogram import enums, types
 
@@ -48,7 +47,7 @@ class MessageOriginChannel(MessageOrigin):
         *,
         type: "enums.MessageOriginType" = enums.MessageOriginType.CHANNEL,
         date: datetime | None = None,
-        chat: Optional["types.Chat"] = None,
+        chat: "types.Chat | None" = None,
         message_id: int | None = None,
         author_signature: str | None = None
     ):

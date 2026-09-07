@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import List, Optional
 
 import pyrogram
 from pyrogram import enums, raw, types
@@ -45,7 +44,7 @@ class ChatPhotoSticker(Object):
     def __init__(
         self,
         *,
-        client: Optional["pyrogram.Client"] = None,
+        client: "pyrogram.Client | None" = None,
         type: "enums.ChatPhotoStickerType",
         set_name: str | None = None,
         sticker_id: int | None = None,

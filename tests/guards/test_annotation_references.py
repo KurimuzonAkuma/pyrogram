@@ -29,7 +29,7 @@ import importlib
 import pathlib
 from dataclasses import dataclass
 from types import ModuleType
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any
 from collections.abc import Iterator, Sequence
 
 import pyrogram

@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import math
-from typing import Union
 from collections.abc import AsyncGenerator
 
 import pyrogram
@@ -28,7 +27,7 @@ from pyrogram.file_id import FileId
 class StreamMedia:
     async def stream_media(
         self: "pyrogram.Client",
-        message: Union["types.Message", str],
+        message: "types.Message | str",
         limit: int = 0,
         offset: int = 0
     ) -> AsyncGenerator[bytes, None]:

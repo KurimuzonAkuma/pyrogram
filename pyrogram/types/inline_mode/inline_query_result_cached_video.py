@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import List, Optional
 
 import pyrogram
 from pyrogram import raw, types, utils, enums
@@ -69,10 +68,10 @@ class InlineQueryResultCachedVideo(InlineQueryResult):
         id: str | None = None,
         description: str | None = None,
         caption: str = "",
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
-        reply_markup: Optional["types.InlineKeyboardMarkup"] = None,
-        input_message_content: Optional["types.InputMessageContent"] = None
+        reply_markup: "types.InlineKeyboardMarkup | None" = None,
+        input_message_content: "types.InputMessageContent | None" = None
     ):
         super().__init__("video", id, input_message_content, reply_markup)
 

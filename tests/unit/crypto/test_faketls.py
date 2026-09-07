@@ -18,7 +18,7 @@
 
 import hashlib
 import hmac
-from typing import Dict, Final, FrozenSet, List, NamedTuple
+from typing import Final, NamedTuple
 
 from pyrogram.crypto import faketls
 

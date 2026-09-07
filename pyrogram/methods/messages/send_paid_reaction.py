@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional, Union
 
 import pyrogram
 from pyrogram import enums, raw
@@ -28,7 +27,7 @@ class SendPaidReaction:
         chat_id: int | str,
         message_id: int,
         amount: int,
-        privacy: Optional["enums.PaidReactionPrivacy"] = None,
+        privacy: "enums.PaidReactionPrivacy | None" = None,
         send_as: int | str | None = None,
     ) -> bool:
         """Send a paid reaction to a message.

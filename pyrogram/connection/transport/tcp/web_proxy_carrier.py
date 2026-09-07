@@ -26,7 +26,7 @@ import ssl
 from dataclasses import dataclass
 from enum import IntEnum
 from http import HTTPStatus
-from typing import Dict, Final, FrozenSet, List, Optional, Set
+from typing import Final
 from collections.abc import Coroutine
 
 from pyrogram.connection.proxy import HTTPS_PORT

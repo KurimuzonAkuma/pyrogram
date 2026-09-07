@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import TYPE_CHECKING, List, Optional, Union
+from typing import TYPE_CHECKING
 
 from pyrogram import types
 
@@ -32,11 +32,11 @@ class EditEphemeralMessageCaption:
         receiver_user_id: int | str,
         ephemeral_message_id: int,
         caption: str = "",
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
         show_caption_above_media: bool | None = None,
-        reply_markup: Optional["types.InlineKeyboardMarkup"] = None,
-    ) -> Optional["types.Message"]:
+        reply_markup: "types.InlineKeyboardMarkup | None" = None,
+    ) -> "types.Message | None":
         """Use this method to edit the caption of an ephemeral message.
         Note that it is not guaranteed that the user will receive the message edit event, especially if they are offline.
 

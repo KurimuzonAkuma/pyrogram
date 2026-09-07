@@ -18,7 +18,6 @@
 
 import logging
 from datetime import datetime
-from typing import List, Optional, Union
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -31,23 +30,23 @@ class SendMessage:
         self: "pyrogram.Client",
         chat_id: int | str,
         text: str,
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         entities: list["types.MessageEntity"] | None = None,
-        link_preview_options: Optional["types.LinkPreviewOptions"] = None,
+        link_preview_options: "types.LinkPreviewOptions | None" = None,
         disable_notification: bool | None = None,
         message_thread_id: int | None = None,
         direct_messages_topic_id: int | None = None,
-        ephemeral_message_parameters: Optional["types.EphemeralMessageParameters"] = None,
+        ephemeral_message_parameters: "types.EphemeralMessageParameters | None" = None,
         effect_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         schedule_date: datetime | None = None,
         repeat_period: int | None = None,
         protect_content: bool | None = None,
         business_connection_id: str | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
         show_caption_above_media: bool | None = None,
         reply_to_message_id: int | None = None,
         reply_to_chat_id: int | str | None = None,
@@ -56,7 +55,7 @@ class SendMessage:
         quote_entities: list["types.MessageEntity"] | None = None,
         quote_offset: int | None = None,
         disable_web_page_preview: bool | None = None,  # TODO: Remove later
-    ) -> Optional["types.Message"]:
+    ) -> "types.Message | None":
         """Send text messages.
 
         .. include:: /_includes/usable-by/users-bots.rst

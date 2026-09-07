@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional, Union
 
 import pyrogram
 from pyrogram import raw
@@ -29,7 +28,7 @@ class GetChat:
         self: "pyrogram.Client",
         chat_id: int | str,
         force_full: bool = True
-    ) -> Optional["types.Chat"]:
+    ) -> "types.Chat | None":
         """Get up to date information about a chat.
 
         Information include current name of the user for one-on-one conversations, current username of a user, group or

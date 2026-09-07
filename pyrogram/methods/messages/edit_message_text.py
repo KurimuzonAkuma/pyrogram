@@ -18,7 +18,6 @@
 
 import logging
 from datetime import datetime
-from typing import List, Optional, Union
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -32,13 +31,13 @@ class EditMessageText:
         chat_id: int | str,
         message_id: int,
         text: str | None = None,
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         entities: list["types.MessageEntity"] | None = None,
-        link_preview_options: Optional["types.LinkPreviewOptions"] = None,
+        link_preview_options: "types.LinkPreviewOptions | None" = None,
         schedule_date: datetime | None = None,
         business_connection_id: str | None = None,
-        rich_message: Optional["types.InputRichMessage"] = None,
-        reply_markup: Optional["types.InlineKeyboardMarkup"] = None,
+        rich_message: "types.InputRichMessage | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | None" = None,
         show_caption_above_media: bool | None = None,
         disable_web_page_preview: bool | None = None,
     ) -> "types.Message":

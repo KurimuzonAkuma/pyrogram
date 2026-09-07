@@ -17,7 +17,7 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
-from typing import List, Union, BinaryIO, Optional
+from typing import BinaryIO
 from collections.abc import Callable
 
 import pyrogram
@@ -39,7 +39,7 @@ class EditStoryMedia:
         file_name: str | None = None,
         progress: Callable | None = None,
         progress_args: tuple = ()
-    ) -> Optional["types.Story"]:
+    ) -> "types.Story | None":
         """Edit story media.
 
         .. include:: /_includes/usable-by/users.rst

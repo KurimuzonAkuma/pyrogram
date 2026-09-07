@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import BinaryIO, Optional, Union, cast
+from typing import BinaryIO, cast
 
 import pyrogram
 from pyrogram import raw, utils
@@ -41,7 +41,7 @@ class InputChatPhoto(Object):
     ):
         super().__init__()
 
-    async def write(self, client: "pyrogram.Client") -> Union["raw.base.InputFile", "raw.base.InputPhoto"]:
+    async def write(self, client: "pyrogram.Client") -> "raw.base.InputFile | raw.base.InputPhoto":
         raise NotImplementedError
 
 

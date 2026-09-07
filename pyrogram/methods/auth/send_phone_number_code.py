@@ -18,7 +18,6 @@
 
 import logging
 import re
-from typing import List, Optional
 
 import pyrogram
 from pyrogram import enums, raw, types
@@ -31,7 +30,7 @@ class SendPhoneNumberCode:
     async def send_phone_number_code(
         self: "pyrogram.Client",
         phone_number: str,
-        settings: Optional["types.PhoneNumberAuthenticationSettings"] = None,
+        settings: "types.PhoneNumberAuthenticationSettings | None" = None,
         type: "enums.PhoneNumberCodeType" = enums.PhoneNumberCodeType.AUTHENTICATION,
         recaptcha_token: str | None = None,
         # Deprecated params

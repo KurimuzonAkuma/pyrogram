@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional
 
 import pyrogram
 
@@ -49,11 +48,11 @@ class GiveawayCompleted(Object):
     def __init__(
         self,
         *,
-        client: Optional["pyrogram.Client"] = None,
+        client: "pyrogram.Client | None" = None,
         winner_count: int,
         unclaimed_prize_count: int | None = None,
         giveaway_message_id: int | None = None,
-        giveaway_message: Optional["types.Message"] = None,
+        giveaway_message: "types.Message | None" = None,
         is_star_giveaway: bool | None = None
     ):
         super().__init__(client)
@@ -69,7 +68,7 @@ class GiveawayCompleted(Object):
     async def _parse(
         client,
         giveaway_results: "raw.types.MessageActionGiveawayResults",
-        chat: Optional["types.Chat"] = None,
+        chat: "types.Chat | None" = None,
         message_id: int | None = None
     ) -> "GiveawayCompleted":
         if not isinstance(giveaway_results, raw.types.MessageActionGiveawayResults):

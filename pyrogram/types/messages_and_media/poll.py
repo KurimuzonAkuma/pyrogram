@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Dict, List, Optional, Union
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -100,27 +99,27 @@ class Poll(Object, Update):
     def __init__(
         self,
         *,
-        client: Optional["pyrogram.Client"] = None,
+        client: "pyrogram.Client | None" = None,
         id: str,
-        question: Optional["types.FormattedText"] = None,
+        question: "types.FormattedText | None" = None,
         options: list["types.PollOption"],
         total_voter_count: int | None = None,
         is_closed: bool,
         is_anonymous: bool | None = None,
-        type: Optional["enums.PollType"] = None,
+        type: "enums.PollType | None" = None,
         allows_multiple_answers: bool | None = None,
         allows_revoting: bool | None = None,
         members_only: bool | None = None,
         country_codes: list[str] | None = None,
         chosen_option_ids: list[int] | None = None,
         correct_option_ids: list[int] | None = None,
-        explanation: Optional["types.FormattedText"] = None,
-        explanation_media: Optional["types.MessageContent"] = None,
+        explanation: "types.FormattedText | None" = None,
+        explanation_media: "types.MessageContent | None" = None,
         open_period: int | None = None,
         close_date: datetime | None = None,
-        description: Optional["types.FormattedText"] = None,
-        description_media: Optional["types.MessageContent"] = None,
-        voter: Optional["types.User"] = None,
+        description: "types.FormattedText | None" = None,
+        description_media: "types.MessageContent | None" = None,
+        voter: "types.User | None" = None,
     ):
         super().__init__(client)
 
@@ -148,8 +147,8 @@ class Poll(Object, Update):
     @staticmethod
     async def _parse(
         client,
-        media_poll: Union["raw.types.MessageMediaPoll", "raw.types.UpdateMessagePoll"],
-        description: Optional["types.FormattedText"] = None,
+        media_poll: "raw.types.MessageMediaPoll | raw.types.UpdateMessagePoll",
+        description: "types.FormattedText | None" = None,
         users: dict[int, "raw.types.User"] = {},
         chats: dict[int, "raw.types.Chat"] = {},
     ) -> "Poll":
@@ -261,7 +260,7 @@ class Poll(Object, Update):
     @staticmethod
     async def _parse_update(
         client,
-        update: Union["raw.types.UpdateMessagePoll", "raw.types.UpdateMessagePollVote"],
+        update: "raw.types.UpdateMessagePoll | raw.types.UpdateMessagePollVote",
         users: dict[int, "raw.types.User"] = {},
         chats: dict[int, "raw.types.Chat"] = {},
     ) -> "Poll":

@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Union, List, Optional
 
 from pyrogram import types, enums, raw, utils
 from ..object import Object
@@ -64,7 +63,7 @@ class BusinessMessage(Object):
         no_activity_days: int | None = None,
         offline_only: bool | None = None,
         recipients: list["types.User"] | None = None,
-        schedule: Optional["enums.BusinessSchedule"] = None,
+        schedule: "enums.BusinessSchedule | None" = None,
         start_date: datetime | None = None,
         end_date: datetime | None = None,
 
@@ -82,9 +81,9 @@ class BusinessMessage(Object):
     @staticmethod
     async def _parse(
         client,
-        message: Union["raw.types.BusinessGreetingMessage", "raw.types.BusinessAwayMessage"] | None = None,
+        message: "raw.types.BusinessGreetingMessage | raw.types.BusinessAwayMessage | None" = None,
         users: dict | None = None
-    ) -> Optional["BusinessMessage"]:
+    ) -> "BusinessMessage | None":
         if not message:
             return None
 

@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import List, Optional, Union
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -93,13 +92,13 @@ class Folder(Object):
     def __init__(
         self,
         *,
-        client: Optional["pyrogram.Client"] = None,
+        client: "pyrogram.Client | None" = None,
         id: int | None = None,
         name: str | None = None,
         entities: list["types.MessageEntity"] | None = None,
         animate_custom_emoji: bool | None = None,
         icon: str | None = None,
-        color: Optional["enums.FolderColor"] = None,
+        color: "enums.FolderColor | None" = None,
         is_shareable: bool | None = None,
         pinned_chats: list["types.Chat"] | None = None,
         included_chats: list["types.Chat"] | None = None,
@@ -112,7 +111,7 @@ class Folder(Object):
         include_bots: bool | None = None,
         include_groups: bool | None = None,
         include_channels: bool | None = None,
-        raw: Optional["raw.base.DialogFilter"] = None
+        raw: "raw.base.DialogFilter | None" = None
     ):
         super().__init__(client)
 
@@ -137,7 +136,7 @@ class Folder(Object):
         self.raw = raw
 
     @staticmethod
-    async def _parse(client: "pyrogram.Client", folder: "raw.base.DialogFilter", users, chats) -> Optional["Folder"]:
+    async def _parse(client: "pyrogram.Client", folder: "raw.base.DialogFilter", users, chats) -> "Folder | None":
         if not folder:
             return
 
@@ -204,11 +203,11 @@ class Folder(Object):
     async def edit(
         self,
         name: str | None = None,
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         entities: list["types.MessageEntity"] | None = None,
         animate_custom_emoji: bool | None = None,
         icon: str | None = None,
-        color: Optional["enums.FolderColor"] = None,
+        color: "enums.FolderColor | None" = None,
         pinned_chats: list[int | str] | None = None,
         included_chats: list[int | str] | None = None,
         excluded_chats: list[int | str] | None = None,

@@ -18,7 +18,7 @@
 
 import inspect
 from pathlib import Path
-from typing import Final, List, Set
+from typing import Final
 from collections.abc import Callable
 
 import pytest

@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional, Union
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -29,7 +28,7 @@ class EditMessageChecklist:
         message_id: int,
         checklist: "types.InputChecklist",
         business_connection_id: str | None = None,
-        reply_markup: Optional["types.InlineKeyboardMarkup"] = None,
+        reply_markup: "types.InlineKeyboardMarkup | None" = None,
     ) -> "types.Message":
         """Use this method to edit a checklist.
 

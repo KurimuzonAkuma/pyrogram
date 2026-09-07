@@ -18,7 +18,7 @@
 
 import os
 from datetime import datetime
-from typing import Union, Optional, BinaryIO, List, Literal, overload
+from typing import BinaryIO, Literal, overload
 from collections.abc import Callable
 
 import pyrogram
@@ -32,23 +32,7 @@ class DownloadMedia:
     @overload
     async def download_media(
         self: "pyrogram.Client",
-        message: Union[
-            str,
-            "types.Message",
-            "types.Story",
-            "types.Audio",
-            "types.Document",
-            "types.Photo",
-            "types.Sticker",
-            "types.Animation",
-            "types.Video",
-            "types.Voice",
-            "types.VideoNote",
-            "types.PaidMediaInfo",
-            "types.Thumbnail",
-            "types.StrippedThumbnail",
-            "types.PaidMediaPreview",
-        ],
+        message: "str | types.Message | types.Story | types.Audio | types.Document | types.Photo | types.Sticker | types.Animation | types.Video | types.Voice | types.VideoNote | types.PaidMediaInfo | types.Thumbnail | types.StrippedThumbnail | types.PaidMediaPreview",
         file_name: str = DEFAULT_DOWNLOAD_DIR,
         in_memory: Literal[False] = False,
         block: Literal[True] = True,
@@ -59,23 +43,7 @@ class DownloadMedia:
     @overload
     async def download_media(
         self: "pyrogram.Client",
-        message: Union[
-            str,
-            "types.Message",
-            "types.Story",
-            "types.Audio",
-            "types.Document",
-            "types.Photo",
-            "types.Sticker",
-            "types.Animation",
-            "types.Video",
-            "types.Voice",
-            "types.VideoNote",
-            "types.PaidMediaInfo",
-            "types.Thumbnail",
-            "types.StrippedThumbnail",
-            "types.PaidMediaPreview",
-        ],
+        message: "str | types.Message | types.Story | types.Audio | types.Document | types.Photo | types.Sticker | types.Animation | types.Video | types.Voice | types.VideoNote | types.PaidMediaInfo | types.Thumbnail | types.StrippedThumbnail | types.PaidMediaPreview",
         file_name: str = DEFAULT_DOWNLOAD_DIR,
         in_memory: Literal[True] = True,
         block: Literal[True] = True,
@@ -86,23 +54,7 @@ class DownloadMedia:
     @overload
     async def download_media(
         self: "pyrogram.Client",
-        message: Union[
-            str,
-            "types.Message",
-            "types.Story",
-            "types.Audio",
-            "types.Document",
-            "types.Photo",
-            "types.Sticker",
-            "types.Animation",
-            "types.Video",
-            "types.Voice",
-            "types.VideoNote",
-            "types.PaidMediaInfo",
-            "types.Thumbnail",
-            "types.StrippedThumbnail",
-            "types.PaidMediaPreview",
-        ],
+        message: "str | types.Message | types.Story | types.Audio | types.Document | types.Photo | types.Sticker | types.Animation | types.Video | types.Voice | types.VideoNote | types.PaidMediaInfo | types.Thumbnail | types.StrippedThumbnail | types.PaidMediaPreview",
         file_name: str = DEFAULT_DOWNLOAD_DIR,
         *,
         in_memory: bool = False,
@@ -114,23 +66,7 @@ class DownloadMedia:
     @overload
     async def download_media(
         self: "pyrogram.Client",
-        message: Union[
-            str,
-            "types.Message",
-            "types.Story",
-            "types.Audio",
-            "types.Document",
-            "types.Photo",
-            "types.Sticker",
-            "types.Animation",
-            "types.Video",
-            "types.Voice",
-            "types.VideoNote",
-            "types.PaidMediaInfo",
-            "types.Thumbnail",
-            "types.StrippedThumbnail",
-            "types.PaidMediaPreview",
-        ],
+        message: "str | types.Message | types.Story | types.Audio | types.Document | types.Photo | types.Sticker | types.Animation | types.Video | types.Voice | types.VideoNote | types.PaidMediaInfo | types.Thumbnail | types.StrippedThumbnail | types.PaidMediaPreview",
         file_name: str,
         in_memory: bool,
         block: Literal[False],
@@ -141,23 +77,7 @@ class DownloadMedia:
     @overload
     async def download_media(
         self: "pyrogram.Client",
-        message: Union[
-            str,
-            "types.Message",
-            "types.Story",
-            "types.Audio",
-            "types.Document",
-            "types.Photo",
-            "types.Sticker",
-            "types.Animation",
-            "types.Video",
-            "types.Voice",
-            "types.VideoNote",
-            "types.PaidMediaInfo",
-            "types.Thumbnail",
-            "types.StrippedThumbnail",
-            "types.PaidMediaPreview",
-        ],
+        message: "str | types.Message | types.Story | types.Audio | types.Document | types.Photo | types.Sticker | types.Animation | types.Video | types.Voice | types.VideoNote | types.PaidMediaInfo | types.Thumbnail | types.StrippedThumbnail | types.PaidMediaPreview",
         file_name: str = DEFAULT_DOWNLOAD_DIR,
         in_memory: bool = False,
         block: bool = True,
@@ -167,23 +87,7 @@ class DownloadMedia:
 
     async def download_media(
         self: "pyrogram.Client",
-        message: Union[
-            str,
-            "types.Message",
-            "types.Story",
-            "types.Audio",
-            "types.Document",
-            "types.Photo",
-            "types.Sticker",
-            "types.Animation",
-            "types.Video",
-            "types.Voice",
-            "types.VideoNote",
-            "types.PaidMediaInfo",
-            "types.Thumbnail",
-            "types.StrippedThumbnail",
-            "types.PaidMediaPreview"
-        ],
+        message: "str | types.Message | types.Story | types.Audio | types.Document | types.Photo | types.Sticker | types.Animation | types.Video | types.Voice | types.VideoNote | types.PaidMediaInfo | types.Thumbnail | types.StrippedThumbnail | types.PaidMediaPreview",
         file_name: str = DEFAULT_DOWNLOAD_DIR,
         in_memory: bool = False,
         block: bool = True,

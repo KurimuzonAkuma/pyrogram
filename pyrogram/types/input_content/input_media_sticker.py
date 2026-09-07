@@ -19,7 +19,7 @@
 import io
 import pathlib
 import re
-from typing import BinaryIO, Optional, Union
+from typing import BinaryIO
 from collections.abc import Callable
 
 import pyrogram

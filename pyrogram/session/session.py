@@ -23,7 +23,7 @@ import os
 from enum import Enum, auto
 from hashlib import sha1
 from io import BytesIO
-from typing import Any, Dict, List, Optional, Set
+from typing import Any
 from collections.abc import Coroutine
 
 import pyrogram

@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import List, Optional, Union, overload
+from typing import overload
 from collections.abc import Iterable
 import re
 import pyrogram
@@ -33,7 +33,7 @@ class GetMessages:
         reply: None = None,
         pinned: None = None,
         replies: int = 1,
-    ) -> Optional["types.Message"]: ...
+    ) -> "types.Message | None": ...
     # Invalid arguments (only message_ids with type int or Iterable of int provided)
     @overload
     async def get_messages(
@@ -83,7 +83,7 @@ class GetMessages:
         reply: bool | None = None,
         pinned: bool | None = None,
         replies: int = 1,
-    ) -> Optional["types.Message"]: ...
+    ) -> "types.Message | None": ...
     # One message with string
     @overload
     async def get_messages(
@@ -93,7 +93,7 @@ class GetMessages:
         reply: bool | None = None,
         pinned: bool | None = None,
         replies: int = 1,
-    ) -> Optional["types.Message"]: ...
+    ) -> "types.Message | None": ...
     # Many messages
     @overload
     async def get_messages(
@@ -113,7 +113,7 @@ class GetMessages:
         reply: bool | None = None,
         pinned: bool = False,
         replies: int = 1,
-    ) -> Optional["types.Message"]: ...
+    ) -> "types.Message | None": ...
     # Pinned message with provided message ids
     # - message ids will not affect result
     @overload
@@ -124,7 +124,7 @@ class GetMessages:
         reply: bool | None = None,
         pinned: bool = False,
         replies: int = 1,
-    ) -> Optional["types.Message"]: ...
+    ) -> "types.Message | None": ...
     async def get_messages(
         self: "pyrogram.Client",
         chat_id: int | str | None = None,
@@ -132,7 +132,7 @@ class GetMessages:
         reply: bool | None = None,
         pinned: bool | None = None,
         replies: int = 1,
-    ) -> Optional["types.Message"] | list["types.Message"]:
+    ) -> "types.Message | None | list[types.Message]":
         """Get one or more messages from a chat by using message identifiers or link.
 
         You can retrieve up to 200 messages at once.

@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Union, List, Optional
 
 import pyrogram
 from pyrogram import types, enums
@@ -29,12 +28,12 @@ class EditMessageCaption:
         chat_id: int | str,
         message_id: int,
         caption: str,
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
         schedule_date: datetime | None = None,
         business_connection_id: str | None = None,
         show_caption_above_media: bool | None = None,
-        reply_markup: Optional["types.InlineKeyboardMarkup"] = None,
+        reply_markup: "types.InlineKeyboardMarkup | None" = None,
     ) -> "types.Message":
         """Edit the caption of media messages.
 

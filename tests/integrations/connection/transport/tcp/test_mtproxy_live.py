@@ -34,7 +34,7 @@ Skipped unless the environment carries a proxy to run against. Fill in
     make test-integration
 """
 
-from typing import Final, Type
+from typing import Final
 
 from pyrogram import Client
 from pyrogram.connection.proxy import MTProxy

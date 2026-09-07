@@ -20,7 +20,7 @@ import contextlib
 import logging
 from datetime import datetime
 from functools import partial
-from typing import BinaryIO, Dict, List, Optional, Type, Union
+from typing import BinaryIO
 from re import Match
 from collections.abc import Callable
 
@@ -641,46 +641,46 @@ class Message(Object, Update):
     def __init__(
         self,
         *,
-        client: Optional["pyrogram.Client"] = None,
+        client: "pyrogram.Client | None" = None,
         id: int,
-        from_user: Optional["types.User"] = None,
-        sender_chat: Optional["types.Chat"] = None,
+        from_user: "types.User | None" = None,
+        sender_chat: "types.Chat | None" = None,
         sender_boost_count: int | None = None,
-        sender_business_bot: Optional["types.User"] = None,
+        sender_business_bot: "types.User | None" = None,
         sender_tag: str | None = None,
-        receiver_user: Optional["types.User"] = None,
+        receiver_user: "types.User | None" = None,
         ephemeral_message_id: int | None = None,
         date: datetime | None = None,
         guest_query_id: str | None = None,
-        chat: Optional["types.Chat"] = None,
+        chat: "types.Chat | None" = None,
         topic_message: bool | None = None,
         automatic_forward: bool | None = None,
         from_offline: bool | None = None,
         show_caption_above_media: bool | None = None,
-        external_reply: Optional["types.ExternalReplyInfo"] = None,
-        quote: Optional["types.TextQuote"] = None,
-        topic: Union["types.ForumTopic", "types.DirectMessagesTopic"] | None = None,
-        forward_origin: Optional["types.MessageOrigin"] = None,
+        external_reply: "types.ExternalReplyInfo | None" = None,
+        quote: "types.TextQuote | None" = None,
+        topic: "types.ForumTopic | types.DirectMessagesTopic | None" = None,
+        forward_origin: "types.MessageOrigin | None" = None,
         message_thread_id: int | None = None,
         direct_messages_topic_id: int | None = None,
         effect_id: int | None = None,
-        rich_message: Optional["types.RichMessage"] = None,
+        rich_message: "types.RichMessage | None" = None,
         reply_to_message_id: int | None = None,
         reply_to_story_id: int | None = None,
         reply_to_story_user_id: int | None = None,
         reply_to_top_message_id: int | None = None,
         reply_to_poll_option_id: str | None = None,
-        reply_to_message: Optional["Message"] = None,
-        reply_to_story: Optional["types.Story"] = None,
+        reply_to_message: "Message | None" = None,
+        reply_to_story: "types.Story | None" = None,
         reply_to_checklist_task_id: int | None = None,
         mentioned: bool | None = None,
         empty: bool | None = None,
-        service: Optional["enums.MessageServiceType"] = None,
+        service: "enums.MessageServiceType | None" = None,
         scheduled: bool | None = None,
         from_scheduled: bool | None = None,
-        media: Optional["enums.MessageMediaType"] = None,
-        paid_media: Optional["types.PaidMediaInfo"] = None,
-        checklist: Optional["types.Checklist"] = None,
+        media: "enums.MessageMediaType | None" = None,
+        paid_media: "types.PaidMediaInfo | None" = None,
+        checklist: "types.Checklist | None" = None,
         edit_date: datetime | None = None,
         edit_hidden: bool | None = None,
         media_group_id: int | None = None,
@@ -691,126 +691,126 @@ class Message(Object, Update):
         text: Str | None = None,
         entities: list["types.MessageEntity"] | None = None,
         caption_entities: list["types.MessageEntity"] | None = None,
-        audio: Optional["types.Audio"] = None,
-        document: Optional["types.Document"] = None,
-        photo: Optional["types.Photo"] = None,
-        live_photo: Optional["types.LivePhoto"] = None,
-        sticker: Optional["types.Sticker"] = None,
-        animation: Optional["types.Animation"] = None,
-        game: Optional["types.Game"] = None,
-        giveaway: Optional["types.Giveaway"] = None,
-        giveaway_winners: Optional["types.GiveawayWinners"] = None,
-        giveaway_completed: Optional["types.GiveawayCompleted"] = None,
-        managed_bot_created: Optional["types.ManagedBotCreated"] = None,
-        poll_option_added: Optional["types.PollOptionAdded"] = None,
-        poll_option_deleted: Optional["types.PollOptionDeleted"] = None,
-        invoice: Optional["types.Invoice"] = None,
-        story: Optional["types.Story"] = None,
-        video: Optional["types.Video"] = None,
+        audio: "types.Audio | None" = None,
+        document: "types.Document | None" = None,
+        photo: "types.Photo | None" = None,
+        live_photo: "types.LivePhoto | None" = None,
+        sticker: "types.Sticker | None" = None,
+        animation: "types.Animation | None" = None,
+        game: "types.Game | None" = None,
+        giveaway: "types.Giveaway | None" = None,
+        giveaway_winners: "types.GiveawayWinners | None" = None,
+        giveaway_completed: "types.GiveawayCompleted | None" = None,
+        managed_bot_created: "types.ManagedBotCreated | None" = None,
+        poll_option_added: "types.PollOptionAdded | None" = None,
+        poll_option_deleted: "types.PollOptionDeleted | None" = None,
+        invoice: "types.Invoice | None" = None,
+        story: "types.Story | None" = None,
+        video: "types.Video | None" = None,
         video_processing_pending: bool | None = None,
-        voice: Optional["types.Voice"] = None,
-        video_note: Optional["types.VideoNote"] = None,
+        voice: "types.Voice | None" = None,
+        video_note: "types.VideoNote | None" = None,
         caption: Str | None = None,
-        contact: Optional["types.Contact"] = None,
-        location: Optional["types.Location"] = None,
-        venue: Optional["types.Venue"] = None,
-        web_page: Optional["types.WebPage"] = None,
-        link_preview_options: Optional["types.LinkPreviewOptions"] = None,
-        poll: Optional["types.Poll"] = None,
-        dice: Optional["types.Dice"] = None,
+        contact: "types.Contact | None" = None,
+        location: "types.Location | None" = None,
+        venue: "types.Venue | None" = None,
+        web_page: "types.WebPage | None" = None,
+        link_preview_options: "types.LinkPreviewOptions | None" = None,
+        poll: "types.Poll | None" = None,
+        dice: "types.Dice | None" = None,
         new_chat_members: list["types.User"] | None = None,
-        left_chat_member: Optional["types.User"] = None,
-        chat_owner_left: Optional["types.ChatOwnerLeft"] = None,
-        chat_owner_changed: Optional["types.ChatOwnerChanged"] = None,
-        chat_join_type: Optional["enums.ChatJoinType"] = None,
+        left_chat_member: "types.User | None" = None,
+        chat_owner_left: "types.ChatOwnerLeft | None" = None,
+        chat_owner_changed: "types.ChatOwnerChanged | None" = None,
+        chat_join_type: "enums.ChatJoinType | None" = None,
         new_chat_title: str | None = None,
-        new_chat_photo: Optional["types.Photo"] = None,
+        new_chat_photo: "types.Photo | None" = None,
         delete_chat_photo: bool | None = None,
         group_chat_created: bool | None = None,
         supergroup_chat_created: bool | None = None,
         channel_chat_created: bool | None = None,
         migrate_to_chat_id: int | None = None,
         migrate_from_chat_id: int | None = None,
-        pinned_message: Optional["Message"] = None,
-        game_high_score: Optional["types.GameHighScore"] = None,
+        pinned_message: "Message | None" = None,
+        game_high_score: "types.GameHighScore | None" = None,
         views: int | None = None,
         forwards: int | None = None,
-        via_bot: Optional["types.User"] = None,
+        via_bot: "types.User | None" = None,
         outgoing: bool | None = None,
         matches: list[Match] | None = None,
         command: list[str] | None = None,
-        forum_topic_created: Optional["types.ForumTopicCreated"] = None,
-        forum_topic_closed: Optional["types.ForumTopicClosed"] = None,
-        forum_topic_reopened: Optional["types.ForumTopicReopened"] = None,
-        forum_topic_edited: Optional["types.ForumTopicEdited"] = None,
-        general_forum_topic_hidden: Optional["types.GeneralForumTopicHidden"] = None,
-        general_forum_topic_unhidden: Optional["types.GeneralForumTopicUnhidden"] = None,
-        video_chat_scheduled: Optional["types.VideoChatScheduled"] = None,
-        history_cleared: Optional["types.HistoryCleared"] = None,
-        video_chat_started: Optional["types.VideoChatStarted"] = None,
-        video_chat_ended: Optional["types.VideoChatEnded"] = None,
-        video_chat_members_invited: Optional["types.VideoChatMembersInvited"] = None,
-        phone_call_started: Optional["types.PhoneCallStarted"] = None,
-        phone_call_ended: Optional["types.PhoneCallEnded"] = None,
-        web_app_data: Optional["types.WebAppData"] = None,
-        paid_messages_refunded: Optional["types.PaidMessagesRefunded"] = None,
-        paid_messages_price_changed: Optional["types.PaidMessagesPriceChanged"] = None,
-        direct_message_price_changed: Optional["types.DirectMessagePriceChanged"] = None,
+        forum_topic_created: "types.ForumTopicCreated | None" = None,
+        forum_topic_closed: "types.ForumTopicClosed | None" = None,
+        forum_topic_reopened: "types.ForumTopicReopened | None" = None,
+        forum_topic_edited: "types.ForumTopicEdited | None" = None,
+        general_forum_topic_hidden: "types.GeneralForumTopicHidden | None" = None,
+        general_forum_topic_unhidden: "types.GeneralForumTopicUnhidden | None" = None,
+        video_chat_scheduled: "types.VideoChatScheduled | None" = None,
+        history_cleared: "types.HistoryCleared | None" = None,
+        video_chat_started: "types.VideoChatStarted | None" = None,
+        video_chat_ended: "types.VideoChatEnded | None" = None,
+        video_chat_members_invited: "types.VideoChatMembersInvited | None" = None,
+        phone_call_started: "types.PhoneCallStarted | None" = None,
+        phone_call_ended: "types.PhoneCallEnded | None" = None,
+        web_app_data: "types.WebAppData | None" = None,
+        paid_messages_refunded: "types.PaidMessagesRefunded | None" = None,
+        paid_messages_price_changed: "types.PaidMessagesPriceChanged | None" = None,
+        direct_message_price_changed: "types.DirectMessagePriceChanged | None" = None,
         checklist_tasks_done: list["types.ChecklistTasksDone"] | None = None,
         checklist_tasks_added: list["types.ChecklistTasksAdded"] | None = None,
-        community_chat_added: Optional["types.CommunityChatAdded"] = None,
-        community_chat_removed: Optional["types.CommunityChatRemoved"] = None,
-        community_chat_joined: Optional["types.CommunityChatJoined"] = None,
-        premium_gift_code: Optional["types.PremiumGiftCode"] = None,
-        gifted_premium: Optional["types.GiftedPremium"] = None,
-        gifted_stars: Optional["types.GiftedStars"] = None,
-        gifted_grams: Optional["types.GiftedGrams"] = None,
-        gift: Optional["types.Gift"] = None,
+        community_chat_added: "types.CommunityChatAdded | None" = None,
+        community_chat_removed: "types.CommunityChatRemoved | None" = None,
+        community_chat_joined: "types.CommunityChatJoined | None" = None,
+        premium_gift_code: "types.PremiumGiftCode | None" = None,
+        gifted_premium: "types.GiftedPremium | None" = None,
+        gifted_stars: "types.GiftedStars | None" = None,
+        gifted_grams: "types.GiftedGrams | None" = None,
+        gift: "types.Gift | None" = None,
         is_prepaid_upgrade: bool | None = None,
         is_from_auction: bool | None = None,
-        suggest_profile_photo: Optional["types.Photo"] = None,
-        suggest_birthday: Optional["types.Birthday"] = None,
-        users_shared: Optional["types.UsersShared"] = None,
-        chat_shared: Optional["types.ChatShared"] = None,
-        successful_payment: Optional["types.SuccessfulPayment"] = None,
-        refunded_payment: Optional["types.RefundedPayment"] = None,
-        suggested_post_approval_failed: Optional["types.SuggestedPostApprovalFailed"] = None,
-        suggested_post_approved: Optional["types.SuggestedPostApproved"] = None,
-        suggested_post_declined: Optional["types.SuggestedPostDeclined"] = None,
-        suggested_post_paid: Optional["types.SuggestedPostPaid"] = None,
-        suggested_post_refunded: Optional["types.SuggestedPostRefunded"] = None,
+        suggest_profile_photo: "types.Photo | None" = None,
+        suggest_birthday: "types.Birthday | None" = None,
+        users_shared: "types.UsersShared | None" = None,
+        chat_shared: "types.ChatShared | None" = None,
+        successful_payment: "types.SuccessfulPayment | None" = None,
+        refunded_payment: "types.RefundedPayment | None" = None,
+        suggested_post_approval_failed: "types.SuggestedPostApprovalFailed | None" = None,
+        suggested_post_approved: "types.SuggestedPostApproved | None" = None,
+        suggested_post_declined: "types.SuggestedPostDeclined | None" = None,
+        suggested_post_paid: "types.SuggestedPostPaid | None" = None,
+        suggested_post_refunded: "types.SuggestedPostRefunded | None" = None,
         giveaway_created: bool | None = None,
-        chat_set_theme: Optional["types.ChatTheme"] = None,
-        chat_set_background: Optional["types.ChatBackground"] = None,
+        chat_set_theme: "types.ChatTheme | None" = None,
+        chat_set_background: "types.ChatBackground | None" = None,
         set_message_auto_delete_time: int | None = None,
         chat_boost: int | None = None,
-        write_access_allowed: Optional["types.WriteAccessAllowed"] = None,
+        write_access_allowed: "types.WriteAccessAllowed | None" = None,
         connected_website: str | None = None,
-        contact_registered: Optional["types.ContactRegistered"] = None,
-        proximity_alert_triggered: Optional["types.ProximityAlertTriggered"] = None,
-        giveaway_prize_stars: Optional["types.GiveawayPrizeStars"] = None,
-        screenshot_taken: Optional["types.ScreenshotTaken"] = None,
-        upgraded_gift_purchase_offer: Optional["types.UpgradedGiftPurchaseOffer"] = None,
-        upgraded_gift_purchase_offer_rejected: Optional["types.UpgradedGiftPurchaseOfferRejected"] = None,
-        chat_has_protected_content_toggled: Optional["types.ChatHasProtectedContentToggled"] = None,
-        chat_has_protected_content_disable_requested: Optional["types.ChatHasProtectedContentDisableRequested"] = None,
+        contact_registered: "types.ContactRegistered | None" = None,
+        proximity_alert_triggered: "types.ProximityAlertTriggered | None" = None,
+        giveaway_prize_stars: "types.GiveawayPrizeStars | None" = None,
+        screenshot_taken: "types.ScreenshotTaken | None" = None,
+        upgraded_gift_purchase_offer: "types.UpgradedGiftPurchaseOffer | None" = None,
+        upgraded_gift_purchase_offer_rejected: "types.UpgradedGiftPurchaseOfferRejected | None" = None,
+        chat_has_protected_content_toggled: "types.ChatHasProtectedContentToggled | None" = None,
+        chat_has_protected_content_disable_requested: "types.ChatHasProtectedContentDisableRequested | None" = None,
         business_connection_id: str | None = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
-        reactions: Optional["types.MessageReactions"] = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
+        reactions: "types.MessageReactions | None" = None,
         send_paid_messages_stars: int | None = None,
         unread_media: bool | None = None,
         silent: bool | None = None,
         legacy: bool | None = None,
         pinned: bool | None = None,
         restriction_reason: list["types.RestrictionReason"] | None = None,
-        fact_check: Optional["types.FactCheck"] = None,
-        suggested_post_info: Optional["types.SuggestedPostInfo"] = None,
+        fact_check: "types.FactCheck | None" = None,
+        suggested_post_info: "types.SuggestedPostInfo | None" = None,
         channel_post: bool | None = None,
         repeat_period: int | None = None,
         summary_language_code: str | None = None,
-        guest_bot_caller_user: Optional["types.User"] = None,
-        guest_bot_caller_chat: Optional["types.Chat"] = None,
-        raw: Optional["raw.types.Message"] = None
+        guest_bot_caller_user: "types.User | None" = None,
+        guest_bot_caller_chat: "types.Chat | None" = None,
+        raw: "raw.types.Message | None" = None
     ):
         super().__init__(client)
 
@@ -992,7 +992,7 @@ class Message(Object, Update):
         chats: dict[int, "raw.base.Chat"],
         replies: int = 1,
         business_connection_id: str | None = None,
-        raw_reply_to_message: Optional["raw.base.Message"] = None
+        raw_reply_to_message: "raw.base.Message | None" = None
     ) -> "Message":
         from_id = utils.get_raw_peer_id(message.from_id)
         peer_id = utils.get_raw_peer_id(message.peer_id)
@@ -1498,7 +1498,7 @@ class Message(Object, Update):
         replies: int = 1,
         business_connection_id: str | None = None,
         guest_query_id: str | None = None,
-        raw_reply_to_message: Optional["raw.base.Message"] = None
+        raw_reply_to_message: "raw.base.Message | None" = None
     ) -> "Message":
         from_id = utils.get_raw_peer_id(message.from_id)
         peer_id = utils.get_raw_peer_id(message.peer_id)
@@ -2196,7 +2196,7 @@ class Message(Object, Update):
         chats: dict[int, "raw.base.Chat"],
         replies: int = 1,
         business_connection_id: str | None = None,
-        raw_reply_to_message: Optional["raw.base.Message"] = None
+        raw_reply_to_message: "raw.base.Message | None" = None
     ):
         if isinstance(message.reply_to, raw.types.MessageReplyHeader):
             parsed_message.reply_to_message_id = message.reply_to.reply_to_msg_id
@@ -2277,7 +2277,7 @@ class Message(Object, Update):
         replies: int = 1,
         business_connection_id: str | None = None,
         guest_query_id: str | None = None,
-        raw_reply_to_message: Optional["raw.base.Message"] = None
+        raw_reply_to_message: "raw.base.Message | None" = None
     ) -> "Message":
         if isinstance(message, raw.types.MessageEmpty):
             return Message(
@@ -2355,7 +2355,7 @@ class Message(Object, Update):
     # TODO: Remove later
 
     @property
-    def forward_from(self) -> Optional["types.User"]:
+    def forward_from(self) -> "types.User | None":
         log.warning(
             "`message.forward_from` is deprecated and will be removed in future updates. Use `message.forward_origin.sender_user` instead."
         )
@@ -2369,7 +2369,7 @@ class Message(Object, Update):
         return getattr(self.forward_origin, "sender_user_name", None)
 
     @property
-    def forward_from_chat(self) -> Optional["types.Chat"]:
+    def forward_from_chat(self) -> "types.Chat | None":
         log.warning(
             "`message.forward_from_chat` property is deprecated and will be removed in future updates. Use `message.forward_origin.chat.sender_chat` instead."
         )
@@ -2411,7 +2411,7 @@ class Message(Object, Update):
         animation: str | BinaryIO,
         caption: str = "",
         unsave: bool = False,
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
         has_spoiler: bool | None = None,
         show_caption_above_media: bool | None = None,
@@ -2427,11 +2427,11 @@ class Message(Object, Update):
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
         progress: Callable | None = None,
         progress_args: tuple = (),
-    ) -> Optional["Message"]:
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_animation` will automatically fill method attributes:
 
         * chat_id
@@ -2597,7 +2597,7 @@ class Message(Object, Update):
         animation: str | BinaryIO,
         caption: str = "",
         unsave: bool = False,
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
         has_spoiler: bool | None = None,
         show_caption_above_media: bool | None = None,
@@ -2608,17 +2608,17 @@ class Message(Object, Update):
         file_name: str | None = None,
         disable_notification: bool | None = None,
         effect_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         schedule_date: datetime | None = None,
         repeat_period: int | None = None,
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
         progress: Callable | None = None,
         progress_args: tuple = (),
-    ) -> Optional["Message"]:
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_animation` will automatically fill method attributes:
 
         * chat_id
@@ -2778,7 +2778,7 @@ class Message(Object, Update):
         self,
         audio: str | BinaryIO,
         caption: str = "",
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
         duration: int = 0,
         performer: str | None = None,
@@ -2792,11 +2792,11 @@ class Message(Object, Update):
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
         progress: Callable | None = None,
         progress_args: tuple = (),
-    ) -> Optional["Message"]:
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_audio` will automatically fill method attributes:
 
         * chat_id
@@ -2948,7 +2948,7 @@ class Message(Object, Update):
         self,
         audio: str | BinaryIO,
         caption: str = "",
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
         duration: int = 0,
         performer: str | None = None,
@@ -2957,17 +2957,17 @@ class Message(Object, Update):
         file_name: str | None = None,
         disable_notification: bool | None = None,
         effect_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         schedule_date: datetime | None = None,
         repeat_period: int | None = None,
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
         progress: Callable | None = None,
         progress_args: tuple = (),
-    ) -> Optional["Message"]:
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_audio` will automatically fill method attributes:
 
         * chat_id
@@ -3122,9 +3122,9 @@ class Message(Object, Update):
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
-    ) -> Optional["Message"]:
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_contact` will automatically fill method attributes:
 
         * chat_id
@@ -3224,14 +3224,14 @@ class Message(Object, Update):
         vcard: str | None = None,
         disable_notification: bool | None = None,
         effect_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         schedule_date: datetime | None = None,
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None
-    ) -> Optional["Message"]:
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_contact` will automatically fill method attributes:
 
         * chat_id
@@ -3323,7 +3323,7 @@ class Message(Object, Update):
         document: str | BinaryIO,
         thumb: str | BinaryIO | None = None,
         caption: str = "",
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
         file_name: str | None = None,
         force_document: bool | None = None,
@@ -3334,11 +3334,11 @@ class Message(Object, Update):
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
         progress: Callable | None = None,
         progress_args: tuple = (),
-    ) -> Optional["Message"]:
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_document` will automatically fill method attributes:
 
         * chat_id
@@ -3485,23 +3485,23 @@ class Message(Object, Update):
         document: str | BinaryIO,
         thumb: str | BinaryIO | None = None,
         caption: str = "",
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
         file_name: str | None = None,
         force_document: bool | None = None,
         disable_notification: bool | None = None,
         effect_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         schedule_date: datetime | None = None,
         repeat_period: int | None = None,
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
         progress: Callable | None = None,
         progress_args: tuple = (),
-    ) -> Optional["Message"]:
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_document` will automatically fill method attributes:
 
         * chat_id
@@ -3645,8 +3645,8 @@ class Message(Object, Update):
         effect_id: int | None = None,
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
-    ) -> Optional["Message"]:
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_game` will automatically fill method attributes:
 
         * chat_id
@@ -3707,11 +3707,11 @@ class Message(Object, Update):
         game_short_name: str,
         disable_notification: bool | None = None,
         effect_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None
-    ) -> Optional["Message"]:
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_game` will automatically fill method attributes:
 
         * chat_id
@@ -3800,13 +3800,13 @@ class Message(Object, Update):
         protect_content: bool | None = None,
         message_effect_id: int | None = None,
         allow_paid_broadcast: bool | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
         subscription_expiration_date: int | None = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
         caption: str = "",
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
-    ) -> Optional["Message"]:
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_invoice` will automatically fill method attributes:
 
         * chat_id
@@ -3983,15 +3983,15 @@ class Message(Object, Update):
         disable_notification: bool | None = None,
         protect_content: bool | None = None,
         message_effect_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         allow_paid_broadcast: bool | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
         subscription_expiration_date: int | None = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
         caption: str = "",
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
-    ) -> Optional["Message"]:
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_invoice` will automatically fill method attributes:
 
         * chat_id
@@ -4158,9 +4158,9 @@ class Message(Object, Update):
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
-    ) -> Optional["Message"]:
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_location` will automatically fill method attributes:
 
         * chat_id
@@ -4274,14 +4274,14 @@ class Message(Object, Update):
         proximity_alert_radius: int | None = None,
         disable_notification: bool | None = None,
         effect_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         schedule_date: datetime | None = None,
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None
-    ) -> Optional["Message"]:
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_location` will automatically fill method attributes:
 
         * chat_id
@@ -4382,7 +4382,7 @@ class Message(Object, Update):
 
     async def reply_media_group(
         self,
-        media: list[Union["types.InputMediaPhoto", "types.InputMediaVideo"]],
+        media: "list[types.InputMediaPhoto | types.InputMediaVideo]",
         disable_notification: bool | None = None,
         effect_id: int | None = None,
         schedule_date: datetime | None = None,
@@ -4455,10 +4455,10 @@ class Message(Object, Update):
 
     async def answer_media_group(
         self,
-        media: list[Union["types.InputMediaPhoto", "types.InputMediaVideo"]],
+        media: "list[types.InputMediaPhoto | types.InputMediaVideo]",
         disable_notification: bool | None = None,
         effect_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         schedule_date: datetime | None = None,
         protect_content: bool | None = None,
         show_caption_above_media: bool | None = None,
@@ -4532,9 +4532,9 @@ class Message(Object, Update):
     async def reply(
         self,
         text: str,
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         entities: list["types.MessageEntity"] | None = None,
-        link_preview_options: Optional["types.LinkPreviewOptions"] = None,
+        link_preview_options: "types.LinkPreviewOptions | None" = None,
         disable_notification: bool | None = None,
         effect_id: int | None = None,
         schedule_date: datetime | None = None,
@@ -4542,9 +4542,9 @@ class Message(Object, Update):
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
-    ) -> Optional["Message"]:
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_message` will automatically fill method attributes:
 
         * chat_id
@@ -4646,20 +4646,20 @@ class Message(Object, Update):
     async def answer(
         self,
         text: str,
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         entities: list["types.MessageEntity"] | None = None,
-        link_preview_options: Optional["types.LinkPreviewOptions"] = None,
+        link_preview_options: "types.LinkPreviewOptions | None" = None,
         disable_notification: bool | None = None,
         effect_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         schedule_date: datetime | None = None,
         repeat_period: int | None = None,
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None
-    ) -> Optional["Message"]:
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_message` will automatically fill method attributes:
 
         * chat_id
@@ -4755,7 +4755,7 @@ class Message(Object, Update):
         self,
         photo: str | BinaryIO,
         caption: str = "",
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
         has_spoiler: bool | None = None,
         show_caption_above_media: bool | None = None,
@@ -4768,11 +4768,11 @@ class Message(Object, Update):
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
         progress: Callable | None = None,
         progress_args: tuple = (),
-    ) -> Optional["Message"]:
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_photo` will automatically fill method attributes:
 
         * chat_id
@@ -4919,25 +4919,25 @@ class Message(Object, Update):
         self,
         photo: str | BinaryIO,
         caption: str = "",
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
         has_spoiler: bool | None = None,
         show_caption_above_media: bool | None = None,
         ttl_seconds: int | None = None,
         disable_notification: bool | None = None,
         effect_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         schedule_date: datetime | None = None,
         repeat_period: int | None = None,
         view_once: bool | None = None,
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
         progress: Callable | None = None,
         progress_args: tuple = ()
-    ) -> Optional["Message"]:
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_photo` will automatically fill method attributes:
 
         * chat_id
@@ -5080,7 +5080,7 @@ class Message(Object, Update):
         live_photo: str | BinaryIO,
         photo: str | BinaryIO,
         caption: str = "",
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
         has_spoiler: bool | None = None,
         width: int = 0,
@@ -5093,11 +5093,11 @@ class Message(Object, Update):
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
         progress: Callable | None = None,
         progress_args: tuple = (),
-    ) -> Optional["Message"]:
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_live_photo` will automatically fill method attributes:
 
         * chat_id
@@ -5253,7 +5253,7 @@ class Message(Object, Update):
         live_photo: str | BinaryIO,
         photo: str | BinaryIO,
         caption: str = "",
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
         has_spoiler: bool | None = None,
         width: int = 0,
@@ -5261,17 +5261,17 @@ class Message(Object, Update):
         disable_notification: bool | None = None,
         effect_id: int | None = None,
         show_caption_above_media: bool | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         schedule_date: datetime | None = None,
         repeat_period: int | None = None,
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
         progress: Callable | None = None,
         progress_args: tuple = ()
-    ) -> Optional["Message"]:
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_live_photo` will automatically fill method attributes:
 
         * chat_id
@@ -5420,9 +5420,9 @@ class Message(Object, Update):
     async def reply_poll(
         self,
         question: "types.FormattedText",
-        options: list[Union[str, "types.InputPollOption"]],
-        description: Optional["types.FormattedText"] = None,
-        description_media: Optional["types.InputPollMedia"] = None,
+        options: "list[str | types.InputPollOption]",
+        description: "types.FormattedText | None" = None,
+        description_media: "types.InputPollMedia | None" = None,
         is_anonymous: bool = True,
         type: "enums.PollType" = enums.PollType.REGULAR,
         allows_multiple_answers: bool | None = None,
@@ -5433,8 +5433,8 @@ class Message(Object, Update):
         allow_adding_options: bool | None = None,
         hide_results_until_closes: bool | None = None,
         correct_option_ids: list[int] | None = None,
-        explanation: Optional["types.FormattedText"] = None,
-        explanation_media: Optional["types.InputPollMedia"] = None,
+        explanation: "types.FormattedText | None" = None,
+        explanation_media: "types.InputPollMedia | None" = None,
         open_period: int | None = None,
         close_date: datetime | None = None,
         is_closed: bool | None = None,
@@ -5445,8 +5445,8 @@ class Message(Object, Update):
         schedule_date: datetime | None = None,
         repeat_period: int | None = None,
         paid_message_star_count: int | None = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
-    ) -> Optional["Message"]:
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_poll` will automatically fill method attributes:
 
         * chat_id
@@ -5604,9 +5604,9 @@ class Message(Object, Update):
     async def answer_poll(
         self,
         question: "types.FormattedText",
-        options: list[Union[str, "types.InputPollOption"]],
-        description: Optional["types.FormattedText"] = None,
-        description_media: Optional["types.InputPollMedia"] = None,
+        options: "list[str | types.InputPollOption]",
+        description: "types.FormattedText | None" = None,
+        description_media: "types.InputPollMedia | None" = None,
         is_anonymous: bool = True,
         type: "enums.PollType" = enums.PollType.REGULAR,
         allows_multiple_answers: bool | None = None,
@@ -5617,8 +5617,8 @@ class Message(Object, Update):
         allow_adding_options: bool | None = None,
         hide_results_until_closes: bool | None = None,
         correct_option_ids: list[int] | None = None,
-        explanation: Optional["types.FormattedText"] = None,
-        explanation_media: Optional["types.InputPollMedia"] = None,
+        explanation: "types.FormattedText | None" = None,
+        explanation_media: "types.InputPollMedia | None" = None,
         open_period: int | None = None,
         close_date: datetime | None = None,
         is_closed: bool | None = None,
@@ -5626,12 +5626,12 @@ class Message(Object, Update):
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         effect_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         schedule_date: datetime | None = None,
         repeat_period: int | None = None,
         paid_message_star_count: int | None = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
-    ) -> Optional["Message"]:
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_poll` will automatically fill method attributes:
 
         * chat_id
@@ -5793,13 +5793,13 @@ class Message(Object, Update):
         emoji: str = "🎲",
         disable_notification: bool | None = None,
         effect_id: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
         schedule_date: datetime | None = None,
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None
-    ) -> Optional["Message"]:
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_dice` will automatically fill method attributes:
 
         * chat_id
@@ -5872,14 +5872,14 @@ class Message(Object, Update):
         emoji: str = "🎲",
         disable_notification: bool | None = None,
         effect_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
         schedule_date: datetime | None = None,
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None
-    ) -> Optional["Message"]:
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_dice` will automatically fill method attributes:
 
         * chat_id
@@ -5954,7 +5954,7 @@ class Message(Object, Update):
         sticker: str | BinaryIO,
         emoji: str = "",
         caption: str = "",
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
         disable_notification: bool | None = None,
         effect_id: int | None = None,
@@ -5963,11 +5963,11 @@ class Message(Object, Update):
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
         progress: Callable | None = None,
         progress_args: tuple = (),
-    ) -> Optional["Message"]:
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_sticker` will automatically fill method attributes:
 
         * chat_id
@@ -6100,21 +6100,21 @@ class Message(Object, Update):
         sticker: str | BinaryIO,
         emoji: str = "",
         caption: str = "",
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
         disable_notification: bool | None = None,
         effect_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         schedule_date: datetime | None = None,
         repeat_period: int | None = None,
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
         progress: Callable | None = None,
         progress_args: tuple = ()
-    ) -> Optional["Message"]:
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_sticker` will automatically fill method attributes:
 
         * chat_id
@@ -6251,9 +6251,9 @@ class Message(Object, Update):
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
-    ) -> Optional["Message"]:
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_venue` will automatically fill method attributes:
 
         * chat_id
@@ -6364,14 +6364,14 @@ class Message(Object, Update):
         foursquare_type: str = "",
         disable_notification: bool | None = None,
         effect_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         schedule_date: datetime | None = None,
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None
-    ) -> Optional["Message"]:
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_venue` will automatically fill method attributes:
 
         * chat_id
@@ -6471,7 +6471,7 @@ class Message(Object, Update):
         self,
         video: str | BinaryIO,
         caption: str = "",
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
         has_spoiler: bool | None = None,
         show_caption_above_media: bool | None = None,
@@ -6493,11 +6493,11 @@ class Message(Object, Update):
         no_sound: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
         progress: Callable | None = None,
         progress_args: tuple = (),
-    ) -> Optional["Message"]:
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_video` will automatically fill method attributes:
 
         * chat_id
@@ -6689,7 +6689,7 @@ class Message(Object, Update):
         self,
         video: str | BinaryIO,
         caption: str = "",
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
         has_spoiler: bool | None = None,
         show_caption_above_media: bool | None = None,
@@ -6705,18 +6705,18 @@ class Message(Object, Update):
         supports_streaming: bool = True,
         disable_notification: bool | None = None,
         effect_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         schedule_date: datetime | None = None,
         repeat_period: int | None = None,
         protect_content: bool | None = None,
         no_sound: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
         progress: Callable | None = None,
         progress_args: tuple = ()
-    ) -> Optional["Message"]:
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_video` will automatically fill method attributes:
 
         * chat_id
@@ -6913,11 +6913,11 @@ class Message(Object, Update):
         view_once: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
         progress: Callable | None = None,
         progress_args: tuple = (),
-    ) -> Optional["Message"]:
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_video_note` will automatically fill method attributes:
 
         * chat_id
@@ -7056,18 +7056,18 @@ class Message(Object, Update):
         thumb: str | BinaryIO | None = None,
         disable_notification: bool | None = None,
         effect_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         schedule_date: datetime | None = None,
         repeat_period: int | None = None,
         protect_content: bool | None = None,
         view_once: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
         progress: Callable | None = None,
         progress_args: tuple = ()
-    ) -> Optional["Message"]:
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_video_note` will automatically fill method attributes:
 
         * chat_id
@@ -7197,7 +7197,7 @@ class Message(Object, Update):
         self,
         voice: str | BinaryIO,
         caption: str = "",
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
         duration: int = 0,
         waveform: bytes | None = None,
@@ -7209,11 +7209,11 @@ class Message(Object, Update):
         view_once: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
         progress: Callable | None = None,
         progress_args: tuple = (),
-    ) -> Optional["Message"]:
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_voice` will automatically fill method attributes:
 
         * chat_id
@@ -7355,24 +7355,24 @@ class Message(Object, Update):
         self,
         voice: str | BinaryIO,
         caption: str = "",
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
         duration: int = 0,
         waveform: bytes | None = None,
         disable_notification: bool | None = None,
         effect_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         schedule_date: datetime | None = None,
         repeat_period: int | None = None,
         protect_content: bool | None = None,
         view_once: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
         progress: Callable | None = None,
         progress_args: tuple = ()
-    ) -> Optional["Message"]:
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_voice` will automatically fill method attributes:
 
         * chat_id
@@ -7508,18 +7508,13 @@ class Message(Object, Update):
     async def reply_paid_media(
         self,
         stars_amount: int,
-        media: list[
-            Union[
-                "types.InputMediaPhoto",
-                "types.InputMediaVideo",
-            ]
-        ],
+        media: "list[types.InputMediaPhoto | types.InputMediaVideo]",
         caption: str = "",
         payload: str | None = None,
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
         disable_notification: bool | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
         schedule_date: datetime | None = None,
         protect_content: bool | None = None,
         show_caption_above_media: bool | None = None
@@ -7588,19 +7583,14 @@ class Message(Object, Update):
     async def answer_paid_media(
         self,
         stars_amount: int,
-        media: list[
-            Union[
-                "types.InputMediaPhoto",
-                "types.InputMediaVideo",
-            ]
-        ],
+        media: "list[types.InputMediaPhoto | types.InputMediaVideo]",
         caption: str = "",
         payload: str | None = None,
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
         disable_notification: bool | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
         schedule_date: datetime | None = None,
         protect_content: bool | None = None,
         show_caption_above_media: bool | None = None
@@ -7673,7 +7663,7 @@ class Message(Object, Update):
         self,
         file_id: str,
         caption: str = "",
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
         disable_notification: bool | None = None,
         schedule_date: datetime | None = None,
@@ -7683,9 +7673,9 @@ class Message(Object, Update):
         show_caption_above_media: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
-    ) -> Optional["Message"]:
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_cached_media` will automatically fill method attributes:
 
         * chat_id
@@ -7778,10 +7768,10 @@ class Message(Object, Update):
         self,
         file_id: str,
         caption: str = "",
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
         disable_notification: bool | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         schedule_date: datetime | None = None,
         protect_content: bool | None = None,
         has_spoiler: bool | None = None,
@@ -7789,9 +7779,9 @@ class Message(Object, Update):
         show_caption_above_media: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None
-    ) -> Optional["Message"]:
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_cached_media` will automatically fill method attributes:
 
         * chat_id
@@ -7932,7 +7922,7 @@ class Message(Object, Update):
         disable_notification: bool | None = None,
         paid_message_star_count: int | None = None,
         schedule_date: datetime | None = None,
-    ) -> Optional["Message"]:
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_inline_bot_result` will automatically fill method attributes:
 
         * chat_id
@@ -7981,10 +7971,10 @@ class Message(Object, Update):
         query_id: int,
         result_id: str,
         disable_notification: bool | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         paid_message_star_count: int | None = None,
         schedule_date: datetime | None = None
-    ) -> Optional["Message"]:
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_inline_bot_result` will automatically fill method attributes:
 
         * chat_id
@@ -8039,8 +8029,8 @@ class Message(Object, Update):
         schedule_date: datetime | None = None,
         repeat_period: int | None = None,
         paid_message_star_count: int | None = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
-    ) -> Optional["Message"]:
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_checklist` will automatically fill method attributes:
 
         * chat_id
@@ -8112,12 +8102,12 @@ class Message(Object, Update):
         disable_notification: bool | None = None,
         protect_content: bool | None = None,
         effect_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         schedule_date: datetime | None = None,
         repeat_period: int | None = None,
         paid_message_star_count: int | None = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
-    ) -> Optional["Message"]:
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_checklist` will automatically fill method attributes:
 
         * chat_id
@@ -8196,9 +8186,9 @@ class Message(Object, Update):
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         effect_id: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
-    ) -> Optional["Message"]:
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_rich_message` will automatically fill method attributes:
 
         * chat_id
@@ -8276,10 +8266,10 @@ class Message(Object, Update):
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         effect_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
-    ) -> Optional["Message"]:
+        reply_parameters: "types.ReplyParameters | None" = None,
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
+    ) -> "Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_rich_message` will automatically fill method attributes:
 
         * chat_id
@@ -8348,11 +8338,11 @@ class Message(Object, Update):
     async def edit_text(
         self,
         text: str | None = None,
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         entities: list["types.MessageEntity"] | None = None,
-        link_preview_options: Optional["types.LinkPreviewOptions"] = None,
-        reply_markup: Optional["types.InlineKeyboardMarkup"] = None,
-        rich_message: Optional["types.InputRichMessage"] = None,
+        link_preview_options: "types.LinkPreviewOptions | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | None" = None,
+        rich_message: "types.InputRichMessage | None" = None,
     ) -> "Message":
         """Shortcut for method :obj:`~pyrogram.Client.edit_message_text` will automatically fill method attributes:
 
@@ -8410,9 +8400,9 @@ class Message(Object, Update):
     async def edit_caption(
         self,
         caption: str,
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
-        reply_markup: Optional["types.InlineKeyboardMarkup"] = None,
+        reply_markup: "types.InlineKeyboardMarkup | None" = None,
         show_caption_above_media: bool | None = None
     ) -> "Message":
         """Shortcut for method :obj:`~pyrogram.Client.edit_message_caption` will automatically fill method attributes:
@@ -8459,7 +8449,7 @@ class Message(Object, Update):
     async def edit_media(
         self,
         media: "types.InputMedia",
-        reply_markup: Optional["types.InlineKeyboardMarkup"] = None
+        reply_markup: "types.InlineKeyboardMarkup | None" = None
     ) -> "Message":
         """Shortcut for method :obj:`~pyrogram.Client.edit_message_media` will automatically fill method attributes:
 
@@ -8496,7 +8486,7 @@ class Message(Object, Update):
     async def edit_checklist(
         self,
         checklist: "types.InputChecklist",
-        reply_markup: Optional["types.InlineKeyboardMarkup"] = None
+        reply_markup: "types.InlineKeyboardMarkup | None" = None
     ) -> "Message":
         """Shortcut for method :obj:`~pyrogram.Client.edit_message_checklist` will automatically fill method attributes:
 
@@ -8525,7 +8515,7 @@ class Message(Object, Update):
             reply_markup=reply_markup
         )
 
-    async def edit_reply_markup(self, reply_markup: Optional["types.InlineKeyboardMarkup"] = None) -> "Message":
+    async def edit_reply_markup(self, reply_markup: "types.InlineKeyboardMarkup | None" = None) -> "Message":
         """Shortcut for method :obj:`~pyrogram.Client.edit_message_reply_markup` will automatically fill method attributes:
 
         * chat_id
@@ -8556,7 +8546,7 @@ class Message(Object, Update):
         live_period: int | None = None,
         heading: int | None = None,
         proximity_alert_radius: int | None = None
-    ) -> Optional["Message"]:
+    ) -> "Message | None":
         """Use this method to edit live location messages.
 
         Parameters:
@@ -8610,7 +8600,7 @@ class Message(Object, Update):
 
     async def stop_live_location(
         self
-    ) -> Optional["Message"]:
+    ) -> "Message | None":
         """Use this method to stop updating a live location message before live_period expires.
 
         Returns:
@@ -8642,7 +8632,7 @@ class Message(Object, Update):
         allow_paid_broadcast: bool | None = None,
         video_start_timestamp: int | None = None,
         paid_message_star_count: int | None = None
-    ) -> Union['types.Message', list['types.Message']] | None:
+    ) -> "types.Message | list[types.Message] | None":
         """Shortcut for method :obj:`~pyrogram.Client.forward_messages` will automatically fill method attributes:
 
         * from_chat_id
@@ -8712,11 +8702,11 @@ class Message(Object, Update):
         self,
         chat_id: int | str,
         caption: str | None = None,
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
         disable_notification: bool | None = None,
         message_thread_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         schedule_date: datetime | None = None,
         protect_content: bool | None = None,
         has_spoiler: bool | None = None,
@@ -8727,20 +8717,13 @@ class Message(Object, Update):
         # `object` (the class, not an instance) is the sentinel for "not specified",
         #  distinct from None, which means "remove the reply markup": so the parameter
         #  type has to include it alongside the real markup types.
-        reply_markup: Union[
-            "types.InlineKeyboardMarkup",
-            "types.ReplyKeyboardMarkup",
-            "types.ReplyKeyboardRemove",
-            "types.ForceReply",
-            None,
-            type[object],
-        ] = object,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None | type[object]" = object,
 
         reply_to_chat_id: int | str | None = None,
         reply_to_message_id: int | None = None,
         quote_text: str | None = None,
         quote_entities: list["types.MessageEntity"] | None = None,
-    ) -> Optional["types.Message"]:
+    ) -> "types.Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.copy_message` will automatically fill method attributes:
 
         * from_chat_id
@@ -8976,7 +8959,7 @@ class Message(Object, Update):
         has_spoilers: list[bool] | bool | None = None,
         disable_notification: bool | None = None,
         message_thread_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         schedule_date: datetime | None = None,
         show_caption_above_media: bool | None = None,
         allow_paid_broadcast: bool | None = None,
@@ -9089,7 +9072,7 @@ class Message(Object, Update):
         quote: bool | None = None,
         timeout: int = 10,
         password: str | None = None
-    ) -> Union[str, "types.Chat", "raw.base.messages.BotCallbackAnswer"] | None:
+    ) -> "str | types.Chat | raw.base.messages.BotCallbackAnswer | None":
         """Bound method *click* of :obj:`~pyrogram.types.Message`.
 
         Use as a shortcut for clicking a button attached to the message instead of:
@@ -9424,7 +9407,7 @@ class Message(Object, Update):
             options=option
         )
 
-    async def pin(self, disable_notification: bool = False, both_sides: bool = False) -> Optional["types.Message"]:
+    async def pin(self, disable_notification: bool = False, both_sides: bool = False) -> "types.Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.pin_chat_message` will automatically fill method attributes:
 
         * chat_id
@@ -9547,7 +9530,7 @@ class Message(Object, Update):
             input_invoice=invoice
         )
 
-    async def accept_gift_purchase_offer(self) -> Optional["types.Message"]:
+    async def accept_gift_purchase_offer(self) -> "types.Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.process_gift_purchase_offer` will automatically fill method attributes:
 
         * message_id
@@ -9561,7 +9544,7 @@ class Message(Object, Update):
             accept=True
         )
 
-    async def reject_gift_purchase_offer(self) -> Optional["types.Message"]:
+    async def reject_gift_purchase_offer(self) -> "types.Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.process_gift_purchase_offer` will automatically fill method attributes:
 
         * message_id

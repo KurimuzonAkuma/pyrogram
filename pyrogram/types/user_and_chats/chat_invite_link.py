@@ -17,8 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Dict, Optional
-from typing import Optional
 
 import pyrogram
 from pyrogram import raw, utils
@@ -75,7 +73,7 @@ class ChatInviteLink(Object):
         date: datetime,
         is_primary: bool | None = None,
         is_revoked: bool | None = None,
-        creator: Optional["types.User"] = None,
+        creator: "types.User | None" = None,
         name: str | None = None,
         creates_join_request: bool | None = None,
         start_date: datetime | None = None,
@@ -104,7 +102,7 @@ class ChatInviteLink(Object):
         client: "pyrogram.Client",
         invite: "raw.base.ExportedChatInvite",
         users: dict[int, "raw.types.User"] | None = None
-    ) -> Optional["ChatInviteLink"]:
+    ) -> "ChatInviteLink | None":
         if not isinstance(invite, raw.types.ChatInviteExported):
             return None
 

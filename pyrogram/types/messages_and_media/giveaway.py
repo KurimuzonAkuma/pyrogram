@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import List, Optional
 
 import pyrogram
 from pyrogram import raw, utils
@@ -63,7 +62,7 @@ class Giveaway(Object):
     def __init__(
         self,
         *,
-        client: Optional["pyrogram.Client"] = None,
+        client: "pyrogram.Client | None" = None,
         chats: list["types.Chat"] | None = None,
         quantity: int | None = None,
         months: int | None = None,

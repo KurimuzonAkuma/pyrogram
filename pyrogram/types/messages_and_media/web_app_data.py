@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional, Union
 
 from pyrogram import raw
 from ..object import Object
@@ -46,7 +45,7 @@ class WebAppData(Object):
         self.button_text = button_text
 
     @staticmethod
-    def _parse(action: Union["raw.types.MessageActionWebViewDataSent", "raw.types.MessageActionWebViewDataSentMe"]):
+    def _parse(action: "raw.types.MessageActionWebViewDataSent | raw.types.MessageActionWebViewDataSentMe"):
         return WebAppData(
             data=getattr(action, "data", None),
             button_text=action.text

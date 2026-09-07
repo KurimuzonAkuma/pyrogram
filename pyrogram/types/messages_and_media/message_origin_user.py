@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Optional
 
 from pyrogram import enums, types
 
@@ -42,7 +41,7 @@ class MessageOriginUser(MessageOrigin):
         *,
         type: "enums.MessageOriginType" = enums.MessageOriginType.USER,
         date: datetime | None = None,
-        sender_user: Optional["types.User"] = None
+        sender_user: "types.User | None" = None
     ):
         super().__init__(
             type=type,

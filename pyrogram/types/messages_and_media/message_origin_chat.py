@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Optional
 
 from pyrogram import enums, types
 
@@ -45,7 +44,7 @@ class MessageOriginChat(MessageOrigin):
         *,
         type: "enums.MessageOriginType" = enums.MessageOriginType.CHAT,
         date: datetime | None = None,
-        sender_chat: Optional["types.Chat"] = None,
+        sender_chat: "types.Chat | None" = None,
         author_signature: str | None = None
     ):
         super().__init__(

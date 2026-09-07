@@ -48,7 +48,6 @@ but its operator has. Fill in .env.test from .env.test.example, then::
     make test-integration
 """
 
-from typing import Type
 
 from pyrogram import Client
 from pyrogram.connection.proxy import WebProxy, normalize_proxy

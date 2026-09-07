@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional, Union
 
 from pyrogram import raw
 
@@ -71,7 +70,7 @@ class InputMediaLocation(InputMedia):
 
     async def write(
         self, **kwargs
-    ) -> Union["raw.types.InputMediaGeoPoint", "raw.types.InputMediaGeoLive"]:
+    ) -> "raw.types.InputMediaGeoPoint | raw.types.InputMediaGeoLive":
         if self.live_period is not None:
             return raw.types.InputMediaGeoLive(
                 geo_point=raw.types.InputGeoPoint(

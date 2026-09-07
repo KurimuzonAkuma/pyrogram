@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional
 
 from pyrogram import raw
 
@@ -40,7 +39,7 @@ class UpgradedGiftAttributeRarity(Object):
     @staticmethod
     def _parse(
         rarity: "raw.base.StarGiftAttributeRarity",
-    ) -> Optional["UpgradedGiftAttributeRarity"]:
+    ) -> "UpgradedGiftAttributeRarity | None":
         if isinstance(rarity, raw.types.StarGiftAttributeRarity):
             return UpgradedGiftAttributeRarityPerMille(per_mille=rarity.permille)
         elif isinstance(rarity, raw.types.StarGiftAttributeRarityUncommon):
@@ -70,7 +69,7 @@ class UpgradedGiftAttributeRarityPerMille(UpgradedGiftAttributeRarity):
     @staticmethod
     def _parse(
         rarity: "raw.base.StarGiftAttributeRarity",
-    ) -> Optional["UpgradedGiftAttributeRarityPerMille"]:
+    ) -> "UpgradedGiftAttributeRarityPerMille | None":
         if isinstance(rarity, raw.types.StarGiftAttributeRarity):
             return UpgradedGiftAttributeRarityPerMille(per_mille=rarity.permille)
 
@@ -84,7 +83,7 @@ class UpgradedGiftAttributeRarityUncommon(UpgradedGiftAttributeRarity):
     @staticmethod
     def _parse(
         rarity: "raw.base.StarGiftAttributeRarity",
-    ) -> Optional["UpgradedGiftAttributeRarityUncommon"]:
+    ) -> "UpgradedGiftAttributeRarityUncommon | None":
         if isinstance(rarity, raw.types.StarGiftAttributeRarityUncommon):
             return UpgradedGiftAttributeRarityUncommon()
 
@@ -98,7 +97,7 @@ class UpgradedGiftAttributeRarityRare(UpgradedGiftAttributeRarity):
     @staticmethod
     def _parse(
         rarity: "raw.base.StarGiftAttributeRarity",
-    ) -> Optional["UpgradedGiftAttributeRarityRare"]:
+    ) -> "UpgradedGiftAttributeRarityRare | None":
         if isinstance(rarity, raw.types.StarGiftAttributeRarityRare):
             return UpgradedGiftAttributeRarityRare()
 
@@ -112,7 +111,7 @@ class UpgradedGiftAttributeRarityEpic(UpgradedGiftAttributeRarity):
     @staticmethod
     def _parse(
         rarity: "raw.base.StarGiftAttributeRarity",
-    ) -> Optional["UpgradedGiftAttributeRarityEpic"]:
+    ) -> "UpgradedGiftAttributeRarityEpic | None":
         if isinstance(rarity, raw.types.StarGiftAttributeRarityEpic):
             return UpgradedGiftAttributeRarityEpic()
 
@@ -126,6 +125,6 @@ class UpgradedGiftAttributeRarityLegendary(UpgradedGiftAttributeRarity):
     @staticmethod
     def _parse(
         rarity: "raw.base.StarGiftAttributeRarity",
-    ) -> Optional["UpgradedGiftAttributeRarityLegendary"]:
+    ) -> "UpgradedGiftAttributeRarityLegendary | None":
         if isinstance(rarity, raw.types.StarGiftAttributeRarityLegendary):
             return UpgradedGiftAttributeRarityLegendary()

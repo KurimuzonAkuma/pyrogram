@@ -20,7 +20,6 @@ import logging
 import os
 import re
 from datetime import datetime
-from typing import List, Optional, Union
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -35,18 +34,15 @@ class SendPaidMedia:
         self: "pyrogram.Client",
         chat_id: int | str,
         stars_amount: int,
-        media: list[Union[
-            "types.InputMediaPhoto",
-            "types.InputMediaVideo",
-        ]],
+        media: "list[types.InputMediaPhoto | types.InputMediaVideo]",
         caption: str = "",
         payload: str | None = None,
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
         disable_notification: bool | None = None,
         direct_messages_topic_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
         schedule_date: datetime | None = None,
         protect_content: bool | None = None,
         show_caption_above_media: bool | None = None,

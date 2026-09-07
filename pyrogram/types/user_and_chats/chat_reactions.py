@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import List, Optional
 
 import pyrogram
 from pyrogram import raw, types
@@ -39,7 +38,7 @@ class ChatReactions(Object):
     def __init__(
         self,
         *,
-        client: Optional["pyrogram.Client"] = None,
+        client: "pyrogram.Client | None" = None,
         all_are_enabled: bool | None = None,
         allow_custom_emoji: bool | None = None,
         reactions: list["types.Reaction"] | None = None,
@@ -51,7 +50,7 @@ class ChatReactions(Object):
         self.reactions = reactions
 
     @staticmethod
-    def _parse(client, chat_reactions: "raw.base.ChatReactions") -> Optional["ChatReactions"]:
+    def _parse(client, chat_reactions: "raw.base.ChatReactions") -> "ChatReactions | None":
         if isinstance(chat_reactions, raw.types.ChatReactionsAll):
             return ChatReactions(
                 client=client,

@@ -15,7 +15,6 @@
 #
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
-from typing import Dict, List, Optional
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -58,7 +57,7 @@ class FactCheck(Object):
         client: "pyrogram.Client",
         fact_check: "raw.types.FactCheck",
         users: dict[int, list["raw.base.User"]]
-    ) -> Optional["FactCheck"]:
+    ) -> "FactCheck | None":
         if not fact_check:
             return None
 

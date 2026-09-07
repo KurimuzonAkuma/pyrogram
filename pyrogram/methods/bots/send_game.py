@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from typing import Optional, Union
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -32,14 +31,14 @@ class SendGame:
         disable_notification: bool | None = None,
         message_thread_id: int | None = None,
         effect_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
 
         reply_to_message_id: int | None = None,
         reply_to_chat_id: int | str | None = None,
-    ) -> Optional["types.Message"]:
+    ) -> "types.Message | None":
         """Send a game.
 
         .. include:: /_includes/usable-by/bots.rst

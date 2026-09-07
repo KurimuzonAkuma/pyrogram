@@ -19,7 +19,6 @@
 import html
 import logging
 from datetime import datetime
-from typing import Dict, List, Optional, Union
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -431,7 +430,7 @@ class User(Object, Update):
     def __init__(
         self,
         *,
-        client: Optional["pyrogram.Client"] = None,
+        client: "pyrogram.Client | None" = None,
         id: int,
         is_self: bool | None = None,
         is_contact: bool | None = None,
@@ -446,21 +445,21 @@ class User(Object, Update):
         is_stories_hidden: bool | None = None,
         is_stories_unavailable: bool | None = None,
         is_min: bool | None = None,
-        verification_status: Optional["types.VerificationStatus"] = None,
+        verification_status: "types.VerificationStatus | None" = None,
         first_name: str | None = None,
         last_name: str | None = None,
-        status: Optional["enums.UserStatus"] = None,
+        status: "enums.UserStatus | None" = None,
         last_online_date: datetime | None = None,
         next_offline_date: datetime | None = None,
         username: str | None = None,
         usernames: list["types.Username"] | None = None,
         language_code: str | None = None,
-        emoji_status: Optional["types.EmojiStatus"] = None,
+        emoji_status: "types.EmojiStatus | None" = None,
         dc_id: int | None = None,
         phone_number: str | None = None,
-        personal_photo: Optional["types.ChatPhoto"] = None,
-        photo: Optional["types.ChatPhoto"] = None,
-        public_photo: Optional["types.ChatPhoto"] = None,
+        personal_photo: "types.ChatPhoto | None" = None,
+        photo: "types.ChatPhoto | None" = None,
+        public_photo: "types.ChatPhoto | None" = None,
         restrictions: list["types.Restriction"] | None = None,
         accent_color_id: int | None = None,
         background_custom_emoji_id: str | None = None,
@@ -480,7 +479,7 @@ class User(Object, Update):
         has_topics: bool | None = None,
         allows_users_to_create_topics: bool | None = None,
         paid_message_star_count: int | None = None,
-        settings: Optional["types.ChatSettings"] = None,
+        settings: "types.ChatSettings | None" = None,
         common_chats: int | None = None,
         is_blocked: bool | None = None,
         is_phone_calls_available: bool | None = None,
@@ -500,37 +499,37 @@ class User(Object, Update):
         display_gifts_button: bool | None = None,
         uses_unofficial_app: bool | None = None,
         bio: str | None = None,
-        pinned_message: Optional["types.Message"] = None,
+        pinned_message: "types.Message | None" = None,
         folder_id: int | None = None,
         message_auto_delete_time: int | None = None,
         theme: str | None = None,
         private_forward_name: str | None = None,
-        chat_admin_rights: Optional["types.ChatAdministratorRights"] = None,
-        channel_admin_rights: Optional["types.ChatAdministratorRights"] = None,
-        chat_background: Optional["types.ChatBackground"] = None,
+        chat_admin_rights: "types.ChatAdministratorRights | None" = None,
+        channel_admin_rights: "types.ChatAdministratorRights | None" = None,
+        chat_background: "types.ChatBackground | None" = None,
         stories: list["types.Story"] | None = None,
-        business_away_message: Optional["types.BusinessMessage"] = None,
-        business_greeting_message: Optional["types.BusinessMessage"] = None,
-        business_work_hours: Optional["types.BusinessMessage"] = None,
-        business_location: Optional["types.Location"] = None,
-        business_intro: Optional["types.BusinessIntro"] = None,
-        birthday: Optional["types.Birthday"] = None,
-        personal_channel: Optional["types.Chat"] = None,
-        personal_channel_message: Optional["types.Message"] = None,
+        business_away_message: "types.BusinessMessage | None" = None,
+        business_greeting_message: "types.BusinessMessage | None" = None,
+        business_work_hours: "types.BusinessMessage | None" = None,
+        business_location: "types.Location | None" = None,
+        business_intro: "types.BusinessIntro | None" = None,
+        birthday: "types.Birthday | None" = None,
+        personal_channel: "types.Chat | None" = None,
+        personal_channel_message: "types.Message | None" = None,
         gift_count: int | None = None,
-        bot_verification: Optional["types.BotVerification"] = None,
-        main_profile_tab: Optional["enums.ProfileTab"] = None,
-        first_profile_audio: Optional["types.Audio"] = None,
-        rating: Optional["types.UserRating"] = None,
-        pending_rating: Optional["types.UserRating"] = None,
+        bot_verification: "types.BotVerification | None" = None,
+        main_profile_tab: "enums.ProfileTab | None" = None,
+        first_profile_audio: "types.Audio | None" = None,
+        rating: "types.UserRating | None" = None,
+        pending_rating: "types.UserRating | None" = None,
         pending_rating_date: datetime | None = None,
-        accepted_gift_types: Optional["types.AcceptedGiftTypes"] = None,
-        note: Optional["types.FormattedText"] = None,
+        accepted_gift_types: "types.AcceptedGiftTypes | None" = None,
+        note: "types.FormattedText | None" = None,
         supports_guest_queries: bool | None = None,
         supports_join_request_queries: bool | None = None,
         community_id: int | None = None,
-        community: Optional["types.Community"] = None,
-        raw: Union["raw.base.User", "raw.base.UserStatus"] | None = None,
+        community: "types.Community | None" = None,
+        raw: "raw.base.User | raw.base.UserStatus | None" = None,
     ):
         super().__init__(client)
 
@@ -673,7 +672,7 @@ class User(Object, Update):
     # endregion
 
     @staticmethod
-    async def _parse(client, user: "raw.base.User") -> Optional["User"]:
+    async def _parse(client, user: "raw.base.User") -> "User | None":
         if not isinstance(user, raw.types.User):
             return None
 
@@ -757,7 +756,7 @@ class User(Object, Update):
         user: "raw.types.UserFull",
         users: dict[int, "raw.base.User"],
         chats: dict[int, "raw.base.Chat"],
-    ) -> Optional["User"]:
+    ) -> "User | None":
         parsed_user = await User._parse(client, users[user.id])
         parsed_user.raw = user
 

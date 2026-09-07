@@ -18,7 +18,6 @@
 
 import logging
 from datetime import datetime
-from typing import List, Optional, Union
 
 import pyrogram
 from pyrogram import enums, types
@@ -33,22 +32,22 @@ class SendWebPage:
         url: str | None = None,
         prefer_large_media: bool | None = None,
         prefer_small_media: bool | None = None,
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         entities: list["types.MessageEntity"] | None = None,
-        link_preview_options: Optional["types.LinkPreviewOptions"] = None,
+        link_preview_options: "types.LinkPreviewOptions | None" = None,
         disable_notification: bool | None = None,
         message_thread_id: int | None = None,
         direct_messages_topic_id: int | None = None,
         effect_id: int | None = None,
         show_caption_above_media: bool | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         schedule_date: datetime | None = None,
         repeat_period: int | None = None,
         protect_content: bool | None = None,
         business_connection_id: str | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
 
         reply_to_message_id: int | None = None,
         reply_to_chat_id: int | str | None = None,
@@ -56,7 +55,7 @@ class SendWebPage:
         quote_text: str | None = None,
         quote_entities: list["types.MessageEntity"] | None = None,
         quote_offset: int | None = None,
-    ) -> Optional["types.Message"]:
+    ) -> "types.Message | None":
         """Send Web Page Preview.
 
         .. include:: /_includes/usable-by/users-bots.rst

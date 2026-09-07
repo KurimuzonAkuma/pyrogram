@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Optional, Union
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -32,7 +31,7 @@ class EditMessageMedia:
         show_caption_above_media: bool | None = None,
         schedule_date: datetime | None = None,
         business_connection_id: str | None = None,
-        reply_markup: Optional["types.InlineKeyboardMarkup"] = None,
+        reply_markup: "types.InlineKeyboardMarkup | None" = None,
     ) -> "types.Message":
         """Edit animation, audio, document, photo or video messages, or to add media to text messages.
 

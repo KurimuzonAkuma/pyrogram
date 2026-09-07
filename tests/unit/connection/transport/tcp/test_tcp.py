@@ -20,7 +20,7 @@ import asyncio
 import hashlib
 import hmac
 import time
-from typing import Final, NamedTuple, Tuple, Type
+from typing import Final, NamedTuple
 
 import pytest
 

@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Dict, Optional, Union
 
 import pyrogram
 from pyrogram import enums, raw, types
@@ -102,7 +101,7 @@ class MediaArea(Object):
     def __init__(
         self,
         *,
-        client: Optional["pyrogram.Client"] = None,
+        client: "pyrogram.Client | None" = None,
         x: float,
         y: float,
         width: float,
@@ -110,19 +109,19 @@ class MediaArea(Object):
         rotation: float,
         type: "enums.MediaAreaType",
         radius: float | None = None,
-        sender_chat: Optional["types.Chat"] = None,
+        sender_chat: "types.Chat | None" = None,
         message_id: int | None = None,
-        message: Optional["types.Message"] = None,
-        location: Optional["types.Location"] = None,
-        reaction: Optional["types.Reaction"] = None,
+        message: "types.Message | None" = None,
+        location: "types.Location | None" = None,
+        reaction: "types.Reaction | None" = None,
         is_dark: bool | None = None,
         is_flipped: bool | None = None,
         url: str | None = None,
-        venue: Optional["types.Venue"] = None,
+        venue: "types.Venue | None" = None,
         emoji: str | None = None,
         temperature: float | None = None,
         color: int | None = None,
-        gift: Optional["types.Gift"] = None
+        gift: "types.Gift | None" = None
     ):
         super().__init__(client)
 
@@ -218,7 +217,7 @@ class MediaArea(Object):
 
     async def write(
         self, client: "pyrogram.Client"
-    ) -> Union["raw.types.InputMediaAreaChannelPost", "raw.types.MediaAreaGeoPoint", "raw.types.MediaAreaSuggestedReaction", "raw.types.MediaAreaUrl", "raw.types.MediaAreaWeather", "raw.types.MediaAreaStarGift"] | None:
+    ) -> "raw.types.InputMediaAreaChannelPost | raw.types.MediaAreaGeoPoint | raw.types.MediaAreaSuggestedReaction | raw.types.MediaAreaUrl | raw.types.MediaAreaWeather | raw.types.MediaAreaStarGift | None":
         coordinates = raw.types.MediaAreaCoordinates(
             x=self.x,
             y=self.y,

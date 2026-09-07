@@ -18,7 +18,7 @@
 
 import ast
 import pathlib
-from typing import Dict, Final, List, Tuple
+from typing import Final
 from collections.abc import Iterator
 
 from tests.guards.name_resolution import REPOSITORY_ROOT, hand_written_files

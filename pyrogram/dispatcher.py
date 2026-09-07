@@ -20,7 +20,6 @@ import asyncio
 import inspect
 import logging
 from collections import OrderedDict
-from typing import Dict, Optional, Tuple, Union
 
 import pyrogram
 from pyrogram import raw, utils
@@ -300,11 +299,7 @@ class Dispatcher:
             )
 
         async def user_typing_parser(
-            update: Union[
-                "raw.types.UpdateUserTyping",
-                "raw.types.UpdateChatUserTyping",
-                "raw.types.UpdateChannelUserTyping",
-            ],
+            update: "raw.types.UpdateUserTyping | raw.types.UpdateChatUserTyping | raw.types.UpdateChannelUserTyping",
             users: dict[int, "raw.base.User"],
             chats: dict[int, "raw.base.User"],
         ):

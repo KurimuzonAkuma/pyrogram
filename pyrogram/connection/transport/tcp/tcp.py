@@ -22,7 +22,7 @@ import os
 import socket
 import time
 from concurrent.futures import ThreadPoolExecutor
-from typing import ClassVar, Dict, Final, NamedTuple, Optional, Tuple
+from typing import ClassVar, Final, NamedTuple
 
 import asyncio
 from python_socks import ProxyType

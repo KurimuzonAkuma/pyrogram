@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Optional
 
 from pyrogram import raw, types, utils
 
@@ -38,7 +37,7 @@ class SuggestedPostParameters(Object):
     """
     def __init__(
         self, *,
-        price: Optional["types.SuggestedPostPrice"] = None,
+        price: "types.SuggestedPostPrice | None" = None,
         send_date: datetime | None = None
     ):
         super().__init__()

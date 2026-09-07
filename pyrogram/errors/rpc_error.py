@@ -20,7 +20,7 @@ import re
 from dataclasses import dataclass
 from datetime import datetime
 from importlib import import_module
-from typing import Final, Optional, Tuple, Type, Union
+from typing import Final
 from re import Pattern
 
 from pyrogram import raw

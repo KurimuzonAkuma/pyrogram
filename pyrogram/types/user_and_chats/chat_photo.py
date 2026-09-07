@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import List, Optional, Union
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -59,14 +58,14 @@ class ChatPhoto(Object):
     def __init__(
         self,
         *,
-        client: Optional["pyrogram.Client"] = None,
+        client: "pyrogram.Client | None" = None,
         small_file_id: str,
         small_photo_unique_id: str,
         big_file_id: str,
         big_photo_unique_id: str,
         added_date: datetime | None = None,
-        animation: Optional["types.AnimatedChatPhoto"] = None,
-        sticker: Optional["types.ChatPhotoSticker"] = None,
+        animation: "types.AnimatedChatPhoto | None" = None,
+        sticker: "types.ChatPhotoSticker | None" = None,
     ):
         super().__init__(client)
 
@@ -81,7 +80,7 @@ class ChatPhoto(Object):
     @staticmethod
     async def _parse(
         client,
-        chat_photo: Union["raw.types.UserProfilePhoto", "raw.types.ChatPhoto", "raw.types.Photo"],
+        chat_photo: "raw.types.UserProfilePhoto | raw.types.ChatPhoto | raw.types.Photo",
         peer_id: int,
         peer_access_hash: int,
     ):

@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from typing import Optional, Tuple, Union
 from collections.abc import Iterable
 
 import pyrogram

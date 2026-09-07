@@ -20,7 +20,6 @@ import asyncio
 import base64
 import datetime
 import logging
-from typing import List, Optional
 
 import pyrogram
 from pyrogram import filters, handlers, raw, types
@@ -43,7 +42,7 @@ class QRLogin:
             )
         )
 
-    async def wait(self, timeout: float | None = None) -> Optional["types.User"]:
+    async def wait(self, timeout: float | None = None) -> "types.User | None":
         if timeout is None:
             timeout = self.r.expires - int(datetime.datetime.now().timestamp())
 

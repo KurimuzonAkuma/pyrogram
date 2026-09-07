@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional
 
 import pyrogram
 from pyrogram import raw
@@ -27,7 +26,7 @@ class GetBotDefaultPrivileges:
     async def get_bot_default_privileges(
         self: "pyrogram.Client",
         for_channels: bool | None = None
-    ) -> Optional["types.ChatAdministratorRights"]:
+    ) -> "types.ChatAdministratorRights | None":
         """Get the current default privileges of the bot.
 
         .. include:: /_includes/usable-by/bots.rst

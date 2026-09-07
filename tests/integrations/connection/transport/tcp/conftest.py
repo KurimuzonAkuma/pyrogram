@@ -29,7 +29,7 @@ import time
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Final, List, NamedTuple, Optional, Type
+from typing import Final, NamedTuple
 from collections.abc import AsyncGenerator, AsyncIterator
 
 import pytest

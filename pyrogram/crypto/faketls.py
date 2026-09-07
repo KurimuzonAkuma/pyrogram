@@ -31,7 +31,7 @@ import hmac
 import secrets
 from dataclasses import dataclass
 from enum import Enum, auto
-from typing import Final, List, NamedTuple, Tuple
+from typing import Final, NamedTuple
 from collections.abc import Sequence
 
 # GREASE values are drawn once per greeting and referenced by index, because the

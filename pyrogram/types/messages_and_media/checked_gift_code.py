@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Optional
 
 from pyrogram import raw, types, utils
 from ..object import Object
@@ -59,8 +58,8 @@ class CheckedGiftCode(Object):
         month_count: int,
         day_count: int,
         via_giveaway: bool | None = None,
-        from_chat: Optional["types.Chat"] = None,
-        winner: Optional["types.User"] = None,
+        from_chat: "types.Chat | None" = None,
+        winner: "types.User | None" = None,
         giveaway_message_id: int | None = None,
         used_date: datetime | None = None
     ):

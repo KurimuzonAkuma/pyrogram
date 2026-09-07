@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import List, Optional
 
 from pyrogram import enums, types
 
@@ -50,7 +49,7 @@ class InputChecklist(Object):
         self,
         title: str,
         tasks: list["types.InputChecklistTask"],
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         entities: list["types.MessageEntity"] | None = None,
         others_can_add_tasks: bool | None = None,
         others_can_mark_tasks_as_done: bool | None = None,

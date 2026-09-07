@@ -20,7 +20,6 @@ import asyncio
 import logging
 from binascii import crc32
 from struct import pack, unpack
-from typing import Optional, Tuple
 
 from pyrogram.connection.proxy import Proxy
 from pyrogram.connection.transport.tcp.tcp import TCP

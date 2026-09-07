@@ -17,7 +17,7 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
-from typing import BinaryIO, Optional, Union
+from typing import BinaryIO
 from collections.abc import Callable
 
 import pyrogram

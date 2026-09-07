@@ -19,7 +19,7 @@
 import asyncio
 from concurrent.futures import Executor
 from pathlib import Path
-from typing import Final, List, Optional, Union
+from typing import Final
 
 import pytest
 

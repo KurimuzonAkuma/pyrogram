@@ -18,7 +18,7 @@
 
 import inspect
 import re
-from typing import Final, FrozenSet, List, Optional, Tuple, Type, Union
+from typing import Final
 from re import Pattern
 from collections.abc import Callable
 

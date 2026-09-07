@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import List, Optional
 
 from pyrogram import raw, types
 
@@ -60,7 +59,7 @@ class PhoneNumberAuthenticationSettings(Object):
         is_current_phone_number: bool | None = None,
         has_unknown_phone_number: bool | None = None,
         allow_sms_retriever_api: bool | None = None,
-        firebase_authentication_settings: Optional["types.FirebaseAuthenticationSettings"] = None,
+        firebase_authentication_settings: "types.FirebaseAuthenticationSettings | None" = None,
         authentication_tokens: list[bytes] | None = None,
     ):
         super().__init__()

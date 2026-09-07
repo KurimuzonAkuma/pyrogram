@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from typing import Optional, Union
 
 import pyrogram
 from pyrogram import raw, types
@@ -29,7 +28,7 @@ class PlaceGiftAuctionBid:
         gift_id: int,
         star_count: int,
         user_id: int | str | None = None,
-        text: Union[str, "types.FormattedText"] | None = None,
+        text: "str | types.FormattedText | None" = None,
         is_private: bool = False,
     ) -> bool:
         """Places a bid on an auction gift.

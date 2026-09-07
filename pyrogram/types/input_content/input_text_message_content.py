@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from typing import List, Optional
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -47,9 +46,9 @@ class InputTextMessageContent(InputMessageContent):
     def __init__(
         self,
         message_text: str,
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         entities: list["types.MessageEntity"] | None = None,
-        link_preview_options: Optional["types.LinkPreviewOptions"] = None,
+        link_preview_options: "types.LinkPreviewOptions | None" = None,
 
         disable_web_page_preview: bool | None = None
     ):

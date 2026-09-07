@@ -34,7 +34,7 @@ from importlib import import_module
 from io import BytesIO
 from mimetypes import MimeTypes
 from pathlib import Path
-from typing import Any, List, Optional, Tuple, Type, Union
+from typing import Any
 from collections.abc import AsyncGenerator, Callable, Sequence
 
 import pyrogram
@@ -340,7 +340,7 @@ class Client(Methods):
         fetch_topics: bool = True,
         fetch_stories: bool = True,
         fetch_stickers: bool = True,
-        init_connection_params: Union[dict, "raw.base.JSONValue"] | None = None,
+        init_connection_params: "dict | raw.base.JSONValue | None" = None,
         connection_factory: type[Connection] = Connection,
         protocol_factory: type[TCP] = TCPAbridged,
         loop: asyncio.AbstractEventLoop | None = None
@@ -741,7 +741,7 @@ class Client(Methods):
             else:
                 break
 
-    def set_parse_mode(self, parse_mode: Optional["enums.ParseMode"]):
+    def set_parse_mode(self, parse_mode: "enums.ParseMode | None"):
         """Set the parse mode to be used globally by the client.
 
         When setting the parse mode with this method, all other methods having a *parse_mode* parameter will follow the
@@ -779,7 +779,7 @@ class Client(Methods):
 
         self.parse_mode = parse_mode
 
-    async def fetch_peers(self, peers: list[Union["raw.base.User", "raw.base.Chat"]]) -> bool:
+    async def fetch_peers(self, peers: "list[raw.base.User | raw.base.Chat]") -> bool:
         is_min = False
         parsed_peers = []
         parsed_usernames = []

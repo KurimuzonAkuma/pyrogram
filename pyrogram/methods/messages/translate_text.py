@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional, Union
 
 import pyrogram
 from pyrogram import raw, types
@@ -25,7 +24,7 @@ from pyrogram import raw, types
 class TranslateText:
     async def translate_text(
         self: "pyrogram.Client",
-        text: Union[str, "types.FormattedText"],
+        text: "str | types.FormattedText",
         to_language_code: str | None = None,
         tone: str | None = None,
     ) -> "types.FormattedText":

@@ -20,7 +20,6 @@ import logging
 import os
 import re
 from datetime import datetime
-from typing import List, Optional, Union
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -34,17 +33,12 @@ class SendMediaGroup:
     async def send_media_group(
         self: "pyrogram.Client",
         chat_id: int | str,
-        media: list[Union[
-            "types.InputMediaPhoto",
-            "types.InputMediaVideo",
-            "types.InputMediaAudio",
-            "types.InputMediaDocument"
-        ]],
+        media: "list[types.InputMediaPhoto | types.InputMediaVideo | types.InputMediaAudio | types.InputMediaDocument]",
         disable_notification: bool | None = None,
         message_thread_id: int | None = None,
         direct_messages_topic_id: int | None = None,
         effect_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         schedule_date: datetime | None = None,
         protect_content: bool | None = None,
         show_caption_above_media: bool | None = None,
@@ -56,7 +50,7 @@ class SendMediaGroup:
         reply_to_chat_id: int | str | None = None,
         reply_to_story_id: int | None = None,
         quote_text: str | None = None,
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         quote_entities: list["types.MessageEntity"] | None = None,
         quote_offset: int | None = None,
     ) -> list["types.Message"]:

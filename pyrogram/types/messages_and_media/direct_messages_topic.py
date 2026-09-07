@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Dict, Optional
 
 import pyrogram
 from pyrogram import raw, types
@@ -60,14 +59,14 @@ class DirectMessagesTopic(Object):
         self,
         *,
         id: int,
-        user: Optional["types.User"] = None,
+        user: "types.User | None" = None,
         can_send_unpaid_messages: bool | None = None,
         is_marked_as_unread: bool | None = None,
         unread_count: int | None = None,
         last_read_inbox_message_id: int | None = None,
         last_read_outbox_message_id: int | None = None,
         unread_reactions_count: int | None = None,
-        last_message: Optional["types.Message"] = None
+        last_message: "types.Message | None" = None
     ):
         super().__init__()
 

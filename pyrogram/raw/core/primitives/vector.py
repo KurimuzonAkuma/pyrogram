@@ -31,7 +31,7 @@ class Vector(bytes, TLObject):
     # Method added to handle the special case when a query returns a bare Vector (of Ints);
     # i.e., RpcResult body starts with 0x1cb5c415 (Vector Id) - e.g., messages.GetMessagesViews.
     @staticmethod
-    def read_bare(b: BytesIO, size: int) -> Union[int, Any]:
+    def read_bare(b: BytesIO, size: int) -> int | Any:
         if size == 4:
             e = int.from_bytes(b.read(4), "little")
             b.seek(-4, 1)

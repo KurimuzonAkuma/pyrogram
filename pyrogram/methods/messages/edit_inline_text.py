@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from typing import List, Optional
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -30,11 +29,11 @@ class EditInlineText:
         self: "pyrogram.Client",
         inline_message_id: str,
         text: str | None = None,
-        parse_mode: Optional["enums.ParseMode"] = None,
-        link_preview_options: Optional["types.LinkPreviewOptions"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
+        link_preview_options: "types.LinkPreviewOptions | None" = None,
         entities: list["types.MessageEntity"] | None = None,
-        rich_message: Optional["types.InputRichMessage"] = None,
-        reply_markup: Optional["types.InlineKeyboardMarkup"] = None,
+        rich_message: "types.InputRichMessage | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | None" = None,
         disable_web_page_preview: bool | None = None,
     ) -> bool:
         """Edit the text of inline messages.

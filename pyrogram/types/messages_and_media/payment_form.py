@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import List, Optional
 
 import pyrogram
 from pyrogram import enums, raw, types
@@ -83,24 +82,24 @@ class PaymentForm(Object):
     def __init__(
         self,
         *,
-        client: Optional["pyrogram.Client"] = None,
+        client: "pyrogram.Client | None" = None,
         id: int,
         type: "enums.PaymentFormType",
         title: str | None = None,
         description: str | None = None,
-        photo: Optional["types.Photo"] = None,
+        photo: "types.Photo | None" = None,
         seller_bot_user_id: int | None = None,
-        seller_bot: Optional["types.User"] = None,
+        seller_bot: "types.User | None" = None,
         payment_provider_user_id: int | None = None,
-        payment_provider: Optional["types.User"] = None,
+        payment_provider: "types.User | None" = None,
         additional_payment_options: list["types.PaymentOption"] | None = None,
         saved_credentials: list["types.SavedCredentials"] | None = None,
-        invoice: Optional["types.Invoice"] = None,
+        invoice: "types.Invoice | None" = None,
         url: str | None = None,
         can_save_credentials: bool | None = None,
         need_password: bool | None = None,
         native_provider: str | None = None,
-        raw: Optional["raw.base.payments.PaymentForm"] = None,
+        raw: "raw.base.payments.PaymentForm | None" = None,
     ):
         super().__init__(client)
 

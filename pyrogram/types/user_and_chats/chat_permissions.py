@@ -18,7 +18,6 @@
 
 import logging
 from datetime import datetime
-from typing import Optional
 
 from pyrogram import raw, utils
 
@@ -134,7 +133,7 @@ class ChatPermissions(Object):
         self.can_send_media_messages = can_send_media_messages
 
     @staticmethod
-    def _parse(denied_permissions: "raw.base.ChatBannedRights") -> Optional["ChatPermissions"]:
+    def _parse(denied_permissions: "raw.base.ChatBannedRights") -> "ChatPermissions | None":
         if isinstance(denied_permissions, raw.types.ChatBannedRights):
             return ChatPermissions(
                 can_send_messages=not denied_permissions.send_messages,

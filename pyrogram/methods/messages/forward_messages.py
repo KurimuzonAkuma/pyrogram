@@ -17,7 +17,7 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import List, Optional, Union, overload
+from typing import overload
 from collections.abc import Iterable
 
 import pyrogram
@@ -40,9 +40,9 @@ class ForwardMessages:
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         video_start_timestamp: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         paid_message_star_count: int | None = None
-    ) -> Optional["types.Message"]: ...
+    ) -> "types.Message | None": ...
 
     @overload
     async def forward_messages(
@@ -59,7 +59,7 @@ class ForwardMessages:
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         video_start_timestamp: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         paid_message_star_count: int | None = None
     ) -> list["types.Message"]: ...
 
@@ -77,9 +77,9 @@ class ForwardMessages:
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         video_start_timestamp: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         paid_message_star_count: int | None = None
-    ) -> Union["types.Message", list["types.Message"]] | None:
+    ) -> "types.Message | list[types.Message] | None":
         """Forward messages of any kind.
 
         .. include:: /_includes/usable-by/users-bots.rst

@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import List, Optional
 
 import pyrogram
 from pyrogram import types, raw
@@ -44,11 +43,11 @@ class ShippingQuery(Object, Update):
     def __init__(
         self,
         *,
-        client: Optional["pyrogram.Client"] = None,
+        client: "pyrogram.Client | None" = None,
         id: str,
         from_user: "types.User",
         invoice_payload: str,
-        shipping_address: Optional["types.ShippingAddress"] = None
+        shipping_address: "types.ShippingAddress | None" = None
     ):
         super().__init__(client)
 

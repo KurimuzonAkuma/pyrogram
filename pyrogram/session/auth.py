@@ -22,7 +22,6 @@ import time
 from hashlib import sha1
 from io import BytesIO
 from os import urandom
-from typing import Optional
 
 import pyrogram
 from pyrogram import raw

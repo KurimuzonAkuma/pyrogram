@@ -19,7 +19,7 @@
 """Test values shared by more than one proxy test module, so no module declares
 its own copy."""
 
-from typing import Final, Tuple
+from typing import Final
 
 # A made-up value. Every test using it only parses or re-encodes it, so nothing
 #  here needs a secret that belongs to a real deployment.

@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Union
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -27,8 +26,8 @@ class AddPollOption:
         self: "pyrogram.Client",
         chat_id: int | str,
         message_id: int,
-        option: Union[str, "types.InputPollOption"],
-    ) -> Union["types.Message", bool]:
+        option: "str | types.InputPollOption",
+    ) -> "types.Message | bool":
         """Adds an option to a poll.
 
         .. include:: /_includes/usable-by/users.rst

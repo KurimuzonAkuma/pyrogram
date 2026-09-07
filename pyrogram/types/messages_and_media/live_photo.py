@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 from pyrogram.file_id import FileId, FileType, FileUniqueId, FileUniqueType
 
@@ -56,7 +56,7 @@ class LivePhoto(Object):
     def __init__(
         self,
         *,
-        client: Optional["pyrogram.Client"] = None,
+        client: "pyrogram.Client | None" = None,
         file_id: str,
         file_unique_id: str,
         width: int,

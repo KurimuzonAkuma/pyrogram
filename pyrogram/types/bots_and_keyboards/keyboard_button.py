@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional
 
 from pyrogram import enums, raw, types
 
@@ -81,11 +80,11 @@ class KeyboardButton(Object):
         style: "enums.ButtonStyle" = enums.ButtonStyle.DEFAULT,
         request_contact: bool | None = None,
         request_location: bool | None = None,
-        request_poll: Optional["types.KeyboardButtonPollType"] = None,
-        request_users: Optional["types.KeyboardButtonRequestUsers"] = None,
-        request_chat: Optional["types.KeyboardButtonRequestChat"] = None,
-        request_managed_bot: Optional["types.KeyboardButtonRequestManagedBot"] = None,
-        web_app: Optional["types.WebAppInfo"] = None,
+        request_poll: "types.KeyboardButtonPollType | None" = None,
+        request_users: "types.KeyboardButtonRequestUsers | None" = None,
+        request_chat: "types.KeyboardButtonRequestChat | None" = None,
+        request_managed_bot: "types.KeyboardButtonRequestManagedBot | None" = None,
+        web_app: "types.WebAppInfo | None" = None,
     ):
         super().__init__()
 

@@ -18,7 +18,6 @@
 
 import logging
 from datetime import datetime
-from typing import Union, List, Optional
 from collections.abc import AsyncGenerator
 
 import pyrogram

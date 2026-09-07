@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from typing import Union, List, Optional
 
 import pyrogram
 from pyrogram import types, enums
@@ -32,14 +31,14 @@ class CopyStory:
         from_chat_id: int | str,
         story_id: int,
         caption: str | None = None,
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
         period: int | None = None,
-        privacy: Optional["enums.StoriesPrivacyRules"] = None,
+        privacy: "enums.StoriesPrivacyRules | None" = None,
         allowed_users: list[int | str] | None = None,
         disallowed_users: list[int | str] | None = None,
         protect_content: bool | None = None
-    ) -> Optional["types.Story"]:
+    ) -> "types.Story | None":
         """Copy story.
 
         .. include:: /_includes/usable-by/users.rst

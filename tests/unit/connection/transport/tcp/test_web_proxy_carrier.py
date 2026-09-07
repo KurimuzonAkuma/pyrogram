@@ -19,7 +19,6 @@
 import asyncio
 import logging
 from http import HTTPStatus
-from typing import List
 
 import pytest
 

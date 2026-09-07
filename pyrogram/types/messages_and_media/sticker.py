@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Dict, List, Optional, Type
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -107,12 +106,12 @@ class Sticker(Object):
         date: datetime | None = None,
         emoji: str | None = None,
         set_name: str | None = None,
-        premium_animation: Optional["types.Animation"] = None,
-        mask_position: Optional["types.MaskPosition"] = None,
+        premium_animation: "types.Animation | None" = None,
+        mask_position: "types.MaskPosition | None" = None,
         custom_emoji_id: str | None = None,
         needs_repainting: bool | None = None,
         thumbs: list["types.Thumbnail"] | None = None,
-        raw: Optional["raw.types.Document"] = None
+        raw: "raw.types.Document | None" = None
     ):
         super().__init__()
 

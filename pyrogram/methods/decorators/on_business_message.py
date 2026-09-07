@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional, Union
 from collections.abc import Callable
 
 import pyrogram
@@ -27,7 +26,7 @@ from .unbound_arguments import unbound_arguments
 
 class OnBusinessMessage:
     def on_business_message(
-        self: Union["OnBusinessMessage", Filter, None] = None,
+        self: "OnBusinessMessage | Filter | None" = None,
         filters: Filter | None = None,
         group: int = 0,
     ) -> Callable[[HandlerType], HandlerType]:

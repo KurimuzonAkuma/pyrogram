@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import random
-from typing import Dict, Optional
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -59,9 +58,9 @@ class GiveawayPrizeStars(Object):
         transaction_id: str,
         boosted_chat: "types.Chat",
         giveaway_message_id: int,
-        giveaway_message: Optional["types.Message"] = None,
+        giveaway_message: "types.Message | None" = None,
         is_unclaimed: bool | None = None,
-        sticker: Optional["types.Sticker"] = None
+        sticker: "types.Sticker | None" = None
     ):
         super().__init__()
 

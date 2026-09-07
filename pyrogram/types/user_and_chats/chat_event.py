@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import List, Optional
 
 import pyrogram
 from pyrogram import raw
@@ -157,11 +156,11 @@ class ChatEvent(Object):
         old_history_ttl: int | None = None,
         new_history_ttl: int | None = None,
 
-        old_linked_chat: Optional["types.Chat"] = None,
-        new_linked_chat: Optional["types.Chat"] = None,
+        old_linked_chat: "types.Chat | None" = None,
+        new_linked_chat: "types.Chat | None" = None,
 
-        old_photo: Optional["types.Photo"] = None,
-        new_photo: Optional["types.Photo"] = None,
+        old_photo: "types.Photo | None" = None,
+        new_photo: "types.Photo | None" = None,
 
         old_title: str | None = None,
         new_title: str | None = None,
@@ -169,25 +168,25 @@ class ChatEvent(Object):
         old_username: str | None = None,
         new_username: str | None = None,
 
-        old_chat_permissions: Optional["types.ChatPermissions"] = None,
-        new_chat_permissions: Optional["types.ChatPermissions"] = None,
+        old_chat_permissions: "types.ChatPermissions | None" = None,
+        new_chat_permissions: "types.ChatPermissions | None" = None,
 
-        deleted_message: Optional["types.Message"] = None,
+        deleted_message: "types.Message | None" = None,
 
-        old_message: Optional["types.Message"] = None,
-        new_message: Optional["types.Message"] = None,
+        old_message: "types.Message | None" = None,
+        new_message: "types.Message | None" = None,
 
-        invited_member: Optional["types.ChatMember"] = None,
+        invited_member: "types.ChatMember | None" = None,
 
-        old_administrator_privileges: Optional["types.ChatMember"] = None,
-        new_administrator_privileges: Optional["types.ChatMember"] = None,
+        old_administrator_privileges: "types.ChatMember | None" = None,
+        new_administrator_privileges: "types.ChatMember | None" = None,
 
-        old_member_permissions: Optional["types.ChatMember"] = None,
-        new_member_permissions: Optional["types.ChatMember"] = None,
+        old_member_permissions: "types.ChatMember | None" = None,
+        new_member_permissions: "types.ChatMember | None" = None,
 
-        stopped_poll: Optional["types.Message"] = None,
+        stopped_poll: "types.Message | None" = None,
 
-        invites_enabled: Optional["types.ChatMember"] = None,
+        invites_enabled: "types.ChatMember | None" = None,
 
         history_hidden: bool | None = None,
 
@@ -196,18 +195,18 @@ class ChatEvent(Object):
         old_slow_mode: int | None = None,
         new_slow_mode: int | None = None,
 
-        pinned_message: Optional["types.Message"] = None,
-        unpinned_message: Optional["types.Message"] = None,
+        pinned_message: "types.Message | None" = None,
+        unpinned_message: "types.Message | None" = None,
 
-        old_invite_link: Optional["types.ChatInviteLink"] = None,
-        new_invite_link: Optional["types.ChatInviteLink"] = None,
-        revoked_invite_link: Optional["types.ChatInviteLink"] = None,
-        deleted_invite_link: Optional["types.ChatInviteLink"] = None,
+        old_invite_link: "types.ChatInviteLink | None" = None,
+        new_invite_link: "types.ChatInviteLink | None" = None,
+        revoked_invite_link: "types.ChatInviteLink | None" = None,
+        deleted_invite_link: "types.ChatInviteLink | None" = None,
 
-        created_forum_topic: Optional["types.ForumTopic"] = None,
-        old_forum_topic: Optional["types.ForumTopic"] = None,
-        new_forum_topic: Optional["types.ForumTopic"] = None,
-        deleted_forum_topic: Optional["types.ForumTopic"] = None
+        created_forum_topic: "types.ForumTopic | None" = None,
+        old_forum_topic: "types.ForumTopic | None" = None,
+        new_forum_topic: "types.ForumTopic | None" = None,
+        deleted_forum_topic: "types.ForumTopic | None" = None
     ):
         super().__init__()
 

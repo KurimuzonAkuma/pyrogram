@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Optional
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -45,8 +44,8 @@ class SuggestedPostApproved(Object):
     def __init__(
         self, *,
         suggested_post_message_id: int | None = None,
-        suggested_post_message: Optional["types.Message"] = None,
-        price: Optional["types.SuggestedPostPrice"] = None,
+        suggested_post_message: "types.Message | None" = None,
+        price: "types.SuggestedPostPrice | None" = None,
         send_date: datetime | None = None
     ):
         super().__init__()

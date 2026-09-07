@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Dict, Optional
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -115,33 +114,33 @@ class ExternalReplyInfo(Object):
     def __init__(
         self,
         *,
-        client: Optional["pyrogram.Client"] = None,
-        origin: Optional["types.MessageOrigin"] = None,
-        chat: Optional["types.Chat"] = None,
+        client: "pyrogram.Client | None" = None,
+        origin: "types.MessageOrigin | None" = None,
+        chat: "types.Chat | None" = None,
         message_id: int,
-        link_preview_options: Optional["types.LinkPreviewOptions"] = None,
-        media: Optional["enums.MessageMediaType"] = None,
-        animation: Optional["types.Animation"] = None,
-        audio: Optional["types.Audio"] = None,
-        document: Optional["types.Document"] = None,
-        paid_media: Optional["types.PaidMediaInfo"] = None,
-        photo: Optional["types.Photo"] = None,
-        sticker: Optional["types.Sticker"] = None,
-        story: Optional["types.Story"] = None,
-        video: Optional["types.Video"] = None,
-        video_note: Optional["types.VideoNote"] = None,
-        voice: Optional["types.Voice"] = None,
+        link_preview_options: "types.LinkPreviewOptions | None" = None,
+        media: "enums.MessageMediaType | None" = None,
+        animation: "types.Animation | None" = None,
+        audio: "types.Audio | None" = None,
+        document: "types.Document | None" = None,
+        paid_media: "types.PaidMediaInfo | None" = None,
+        photo: "types.Photo | None" = None,
+        sticker: "types.Sticker | None" = None,
+        story: "types.Story | None" = None,
+        video: "types.Video | None" = None,
+        video_note: "types.VideoNote | None" = None,
+        voice: "types.Voice | None" = None,
         has_media_spoiler: bool | None = None,
-        checklist: Optional["types.Checklist"] = None,
-        contact: Optional["types.Contact"] = None,
-        dice: Optional["types.Dice"] = None,
-        game: Optional["types.Game"] = None,
-        giveaway: Optional["types.Giveaway"] = None,
-        giveaway_winners: Optional["types.GiveawayWinners"] = None,
-        invoice: Optional["types.Invoice"] = None,
-        location: Optional["types.Location"] = None,
-        poll: Optional["types.Poll"] = None,
-        venue: Optional["types.Venue"] = None,
+        checklist: "types.Checklist | None" = None,
+        contact: "types.Contact | None" = None,
+        dice: "types.Dice | None" = None,
+        game: "types.Game | None" = None,
+        giveaway: "types.Giveaway | None" = None,
+        giveaway_winners: "types.GiveawayWinners | None" = None,
+        invoice: "types.Invoice | None" = None,
+        location: "types.Location | None" = None,
+        poll: "types.Poll | None" = None,
+        venue: "types.Venue | None" = None,
     ):
         super().__init__(client)
 
@@ -178,7 +177,7 @@ class ExternalReplyInfo(Object):
         reply: "raw.types.MessageReplyHeader",
         users: dict[int, "raw.types.User"],
         chats: dict[int, "raw.types.Chat"],
-    ) -> Optional["ExternalReplyInfo"]:
+    ) -> "ExternalReplyInfo | None":
         if not isinstance(reply, raw.types.MessageReplyHeader):
             return None
 

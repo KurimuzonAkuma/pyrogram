@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import List, Union
 
 import pyrogram
 from pyrogram import raw, types
@@ -38,7 +37,7 @@ class PaidMediaInfo(Object):
         self,
         *,
         stars_amount: int,
-        media: list[Union["types.Photo", "types.Video", "types.PaidMediaPreview"]]
+        media: "list[types.Photo | types.Video | types.PaidMediaPreview]"
     ):
         super().__init__()
 

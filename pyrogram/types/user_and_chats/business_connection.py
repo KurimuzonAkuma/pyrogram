@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Optional, Union
 
 from pyrogram import types, raw, utils
 from ..object import Object
@@ -55,7 +54,7 @@ class BusinessConnection(Object, Update):
         dc_id: int,
         date: datetime,
         is_enabled: bool | None = None,
-        rights: Optional["types.BusinessBotRights"] = None
+        rights: "types.BusinessBotRights | None" = None
     ):
         self.id = id
         self.user = user
@@ -67,9 +66,9 @@ class BusinessConnection(Object, Update):
     @staticmethod
     async def _parse(
         client,
-        connection: Union["raw.types.BotBusinessConnection", "raw.types.UpdateBotBusinessConnect"] | None = None,
+        connection: "raw.types.BotBusinessConnection | raw.types.UpdateBotBusinessConnect | None" = None,
         users = {}
-    ) -> Optional["BusinessConnection"]:
+    ) -> "BusinessConnection | None":
         if not connection:
             return None
 

@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional, Union
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -29,8 +28,8 @@ class EditEphemeralMessageMedia:
         receiver_user_id: int | str,
         ephemeral_message_id: int,
         media: "types.InputMedia",
-        reply_markup: Optional["types.InlineKeyboardMarkup"] = None,
-    ) -> Optional["types.Message"]:
+        reply_markup: "types.InlineKeyboardMarkup | None" = None,
+    ) -> "types.Message | None":
         """Use this method to edit the media of an ephemeral message.
         Note that it is not guaranteed that the user will receive the message edit event, especially if they are offline.
 

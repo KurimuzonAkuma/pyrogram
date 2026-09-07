@@ -38,7 +38,7 @@ class TLObject(Generic[ReturnType]):
         raise NotImplementedError
 
     @staticmethod
-    def default(obj: "TLObject") -> Union[str, Dict[str, str]]:
+    def default(obj: "TLObject") -> str | Dict[str, str]:
         if isinstance(obj, bytes):
             return repr(obj)
 

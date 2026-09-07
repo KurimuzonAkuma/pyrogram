@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import List, Optional, Union, overload
+from typing import overload
 
 import pyrogram
 from pyrogram import raw, types
@@ -27,7 +27,7 @@ class DeleteContacts:
     async def delete_contacts(
         self: "pyrogram.Client",
         user_ids: int | str
-    ) -> Optional["types.User"]: ...
+    ) -> "types.User | None": ...
 
     @overload
     async def delete_contacts(
@@ -38,7 +38,7 @@ class DeleteContacts:
     async def delete_contacts(
         self: "pyrogram.Client",
         user_ids: int | str | list[int | str]
-    ) -> Union["types.User", list["types.User"], None]:
+    ) -> "types.User | list[types.User] | None":
         """Delete contacts from your Telegram address book.
 
         .. include:: /_includes/usable-by/users.rst

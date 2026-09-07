@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -46,9 +45,9 @@ class SuggestedPostPaid(Object):
     def __init__(
         self, *,
         suggested_post_message_id: int | None = None,
-        suggested_post_message: Optional["types.Message"] = None,
+        suggested_post_message: "types.Message | None" = None,
         amount: int | None = None,
-        star_amount: Optional["types.StarAmount"] = None,
+        star_amount: "types.StarAmount | None" = None,
     ):
         super().__init__()
 

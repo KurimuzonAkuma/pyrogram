@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Union, Optional
 
 import pyrogram
 from pyrogram import types, raw
@@ -53,14 +52,14 @@ class PreCheckoutQuery(Object, Update):
     def __init__(
         self,
         *,
-        client: Optional["pyrogram.Client"] = None,
+        client: "pyrogram.Client | None" = None,
         id: str,
         from_user: "types.User",
         currency: str,
         total_amount: int,
         invoice_payload: str,
         shipping_option_id: str | None = None,
-        order_info: Optional["types.OrderInfo"] = None
+        order_info: "types.OrderInfo | None" = None
     ):
         super().__init__(client)
 

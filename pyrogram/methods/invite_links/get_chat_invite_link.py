@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional, Union
 
 import pyrogram
 from pyrogram import raw, types
@@ -27,7 +26,7 @@ class GetChatInviteLink:
         self: "pyrogram.Client",
         chat_id: int | str,
         invite_link: str,
-    ) -> Optional["types.ChatInviteLink"]:
+    ) -> "types.ChatInviteLink | None":
         """Get detailed information about a chat invite link.
 
         .. include:: /_includes/usable-by/users.rst

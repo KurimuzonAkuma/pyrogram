@@ -15,7 +15,6 @@
 #
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
-from typing import Optional
 
 from ..object import Object
 
@@ -42,7 +41,7 @@ class GiftPurchaseLimit(Object):
         self.remaining_count = remaining_count
 
     @staticmethod
-    def _parse(total: int, remains: int) -> Optional["GiftPurchaseLimit"]:
+    def _parse(total: int, remains: int) -> "GiftPurchaseLimit | None":
         if total is None or total <= 0:
             return None
 

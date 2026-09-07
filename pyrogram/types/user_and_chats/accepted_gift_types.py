@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Optional
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -63,7 +62,7 @@ class AcceptedGiftTypes(Object):
         self.premium_subscription = premium_subscription
 
     @staticmethod
-    def _parse(disallowed_gifts: "raw.types.DisallowedGiftsSettings") -> Optional["AcceptedGiftTypes"]:
+    def _parse(disallowed_gifts: "raw.types.DisallowedGiftsSettings") -> "AcceptedGiftTypes | None":
         if not disallowed_gifts:
             return None
 

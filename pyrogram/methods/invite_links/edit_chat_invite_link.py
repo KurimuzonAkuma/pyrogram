@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Optional, Union
 
 import pyrogram
 from pyrogram import raw, utils
@@ -33,7 +32,7 @@ class EditChatInviteLink:
         expire_date: datetime | None = None,
         member_limit: int | None = None,
         creates_join_request: bool | None = None
-    ) -> Optional["types.ChatInviteLink"]:
+    ) -> "types.ChatInviteLink | None":
         """Edit a non-primary invite link.
 
         You must be an administrator in the chat for this to work and must have the appropriate admin rights.

@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Dict, List, Optional
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -54,7 +53,7 @@ class ChecklistTask(Object):
         id: int,
         text: str,
         entities: list["types.MessageEntity"] | None = None,
-        completed_by: Optional["types.Chat"] = None,
+        completed_by: "types.Chat | None" = None,
         completion_date: datetime | None = None,
     ):
         super().__init__()
@@ -69,7 +68,7 @@ class ChecklistTask(Object):
     async def _parse(
         client: "pyrogram.Client",
         item: "raw.types.TodoItem",
-        completion: Optional["raw.types.TodoCompletion"],
+        completion: "raw.types.TodoCompletion | None",
         users: dict[int, "raw.base.User"],
         chats: dict[int, "raw.base.Chat"],
     ) -> "ChecklistTask":

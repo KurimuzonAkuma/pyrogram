@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import re
-from typing import Optional, Union
 
 import pyrogram
 from pyrogram import raw, utils
@@ -28,7 +27,7 @@ class ResolvePeer:
     async def resolve_peer(
         self: "pyrogram.Client",
         peer_id: int | str
-    ) -> Optional["raw.base.InputPeer"]:
+    ) -> "raw.base.InputPeer | None":
         """Get the InputPeer of a known peer id. Useful whenever an InputPeer type is required.
 
         .. note::

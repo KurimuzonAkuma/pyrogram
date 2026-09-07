@@ -21,7 +21,7 @@ import re
 import shutil
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, Final, List, Optional, Set, Tuple
+from typing import Final
 
 # Resolved from this file rather than from the working directory, which is the repository root
 # under `hatch_build.py` and `compiler/errors` under `make errors`.
@@ -69,7 +69,7 @@ class _Error:
     row: _Row
     class_name: str
     bases: list[str]
-    primary: Optional["_Error"]
+    primary: "_Error | None"
 
     @property
     def table(self) -> _Table:

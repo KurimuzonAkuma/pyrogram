@@ -19,7 +19,7 @@
 
 from importlib import import_module
 from types import ModuleType
-from typing import Final, Set, Type
+from typing import Final
 
 import pytest
 

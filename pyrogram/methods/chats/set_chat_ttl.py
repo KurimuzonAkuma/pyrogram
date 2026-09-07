@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional, Union
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -27,7 +26,7 @@ class SetChatTTL:
         self: "pyrogram.Client",
         chat_id: int | str,
         ttl_seconds: int
-    ) -> Optional["types.Message"]:
+    ) -> "types.Message | None":
         """Set the time-to-live for the chat.
 
         .. include:: /_includes/usable-by/users.rst

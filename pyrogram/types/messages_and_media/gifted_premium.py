@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import random
-from typing import Dict, List, Optional
 
 from pyrogram import raw, types, utils
 
@@ -65,7 +64,7 @@ class GiftedPremium(Object):
     def __init__(
         self,
         *,
-        gifter: Optional["types.User"] = None,
+        gifter: "types.User | None" = None,
         receiver: "types.User",
         currency: str | None = None,
         amount: int | None = None,
@@ -73,7 +72,7 @@ class GiftedPremium(Object):
         cryptocurrency_amount: int | None = None,
         month_count: int | None = None,
         day_count: int | None = None,
-        sticker: Optional["types.Sticker"] = None,
+        sticker: "types.Sticker | None" = None,
         caption: str | None = None,
         caption_entities: list["types.MessageEntity"] | None = None
     ):

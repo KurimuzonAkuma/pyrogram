@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass
-from typing import Optional, Union
 from collections.abc import Sequence
 
 from pyrogram.filters import Filter
@@ -50,7 +49,7 @@ def unbound_arguments(
     )
 
 
-ExceptionsType = Union[Exception, Sequence[Exception], None]
+ExceptionsType = Exception | Sequence[Exception] | None
 
 
 @dataclass(frozen=True)

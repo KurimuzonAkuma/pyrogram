@@ -17,7 +17,7 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from pathlib import Path
-from typing import Dict, Final, Optional, Tuple, Type, Union
+from typing import Final
 
 import pytest
 

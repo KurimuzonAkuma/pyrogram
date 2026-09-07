@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Optional
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -112,7 +111,7 @@ class ChatSettings(Object):
         geo_distance: int | None = None,
         request_chat_title: str | None = None,
         request_chat_date: datetime | None = None,
-        business_bot: Optional["types.User"] = None,
+        business_bot: "types.User | None" = None,
         business_bot_manage_url: str | None = None,
         charge_paid_message_stars: int | None = None,
         registration_date: str | None = None,
@@ -145,7 +144,7 @@ class ChatSettings(Object):
         self.last_photo_change_date = last_photo_change_date
 
     @staticmethod
-    async def _parse(client, chat_settings: "raw.types.PeerSettings", users) -> Optional["ChatSettings"]:
+    async def _parse(client, chat_settings: "raw.types.PeerSettings", users) -> "ChatSettings | None":
         if not chat_settings:
             return None
 

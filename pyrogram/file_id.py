@@ -22,7 +22,7 @@ import struct
 from dataclasses import dataclass, replace
 from enum import IntEnum
 from io import BytesIO
-from typing import Final, List, Optional
+from typing import Final
 
 from pyrogram.raw.core import Bytes, String
 

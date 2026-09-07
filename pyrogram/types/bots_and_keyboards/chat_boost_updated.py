@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Dict, Optional
 
 import pyrogram
 from pyrogram import raw, utils
@@ -39,7 +38,7 @@ class ChatBoostUpdated(Object, Update):
     def __init__(
         self,
         *,
-        client: Optional["pyrogram.Client"] = None,
+        client: "pyrogram.Client | None" = None,
         chat: "types.Chat",
         boost: "types.ChatBoost"
     ):

@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import List, Optional, Union
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -36,7 +35,7 @@ class ForwardMediaGroup:
         hide_captions: bool | None = None,
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         paid_message_star_count: int | None = None
     ) -> list["types.Message"]:
         """Forward a media group by providing one of the message ids.

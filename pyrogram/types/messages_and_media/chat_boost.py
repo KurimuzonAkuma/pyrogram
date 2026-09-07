@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Optional
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -69,7 +68,7 @@ class ChatBoost(Object):
         date: datetime,
         expire_date: datetime,
         multiplier: int,
-        from_user: Optional["types.User"] = None,
+        from_user: "types.User | None" = None,
         is_gift: bool | None = None,
         is_giveaway: bool | None = None,
         is_unclaimed: bool | None = None,

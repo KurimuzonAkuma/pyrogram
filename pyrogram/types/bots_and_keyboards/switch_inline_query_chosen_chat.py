@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional
 
 from pyrogram import raw
 
@@ -63,7 +62,7 @@ class SwitchInlineQueryChosenChat(Object):
     @staticmethod
     def _parse(
         button_type: "raw.types.InlineButtonTypeSwitchInline",
-    ) -> Optional["SwitchInlineQueryChosenChat"]:
+    ) -> "SwitchInlineQueryChosenChat | None":
         if not isinstance(button_type, raw.types.InlineButtonTypeSwitchInline):
             return None
 

@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -41,8 +40,8 @@ class SuggestedPostRefunded(Object):
     def __init__(
         self, *,
         suggested_post_message_id: int | None = None,
-        suggested_post_message: Optional["types.Message"] = None,
-        reason: Optional["enums.SuggestedPostRefundReason"] = None
+        suggested_post_message: "types.Message | None" = None,
+        reason: "enums.SuggestedPostRefundReason | None" = None
     ):
         super().__init__()
 

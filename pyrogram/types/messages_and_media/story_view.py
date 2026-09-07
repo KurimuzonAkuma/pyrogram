@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import List, Optional
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -48,12 +47,12 @@ class StoryView(Object):
     def __init__(
         self,
         *,
-        client: Optional["pyrogram.Client"] = None,
+        client: "pyrogram.Client | None" = None,
         from_user: "types.User",
         date: datetime,
         is_blocked: bool | None = None,
         is_blocked_my_stories_from: bool | None = None,
-        reaction: Optional["types.Reaction"] = None
+        reaction: "types.Reaction | None" = None
     ):
         super().__init__(client)
 

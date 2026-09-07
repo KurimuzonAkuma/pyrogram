@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Dict, Optional
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -77,8 +76,8 @@ class GroupCallMember(Object):
     def __init__(
         self,
         *,
-        client: Optional["pyrogram.Client"] = None,
-        chat: Optional["types.Chat"] = None,
+        client: "pyrogram.Client | None" = None,
+        chat: "types.Chat | None" = None,
         date: datetime | None = None,
         active_date: datetime | None = None,
         volume: int | None = None,

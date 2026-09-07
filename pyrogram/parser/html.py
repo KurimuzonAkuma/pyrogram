@@ -20,7 +20,6 @@ import html
 import logging
 import re
 from html.parser import HTMLParser
-from typing import List, Optional
 
 import pyrogram
 from pyrogram import raw, types
@@ -149,7 +148,7 @@ class Parser(HTMLParser):
 
 
 class HTML:
-    def __init__(self, client: Optional["pyrogram.Client"]):
+    def __init__(self, client: "pyrogram.Client | None"):
         self.client = client
 
     async def parse(self, text: str) -> dict:

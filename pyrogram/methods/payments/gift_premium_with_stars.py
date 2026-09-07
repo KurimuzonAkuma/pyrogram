@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from typing import List, Optional, Union
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -29,10 +28,10 @@ class GiftPremiumWithStars:
         user_id: int | str,
         month_count: int,
         text: str | None = None,
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         entities: list["types.MessageEntity"] | None = None,
         star_count: int | None = None,
-    ) -> Optional["types.Message"]:
+    ) -> "types.Message | None":
         """Allows to buy a Telegram Premium subscription for another user with payment in Telegram Stars.
 
         .. include:: /_includes/usable-by/users-bots.rst

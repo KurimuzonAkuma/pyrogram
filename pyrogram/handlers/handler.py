@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import inspect
-from typing import Optional
 from collections.abc import Callable
 
 import pyrogram

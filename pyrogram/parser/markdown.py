@@ -19,7 +19,6 @@
 import html
 import re
 import urllib.parse
-from typing import List, Optional, Tuple, Union
 
 import pyrogram
 from pyrogram import types
@@ -66,7 +65,7 @@ FIXED_WIDTH_DELIMS = [CODE_DELIM, PRE_DELIM]
 
 class Markdown:
     # TODO: Full refactor
-    def __init__(self, client: Optional["pyrogram.Client"]):
+    def __init__(self, client: "pyrogram.Client | None"):
         self.html = HTML(client)
 
     @staticmethod

@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional, Union
 
 import pyrogram
 from pyrogram import raw, types
@@ -87,7 +86,7 @@ class ChatBackground(Object):
         self,
         *,
         id: int,
-        document: Optional["types.Document"] = None,
+        document: "types.Document | None" = None,
         is_creator: bool | None = None,
         is_default: bool | None = None,
         is_pattern: bool | None = None,
@@ -103,7 +102,7 @@ class ChatBackground(Object):
         intensity: int | None = None,
         rotation_angle: int | None = None,
         emoji: str | None = None,
-        raw: Optional["raw.base.WallPaper"] = None
+        raw: "raw.base.WallPaper | None" = None
     ):
         super().__init__()
 
@@ -132,7 +131,7 @@ class ChatBackground(Object):
         background: "raw.base.WallPaper",
         is_same: bool | None = None,
         only_for_self: bool | None = None
-    ) -> Optional["ChatBackground"]:
+    ) -> "ChatBackground | None":
         if not background:
             return None
 

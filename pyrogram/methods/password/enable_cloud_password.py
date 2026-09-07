@@ -18,7 +18,6 @@
 
 import os
 
-from typing import Optional
 
 import pyrogram
 from pyrogram import raw

@@ -25,7 +25,7 @@ import math
 import os
 from hashlib import md5
 from pathlib import PurePath
-from typing import List, Union, BinaryIO, Optional, overload
+from typing import BinaryIO, overload
 from collections.abc import Callable
 
 import pyrogram
@@ -71,7 +71,7 @@ class SaveFile:
         file_part: int = 0,
         progress: Callable | None = None,
         progress_args: tuple = ()
-    ) -> Union["raw.types.InputFile", "raw.types.InputFileBig"]: ...
+    ) -> "raw.types.InputFile | raw.types.InputFileBig": ...
 
     async def save_file(
         self: "pyrogram.Client",
@@ -80,7 +80,7 @@ class SaveFile:
         file_part: int = 0,
         progress: Callable | None = None,
         progress_args: tuple = ()
-    ) -> Union["raw.types.InputFile", "raw.types.InputFileBig"] | None:
+    ) -> "raw.types.InputFile | raw.types.InputFileBig | None":
         """Upload a file onto Telegram servers, without actually sending the message to anyone.
         Useful whenever an InputFile type is required.
 

@@ -18,7 +18,6 @@
 
 import asyncio
 import logging
-from typing import Optional, Tuple
 
 import pyrogram
 from pyrogram.connection.proxy import Proxy

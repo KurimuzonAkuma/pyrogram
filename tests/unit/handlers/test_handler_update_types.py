@@ -26,7 +26,7 @@ sender filters answer `False`, which reads as "no sender" rather than "never loo
 import inspect
 import re
 import typing
-from typing import Any, Final, FrozenSet, List, Optional, Set, Tuple, Type
+from typing import Any, Final
 from re import Pattern
 from collections.abc import Iterator
 

@@ -17,7 +17,7 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
-from typing import Union, BinaryIO, Optional
+from typing import BinaryIO
 
 import pyrogram
 from pyrogram import raw
@@ -34,7 +34,7 @@ class SetChatPhoto:
         photo: str | BinaryIO | None = None,
         video: str | BinaryIO | None = None,
         video_start_ts: float | None = None,
-    ) -> Optional["types.Message"]:
+    ) -> "types.Message | None":
         """Set a new chat photo or video (H.264/MPEG-4 AVC video, max 5 seconds).
 
         The ``photo`` and ``video`` arguments are mutually exclusive.

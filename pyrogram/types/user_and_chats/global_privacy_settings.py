@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional
 
 from pyrogram import raw, types
 
@@ -73,7 +72,7 @@ class GlobalPrivacySettings(Object):
         allow_new_chats_from_unknown_users: bool | None = None,
         incoming_paid_message_star_count: int | None = None,
         show_gift_button: bool | None = None,
-        accepted_gift_types: Optional["types.AcceptedGiftTypes"] = None
+        accepted_gift_types: "types.AcceptedGiftTypes | None" = None
     ):
         self.archive_and_mute_new_chats = archive_and_mute_new_chats
         self.keep_unmuted_chats_archived = keep_unmuted_chats_archived
@@ -86,8 +85,8 @@ class GlobalPrivacySettings(Object):
 
     @staticmethod
     def _parse(
-        settings: Optional["raw.types.GlobalPrivacySettings"] = None
-    ) -> Optional["GlobalPrivacySettings"]:
+        settings: "raw.types.GlobalPrivacySettings | None" = None
+    ) -> "GlobalPrivacySettings | None":
         if not settings:
             return
 

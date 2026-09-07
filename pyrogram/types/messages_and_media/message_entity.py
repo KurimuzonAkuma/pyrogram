@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import re
-from typing import Optional
 
 import pyrogram
 from pyrogram import raw, enums
@@ -66,12 +65,12 @@ class MessageEntity(Object):
     def __init__(
         self,
         *,
-        client: Optional["pyrogram.Client"] = None,
+        client: "pyrogram.Client | None" = None,
         type: "enums.MessageEntityType",
         offset: int,
         length: int,
         url: str | None = None,
-        user: Optional["types.User"] = None,
+        user: "types.User | None" = None,
         language: str | None = None,
         custom_emoji_id: str | None = None,
         expandable: bool | None = None,

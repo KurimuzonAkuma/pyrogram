@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Dict, List, Optional, Union
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -282,33 +281,33 @@ class Gift(Object):
     def __init__(
         self,
         *,
-        client: Optional["pyrogram.Client"] = None,
+        client: "pyrogram.Client | None" = None,
         id: int,
         type: "enums.GiftType",
-        origin: Optional["enums.UpgradedGiftOrigin"] = None,
+        origin: "enums.UpgradedGiftOrigin | None" = None,
         received_gift_id: str | None = None,
         regular_gift_id: int | None = None,
-        publisher_chat: Optional["types.Chat"] = None,
-        sticker: Optional["types.Sticker"] = None,
-        text: Optional["types.FormattedText"] = None,
+        publisher_chat: "types.Chat | None" = None,
+        sticker: "types.Sticker | None" = None,
+        text: "types.FormattedText | None" = None,
         date: datetime | None = None,
         first_sale_date: datetime | None = None,
         last_sale_date: datetime | None = None,
         locked_until_date: datetime | None = None,
         craft_date: datetime | None = None,
-        sender: Optional["types.Chat"] = None,
-        receiver: Optional["types.Chat"] = None,
-        host: Optional["types.Chat"] = None,
-        owner: Optional["types.Chat"] = None,
+        sender: "types.Chat | None" = None,
+        receiver: "types.Chat | None" = None,
+        host: "types.Chat | None" = None,
+        owner: "types.Chat | None" = None,
         owner_address: str | None = None,
         owner_name: str | None = None,
         gift_address: str | None = None,
         title: str | None = None,
         name: str | None = None,
-        model: Optional["types.GiftAttribute"] = None,
-        symbol: Optional["types.GiftAttribute"] = None,
-        backdrop: Optional["types.GiftAttribute"] = None,
-        original_details: Optional["types.UpgradedGiftOriginalDetails"] = None,
+        model: "types.GiftAttribute | None" = None,
+        symbol: "types.GiftAttribute | None" = None,
+        backdrop: "types.GiftAttribute | None" = None,
+        original_details: "types.UpgradedGiftOriginalDetails | None" = None,
         total_upgraded_count: int | None = None,
         max_upgraded_count: int | None = None,
         available_resale_count: int | None = None,
@@ -324,10 +323,10 @@ class Gift(Object):
         minimum_offer_star_count: int | None = None,
         prepaid_upgrade_star_count: int | None = None,
         prepaid_upgrade_hash: str | None = None,
-        auction_info: Optional["types.GiftAuction"] = None,
-        resale_parameters: Optional["types.GiftResaleParameters"] = None,
-        user_limits: Optional["types.GiftPurchaseLimit"] = None,
-        overall_limits: Optional["types.GiftPurchaseLimit"] = None,
+        auction_info: "types.GiftAuction | None" = None,
+        resale_parameters: "types.GiftResaleParameters | None" = None,
+        user_limits: "types.GiftPurchaseLimit | None" = None,
+        overall_limits: "types.GiftPurchaseLimit | None" = None,
         value_currency: str | None = None,
         value_amount: int | None = None,
         value_usd_amount: int | None = None,
@@ -361,7 +360,7 @@ class Gift(Object):
         was_converted: bool | None = None,
         was_upgraded: bool | None = None,
         was_refunded: bool | None = None,
-        raw: Union["raw.base.StarGift", "raw.base.SavedStarGift"] | None
+        raw: "raw.base.StarGift | raw.base.SavedStarGift | None"
     ):
         super().__init__(client)
 
@@ -448,13 +447,8 @@ class Gift(Object):
     @staticmethod
     async def _parse(
         client: "pyrogram.Client",
-        gift: Union[
-            "raw.base.StarGift",
-            "raw.base.SavedStarGift",
-            "raw.types.MessageActionStarGift",
-            "raw.types.MessageActionStarGiftUnique"
-        ],
-        receiver: Union["raw.base.User", "raw.base.Chat"] | None = None,
+        gift: "raw.base.StarGift | raw.base.SavedStarGift | raw.types.MessageActionStarGift | raw.types.MessageActionStarGiftUnique",
+        receiver: "raw.base.User | raw.base.Chat | None" = None,
         users: dict[int, "raw.base.User"] = {},
         chats: dict[int, "raw.base.Chat"] = {}
     ):
@@ -471,7 +465,7 @@ class Gift(Object):
     async def _parse_regular(
         client: "pyrogram.Client",
         star_gift: "raw.types.StarGift",
-        receiver: Union["raw.base.User", "raw.base.Chat"] | None = None,
+        receiver: "raw.base.User | raw.base.Chat | None" = None,
         users: dict[int, "raw.base.User"] = {},
         chats: dict[int, "raw.base.Chat"] = {}
     ) -> "Gift":
@@ -518,7 +512,7 @@ class Gift(Object):
     async def _parse_upgraded(
         client: "pyrogram.Client",
         star_gift: "raw.types.StarGiftUnique",
-        receiver: Union["raw.base.User", "raw.base.Chat"] | None = None,
+        receiver: "raw.base.User | raw.base.Chat | None" = None,
         users: dict[int, "raw.base.User"] = {},
         chats: dict[int, "raw.base.Chat"] = {}
     ) -> "Gift":
@@ -585,7 +579,7 @@ class Gift(Object):
     async def _parse_received(
         client,
         saved_gift: "raw.types.SavedStarGift",
-        receiver: Union["raw.base.User", "raw.base.Chat"] | None = None,
+        receiver: "raw.base.User | raw.base.Chat | None" = None,
         users: dict[int, "raw.base.User"] = {},
         chats: dict[int, "raw.base.Chat"] = {}
     ) -> "Gift":
@@ -632,11 +626,8 @@ class Gift(Object):
     @staticmethod
     async def _parse_action(
         client,
-        action_gift: Union[
-            "raw.types.MessageActionStarGift",
-            "raw.types.MessageActionStarGiftUnique"
-        ],
-        receiver: Union["raw.base.User", "raw.base.Chat"] | None = None,
+        action_gift: "raw.types.MessageActionStarGift | raw.types.MessageActionStarGiftUnique",
+        receiver: "raw.base.User | raw.base.Chat | None" = None,
         users: dict[int, "raw.base.User"] = {},
         chats: dict[int, "raw.base.Chat"] = {}
     ) -> "Gift":
@@ -811,7 +802,7 @@ class Gift(Object):
             owned_gift_id=self.owned_gift_id
         )
 
-    async def upgrade(self, keep_original_details: bool | None = None, star_count: int | None = None) -> Optional["types.Message"]:
+    async def upgrade(self, keep_original_details: bool | None = None, star_count: int | None = None) -> "types.Message | None":
         """Bound method *upgrade* of :obj:`~pyrogram.types.Gift`.
 
         .. note::
@@ -841,7 +832,7 @@ class Gift(Object):
             star_count=star_count
         )
 
-    async def transfer(self, to_chat_id: int | str) -> Optional["types.Message"]:
+    async def transfer(self, to_chat_id: int | str) -> "types.Message | None":
         """Bound method *transfer* of :obj:`~pyrogram.types.Gift`.
 
         .. note::
@@ -901,7 +892,7 @@ class Gift(Object):
             )
         )
 
-    async def buy(self, new_owner_chat_id: int | str | None = None, price: Optional["types.GiftResalePrice"] = None) -> Optional["types.Message"]:
+    async def buy(self, new_owner_chat_id: int | str | None = None, price: "types.GiftResalePrice | None" = None) -> "types.Message | None":
         """Bound method *buy* of :obj:`~pyrogram.types.Gift`.
 
         .. note::
@@ -942,11 +933,11 @@ class Gift(Object):
         self,
         chat_id: int | str,
         text: str | None = None,
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         entities: list["types.MessageEntity"] | None = None,
         is_private: bool | None = None,
         pay_for_upgrade: bool | None = None,
-    ) -> Optional["types.Message"]:
+    ) -> "types.Message | None":
         """Bound method *send* of :obj:`~pyrogram.types.Gift`.
 
         .. note::
@@ -1008,7 +999,7 @@ class Gift(Object):
         price: "types.GiftResalePrice",
         duration: int,
         paid_message_star_count: int | None = None
-    ) -> Optional["types.Message"]:
+    ) -> "types.Message | None":
         """Shortcut for method :obj:`~pyrogram.Client.send_gift_purchase_offer` will automatically fill method attributes:
 
         * owner_id

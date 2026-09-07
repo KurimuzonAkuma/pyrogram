@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import List, Optional
 
 from pyrogram import types, raw
 from ..object import Object
@@ -49,7 +48,7 @@ class BusinessWorkingHours(Object):
         self.working_hours = working_hours
 
     @staticmethod
-    def _parse(work_hours: Optional["raw.types.BusinessWorkHours"] = None) -> Optional["BusinessWorkingHours"]:
+    def _parse(work_hours: "raw.types.BusinessWorkHours | None" = None) -> "BusinessWorkingHours | None":
         if not work_hours:
             return None
 

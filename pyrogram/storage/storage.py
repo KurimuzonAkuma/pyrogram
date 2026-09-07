@@ -20,7 +20,7 @@ import base64
 import struct
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, List, Optional, Tuple, Union
+from typing import TYPE_CHECKING
 from collections.abc import Iterable
 
 if TYPE_CHECKING:
@@ -89,7 +89,7 @@ class Storage(ABC):
         Update the usernames table with the provided information.
 
         Parameters:
-            usernames (List of ``Tuple[int, List[Optional[str]]]``):
+            usernames (List of ``tuple[int, list[str | None]]``):
                 A list of tuples containing the
                 information of the usernames to be updated. Each tuple must contain the following
                 information:
@@ -135,7 +135,7 @@ class Storage(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def get_peer_by_id(self, peer_id: int) -> Optional["raw.base.InputPeer"]:
+    async def get_peer_by_id(self, peer_id: int) -> "raw.base.InputPeer | None":
         """Retrieve a peer by its ID.
 
         Parameters:
@@ -148,7 +148,7 @@ class Storage(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def get_peer_by_username(self, username: str) -> Optional["raw.base.InputPeer"]:
+    async def get_peer_by_username(self, username: str) -> "raw.base.InputPeer | None":
         """Retrieve a peer by its username.
 
         Parameters:
@@ -161,7 +161,7 @@ class Storage(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def get_peer_by_phone_number(self, phone_number: str) -> Optional["raw.base.InputPeer"]:
+    async def get_peer_by_phone_number(self, phone_number: str) -> "raw.base.InputPeer | None":
         """Retrieve a peer by its phone number.
 
         Parameters:

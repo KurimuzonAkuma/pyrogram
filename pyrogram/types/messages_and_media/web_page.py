@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional
 
 import pyrogram
 from pyrogram import raw, types
@@ -132,7 +131,7 @@ class WebPage(Object):
     def __init__(
         self,
         *,
-        client: Optional["pyrogram.Client"] = None,
+        client: "pyrogram.Client | None" = None,
         id: str,
         url: str,
         display_url: str | None = None,
@@ -140,11 +139,11 @@ class WebPage(Object):
         site_name: str | None = None,
         title: str | None = None,
         description: str | None = None,
-        audio: Optional["types.Audio"] = None,
-        document: Optional["types.Document"] = None,
-        photo: Optional["types.Photo"] = None,
-        animation: Optional["types.Animation"] = None,
-        video: Optional["types.Video"] = None,
+        audio: "types.Audio | None" = None,
+        document: "types.Document | None" = None,
+        photo: "types.Photo | None" = None,
+        animation: "types.Animation | None" = None,
+        video: "types.Video | None" = None,
         embed_url: str | None = None,
         embed_type: str | None = None,
         embed_width: int | None = None,
@@ -156,7 +155,7 @@ class WebPage(Object):
         safe: bool | None = None,
         duration: int | None = None,
         author: str | None = None,
-        raw: Optional["raw.types.MessageMediaWebPage"] = None
+        raw: "raw.types.MessageMediaWebPage | None" = None
     ):
         super().__init__(client)
 
@@ -189,7 +188,7 @@ class WebPage(Object):
     def _parse(
         client,
         media: "raw.types.MessageMediaWebPage"
-    ) -> Optional["WebPage"]:
+    ) -> "WebPage | None":
         if not media:
             return None
 

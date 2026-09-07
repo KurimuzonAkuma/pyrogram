@@ -17,7 +17,7 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from typing import BinaryIO, Optional, Union
+from typing import BinaryIO
 
 import pyrogram
 from pyrogram import raw, types
@@ -27,7 +27,7 @@ log = logging.getLogger(__name__)
 class SetProfilePhoto:
     async def set_profile_photo(
         self: "pyrogram.Client",
-        photo: Optional["types.InputChatPhoto"] = None,
+        photo: "types.InputChatPhoto | None" = None,
         is_public: bool | None = None,
         *,
         video: str | BinaryIO | None = None
@@ -102,7 +102,7 @@ class SetBotProfilePhoto:
     async def set_bot_profile_photo(
         self: "pyrogram.Client",
         bot_user_id: int | str,
-        photo: Optional["types.InputChatPhoto"] = None,
+        photo: "types.InputChatPhoto | None" = None,
     ) -> bool:
         """Changes a profile photo for a bot.
 

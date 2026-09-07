@@ -15,7 +15,6 @@
 #
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
-from typing import Union
 
 import pyrogram
 from pyrogram import raw, types
@@ -24,7 +23,7 @@ from pyrogram import raw, types
 class FixTextWithAI:
     async def fix_text_with_ai(
         self: "pyrogram.Client",
-        text: Union[str, "types.FormattedText"],
+        text: "str | types.FormattedText",
     ) -> "types.FormattedText":
         """Fixes text using an AI model.
 

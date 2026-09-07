@@ -21,7 +21,6 @@ import io
 import os
 import re
 
-from typing import Optional
 
 import pyrogram
 from pyrogram import raw
@@ -38,7 +37,7 @@ class EditInlineMedia:
         self: "pyrogram.Client",
         inline_message_id: str,
         media: "types.InputMedia",
-        reply_markup: Optional["types.InlineKeyboardMarkup"] = None
+        reply_markup: "types.InlineKeyboardMarkup | None" = None
     ) -> bool:
         """Edit inline animation, audio, document, photo or video messages, or to add media to text messages.
 

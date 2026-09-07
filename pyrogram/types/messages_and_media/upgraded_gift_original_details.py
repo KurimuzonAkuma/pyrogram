@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Dict, Optional
 
 from pyrogram import raw, types, utils
 
@@ -44,9 +43,9 @@ class UpgradedGiftOriginalDetails(Object):
     def __init__(
         self,
         *,
-        sender: Optional["types.Chat"] = None,
-        receiver: Optional["types.Chat"] = None,
-        text: Optional["types.FormattedText"] = None,
+        sender: "types.Chat | None" = None,
+        receiver: "types.Chat | None" = None,
+        text: "types.FormattedText | None" = None,
         date: datetime | None = None
     ):
         super().__init__()

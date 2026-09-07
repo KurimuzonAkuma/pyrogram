@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import List, Optional
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -82,7 +81,7 @@ class Video(Object):
     def __init__(
         self,
         *,
-        client: Optional["pyrogram.Client"] = None,
+        client: "pyrogram.Client | None" = None,
         file_id: str,
         file_unique_id: str,
         width: int,
@@ -96,7 +95,7 @@ class Video(Object):
         ttl_seconds: int | None = None,
         date: datetime | None = None,
         thumbs: list["types.Thumbnail"] | None = None,
-        video_cover: Optional["types.Photo"] = None,
+        video_cover: "types.Photo | None" = None,
         video_start_timestamp: int | None = None,
         alternative_videos: list["types.Video"] | None = None
     ):

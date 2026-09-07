@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Optional, Union
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -31,7 +30,7 @@ class BanChatMember:
         until_date: datetime = utils.zero_datetime(),
         revoke_messages: bool | None = None,
         revoke_reactions: bool | None = None,
-    ) -> Union["types.Message", bool]:
+    ) -> "types.Message | bool":
         """Ban a user from a group, a supergroup or a channel.
         In the case of supergroups and channels, the user will not be able to return to the group on their own using
         invite links, etc., unless unbanned first. You must be an administrator in the chat for this to work and must

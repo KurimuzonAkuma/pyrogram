@@ -20,7 +20,7 @@ import logging
 import os
 import re
 from datetime import datetime
-from typing import BinaryIO, List, Optional, Union
+from typing import BinaryIO
 from collections.abc import Callable
 
 import pyrogram
@@ -38,24 +38,24 @@ class SendDocument:
         document: str | BinaryIO,
         thumb: str | BinaryIO | None = None,
         caption: str = "",
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
         file_name: str | None = None,
         force_document: bool | None = None,
         disable_notification: bool | None = None,
         message_thread_id: int | None = None,
         direct_messages_topic_id: int | None = None,
-        ephemeral_message_parameters: Optional["types.EphemeralMessageParameters"] = None,
+        ephemeral_message_parameters: "types.EphemeralMessageParameters | None" = None,
         effect_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         schedule_date: datetime | None = None,
         repeat_period: int | None = None,
         protect_content: bool | None = None,
         business_connection_id: str | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
         progress: Callable | None = None,
         progress_args: tuple = (),
         reply_to_message_id: int | None = None,
@@ -64,7 +64,7 @@ class SendDocument:
         quote_text: str | None = None,
         quote_entities: list["types.MessageEntity"] | None = None,
         quote_offset: int | None = None,
-    ) -> Optional["types.Message"]:
+    ) -> "types.Message | None":
         """Send generic files.
 
         .. include:: /_includes/usable-by/users-bots.rst

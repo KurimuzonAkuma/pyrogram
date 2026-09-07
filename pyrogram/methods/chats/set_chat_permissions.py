@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional, Union
 
 import pyrogram
 from pyrogram import raw
@@ -27,7 +26,7 @@ class SetChatPermissions:
     async def set_chat_permissions(
         self: "pyrogram.Client",
         chat_id: int | str,
-        permissions: Optional["types.ChatPermissions"] = None
+        permissions: "types.ChatPermissions | None" = None
     ) -> "types.Chat":
         """Set default chat permissions for all members.
 

@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Dict, List, Optional, Union
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -68,7 +67,7 @@ class RichText(Object):
         rich_text: "raw.base.RichText",
         users: dict[int, "raw.base.User"] = {},
         chats: dict[int, "raw.base.Chat"] = {},
-    ) -> Union[str, list["RichText"], "RichText"] | None:
+    ) -> "str | list[RichText] | RichText | None":
         # TODO: fix anchors and references
         if isinstance(rich_text, raw.types.TextPlain):
             return rich_text.text

@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Optional
 
 from pyrogram import raw, utils
 
@@ -46,7 +45,7 @@ class GiftAuction(Object):
         self.start_date = start_date
 
     @staticmethod
-    def _parse(gift: "raw.types.StarGift") -> Optional["GiftAuction"]:
+    def _parse(gift: "raw.types.StarGift") -> "GiftAuction | None":
         if gift.auction_slug:
             return GiftAuction(
                 id=gift.auction_slug,

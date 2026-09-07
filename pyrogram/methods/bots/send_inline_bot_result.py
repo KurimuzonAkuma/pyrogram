@@ -18,7 +18,6 @@
 
 import logging
 from datetime import datetime
-from typing import List, Optional, Union
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -34,7 +33,7 @@ class SendInlineBotResult:
         disable_notification: bool | None = None,
         message_thread_id: int | None = None,
         direct_messages_topic_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         paid_message_star_count: int | None = None,
         schedule_date: datetime | None = None,
 
@@ -42,10 +41,10 @@ class SendInlineBotResult:
         reply_to_chat_id: int | str | None = None,
         reply_to_story_id: int | None = None,
         quote_text: str | None = None,
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         quote_entities: list["types.MessageEntity"] | None = None,
         quote_offset: int | None = None,
-    ) -> Optional["types.Message"]:
+    ) -> "types.Message | None":
         """Send an inline bot result.
         Bot results can be retrieved using :meth:`~pyrogram.Client.get_inline_bot_results`
 

@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional, Union
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -30,8 +29,8 @@ class OpenWebApp:
         url: str | None = None,
         message_thread_id: int | None = None,
         direct_messages_topic_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
-        platform: Optional["enums.ClientPlatform"] = None
+        reply_parameters: "types.ReplyParameters | None" = None,
+        platform: "enums.ClientPlatform | None" = None
     ) -> str:
         """Informs pyrogram that a Web App is being opened from the attachment menu,
         a :obj:`~pyrogram.types.MenuButton`, an url,

@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Optional
 
 import pyrogram
 from pyrogram import types, raw, utils
@@ -88,8 +87,8 @@ class ForumTopic(Object):
         date: datetime | None = None,
         icon_color: str | None = None,
         icon_emoji_id: int | None = None,
-        creator: Optional["types.Chat"] = None,
-        top_message: Optional["types.Message"] = None,
+        creator: "types.Chat | None" = None,
+        top_message: "types.Message | None" = None,
         unread_count: int | None = None,
         unread_mentions_count: int | None = None,
         unread_reactions_count: int | None = None,

@@ -18,7 +18,6 @@
 
 import logging
 from datetime import datetime
-from typing import List, Optional, Union
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -31,12 +30,12 @@ class SendCachedMedia:
         chat_id: int | str,
         file_id: str,
         caption: str = "",
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
         disable_notification: bool | None = None,
         message_thread_id: int | None = None,
         direct_messages_topic_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         schedule_date: datetime | None = None,
         protect_content: bool | None = None,
         has_spoiler: bool | None = None,
@@ -45,8 +44,8 @@ class SendCachedMedia:
         business_connection_id: str | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: Optional["types.SuggestedPostParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
+        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
 
         reply_to_message_id: int | None = None,
         reply_to_chat_id: int | str | None = None,
@@ -54,7 +53,7 @@ class SendCachedMedia:
         quote_text: str | None = None,
         quote_offset: int | None = None,
         quote_entities: list["types.MessageEntity"] | None = None,
-    ) -> Optional["types.Message"]:
+    ) -> "types.Message | None":
         """Send any media stored on the Telegram servers using a file_id.
 
         This convenience method works with any valid file_id only.

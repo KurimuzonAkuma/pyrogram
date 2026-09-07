@@ -18,7 +18,6 @@
 
 import logging
 from datetime import datetime
-from typing import List, Optional, Union
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -29,10 +28,10 @@ class SendPoll:
     async def send_poll(
         self: "pyrogram.Client",
         chat_id: int | str,
-        question: Union[str, "types.FormattedText"],
-        options: list[Union[str, "types.InputPollOption"]],
-        description: Union[str, "types.FormattedText"] | None = None,
-        description_media: Optional["types.InputPollMedia"] = None,
+        question: "str | types.FormattedText",
+        options: "list[str | types.InputPollOption]",
+        description: "str | types.FormattedText | None" = None,
+        description_media: "types.InputPollMedia | None" = None,
         message_thread_id: int | None = None,
         business_connection_id: str | None = None,
         is_anonymous: bool = True,
@@ -45,8 +44,8 @@ class SendPoll:
         allow_adding_options: bool | None = None,
         hide_results_until_closes: bool | None = None,
         correct_option_ids: list[int] | None = None,
-        explanation: Union[str, "types.FormattedText"] | None = None,
-        explanation_media: Optional["types.InputPollMedia"] = None,
+        explanation: "str | types.FormattedText | None" = None,
+        explanation_media: "types.InputPollMedia | None" = None,
         open_period: int | None = None,
         close_date: datetime | None = None,
         is_closed: bool | None = None,
@@ -54,12 +53,12 @@ class SendPoll:
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         effect_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         schedule_date: datetime | None = None,
         repeat_period: int | None = None,
         paid_message_star_count: int | None = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
-    ) -> Optional["types.Message"]:
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
+    ) -> "types.Message | None":
         """A message with a poll.
 
         .. note::

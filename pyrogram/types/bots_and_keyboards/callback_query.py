@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from typing import List, Optional, Union
 from re import Match
 
 import pyrogram
@@ -73,11 +72,11 @@ class CallbackQuery(Object, Update):
     def __init__(
         self,
         *,
-        client: Optional["pyrogram.Client"] = None,
+        client: "pyrogram.Client | None" = None,
         id: str,
         from_user: "types.User",
         chat_instance: str | None = None,
-        message: Optional["types.Message"] = None,
+        message: "types.Message | None" = None,
         inline_message_id: str | None = None,
         data: str | bytes | None = None,
         game_short_name: str | None = None,
@@ -95,7 +94,7 @@ class CallbackQuery(Object, Update):
         self.matches = matches
 
     @property
-    def chat(self) -> Optional["types.Chat"]:
+    def chat(self) -> "types.Chat | None":
         return self.message.chat if self.message else None
 
     @staticmethod
@@ -215,12 +214,12 @@ class CallbackQuery(Object, Update):
     async def edit_message_text(
         self,
         text: str | None = None,
-        parse_mode: Optional["enums.ParseMode"] = None,
-        link_preview_options: Optional["types.LinkPreviewOptions"] = None,
-        rich_message: Optional["types.InputRichMessage"] = None,
-        reply_markup: Optional["types.InlineKeyboardMarkup"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
+        link_preview_options: "types.LinkPreviewOptions | None" = None,
+        rich_message: "types.InputRichMessage | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | None" = None,
         disable_web_page_preview: bool | None = None,
-    ) -> Union["types.Message", bool]:
+    ) -> "types.Message | bool":
         """Edit the text of messages attached to callback queries.
 
         Bound method *edit_message_text* of :obj:`~pyrogram.types.CallbackQuery`.
@@ -280,9 +279,9 @@ class CallbackQuery(Object, Update):
     async def edit_message_caption(
         self,
         caption: str,
-        parse_mode: Optional["enums.ParseMode"] = None,
-        reply_markup: Optional["types.InlineKeyboardMarkup"] = None
-    ) -> Union["types.Message", bool]:
+        parse_mode: "enums.ParseMode | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | None" = None
+    ) -> "types.Message | bool":
         """Edit the caption of media messages attached to callback queries.
 
         Bound method *edit_message_caption* of :obj:`~pyrogram.types.CallbackQuery`.
@@ -310,8 +309,8 @@ class CallbackQuery(Object, Update):
     async def edit_message_media(
         self,
         media: "types.InputMedia",
-        reply_markup: Optional["types.InlineKeyboardMarkup"] = None
-    ) -> Union["types.Message", bool]:
+        reply_markup: "types.InlineKeyboardMarkup | None" = None
+    ) -> "types.Message | bool":
         """Edit animation, audio, document, photo or video messages attached to callback queries.
 
         Bound method *edit_message_media* of :obj:`~pyrogram.types.CallbackQuery`.
@@ -346,8 +345,8 @@ class CallbackQuery(Object, Update):
 
     async def edit_message_reply_markup(
         self,
-        reply_markup: Optional["types.InlineKeyboardMarkup"] = None
-    ) -> Union["types.Message", bool]:
+        reply_markup: "types.InlineKeyboardMarkup | None" = None
+    ) -> "types.Message | bool":
         """Edit only the reply markup of messages attached to callback queries.
 
         Bound method *edit_message_reply_markup* of :obj:`~pyrogram.types.CallbackQuery`.

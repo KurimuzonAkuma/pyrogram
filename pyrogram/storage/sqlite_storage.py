@@ -22,7 +22,7 @@ import sqlite3
 import struct
 import time
 from pathlib import Path
-from typing import Any, List, Optional, Tuple, Type, Union
+from typing import Any
 from collections.abc import Iterable
 
 from pyrogram import raw

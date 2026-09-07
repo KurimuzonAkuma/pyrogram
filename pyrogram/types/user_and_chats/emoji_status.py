@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Optional
 
 import pyrogram
 from pyrogram import raw, utils
@@ -63,7 +62,7 @@ class EmojiStatus(Object):
     def __init__(
         self,
         *,
-        client: Optional["pyrogram.Client"] = None,
+        client: "pyrogram.Client | None" = None,
         custom_emoji_id: str | None = None,
         gift_id: int | None = None,
         until_date: datetime | None = None,
@@ -89,7 +88,7 @@ class EmojiStatus(Object):
         self.text_color = text_color
 
     @staticmethod
-    def _parse(client, emoji_status: "raw.base.EmojiStatus") -> Optional["EmojiStatus"]:
+    def _parse(client, emoji_status: "raw.base.EmojiStatus") -> "EmojiStatus | None":
         if isinstance(emoji_status, raw.types.EmojiStatus):
             return EmojiStatus(
                 client=client,

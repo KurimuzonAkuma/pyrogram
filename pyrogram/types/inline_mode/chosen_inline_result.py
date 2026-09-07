@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import List, Optional
 from re import Match
 
 import pyrogram
@@ -61,11 +60,11 @@ class ChosenInlineResult(Object, Update):
     def __init__(
         self,
         *,
-        client: Optional["pyrogram.Client"] = None,
+        client: "pyrogram.Client | None" = None,
         result_id: str,
         from_user: "types.User",
         query: str,
-        location: Optional["types.Location"] = None,
+        location: "types.Location | None" = None,
         inline_message_id: str | None = None,
         matches: list[Match] | None = None,
     ):

@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Optional, Union
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -36,10 +35,10 @@ class ForwardStory:
         paid_message_star_count: int | None = None,
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
         message_effect_id: int | None = None
-    ) -> Optional["types.Message"]:
+    ) -> "types.Message | None":
         """Forward story.
 
         .. include:: /_includes/usable-by/users-bots.rst

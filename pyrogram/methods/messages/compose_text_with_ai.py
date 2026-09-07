@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional, Union
 
 import pyrogram
 from pyrogram import raw, types
@@ -25,7 +24,7 @@ from pyrogram import raw, types
 class ComposeTextWithAI:
     async def compose_text_with_ai(
         self: "pyrogram.Client",
-        text: Union[str, "types.FormattedText"],
+        text: "str | types.FormattedText",
         translate_to_language_code: str | None = None,
         style_name: str | None = None,
         add_emojis: bool | None = None,

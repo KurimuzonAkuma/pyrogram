@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Dict, List, Union
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -47,10 +46,7 @@ class UsersShared(Object):
     @staticmethod
     async def _parse(
         client: "pyrogram.Client",
-        action: Union[
-            "raw.types.MessageActionRequestedPeer",
-            "raw.types.MessageActionRequestedPeerSentMe"
-        ],
+        action: "raw.types.MessageActionRequestedPeer | raw.types.MessageActionRequestedPeerSentMe",
         users: dict[int, "raw.base.User"] = {}
     ) -> "UsersShared":
         requested_users = types.List()

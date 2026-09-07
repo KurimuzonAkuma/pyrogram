@@ -21,19 +21,7 @@ import base64
 import ipaddress
 import re
 from dataclasses import dataclass
-from typing import (
-    ClassVar,
-    Dict,
-    Final,
-    List,
-    Literal,
-    NamedTuple,
-    Optional,
-    Tuple,
-    Type,
-    TypedDict,
-    Union,
-)
+from typing import ClassVar, Final, Literal, NamedTuple, TypedDict
 from re import Pattern
 from urllib.parse import parse_qs, urlsplit
 
@@ -108,7 +96,7 @@ class WebProxy:
     secret: bytes  # decoded, dd marker kept when present
 
 
-Proxy = Union[SOCKS4Proxy, SOCKS5Proxy, HTTPProxy, MTProxy, WebProxy]
+Proxy = SOCKS4Proxy | SOCKS5Proxy | HTTPProxy | MTProxy | WebProxy
 
 
 class ProxyAddress(NamedTuple):
@@ -205,7 +193,7 @@ class WebProxyDict(TypedDict):
     secret: str
 
 
-ProxyDict = Union[SOCKS4ProxyDict, SOCKS5ProxyDict, HTTPProxyDict, MTProxyDict, WebProxyDict]
+ProxyDict = SOCKS4ProxyDict | SOCKS5ProxyDict | HTTPProxyDict | MTProxyDict | WebProxyDict
 
 
 def canonicalize_web_hostname(hostname: str) -> str:

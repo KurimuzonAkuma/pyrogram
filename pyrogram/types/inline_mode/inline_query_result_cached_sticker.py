@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional
 
 import pyrogram
 from pyrogram import raw, types
@@ -49,8 +48,8 @@ class InlineQueryResultCachedSticker(InlineQueryResult):
         self,
         sticker_file_id: str,
         id: str | None = None,
-        reply_markup: Optional["types.InlineKeyboardMarkup"] = None,
-        input_message_content: Optional["types.InputMessageContent"] = None
+        reply_markup: "types.InlineKeyboardMarkup | None" = None,
+        input_message_content: "types.InputMessageContent | None" = None
     ):
         super().__init__("sticker", id, input_message_content, reply_markup)
 

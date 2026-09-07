@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional, Union
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -30,7 +29,7 @@ class SendGiftPurchaseOffer:
         price: "types.GiftResalePrice",
         duration: int,
         paid_message_star_count: int | None = None
-    ) -> Optional["types.Message"]:
+    ) -> "types.Message | None":
         """Sends an offer to purchase an upgraded gift.
 
         .. include:: /_includes/usable-by/users.rst

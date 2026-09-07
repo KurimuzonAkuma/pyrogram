@@ -18,7 +18,6 @@
 
 import logging
 import re
-from typing import Union
 
 import pyrogram
 from pyrogram import raw, types

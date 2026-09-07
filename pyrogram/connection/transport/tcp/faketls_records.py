@@ -26,7 +26,7 @@ https://github.com/tdlib/td/blob/d1085f9cebc5a62379991ae1652673954f229c1f/td/mtp
 https://github.com/tdlib/td/blob/d1085f9cebc5a62379991ae1652673954f229c1f/td/mtproto/TlsReaderByteFlow.cpp#L15-L36
 """
 
-from typing import Final, Optional, Protocol, Tuple
+from typing import Final, Protocol
 
 # The five bytes every record opens with: content type 0x17 for application data
 #  and the legacy version 0x0303, then a 2-byte big-endian length. TDLib writes

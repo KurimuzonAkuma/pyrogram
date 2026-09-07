@@ -19,7 +19,7 @@
 import io
 import pathlib
 import re
-from typing import BinaryIO, List, Optional, Union
+from typing import BinaryIO
 from collections.abc import Callable
 
 import pyrogram
@@ -62,7 +62,7 @@ class InputMediaPhoto(InputMedia):
         self,
         media: str | BinaryIO,
         caption: str = "",
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list[MessageEntity] | None = None,
         has_spoiler: bool | None = None
     ):

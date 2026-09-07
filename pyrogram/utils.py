@@ -29,7 +29,6 @@ from concurrent.futures.thread import ThreadPoolExecutor
 from datetime import datetime, timedelta, timezone
 from getpass import getpass
 from io import BytesIO
-from typing import Dict, List, Optional, Union
 
 import pyrogram
 from pyrogram import enums, raw, types
@@ -64,11 +63,11 @@ def get_input_media_from_file_id(
     expected_file_type: FileType | None = None,
     ttl_seconds: int | None = None,
     has_spoiler: bool | None = None,
-    video_cover: Optional["raw.types.InputPhoto"] = None,
+    video_cover: "raw.types.InputPhoto | None" = None,
     video_start_timestamp: int | None = None,
     live_photo: bool | None = None,
     live_photo_video_file_id: str | None = None
-) -> Union["raw.types.InputMediaPhoto", "raw.types.InputMediaDocument"]:
+) -> "raw.types.InputMediaPhoto | raw.types.InputMediaDocument":
     try:
         decoded = FileId.decode(file_id)
     except Exception:
@@ -143,7 +142,7 @@ async def get_input_stargift(client: "pyrogram.Client", owned_gift_id: str) -> "
 
 async def parse_messages(
     client: "pyrogram.Client",
-    messages: Union["raw.base.messages.Messages", "raw.base.Updates"],
+    messages: "raw.base.messages.Messages | raw.base.Updates",
     replies: int = 1
 ) -> list["types.Message"]:
     users = {i.id: i for i in getattr(messages, "users", [])}
@@ -422,10 +421,10 @@ def get_peer_type(peer_id: int) -> str:
 
 async def get_reply_to(
     client: "pyrogram.Client",
-    reply_parameters: Optional["types.ReplyParameters"] = None,
+    reply_parameters: "types.ReplyParameters | None" = None,
     message_thread_id: int | None = None,
     direct_messages_topic_id: int | None = None
-) -> Optional["raw.base.InputReplyTo"]:
+) -> "raw.base.InputReplyTo | None":
     """Get InputReply for reply_to argument"""
     if reply_parameters:
         if reply_parameters.chat_id and reply_parameters.story_id:

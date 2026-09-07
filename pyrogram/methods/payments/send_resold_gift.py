@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from typing import Optional, Union
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -29,7 +28,7 @@ class SendResoldGift:
         gift_link: str,
         new_owner_chat_id: int | str,
         price: "types.GiftResalePrice",
-    ) -> Optional["types.Message"]:
+    ) -> "types.Message | None":
         """Send an upgraded gift that is available for resale to another user or channel chat.
 
         .. note::

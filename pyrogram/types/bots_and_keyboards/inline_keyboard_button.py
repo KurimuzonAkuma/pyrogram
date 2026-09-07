@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional, Union
 
 import pyrogram
 from pyrogram import enums, raw, types
@@ -107,14 +106,14 @@ class InlineKeyboardButton(Object):
         url: str | None = None,
         callback_data: str | bytes | None = None,
         requires_password: bool | None = None,
-        web_app: Optional["types.WebAppInfo"] = None,
-        login_url: Optional["types.LoginUrl"] = None,
+        web_app: "types.WebAppInfo | None" = None,
+        login_url: "types.LoginUrl | None" = None,
         user_id: int | None = None,
         switch_inline_query: str | None = None,
         switch_inline_query_current_chat: str | None = None,
-        switch_inline_query_chosen_chat: Optional["types.SwitchInlineQueryChosenChat"] = None,
-        copy_text: Optional["types.CopyTextButton"] = None,
-        callback_game: Optional["types.CallbackGame"] = None,
+        switch_inline_query_chosen_chat: "types.SwitchInlineQueryChosenChat | None" = None,
+        copy_text: "types.CopyTextButton | None" = None,
+        callback_game: "types.CallbackGame | None" = None,
         pay: bool | None = None,
         disabled: bool | None = None,
     ):

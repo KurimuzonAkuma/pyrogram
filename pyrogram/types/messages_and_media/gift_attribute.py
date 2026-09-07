@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Dict, List, Optional, Union
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -85,17 +84,17 @@ class GiftAttribute(Object):
     def __init__(
         self,
         *,
-        client: Optional["pyrogram.Client"] = None,
+        client: "pyrogram.Client | None" = None,
         type: "enums.GiftAttributeType",
         name: str | None = None,
         backdrop_id: int | None = None,
-        rarity: Union["types.UpgradedGiftAttributeRarityPerMille", "types.UpgradedGiftAttributeRarityUncommon", "types.UpgradedGiftAttributeRarityRare", "types.UpgradedGiftAttributeRarityEpic", "types.UpgradedGiftAttributeRarityLegendary"] | None = None,
+        rarity: "types.UpgradedGiftAttributeRarityPerMille | types.UpgradedGiftAttributeRarityUncommon | types.UpgradedGiftAttributeRarityRare | types.UpgradedGiftAttributeRarityEpic | types.UpgradedGiftAttributeRarityLegendary | None" = None,
         date: datetime | None = None,
         caption: str | None = None,
         caption_entities: list["types.MessageEntity"] | None = None,
-        from_user: Optional["types.User"] = None,
-        to_user: Optional["types.User"] = None,
-        sticker: Optional["types.Sticker"] = None,
+        from_user: "types.User | None" = None,
+        to_user: "types.User | None" = None,
+        sticker: "types.Sticker | None" = None,
         center_color: int | None = None,
         edge_color: int | None = None,
         pattern_color: int | None = None,

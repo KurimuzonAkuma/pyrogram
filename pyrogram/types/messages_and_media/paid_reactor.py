@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Dict, Optional
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -49,7 +48,7 @@ class PaidReactor(Object):
     def __init__(
         self,
         *,
-        sender: Optional["types.Chat"] = None,
+        sender: "types.Chat | None" = None,
         star_count: int | None = None,
         is_top: bool | None = None,
         is_me: bool | None = None,
@@ -66,10 +65,10 @@ class PaidReactor(Object):
     @staticmethod
     async def _parse(
         client: "pyrogram.Client",
-        paid_reactor: Optional["raw.base.MessageReactor"],
+        paid_reactor: "raw.base.MessageReactor | None",
         users: dict[int, "raw.base.User"],
         chats: dict[int, "raw.base.Chat"],
-    ) -> Optional["PaidReactor"]:
+    ) -> "PaidReactor | None":
         if not paid_reactor:
             return None
 

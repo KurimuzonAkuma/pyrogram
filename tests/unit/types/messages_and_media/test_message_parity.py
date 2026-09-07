@@ -27,7 +27,7 @@ import inspect
 import re
 import sys
 from types import ModuleType
-from typing import Final, List, NamedTuple, Set
+from typing import Final, NamedTuple
 from collections.abc import Iterator
 
 import pytest

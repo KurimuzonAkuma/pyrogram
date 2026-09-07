@@ -18,7 +18,6 @@
 
 from datetime import datetime
 
-from typing import Optional
 
 import pyrogram
 from pyrogram import raw, utils
@@ -59,7 +58,7 @@ class Voice(Object):
     def __init__(
         self,
         *,
-        client: Optional["pyrogram.Client"] = None,
+        client: "pyrogram.Client | None" = None,
         file_id: str,
         file_unique_id: str,
         duration: int,

@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional, Union
 
 import pyrogram
 from pyrogram import raw
@@ -28,7 +27,7 @@ class StartBot:
         self: "pyrogram.Client",
         chat_id: int | str,
         param: str = ""
-    ) -> Optional["types.Message"]:
+    ) -> "types.Message | None":
         """Start bot
 
         .. include:: /_includes/usable-by/users.rst

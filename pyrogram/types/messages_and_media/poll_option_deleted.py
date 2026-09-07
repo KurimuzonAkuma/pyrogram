@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional
 
 import pyrogram
 from pyrogram import raw, types
@@ -41,7 +40,7 @@ class PollOptionDeleted(Object):
     def __init__(
         self,
         *,
-        poll_message: Optional["types.Message"] = None,
+        poll_message: "types.Message | None" = None,
         option_persistent_id: str,
         text: "types.FormattedText"
     ):
@@ -54,7 +53,7 @@ class PollOptionDeleted(Object):
     @staticmethod
     async def _parse(
         client: "pyrogram.Client",
-        reply_message: Optional["types.Message"],
+        reply_message: "types.Message | None",
         poll_option_deleted: "raw.types.MessageActionPollDeleteAnswer",
     ) -> "PollOptionDeleted":
         if not isinstance(poll_option_deleted, raw.types.MessageActionPollDeleteAnswer):

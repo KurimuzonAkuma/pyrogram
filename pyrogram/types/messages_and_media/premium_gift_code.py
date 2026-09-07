@@ -17,7 +17,6 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import random
-from typing import Optional
 
 from pyrogram import raw, types, utils
 from ..object import Object
@@ -70,8 +69,8 @@ class PremiumGiftCode(Object):
     def __init__(
         self,
         *,
-        creator: Optional["types.Chat"] = None,
-        text: Optional["types.FormattedText"] = None,
+        creator: "types.Chat | None" = None,
+        text: "types.FormattedText | None" = None,
         is_from_giveaway: bool | None = None,
         is_unclaimed: bool | None = None,
         currency: str | None = None,
@@ -80,7 +79,7 @@ class PremiumGiftCode(Object):
         cryptocurrency_amount: int | None = None,
         month_count: int,
         day_count: int,
-        sticker: Optional["types.Sticker"] = None,
+        sticker: "types.Sticker | None" = None,
         code: str
     ):
         super().__init__()

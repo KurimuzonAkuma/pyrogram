@@ -18,7 +18,6 @@
 
 import re
 
-from typing import List, Union, Optional
 import pyrogram
 from pyrogram import raw, types
 

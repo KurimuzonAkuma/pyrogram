@@ -17,7 +17,7 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
-from typing import BinaryIO, List, Optional, Union
+from typing import BinaryIO
 from collections.abc import Callable
 
 import pyrogram
@@ -39,16 +39,16 @@ class SendStory:
         thumb: str | BinaryIO | None = None,
         supports_streaming: bool = True,
         file_name: str | None = None,
-        privacy: Optional["enums.StoriesPrivacyRules"] = None,
+        privacy: "enums.StoriesPrivacyRules | None" = None,
         allowed_users: list[int | str] | None = None,
         disallowed_users: list[int | str] | None = None,
         pinned: bool | None = None,
         protect_content: bool | None = None,
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
         progress: Callable | None = None,
         progress_args: tuple = (),
-    ) -> Optional["types.Story"]:
+    ) -> "types.Story | None":
         """Post new story.
 
         .. include:: /_includes/usable-by/users.rst

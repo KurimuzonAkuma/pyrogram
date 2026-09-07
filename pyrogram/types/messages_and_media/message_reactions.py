@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Dict, List, Optional
 
 import pyrogram
 from pyrogram import raw, types
@@ -46,7 +45,7 @@ class MessageReactions(Object):
     def __init__(
         self,
         *,
-        client: Optional["pyrogram.Client"] = None,
+        client: "pyrogram.Client | None" = None,
         reactions: list["types.Reaction"],
         are_tags: bool | None = None,
         paid_reactors: list["types.PaidReactor"] | None = None,
@@ -62,10 +61,10 @@ class MessageReactions(Object):
     @staticmethod
     async def _parse(
         client: "pyrogram.Client",
-        message_reactions: Optional["raw.base.MessageReactions"],
+        message_reactions: "raw.base.MessageReactions | None",
         users: dict[int, "types.User"],
         chats: dict[int, "types.Chat"],
-    ) -> Optional["MessageReactions"]:
+    ) -> "MessageReactions | None":
         if not message_reactions:
             return None
 

@@ -18,7 +18,6 @@
 
 import logging
 from datetime import datetime
-from typing import Optional, Union
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -34,13 +33,13 @@ class SendChecklist:
         protect_content: bool | None = None,
         message_thread_id: int | None = None,
         effect_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         schedule_date: datetime | None = None,
         repeat_period: int | None = None,
         business_connection_id: str | None = None,
         paid_message_star_count: int | None = None,
-        reply_markup: Union["types.InlineKeyboardMarkup", "types.ReplyKeyboardMarkup", "types.ReplyKeyboardRemove", "types.ForceReply"] | None = None,
-    ) -> Optional["types.Message"]:
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
+    ) -> "types.Message | None":
         """Send a new checklist.
 
         .. include:: /_includes/usable-by/users-bots.rst

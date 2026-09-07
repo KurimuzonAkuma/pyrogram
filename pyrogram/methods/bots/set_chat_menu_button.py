@@ -16,7 +16,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional, Union
 
 import pyrogram
 from pyrogram import raw
@@ -27,7 +26,7 @@ class SetChatMenuButton:
     async def set_chat_menu_button(
         self: "pyrogram.Client",
         chat_id: int | str | None = None,
-        menu_button: Optional["types.MenuButton"] = None
+        menu_button: "types.MenuButton | None" = None
     ) -> bool:
         """Change the bot's menu button in a private chat, or the default menu button.
 

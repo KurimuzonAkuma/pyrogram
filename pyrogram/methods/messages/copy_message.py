@@ -18,7 +18,7 @@
 
 import logging
 from datetime import datetime
-from typing import TYPE_CHECKING, List, Optional, Type, Union
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     import pyrogram
@@ -34,11 +34,11 @@ class CopyMessage:
         from_chat_id: int | str,
         message_id: int,
         caption: str | None = None,
-        parse_mode: Optional["enums.ParseMode"] = None,
+        parse_mode: "enums.ParseMode | None" = None,
         caption_entities: list["types.MessageEntity"] | None = None,
         disable_notification: bool | None = None,
         message_thread_id: int | None = None,
-        reply_parameters: Optional["types.ReplyParameters"] = None,
+        reply_parameters: "types.ReplyParameters | None" = None,
         schedule_date: datetime | None = None,
         protect_content: bool | None = None,
         has_spoiler: bool | None = None,
@@ -49,20 +49,13 @@ class CopyMessage:
         # `object` (the class, not an instance) is the sentinel for "not specified",
         #  distinct from None, which means "remove the reply markup": so the parameter
         #  type has to include it alongside the real markup types.
-        reply_markup: Union[
-            "types.InlineKeyboardMarkup",
-            "types.ReplyKeyboardMarkup",
-            "types.ReplyKeyboardRemove",
-            "types.ForceReply",
-            None,
-            type[object],
-        ] = object,
+        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None | type[object]" = object,
 
         reply_to_chat_id: int | str | None = None,
         reply_to_message_id: int | None = None,
         quote_text: str | None = None,
         quote_entities: list["types.MessageEntity"] | None = None,
-    ) -> Optional["types.Message"]:
+    ) -> "types.Message | None":
         """Copy messages of any kind.
 
         The method is analogous to the method :meth:`~pyrogram.Client.forward_messages`, but the copied message doesn't have a

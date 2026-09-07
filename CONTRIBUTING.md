@@ -13,8 +13,7 @@ uv sync
 ```
 
 This installs the package together with its development dependencies (linting, type checking,
-testing). Avoid `uv pip` (a deprecated interface); don't add `--extra docs` unless you're actually
-working on the docs, since it can fail dependency resolution unrelated to your change.
+testing).
 
 ### Generated code
 

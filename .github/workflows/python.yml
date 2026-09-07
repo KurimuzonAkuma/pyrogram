@@ -18,7 +18,7 @@ jobs:
       #  Python setup step: it downloads a managed CPython for every version in the
       #  matrix, `3.8` on macOS arm64 included.
       - name: Set up uv and Python ${{ matrix.python-version }}
-        uses: astral-sh/setup-uv@v10
+        uses: astral-sh/setup-uv@v10.0.1
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -44,7 +44,7 @@ jobs:
       - uses: actions/checkout@v5
 
       - name: Set up uv and Python
-        uses: astral-sh/setup-uv@v10
+        uses: astral-sh/setup-uv@v10.0.1
         with:
           python-version: "3.14"
 

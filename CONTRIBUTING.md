@@ -106,11 +106,9 @@ A few conventions that have come up repeatedly in code review but aren't enforce
 - **Every new `.py` file carries the licence header** that the rest of the tree carries: copy it
   from a module in the same package. The only files without one are the empty package
   `__init__.py` files. Nothing checks this, so a missing header only surfaces in review.
-- **New code uses `list[str]` and `int | None`, not `List[str]` and `Optional[int]`.** Annotations
-  are evaluated at runtime and nothing in the tree imports `from __future__ import annotations`,
-  so the builtin form was unusable while the floor was `3.8`. It is usable from `3.10`. Most of
-  the tree still carries the `typing` spelling and will be converted in one mechanical pass;
-  until then do not convert a file you are editing for another reason.
+- **Always use `list[str]` and `int | None`, never `List[str]` and `Optional[int]`.** The
+  `typing` generics are deprecated aliases of the builtins.
+  https://docs.python.org/3/library/typing.html#deprecated-aliases
 - **A dependency is declared with a floor, never a ceiling.** `pyproject.toml` carries the
   reasoning beside the declarations. Where a major version genuinely breaks us, add the upper
   bound and name the breakage in a comment next to it.

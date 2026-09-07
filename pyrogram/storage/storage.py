@@ -72,7 +72,7 @@ class Storage(ABC):
         Update the peers table with the provided information.
 
         Parameters:
-            peers (List of ``Tuple[int, int, str, str]``):
+            peers (List of ``tuple[int, int, str, str | None]``):
                 A list of tuples containing the
                 information of the peers to be updated.
                 Each tuple must contain the following information:

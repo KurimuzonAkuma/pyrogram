@@ -110,7 +110,9 @@ celerybeat-schedule
 # Environments
 .env
 .env.test
-.venv
+# `.venv*` rather than `.venv`: `make test-floor` and `make test-ceil` build `.venv-floor`
+#  and `.venv-ceil` beside it, and an exact match leaves those untracked and committable.
+.venv*
 env/
 venv/
 ENV/

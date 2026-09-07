@@ -1,6 +1,14 @@
 name: Pyrogram
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  # Every job above installs from `uv.lock`, so a dependency release published after the last
+  #  `uv lock` is exercised by nothing until somebody happens to relock. `test-ceil` resolves
+  #  fresh and is what catches it, which only helps if something runs it without a push.
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
 
 jobs:
   build:
@@ -65,3 +73,34 @@ jobs:
       - name: Run ty
         run: |
           make typecheck
+
+  # The recipe names the interpreter and `uv` provisions it, so neither of these jobs pins one:
+  #  `setup-uv`'s `python-version` would export `UV_PYTHON` over the whole workflow.
+  test-floor:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v10.0.1
+
+      # Builds `.venv-floor` and generates the API in it, so no `make sync` or `make api` here.
+      - name: Run the suite at the dependency floor
+        run: |
+          make test-floor
+
+  test-ceil:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v10.0.1
+
+      - name: Run the suite at the dependency ceiling
+        run: |
+          make test-ceil

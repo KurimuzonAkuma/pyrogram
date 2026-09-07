@@ -62,6 +62,22 @@ ERROR: test_example.py is outside tests/guards, tests/integrations, tests/unit -
 `make test-guards` runs the guard layer on its own, for working on it; `make test-unit` already
 includes it.
 
+### Dependency ranges
+
+Everything above installs from `uv.lock`, so it only ever exercises one point inside each
+declared range. Two more recipes cover the ends of it, each in an environment of its own
+(`.venv-floor`, `.venv-ceil`) built from `pyproject.toml` rather than the lock file:
+
+```bash
+make test-floor    # oldest allowed version of every dependency, on the oldest supported Python
+make test-ceil     # newest released version of every dependency, on the newest supported Python
+```
+
+CI runs both on every push and again weekly, which is what catches a release published after the
+last `uv lock`. Neither recipe writes `uv.lock`. Run `make test-floor` after raising a floor in
+`pyproject.toml`, and note that the interpreter versions live at the top of the `Makefile` and
+have to move with `requires-python` and the CI matrix.
+
 ### Optional: pre-commit hook
 
 The repository ships a `pre-commit` config that runs `make lint` and `make typecheck` on commit,

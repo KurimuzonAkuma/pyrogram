@@ -4,6 +4,14 @@
 UV := uv
 PYTHON := $(UV) run python
 
+# The two ends of the supported range: the oldest interpreter `requires-python` claims and the
+#  newest the matrix runs. Keep both in sync with `pyproject.toml`.
+PYTHON_FLOOR := 3.8
+PYTHON_CEIL := 3.14
+# Absolute, because `api` runs its compilers from inside `compiler/`.
+VENV_FLOOR := $(CURDIR)/.venv-floor
+VENV_CEIL := $(CURDIR)/.venv-ceil
+
 # The live tests take every parameter from the environment. `.env.test` is the
 #  git-ignored file that carries them locally; the runner loads it so nothing
 #  under `tests/` has to read a file of its own. Absent, the tests skip by name.
@@ -24,7 +32,7 @@ BLUE   := \033[0;34m
 BOLD   := \033[1m
 RESET  := \033[0m
 
-.PHONY: sync version clean-venv clean-build clean-api clean-docs clean api docs docs-archive build tag dtag lint typecheck test test-unit test-guards test-integration
+.PHONY: sync version clean-venv clean-build clean-api clean-docs clean api docs docs-archive build tag dtag lint typecheck test test-unit test-guards test-integration test-floor test-ceil
 
 # No other recipe needs this: they all sync on their own. It exists so CI can install in
 #  a step of its own, which is what makes a resolution failure read as one in the log
@@ -34,8 +42,8 @@ sync:
 	@printf "$(YELLOW)Synced .venv with %s$(RESET)\n" "$$($(PYTHON) --version)"
 
 clean-venv:
-	$(RM) .venv
-	@printf "$(YELLOW)Cleaned venv directory$(RESET)\n"
+	$(RM) .venv $(VENV_FLOOR) $(VENV_CEIL)
+	@printf "$(YELLOW)Cleaned venv directories$(RESET)\n"
 
 clean-build:
 	$(RM) *.egg-info build dist
@@ -86,6 +94,26 @@ test-guards:
 
 test-integration:
 	@$(LOAD_ENV_TEST) $(PYTHON) -m pytest -m integration
+
+# Both recipes build a throwaway environment from `pyproject.toml`, never from `uv.lock`.
+#  `uv run` and `uv sync` are not usable here: asked for a resolution other than the locked
+#  one they rewrite `uv.lock` to match, and `--frozen` installs the locked versions instead.
+
+# The oldest version of every dependency the declarations allow, on the oldest interpreter.
+test-floor:
+	$(UV) venv --clear --python $(PYTHON_FLOOR) $(VENV_FLOOR)
+	VIRTUAL_ENV=$(VENV_FLOOR) $(UV) pip install --resolution lowest-direct --all-extras --group test -r pyproject.toml
+	$(MAKE) api PYTHON=$(VENV_FLOOR)/bin/python
+	$(MAKE) test-unit PYTHON=$(VENV_FLOOR)/bin/python
+
+# The newest, which the matrix never sees: it installs from `uv.lock`, so a release published
+#  after the last `uv lock` is exercised by nothing until this runs. A fresh environment
+#  resolves to the newest compatible release on its own, so there is no flag to pass.
+test-ceil:
+	$(UV) venv --clear --python $(PYTHON_CEIL) $(VENV_CEIL)
+	VIRTUAL_ENV=$(VENV_CEIL) $(UV) pip install --all-extras --group test -r pyproject.toml
+	$(MAKE) api PYTHON=$(VENV_CEIL)/bin/python
+	$(MAKE) test-unit PYTHON=$(VENV_CEIL)/bin/python
 
 build:
 	$(UV) build

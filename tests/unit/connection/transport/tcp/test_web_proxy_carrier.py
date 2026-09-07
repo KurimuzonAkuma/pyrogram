@@ -289,7 +289,7 @@ async def _run_until_blocked(sending: "asyncio.Task[None]") -> None:
     #  grant costs three loop iterations below 3.12, where `asyncio.wait_for` ran the
     #  wait in a task of its own, against one on 3.12+, which awaits the coroutine
     #  directly. A single yield left the grant unspent and failed
-    #  `test_send_never_puts_more_on_the_wire_than_the_credit_granted` on 3.9-3.11.
+    #  `test_send_never_puts_more_on_the_wire_than_the_credit_granted` on 3.10-3.11.
     #  Ten is that measured three with room to spare.
     #  https://github.com/python/cpython/blob/0fb18b02c8ad56299d6a2910be0bab8ad601ef24/Lib/asyncio/tasks.py#L509
     for _ in range(10):
@@ -439,10 +439,9 @@ async def _run_failing_tracked_task(carrier: WebProxyCarrier) -> None:
 
 
 def _carrier_records(caplog: pytest.LogCaptureFixture) -> List[logging.LogRecord]:
-    # `caplog` collects at the root, so a report from another logger lands in it too.
-    #  On 3.8 the garbage collector reaches a task an earlier test left pending mid-run
-    #  and `asyncio` logs "Task was destroyed but it is pending!" at ERROR, which the
-    #  comparisons below then read as a line this module emitted.
+    # `caplog` collects at the root, so `asyncio` logging "Task was destroyed but it is
+    #  pending!" over a task an earlier test left behind is otherwise read below as a
+    #  line this module emitted.
     return [record for record in caplog.records if record.name == web_proxy_carrier.log.name]
 
 

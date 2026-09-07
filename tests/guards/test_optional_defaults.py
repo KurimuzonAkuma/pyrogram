@@ -20,7 +20,7 @@ import ast
 import pathlib
 from typing import Dict, Final, Iterator, List, Tuple
 
-from tests.guards.name_resolution import REPOSITORY_ROOT, hand_written_files, subscript_of
+from tests.guards.name_resolution import REPOSITORY_ROOT, hand_written_files
 
 # A parameter annotated `Optional` and defaulting to something else says two things at once:
 #  the caller may pass `None`, and the caller who passes nothing does not get `None`. Almost
@@ -63,7 +63,7 @@ def mentions_none(node: ast.expr) -> bool:
             return True
 
         if name == "Union":
-            inner = subscript_of(node)
+            inner = node.slice
             arguments = inner.elts if isinstance(inner, ast.Tuple) else [inner]
 
             return any(

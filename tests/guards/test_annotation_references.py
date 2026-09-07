@@ -36,7 +36,6 @@ from tests.guards.name_resolution import (
     REPOSITORY_ROOT,
     attribute_chain,
     hand_written_files,
-    subscript_of,
 )
 
 
@@ -119,7 +118,7 @@ def names_in(node: ast.expr, *, line: int) -> Iterator[Tuple[Tuple[str, ...], in
         if head is not None and head[-1] == "Literal":
             return
 
-        yield from names_in(subscript_of(node), line=line)
+        yield from names_in(node.slice, line=line)
         return
 
     if isinstance(node, (ast.Tuple, ast.List)):
@@ -240,24 +239,6 @@ def test_a_string_annotation_is_read_as_the_expression_it_holds() -> None:
     assert names('Optional[List["types.Chat"]]') == [("Optional",), ("List",), ("types", "Chat")]
     assert names('Union["types.Chat", int]') == [("Union",), ("types", "Chat"), ("int",)]
     assert names('"Optional[types.Chat]"') == [("Optional",), ("types", "Chat")]
-
-
-def test_a_subscript_is_read_through_the_wrapper_python_38_puts_around_it() -> None:
-    """The suite runs on 3.8, whose parser wraps `X[Y]` in a node 3.9 stopped emitting.
-
-    The wrapper cannot be produced by parsing here, so the node is built the way the 3.8
-    parser builds it. Without the unwrapping, every name inside a subscript is invisible
-    on 3.8 alone and the sweep passes there over nothing.
-    """
-    inner = ast.parse('"types.Chat"', mode="eval").body
-
-    # TODO: Delete this test with the 3.8 unwrapping in `subscript_of()` that it covers.
-    index = ast.Index(value=inner)  # ty: ignore[deprecated] - the 3.8 node is what this test is for
-    wrapped = ast.Subscript(value=ast.Name(id="Optional", ctx=ast.Load()), slice=index, ctx=ast.Load())
-    ast.fix_missing_locations(wrapped)
-
-    assert subscript_of(wrapped) is inner
-    assert [name for name, _ in names_in(wrapped, line=1)] == [("Optional",), ("types", "Chat")]
 
 
 def test_a_literal_holds_values_rather_than_names() -> None:

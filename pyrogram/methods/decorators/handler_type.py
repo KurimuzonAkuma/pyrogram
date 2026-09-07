@@ -22,5 +22,5 @@ from typing import Callable, TypeVar
 #  parameter and the return to one type variable is what carries the callback's own
 #  signature through: `def decorator(func: Callable) -> Callable` erased it, so a
 #  decorated handler was `Any` to a type checker and `handler(1, 2, 3, 4)` passed.
-#  A `TypeVar` rather than the 3.12 syntax because `requires-python` is `>=3.8`.
+#  A `TypeVar` rather than the 3.12 syntax because `requires-python` is `>=3.10`.
 HandlerType = TypeVar("HandlerType", bound=Callable)

@@ -9,7 +9,7 @@ name = "Kurigram"
 dynamic = ["version"]
 description = "Elegant, modern and asynchronous Telegram MTProto API framework in Python for users and bots"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 authors = [{ name = "Dan", email = "dan@pyrogram.org" }]
 maintainers = [{ name = "KurimuzonAkuma" }]
 classifiers = [
@@ -20,8 +20,6 @@ classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -134,11 +132,6 @@ docs = [
     "pygments>=2.19.2",
 ]
 
-# No `sphinx-iconify` release supports 3.8, so resolving `docs` against the library's own
-#  `requires-python` is unsatisfiable and `uv lock` refuses the whole project. A floor on
-#  the group alone keeps the library at `>=3.8`; nobody builds the documentation on 3.8.
-[tool.uv.dependency-groups]
-docs = { requires-python = ">=3.9" }
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

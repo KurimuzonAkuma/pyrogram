@@ -17,14 +17,14 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
-        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12", "3.13", "3.14"]
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
 
     steps:
       - uses: actions/checkout@v5
 
       # `uv` supplies the interpreter as well as the packages, so there is no separate
       #  Python setup step: it downloads a managed CPython for every version in the
-      #  matrix, `3.8` on macOS arm64 included.
+      #  matrix, including versions no longer shipped as an official macOS arm64 build.
       - name: Set up uv and Python ${{ matrix.python-version }}
         uses: astral-sh/setup-uv@v10.0.1
         with:

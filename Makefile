@@ -6,7 +6,7 @@ PYTHON := $(UV) run python
 
 # The two ends of the supported range: the oldest interpreter `requires-python` claims and the
 #  newest the matrix runs. Keep both in sync with `pyproject.toml`.
-PYTHON_FLOOR := 3.8
+PYTHON_FLOOR := 3.10
 PYTHON_CEIL := 3.14
 # Absolute, because `api` runs its compilers from inside `compiler/`.
 VENV_FLOOR := $(CURDIR)/.venv-floor

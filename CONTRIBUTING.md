@@ -5,7 +5,7 @@ environment, the expected workflow, and what we look for in a pull request.
 
 ## Getting started
 
-Kurigram requires Python `>=3.8` and [`uv`](https://docs.astral.sh/uv/getting-started/installation/).
+Kurigram requires Python `>=3.10` and [`uv`](https://docs.astral.sh/uv/getting-started/installation/).
 
 Nothing else has to be set up. Every `make` recipe below runs through `uv run`, which creates
 `.venv` from `uv.lock` and brings it up to date whenever the lock file moves, so there is no
@@ -106,11 +106,11 @@ A few conventions that have come up repeatedly in code review but aren't enforce
 - **Every new `.py` file carries the licence header** that the rest of the tree carries: copy it
   from a module in the same package. The only files without one are the empty package
   `__init__.py` files. Nothing checks this, so a missing header only surfaces in review.
-- **Annotations are evaluated at runtime and the floor is Python `3.8`.** Nothing in the tree uses
-  `from __future__ import annotations`, and CI runs the suite on every version from `3.8` up, so
-  `list[str]` and `int | None` in a signature pass on a modern interpreter and fail the matrix
-  with `TypeError: 'type' object is not subscriptable` and `TypeError: unsupported operand
-  type(s) for |: 'type' and 'NoneType'`. Use `List[str]` and `Optional[int]` from `typing`.
+- **New code uses `list[str]` and `int | None`, not `List[str]` and `Optional[int]`.** Annotations
+  are evaluated at runtime and nothing in the tree imports `from __future__ import annotations`,
+  so the builtin form was unusable while the floor was `3.8`. It is usable from `3.10`. Most of
+  the tree still carries the `typing` spelling and will be converted in one mechanical pass;
+  until then do not convert a file you are editing for another reason.
 - **A dependency is declared with a floor, never a ceiling.** `pyproject.toml` carries the
   reasoning beside the declarations. Where a major version genuinely breaks us, add the upper
   bound and name the breakage in a comment next to it.

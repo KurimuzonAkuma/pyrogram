@@ -5,23 +5,16 @@ environment, the expected workflow, and what we look for in a pull request.
 
 ## Getting started
 
-Kurigram requires Python >=3.9. Dependency and virtual environment management is done via
+Kurigram requires Python `>=3.8`. Dependency and virtual environment management is done via
 [`uv`](https://docs.astral.sh/uv/).
 
 ```bash
-uv sync --extra dev
+uv sync
 ```
 
 This installs the package together with its development dependencies (linting, type checking,
-testing). Avoid `uv pip` (a deprecated interface) and avoid a plain `uv sync` when you only need
-the `dev` extra, since pulling in the `docs` extra can fail dependency resolution unrelated to
-your change.
-
-Alternatively, a pip-based `venv` workflow is available through `make`:
-
-```bash
-make venv-dev
-```
+testing). Avoid `uv pip` (a deprecated interface); don't add `--extra docs` unless you're actually
+working on the docs, since it can fail dependency resolution unrelated to your change.
 
 ### Generated code
 

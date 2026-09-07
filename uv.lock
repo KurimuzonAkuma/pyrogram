@@ -1593,7 +1593,8 @@ name = "kurigram"
 source = { editable = "." }
 dependencies = [
     { name = "pyaes" },
-    { name = "python-socks", extra = ["asyncio"] },
+    { name = "python-socks", version = "2.8.2", source = { registry = "https://pypi.org/simple" }, extra = ["asyncio"], marker = "python_full_version < '3.9'" },
+    { name = "python-socks", version = "3.0.0", source = { registry = "https://pypi.org/simple" }, extra = ["asyncio"], marker = "python_full_version >= '3.9'" },
 ]
 
 [package.optional-dependencies]
@@ -1674,51 +1675,51 @@ test = [
 
 [package.metadata]
 requires-dist = [
-    { name = "pyaes", specifier = "<=1.6.1" },
-    { name = "python-socks", extras = ["asyncio"], specifier = "<=2.8.1" },
-    { name = "qrcode", marker = "extra == 'qrcode'", specifier = "<=8.2" },
-    { name = "tgcrypto", marker = "extra == 'fast'", specifier = "<=1.2.5" },
-    { name = "uvloop", marker = "(sys_platform == 'darwin' and extra == 'fast') or (sys_platform == 'linux' and extra == 'fast')", specifier = "<=0.22.1" },
+    { name = "pyaes", specifier = ">=1.6.1" },
+    { name = "python-socks", extras = ["asyncio"], specifier = ">=2.8.1" },
+    { name = "qrcode", marker = "extra == 'qrcode'", specifier = ">=7.4.2" },
+    { name = "tgcrypto", marker = "extra == 'fast'", specifier = ">=1.2.5" },
+    { name = "uvloop", marker = "(sys_platform == 'darwin' and extra == 'fast') or (sys_platform == 'linux' and extra == 'fast')", specifier = ">=0.21.0" },
 ]
 provides-extras = ["fast", "qrcode"]
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "hatchling", specifier = "<=1.32.0" },
-    { name = "keyring", specifier = "<=25.7.0" },
-    { name = "pre-commit", specifier = "<=4.6.2" },
-    { name = "pytest", specifier = "<=9.1.1" },
-    { name = "pytest-asyncio", specifier = "<=1.4.0" },
-    { name = "pytest-cov", specifier = "<=7.1.0" },
-    { name = "pytest-timeout", specifier = "<=2.4.0" },
-    { name = "ruff", specifier = "<=0.16.3" },
-    { name = "twine", specifier = "<=6.2.0" },
-    { name = "ty", specifier = "<=0.0.78" },
+    { name = "hatchling", specifier = ">=1.27.0" },
+    { name = "keyring", specifier = ">=25.5.0" },
+    { name = "pre-commit", specifier = ">=3.5.0" },
+    { name = "pytest", specifier = ">=8.3.5" },
+    { name = "pytest-asyncio", specifier = ">=0.24.0" },
+    { name = "pytest-cov", specifier = ">=5.0.0" },
+    { name = "pytest-timeout", specifier = ">=2.4.0" },
+    { name = "ruff", specifier = ">=0.16.3" },
+    { name = "twine", specifier = ">=6.1.0" },
+    { name = "ty", specifier = ">=0.0.78" },
 ]
 docs = [
-    { name = "pygments", marker = "python_full_version >= '3.9'", specifier = "<=2.20.0" },
-    { name = "shibuya", marker = "python_full_version >= '3.9'", specifier = "<=2026.5.19" },
-    { name = "sphinx", marker = "python_full_version >= '3.9'", specifier = "<=9.1.0" },
-    { name = "sphinx-autobuild", marker = "python_full_version >= '3.9'", specifier = "<=2025.8.25" },
-    { name = "sphinx-copybutton", marker = "python_full_version >= '3.9'", specifier = "<=0.5.2" },
-    { name = "sphinx-design", marker = "python_full_version >= '3.9'", specifier = "<=0.7.0" },
-    { name = "sphinx-iconify", marker = "python_full_version >= '3.9'", specifier = "<=0.3.0" },
+    { name = "pygments", marker = "python_full_version >= '3.9'", specifier = ">=2.19.2" },
+    { name = "shibuya", marker = "python_full_version >= '3.9'", specifier = ">=2025.10.21" },
+    { name = "sphinx", marker = "python_full_version >= '3.9'", specifier = ">=7.4.7" },
+    { name = "sphinx-autobuild", marker = "python_full_version >= '3.9'", specifier = ">=2024.10.3" },
+    { name = "sphinx-copybutton", marker = "python_full_version >= '3.9'", specifier = ">=0.5.2" },
+    { name = "sphinx-design", marker = "python_full_version >= '3.9'", specifier = ">=0.6.1" },
+    { name = "sphinx-iconify", marker = "python_full_version >= '3.9'", specifier = ">=0.3.0" },
 ]
 lint = [
-    { name = "hatchling", specifier = "<=1.32.0" },
-    { name = "pre-commit", specifier = "<=4.6.2" },
-    { name = "ruff", specifier = "<=0.16.3" },
-    { name = "ty", specifier = "<=0.0.78" },
+    { name = "hatchling", specifier = ">=1.27.0" },
+    { name = "pre-commit", specifier = ">=3.5.0" },
+    { name = "ruff", specifier = ">=0.16.3" },
+    { name = "ty", specifier = ">=0.0.78" },
 ]
 release = [
-    { name = "keyring", specifier = "<=25.7.0" },
-    { name = "twine", specifier = "<=6.2.0" },
+    { name = "keyring", specifier = ">=25.5.0" },
+    { name = "twine", specifier = ">=6.1.0" },
 ]
 test = [
-    { name = "pytest", specifier = "<=9.1.1" },
-    { name = "pytest-asyncio", specifier = "<=1.4.0" },
-    { name = "pytest-cov", specifier = "<=7.1.0" },
-    { name = "pytest-timeout", specifier = "<=2.4.0" },
+    { name = "pytest", specifier = ">=8.3.5" },
+    { name = "pytest-asyncio", specifier = ">=0.24.0" },
+    { name = "pytest-cov", specifier = ">=5.0.0" },
+    { name = "pytest-timeout", specifier = ">=2.4.0" },
 ]
 
 [[package]]
@@ -2406,11 +2407,36 @@ wheels = [
 
 [[package]]
 name = "python-socks"
-version = "2.8.1"
+version = "2.8.2"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/36/0b/cd77011c1bc01b76404f7aba07fca18aca02a19c7626e329b40201217624/python_socks-2.8.1.tar.gz", hash = "sha256:698daa9616d46dddaffe65b87db222f2902177a2d2b2c0b9a9361df607ab3687", size = 38909, upload-time = "2026-02-16T05:24:00.745Z" }
+resolution-markers = [
+    "python_full_version >= '3.8.1' and python_full_version < '3.9'",
+    "python_full_version < '3.8.1'",
+]
+sdist = { url = "https://files.pythonhosted.org/packages/db/ad/5bbfab3d3a266963cca0c09e23a725bbf5f0535d21c8bd1d5272e4430771/python_socks-2.8.2.tar.gz", hash = "sha256:ffc493951854fa3fc0551e0434a09a7b9f9047f9ad666dce42cb94a52e8a34b6", size = 39656, upload-time = "2026-06-23T05:22:01.994Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/15/fe/9a58cb6eec633ff6afae150ca53c16f8cc8b65862ccb3d088051efdfceb7/python_socks-2.8.1-py3-none-any.whl", hash = "sha256:28232739c4988064e725cdbcd15be194743dd23f1c910f784163365b9d7be035", size = 55087, upload-time = "2026-02-16T05:23:59.147Z" },
+    { url = "https://files.pythonhosted.org/packages/3d/18/23b981b1cf58c1e7b7e36fa1392daf12878b6a3c26c5e4248601647a6d09/python_socks-2.8.2-py3-none-any.whl", hash = "sha256:7cf785d0631e0659384a773b3c402bc22cccdc23894ba1d65f8524748ace1193", size = 55501, upload-time = "2026-06-23T05:22:00.658Z" },
+]
+
+[package.optional-dependencies]
+asyncio = [
+    { name = "async-timeout" },
+]
+
+[[package]]
+name = "python-socks"
+version = "3.0.0"
+source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "python_full_version >= '3.12'",
+    "python_full_version == '3.11.*'",
+    "python_full_version == '3.10.*'",
+    "python_full_version > '3.9' and python_full_version < '3.10'",
+    "python_full_version == '3.9'",
+]
+sdist = { url = "https://files.pythonhosted.org/packages/6c/6b/bd9e15e67cf42b318970028a572750924adbe28776e8420fcdfe60838c61/python_socks-3.0.0.tar.gz", hash = "sha256:c20ddf978b5c90467bf242757a11dcd00d7c8bd339901de1839b492d5571ab7f", size = 232731, upload-time = "2026-08-11T11:17:09.464Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/eb/e7/af080d0d2d5bbc3dbdf58a805812ee45175c5c32c6673f23a5480f9785c2/python_socks-3.0.0-py3-none-any.whl", hash = "sha256:e06a421d4d7f3fc17ef2740ab6c291640364f6a362b94a1ae87a136c29bd0067", size = 49519, upload-time = "2026-08-11T11:17:07.118Z" },
 ]
 
 [package.optional-dependencies]

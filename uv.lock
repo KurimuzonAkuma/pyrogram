@@ -1675,10 +1675,10 @@ test = [
 
 [package.metadata]
 requires-dist = [
-    { name = "pyaes", specifier = ">=1.6.1" },
-    { name = "python-socks", extras = ["asyncio"], specifier = ">=2.8.1" },
-    { name = "qrcode", marker = "extra == 'qrcode'", specifier = ">=7.4.2" },
-    { name = "tgcrypto", marker = "extra == 'fast'", specifier = ">=1.2.5" },
+    { name = "pyaes", specifier = ">=1.2.0" },
+    { name = "python-socks", extras = ["asyncio"], specifier = ">=2.4.0" },
+    { name = "qrcode", marker = "extra == 'qrcode'", specifier = ">=5.2.2" },
+    { name = "tgcrypto", marker = "extra == 'fast'", specifier = ">=1.2.2" },
     { name = "uvloop", marker = "(sys_platform == 'darwin' and extra == 'fast') or (sys_platform == 'linux' and extra == 'fast')", specifier = ">=0.21.0" },
 ]
 provides-extras = ["fast", "qrcode"]

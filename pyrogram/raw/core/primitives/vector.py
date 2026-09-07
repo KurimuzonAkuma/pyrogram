@@ -17,7 +17,7 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from io import BytesIO
-from typing import cast, Union, Any
+from typing import cast, Any
 
 from .bool import BoolFalse, BoolTrue, Bool
 from .int import Int, Long

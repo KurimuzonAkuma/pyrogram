@@ -40,7 +40,7 @@ make test-unit     # fast unit suite, no live credentials needed
 
 `make test` runs the full suite, including integration tests that require live Telegram
 credentials in a git-ignored `.env.test` file; these are skipped automatically when the file is
-absent. Prefer `tests/unit` for anything that doesn't require a live connection.
+absent. Always use `tests/unit` for anything that doesn't require a live connection.
 
 New tests belong under either `tests/unit/` or `tests/integrations/`: the directory a test file
 lives in determines whether it's collected as a unit or integration test, so pick the tree that

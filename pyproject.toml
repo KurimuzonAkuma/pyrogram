@@ -172,16 +172,22 @@ ignore-vcs = true
 packages = ["pyrogram"]
 
 [tool.ruff]
-# `pyrogram/raw` and `pyrogram/errors/exceptions` are written by `make api`, so they are
-# excluded here as well as in `.gitignore`: a checkout that has already been built must
-# lint the same as a fresh one.
-extend-exclude = ["pyrogram/raw", "pyrogram/errors/exceptions"]
+# Exactly the paths `make api` writes, so a checkout that has already been built lints the
+#  same as a fresh one. `TOML` cannot share a list, so this repeats `[tool.ty.src].exclude`
+#  below, which carries the reasoning for the split.
+extend-exclude = [
+    "pyrogram/raw/base",
+    "pyrogram/raw/functions",
+    "pyrogram/raw/types",
+    "pyrogram/raw/all.py",
+    "pyrogram/errors/exceptions",
+]
 
 [tool.ruff.lint]
 # This selection is a floor, not a style guide. It is the set of rules the tree already
 #  passes, so the check can only ever fail on something newly written, and it is meant to
 #  grow one rule at a time. Anything wider is unusable for now: `ruff check --select ALL
-#  --statistics` reports over 26000 findings, the bulk of them line length, missing
+#  --statistics` reports over 22000 findings, the bulk of them line length, missing
 #  trailing commas and docstring section formatting.
 select = [
     "E9",     # Syntax errors and files that cannot be read.
@@ -189,6 +195,11 @@ select = [
     "F821",   # Undefined name.
     "F822",   # Undefined name in `__all__`.
     "RUF013", # Implicit `Optional`, e.g. `def method(chat_id: int = None)`.
+    "UP006",  # `List[str]` where `list[str]` is meant.
+    "UP007",  # `Union[int, str]` where `int | str` is meant.
+    "UP035",  # An import of a `typing` alias the builtins replaced.
+    "UP037",  # Quotes around an annotation that does not need deferring.
+    "UP045",  # `Optional[int]` where `int | None` is meant.
 ]
 
 [tool.ty.src]

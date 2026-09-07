@@ -32,15 +32,26 @@ from collections.abc import Iterator, Sequence
 REPOSITORY_ROOT: Final[pathlib.Path] = pathlib.Path(__file__).resolve().parents[2]
 PACKAGE_ROOT: Final[pathlib.Path] = REPOSITORY_ROOT / "pyrogram"
 
-# The generated tree is rewritten wholesale by `make api` from the TL schema, so a repair
-#  there lives until the next schema update and no longer.
-GENERATED_TREE: Final[pathlib.Path] = PACKAGE_ROOT / "raw"
+# What `make api` writes, and only that: `pyrogram/raw/core` sits inside `raw` and is
+#  hand-written. A repair anywhere below lives until the next schema update and no longer.
+#  Same list as `[tool.ruff].extend-exclude` and `[tool.ty.src].exclude` in `pyproject.toml`.
+GENERATED: Final[tuple[pathlib.Path, ...]] = (
+    PACKAGE_ROOT / "raw" / "base",
+    PACKAGE_ROOT / "raw" / "functions",
+    PACKAGE_ROOT / "raw" / "types",
+    PACKAGE_ROOT / "raw" / "all.py",
+    PACKAGE_ROOT / "errors" / "exceptions",
+)
+
+
+def is_generated(path: pathlib.Path) -> bool:
+    return path in GENERATED or any(tree in path.parents for tree in GENERATED)
 
 
 def hand_written_files() -> Iterator[pathlib.Path]:
     """Every module of the package a person wrote and a person can repair."""
     for path in sorted(PACKAGE_ROOT.rglob("*.py")):
-        if GENERATED_TREE not in path.parents:
+        if not is_generated(path):
             yield path
 
 

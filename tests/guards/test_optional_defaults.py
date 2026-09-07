@@ -21,7 +21,7 @@ import pathlib
 from typing import Final
 from collections.abc import Iterator
 
-from tests.guards.name_resolution import REPOSITORY_ROOT, hand_written_files
+from tests.guards.name_resolution import REPOSITORY_ROOT, hand_written_files, is_generated
 
 # A parameter annotated `Optional` and defaulting to something else says two things at once:
 #  the caller may pass `None`, and the caller who passes nothing does not get `None`. Almost
@@ -163,7 +163,11 @@ def test_the_sweep_reads_the_package_and_not_the_generated_tree() -> None:
 
     assert len(files) > 100
     assert REPOSITORY_ROOT / "pyrogram" / "client.py" in files
-    assert not [path for path in files if (REPOSITORY_ROOT / "pyrogram" / "raw") in path.parents]
+
+    # `pyrogram/raw/core` is hand-written and sits inside the tree `make api` writes into,
+    #  so the two halves of `raw` are asserted separately.
+    assert REPOSITORY_ROOT / "pyrogram" / "raw" / "core" / "tl_object.py" in files
+    assert not [path for path in files if is_generated(path)]
 
 
 def test_a_module_outside_the_package_is_not_swept() -> None:

@@ -43,8 +43,9 @@ def pytest_collection_modifyitems(items: List[pytest.Item]) -> None:
         layer = _LAYER_MARKERS.get(relative.parts[0])
 
         if layer is None:
+            layers = ", ".join("tests/" + name for name in sorted(_LAYER_MARKERS))
             raise pytest.UsageError(
-                f"{relative} is outside {', '.join(sorted(_LAYER_MARKERS))} - every test lives in one of them."
+                f"{relative} is outside {layers} - every test lives in one of them."
             )
 
         item.add_marker(getattr(pytest.mark, layer))

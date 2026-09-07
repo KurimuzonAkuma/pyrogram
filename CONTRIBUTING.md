@@ -45,12 +45,16 @@ prepared session, listed in `.env.test.example`. Each one skips by name when its
 absent, so a checkout without that file still runs the whole offline suite.
 
 A test's directory decides its marker, so put it in the tree that matches what it needs:
-`tests/integrations/` when it opens a socket or talks to a real service, `tests/unit/`
-otherwise. A test outside both is not collected as unmarked, it fails the run:
+`tests/integrations/` when it opens a socket or talks to a real service, `tests/guards/` when it
+sweeps the whole repository instead of exercising one module, `tests/unit/` otherwise. A test
+outside all three is not collected as unmarked, it fails the run:
 
 ```
-ERROR: test_example.py is outside tests/unit and tests/integrations - every test lives in one of the two.
+ERROR: test_example.py is outside tests/guards, tests/integrations, tests/unit - every test lives in one of them.
 ```
+
+`make test-guards` runs the guard layer on its own, for working on it; `make test-unit` already
+includes it.
 
 ### Optional: pre-commit hook
 

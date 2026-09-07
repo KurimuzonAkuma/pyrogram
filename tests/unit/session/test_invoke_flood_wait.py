@@ -49,7 +49,7 @@ class _Query:
 
 @pytest.mark.asyncio
 async def test_flood_wait_with_no_parsed_seconds_reraises() -> None:
-    # FloodWait.seconds is Optional[int]: when Telegram's message doesn't match the
+    # `FloodWait.seconds` is `int | None`: when Telegram's message doesn't match the
     #  expected pattern, `amount` ends up None, and `amount > sleep_threshold >= 0`
     #  raised TypeError instead of the intended FloodWait re-raise.
     session = _Session(seconds=None)

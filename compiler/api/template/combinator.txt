@@ -1,7 +1,7 @@
 {notice}
 
 from io import BytesIO
-from typing import TYPE_CHECKING, List, Optional, Any
+from typing import TYPE_CHECKING, Any
 
 from pyrogram.raw.core.primitives import Int, Long, Int128, Int256, Bool, Bytes, String, Double, Vector
 from pyrogram.raw.core import TLObject
@@ -16,7 +16,7 @@ class {name}(TLObject{generic_type}):
     """{docstring}
     """
 
-    __slots__: List[str] = [{slots}]
+    __slots__: list[str] = [{slots}]
 
     ID = {id}
     QUALNAME = "{qualname}"

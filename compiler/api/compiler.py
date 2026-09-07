@@ -101,7 +101,7 @@ def get_return_type_hint(qualtype: str) -> str:
         # Extract inner type from Vector<Type>
         inner = qualtype.split("<")[1][:-1]
         ns, name = inner.split(".") if "." in inner else ("", inner)
-        return f'"List[raw.base.{".".join([ns, name]).strip(".")}]"'
+        return f'"list[raw.base.{".".join([ns, name]).strip(".")}]"'
     else:
         ns, name = qualtype.split(".") if "." in qualtype else ("", qualtype)
         return f'"raw.base.{".".join([ns, name]).strip(".")}"'
@@ -136,15 +136,17 @@ def get_type_hint(type: str) -> str:
         is_core = True
 
         sub_type = type.split("<")[1][:-1]
-        type = f"List[{get_type_hint(sub_type)}]"
+        type = f"list[{get_type_hint(sub_type)}]"
 
     if is_core:
-        return f"Optional[{type}] = None" if is_flag else type
-    else:
-        ns, name = type.split(".") if "." in type else ("", type)
-        type = '"raw.base.' + ".".join([ns, name]).strip(".") + '"'
+        return f"{type} | None = None" if is_flag else type
 
-        return f"Optional[{type}] = None" if is_flag else type
+    ns, name = type.split(".") if "." in type else ("", type)
+    qualname = "raw.base." + ".".join([ns, name]).strip(".")
+
+    # The quotes wrap the whole union, not the member: `"X" | None` raises
+    #  `TypeError: unsupported operand type(s) for |: 'str' and 'NoneType'`.
+    return f'"{qualname} | None" = None' if is_flag else f'"{qualname}"'
 
 
 def sort_args(args):
@@ -388,7 +390,7 @@ def start(format: bool = False):
                     docstring=docstring,
                     name=type,
                     qualname=qualtype,
-                    types=", ".join([f"raw.types.{c}" for c in constructors]),
+                    types=" | ".join([f"raw.types.{c}" for c in constructors]),
                     doc_name=snake(type).replace("_", "-")
                 )
             )

@@ -41,24 +41,34 @@ def snek(s: str):
     return re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", s).lower()
 
 
+def _names_constructors(node: ast.expr) -> bool:
+    """Whether the expression is a `raw.types.X` reference, or several of them joined by `|`."""
+    if isinstance(node, ast.BinOp) and isinstance(node.op, ast.BitOr):
+        return _names_constructors(node.left) and _names_constructors(node.right)
+
+    return isinstance(node, ast.Attribute)
+
+
 def _extract_union_name(node: ast.AST) -> str | None:
-    """Extract the name of a variable that is assigned a Union type.
+    """Extract the name of a variable that is assigned the constructors of a base type.
 
     :param node: The AST node to extract the variable name from.
-    :return: The variable name if it is assigned a Union type, otherwise None.
+    :return: The variable name if it is assigned constructors, otherwise None.
+
+    A base type with a single constructor is assigned that constructor on its own, so the
+    one-member case is a bare attribute rather than a `|` chain.
 
     >>> import ast
-    >>> parsed_ast = ast.parse("User = Union[raw.types.UserEmpty]")
+    >>> parsed_ast = ast.parse("User = raw.types.UserEmpty | raw.types.User")
     >>> _extract_union_name(parsed_ast.body[0])
+    'User'
+    >>> _extract_union_name(ast.parse("User = raw.types.UserEmpty").body[0])
     'User'
     """
 
-    # Check if the assigned value is a Union type
-    if isinstance(node, ast.Assign) and isinstance(node.value, ast.Subscript):
-        if isinstance(node.value.value, ast.Name) and node.value.value.id == "Union":
-            # Extract variable name
-            if isinstance(node.targets[0], ast.Name):
-                return node.targets[0].id  # Variable name
+    if isinstance(node, ast.Assign) and _names_constructors(node.value):
+        if isinstance(node.targets[0], ast.Name):
+            return node.targets[0].id  # Variable name
 
 
 def _extract_class_name(node: ast.AST) -> str | None:

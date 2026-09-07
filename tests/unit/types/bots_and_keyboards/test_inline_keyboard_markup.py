@@ -29,9 +29,14 @@ from pyrogram import raw, types
 
 
 def declared_constructor(tl_type: type, *, field: str) -> str:
-    """Name of the constructor the schema declares for a vector field of `tl_type`."""
-    (forward_ref,) = get_args(tl_type.__init__.__annotations__[field])
-    return forward_ref.__forward_arg__.rsplit(".", 1)[-1]
+    """Name of the constructor the schema declares for a vector field of `tl_type`.
+
+    The generated modules import `raw` under `TYPE_CHECKING` only, so the element type stays
+    the string it was written as: `list["X"]` hands it back unchanged, where the deprecated
+    `List["X"]` used to convert it to a `ForwardRef`.
+    """
+    (written,) = get_args(tl_type.__init__.__annotations__[field])
+    return written.rsplit(".", 1)[-1]
 
 
 async def test_write_builds_the_constructors_the_schema_declares() -> None:

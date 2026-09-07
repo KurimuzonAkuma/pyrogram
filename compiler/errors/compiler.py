@@ -296,13 +296,6 @@ def _value_block(templates: _Templates, *, error: _Error) -> str:
     return ""
 
 
-def _typing_import(errors: list[_Error]) -> str:
-    if all(error.row.value_name == _PLAIN_VALUE_NAME for error in errors):
-        return ""
-
-    return "from typing import Optional\n\n"
-
-
 def _import_block(table: _Table, *, errors: list[_Error]) -> str:
     imports: dict[str, set[str]] = {}
 
@@ -373,7 +366,6 @@ def _write_module(table: _Table, *, errors: list[_Error], notice: str, templates
 
     module = templates.module.format(
         notice=notice,
-        typing_import=_typing_import(errors),
         imports=_import_block(table, errors=errors),
         super_class=table.super_class,
         code=table.code,

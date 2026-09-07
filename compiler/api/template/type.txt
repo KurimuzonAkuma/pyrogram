@@ -2,14 +2,14 @@
 
 {warning}
 
-from typing import TYPE_CHECKING, Union
+from typing import TYPE_CHECKING
 
 from pyrogram import raw
 from pyrogram.raw.core import BaseTypeMeta
 
 
 if TYPE_CHECKING:
-    {name} = Union[{types}]
+    {name} = {types}
 else:
     # noinspection PyRedeclaration
     class {name}(metaclass=BaseTypeMeta):  # type: ignore
@@ -17,7 +17,7 @@ else:
         """
 
         QUALNAME = "pyrogram.raw.base.{qualname}"
-        __union_types__ = Union[{types}]
+        __union_types__ = {types}
 
         def __init__(self):
             raise TypeError("Base types can only be used for type checking purposes: "

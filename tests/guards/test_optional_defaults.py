@@ -139,9 +139,10 @@ def test_the_sweep_reads_the_parameters_it_claims_to() -> None:
         "    written: Union[int, None] = 3,\n"
         "    quoted: 'Optional[int]' = 4,\n"
         "    modern: int | None = 5,\n"
+        "    deferred: 'types.User | None' = 6,\n"
         "    correct: Optional[int] = None,\n"
         "    *,\n"
-        "    keyword: Optional[int] = 6,\n"
+        "    keyword: Optional[int] = 7,\n"
         "): ...\n"
     )
     node = ast.parse(source).body[0]
@@ -154,7 +155,7 @@ def test_the_sweep_reads_the_parameters_it_claims_to() -> None:
         and mentions_none(parameter.annotation)
     ]
 
-    assert caught == ["modern", "quoted", "written", "old", "keyword"]
+    assert caught == ["deferred", "modern", "quoted", "written", "old", "keyword"]
 
 
 def test_the_sweep_reads_the_package_and_not_the_generated_tree() -> None:

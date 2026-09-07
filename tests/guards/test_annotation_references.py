@@ -107,7 +107,7 @@ def names_in(node: ast.expr, *, line: int) -> Iterator[tuple[tuple[str, ...], in
     """Every name an annotation mentions, with the line it was written on.
 
     A string annotation holds a whole type expression rather than a bare name, so it is
-    parsed and walked like any other: `Optional[List["types.Chat"]]` names `types.Chat`.
+    parsed and walked like any other: `list["types.Chat"] | None` names `types.Chat`.
     """
     if isinstance(node, ast.Subscript):
         head = dotted_name(node.value)
@@ -237,6 +237,11 @@ def test_a_string_annotation_is_read_as_the_expression_it_holds() -> None:
         return [name for name, _ in names_in(ast.parse(source, mode="eval").body, line=1)]
 
     assert names('"types.Chat"') == [("types", "Chat")]
+    assert names('"types.Chat | None"') == [("types", "Chat")]
+    assert names('list["types.Chat"] | None') == [("list",), ("types", "Chat")]
+
+    # The `typing` spelling is no longer written here, but the sweep is what would have to
+    #  report a dead name in one, so it keeps reading it.
     assert names('Optional[List["types.Chat"]]') == [("Optional",), ("List",), ("types", "Chat")]
     assert names('Union["types.Chat", int]') == [("Union",), ("types", "Chat"), ("int",)]
     assert names('"Optional[types.Chat]"') == [("Optional",), ("types", "Chat")]

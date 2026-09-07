@@ -5,7 +5,6 @@ repos:
     hooks:
       - id: lint
         name: ruff
-        # The recipe uses the project venv, so `make venv-dev` has to have been run once.
         entry: make lint
         language: system
         # `ruff` reads its own file list from the config, and the whole tree takes 0.03s,

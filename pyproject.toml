@@ -57,17 +57,49 @@ Issues = "https://github.com/KurimuzonAkuma/pyrogram/issues"
 Community = "https://t.me/kurigram_chat"
 
 [project.optional-dependencies]
+fast = [
+    "tgcrypto<=1.2.5",
+    "uvloop<=0.22.1; sys_platform == 'darwin' or sys_platform == 'linux'",
+]
+
+qrcode = [
+    "qrcode<=8.2",
+]
+
+# `dev` and `docs` are tooling, not something a user of the library installs, so they are
+#  dependency groups rather than extras: `uv sync` takes them from the lock file and `pip
+#  install kurigram[dev]` stops being a thing anyone can type by accident.
+[dependency-groups]
+# `dev` is the aggregate one `uv sync` installs by default. It lists groups, never packages,
+#  so every package below sits in a group that says what it is for and a leaner install can
+#  ask for that group alone.
 dev = [
-    "keyring<=25.7.0",
-    "hatch<=1.17.0",
+    { include-group = "lint" },
+    { include-group = "release" },
+    { include-group = "test" },
+]
+
+lint = [
+    # The build backend, already named in `[build-system]`. It is here because
+    #  `hatch_build.py` imports `hatchling.builders.hooks.plugin.interface` and `ty` checks
+    #  that file like any other: without it, `make typecheck` fails on an unresolved import.
+    "hatchling<=1.32.0",
     "pre-commit<=4.6.2",
+    "ruff<=0.16.3",
+    "ty<=0.0.78",
+]
+
+release = [
+    # `twine` stores the upload token through `keyring`.
+    "keyring<=25.7.0",
+    "twine<=6.2.0",
+]
+
+test = [
     "pytest<=9.1.1",
     "pytest-asyncio<=1.4.0",
     "pytest-cov<=7.1.0",
     "pytest-timeout<=2.4.0",
-    "ruff<=0.16.3",
-    "twine<=6.2.0",
-    "ty<=0.0.78",
 ]
 
 docs = [
@@ -80,14 +112,11 @@ docs = [
     "pygments<=2.20.0",
 ]
 
-fast = [
-    "tgcrypto<=1.2.5",
-    "uvloop<=0.22.1; sys_platform == 'darwin' or sys_platform == 'linux'",
-]
-
-qrcode = [
-    "qrcode<=8.2",
-]
+# No `sphinx-iconify` release supports 3.8, so resolving `docs` against the library's own
+#  `requires-python` is unsatisfiable and `uv lock` refuses the whole project. A floor on
+#  the group alone keeps the library at `>=3.8`; nobody builds the documentation on 3.8.
+[tool.uv.dependency-groups]
+docs = { requires-python = ">=3.9" }
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -16,22 +16,25 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-"""Every module of the package that writes an annotation defers it.
+"""Every module that writes an annotation defers it.
 
 Without `from __future__ import annotations` a name used in an annotation has to exist at
 import time, and the tree is one import cycle wide: the way round it was to quote the
 annotation, which hides it from `ruff`'s `UP037` and from anything else that reads one. With
 the import, the quotes are unnecessary everywhere and their absence is checkable.
 
-The sweep reads the package. `tests/` and `compiler/` carry the import too, and nothing here
-asserts that they keep it.
+The sweep reads the package, the suite and the compilers, which is every module a person here
+maintains. One rule over all three is what makes it checkable at all: whether a given module
+needs the import depends on what its own annotations name and in what order, so "where it is
+needed" is not a question this or any other sweep can answer.
 """
 
 from __future__ import annotations as _annotations
 
 import ast
+from itertools import chain
 
-from tests.guards.name_resolution import REPOSITORY_ROOT, hand_written_files
+from tests.guards.name_resolution import REPOSITORY_ROOT, hand_written_files, tooling_files
 
 
 def writes_an_annotation(tree: ast.Module) -> bool:
@@ -61,7 +64,7 @@ def defers_its_annotations(tree: ast.Module) -> bool:
 def modules_that_do_not_defer() -> list[str]:
     found: list[str] = []
 
-    for path in hand_written_files():
+    for path in chain(hand_written_files(), tooling_files()):
         tree = ast.parse(path.read_text(), filename=path.name)
 
         if writes_an_annotation(tree) and not defers_its_annotations(tree):
@@ -77,12 +80,16 @@ def test_every_annotated_module_defers_its_annotations() -> None:
 def test_the_sweep_reads_the_modules_it_claims_to() -> None:
     annotated = [
         path.relative_to(REPOSITORY_ROOT).as_posix()
-        for path in hand_written_files()
+        for path in chain(hand_written_files(), tooling_files())
         if writes_an_annotation(ast.parse(path.read_text(), filename=path.name))
     ]
 
     assert len(annotated) > 700
+
+    # One from each root, so dropping a root fails here rather than passing quietly.
     assert "pyrogram/client.py" in annotated
+    assert "tests/guards/test_future_annotations.py" in annotated
+    assert "compiler/api/compiler.py" in annotated
 
 
 def test_the_sweep_reads_both_halves_of_what_it_asks() -> None:

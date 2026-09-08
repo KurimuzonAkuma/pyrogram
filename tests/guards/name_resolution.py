@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-"""What the sweeps over the package share: which files they read, and how they read a name.
+"""What the sweeps share: which files they read, and how they read a name.
 
 The name sweeps ask the same question of a different kind of text: does this name exist.
 Neither can answer it statically, because the tree is one import cycle wide and half the
@@ -46,6 +46,14 @@ GENERATED: Final[tuple[pathlib.Path, ...]] = (
 )
 
 
+# Everything a person maintains that is not the package. Nothing here is generated, and
+#  nothing here ships: `[tool.hatch.build.targets.wheel]` packages `pyrogram` alone.
+TOOLING_ROOTS: Final[tuple[pathlib.Path, ...]] = (
+    REPOSITORY_ROOT / "tests",
+    REPOSITORY_ROOT / "compiler",
+)
+
+
 def is_generated(path: pathlib.Path) -> bool:
     return path in GENERATED or any(tree in path.parents for tree in GENERATED)
 
@@ -55,6 +63,12 @@ def hand_written_files() -> Iterator[pathlib.Path]:
     for path in sorted(PACKAGE_ROOT.rglob("*.py")):
         if not is_generated(path):
             yield path
+
+
+def tooling_files() -> Iterator[pathlib.Path]:
+    """Every module beside the package: the suite and the code generators."""
+    for root in TOOLING_ROOTS:
+        yield from sorted(root.rglob("*.py"))
 
 
 def attribute_chain(root: Any, *, names: Sequence[str]) -> bool:

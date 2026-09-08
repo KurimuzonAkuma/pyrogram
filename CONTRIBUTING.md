@@ -40,10 +40,14 @@ the generated types.
 Run these before opening a pull request:
 
 ```bash
-make lint          # ruff check
+make lint          # ruff check, plus ruff format --check
 make typecheck     # ty check (requires `make api` to have been run first)
 make test-unit     # the offline suite, no relay or session needed
 ```
+
+`make format` rewrites the tree and `make lint` fails on anything it would still change, so
+formatting is not something review has to raise. The line length is 100; `pyproject.toml` carries
+the reasoning next to it.
 
 `make test` runs the full suite, including the integration tests. Those open real sockets and
 take every endpoint from a git-ignored `.env.test` file: a live MTProto or web proxy relay and a

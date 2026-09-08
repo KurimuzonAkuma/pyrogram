@@ -71,10 +71,12 @@ docs:
 docs-archive:
 	cd docs/build/html && zip -r ../docs.zip ./
 
-# `ruff` takes its rule set and its excludes from `pyproject.toml`, so the `lint` job and
-#  the `pre-commit` hook both run this recipe instead of spelling the check out again.
+# `ruff` takes its rule set, its line length and its excludes from `pyproject.toml`, so the
+#  `lint` job and the `pre-commit` hook both run this recipe instead of spelling the checks
+#  out again. `format` below is the same formatter with the writing turned on.
 lint:
 	$(UV) run ruff check
+	$(UV) run ruff format --check
 
 # Rewrites the tree. The line length and the excludes live in `pyproject.toml`, the same
 #  configuration `lint` reads.

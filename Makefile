@@ -32,7 +32,7 @@ BLUE   := \033[0;34m
 BOLD   := \033[1m
 RESET  := \033[0m
 
-.PHONY: sync version clean-venv clean-build clean-api clean-docs clean api docs docs-archive build tag dtag lint typecheck test test-unit test-guards test-integration test-floor test-ceil
+.PHONY: sync version clean-venv clean-build clean-api clean-docs clean api docs docs-archive build tag dtag lint format typecheck test test-unit test-guards test-integration test-floor test-ceil
 
 # No other recipe needs this: they all sync on their own. It exists so CI can install in
 #  a step of its own, which is what makes a resolution failure read as one in the log
@@ -75,6 +75,11 @@ docs-archive:
 #  the `pre-commit` hook both run this recipe instead of spelling the check out again.
 lint:
 	$(UV) run ruff check
+
+# Rewrites the tree. The line length and the excludes live in `pyproject.toml`, the same
+#  configuration `lint` reads.
+format:
+	$(UV) run ruff format
 
 # The rule set and the excludes live in `pyproject.toml`, same as `lint`. Unlike `lint`,
 #  this needs `pyrogram.raw.*` to resolve, so `make api` has to have been run first.

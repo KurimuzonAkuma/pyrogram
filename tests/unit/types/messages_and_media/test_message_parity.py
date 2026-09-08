@@ -25,9 +25,11 @@ only shows up as a caller wondering why the option has no effect.
 
 from __future__ import annotations as _annotations
 
+import ast
 import inspect
 import re
 import sys
+import textwrap
 from types import ModuleType
 from typing import Final, NamedTuple
 from collections.abc import Iterator
@@ -79,6 +81,21 @@ def deprecated_in(module: ModuleType) -> set[str]:
     return set(_DEPRECATED.findall(inspect.getsource(module)))
 
 
+# Read the call rather than the source text: `ruff format` joins a call that fits on one line,
+#  and a regex looking for `name=name` on a line of its own then reports the name as dropped.
+def forwarded_by(shortcut: Shortcut) -> set[str]:
+    """Every name the shortcut hands straight on, written `name=name` in a call it makes."""
+    source = textwrap.dedent(inspect.getsource(getattr(types.Message, shortcut.name)))
+
+    return {
+        keyword.arg
+        for node in ast.walk(ast.parse(source))
+        if isinstance(node, ast.Call)
+        for keyword in node.keywords
+        if isinstance(keyword.value, ast.Name) and keyword.arg == keyword.value.id
+    }
+
+
 def parameters_the_caller_must_supply(shortcut: Shortcut) -> list[str]:
     target = getattr(Client, shortcut.target_name)
     ignored: set[str] = filled_from_self(shortcut) | deprecated_in(sys.modules[target.__module__]) | {"self"}
@@ -111,14 +128,10 @@ def test_a_shortcut_accepts_everything_its_target_accepts(shortcut: Shortcut) ->
 def test_a_shortcut_forwards_everything_it_accepts(shortcut: Shortcut) -> None:
     # A parameter in the signature that the call never passes on is worse than a missing one:
     #  the caller gets no error and the option is dropped.
-    source = inspect.getsource(getattr(types.Message, shortcut.name))
     accepted = inspect.signature(getattr(types.Message, shortcut.name)).parameters
     wanted = set(parameters_the_caller_must_supply(shortcut))
+    forwarded = forwarded_by(shortcut)
 
-    dropped = [
-        name
-        for name in accepted
-        if name in wanted and not re.search(rf"^\s+{name}={name},?$", source, re.MULTILINE)
-    ]
+    dropped = [name for name in accepted if name in wanted and name not in forwarded]
 
     assert not dropped

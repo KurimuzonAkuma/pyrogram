@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import enums, raw, types
@@ -102,18 +103,18 @@ class InlineKeyboardButton(Object):
         self,
         text: str,
         icon_custom_emoji_id: str | None = None,
-        style: "enums.ButtonStyle" = enums.ButtonStyle.DEFAULT,
+        style: enums.ButtonStyle = enums.ButtonStyle.DEFAULT,
         url: str | None = None,
         callback_data: str | bytes | None = None,
         requires_password: bool | None = None,
-        web_app: "types.WebAppInfo | None" = None,
-        login_url: "types.LoginUrl | None" = None,
+        web_app: types.WebAppInfo | None = None,
+        login_url: types.LoginUrl | None = None,
         user_id: int | None = None,
         switch_inline_query: str | None = None,
         switch_inline_query_current_chat: str | None = None,
-        switch_inline_query_chosen_chat: "types.SwitchInlineQueryChosenChat | None" = None,
-        copy_text: "types.CopyTextButton | None" = None,
-        callback_game: "types.CallbackGame | None" = None,
+        switch_inline_query_chosen_chat: types.SwitchInlineQueryChosenChat | None = None,
+        copy_text: types.CopyTextButton | None = None,
+        callback_game: types.CallbackGame | None = None,
         pay: bool | None = None,
         disabled: bool | None = None,
     ):
@@ -137,7 +138,7 @@ class InlineKeyboardButton(Object):
         self.disabled = disabled
 
     @staticmethod
-    def read(button: "raw.base.KeyboardInlineButton"):
+    def read(button: raw.base.KeyboardInlineButton):
         button_text = button.text
         button_type = button.type
         button_style = enums.ButtonStyle.DEFAULT
@@ -259,7 +260,7 @@ class InlineKeyboardButton(Object):
                 icon_custom_emoji_id=icon_custom_emoji_id,
             )
 
-    async def write(self, client: "pyrogram.Client") -> "raw.types.KeyboardInlineButton":
+    async def write(self, client: pyrogram.Client) -> raw.types.KeyboardInlineButton:
         style = (
             raw.types.KeyboardButtonStyle(
                 bg_primary=self.style == enums.ButtonStyle.PRIMARY,

@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 
 import pyrogram
@@ -62,7 +64,7 @@ class AcceptedGiftTypes(Object):
         self.premium_subscription = premium_subscription
 
     @staticmethod
-    def _parse(disallowed_gifts: "raw.types.DisallowedGiftsSettings") -> "AcceptedGiftTypes | None":
+    def _parse(disallowed_gifts: raw.types.DisallowedGiftsSettings) -> AcceptedGiftTypes | None:
         if not disallowed_gifts:
             return None
 
@@ -74,7 +76,7 @@ class AcceptedGiftTypes(Object):
             premium_subscription=not disallowed_gifts.disallow_premium_gifts,
         )
 
-    def write(self) -> "raw.types.DisallowedGiftsSettings":
+    def write(self) -> raw.types.DisallowedGiftsSettings:
         return raw.types.DisallowedGiftsSettings(
             disallow_unlimited_stargifts=not self.unlimited_gifts,
             disallow_limited_stargifts=not self.limited_gifts,

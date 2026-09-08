@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import json
 import os
 import re
@@ -97,6 +99,9 @@ def camel(s: str):
 # noinspection PyShadowingBuiltins, PyShadowingNames
 def get_return_type_hint(qualtype: str) -> str:
     """Get return type hint for generic TLObject"""
+    # This goes in `class X(TLObject[...])`, a base-class subscript, not an annotation, so
+    #  the future import does not defer it: unquoted, `raw` is `TYPE_CHECKING`-only and it
+    #  raises `NameError: name 'raw' is not defined` at import time.
     if qualtype.startswith("Vector"):
         # Extract inner type from Vector<Type>
         inner = qualtype.split("<")[1][:-1]
@@ -144,9 +149,7 @@ def get_type_hint(type: str) -> str:
     ns, name = type.split(".") if "." in type else ("", type)
     qualname = "raw.base." + ".".join([ns, name]).strip(".")
 
-    # The quotes wrap the whole union, not the member: `"X" | None` raises
-    #  `TypeError: unsupported operand type(s) for |: 'str' and 'NoneType'`.
-    return f'"{qualname} | None" = None' if is_flag else f'"{qualname}"'
+    return f"{qualname} | None = None" if is_flag else qualname
 
 
 def sort_args(args):

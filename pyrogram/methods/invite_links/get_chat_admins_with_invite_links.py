@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types
@@ -23,9 +24,9 @@ from pyrogram import raw, types
 
 class GetChatAdminsWithInviteLinks:
     async def get_chat_admins_with_invite_links(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
-    ) -> list["types.ChatAdminWithInviteLinks"]:
+    ) -> list[types.ChatAdminWithInviteLinks]:
         """Get the list of the administrators that have exported invite links in a chat.
 
         You must be the owner of a chat for this to work.

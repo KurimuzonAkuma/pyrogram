@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -92,17 +93,17 @@ class Folder(Object):
     def __init__(
         self,
         *,
-        client: "pyrogram.Client | None" = None,
+        client: pyrogram.Client | None = None,
         id: int | None = None,
         name: str | None = None,
-        entities: list["types.MessageEntity"] | None = None,
+        entities: list[types.MessageEntity] | None = None,
         animate_custom_emoji: bool | None = None,
         icon: str | None = None,
-        color: "enums.FolderColor | None" = None,
+        color: enums.FolderColor | None = None,
         is_shareable: bool | None = None,
-        pinned_chats: list["types.Chat"] | None = None,
-        included_chats: list["types.Chat"] | None = None,
-        excluded_chats: list["types.Chat"] | None = None,
+        pinned_chats: list[types.Chat] | None = None,
+        included_chats: list[types.Chat] | None = None,
+        excluded_chats: list[types.Chat] | None = None,
         exclude_muted: bool | None = None,
         exclude_read: bool | None = None,
         exclude_archived: bool | None = None,
@@ -111,7 +112,7 @@ class Folder(Object):
         include_bots: bool | None = None,
         include_groups: bool | None = None,
         include_channels: bool | None = None,
-        raw: "raw.base.DialogFilter | None" = None
+        raw: raw.base.DialogFilter | None = None
     ):
         super().__init__(client)
 
@@ -136,7 +137,7 @@ class Folder(Object):
         self.raw = raw
 
     @staticmethod
-    async def _parse(client: "pyrogram.Client", folder: "raw.base.DialogFilter", users, chats) -> "Folder | None":
+    async def _parse(client: pyrogram.Client, folder: raw.base.DialogFilter, users, chats) -> Folder | None:
         if not folder:
             return
 
@@ -203,11 +204,11 @@ class Folder(Object):
     async def edit(
         self,
         name: str | None = None,
-        parse_mode: "enums.ParseMode | None" = None,
-        entities: list["types.MessageEntity"] | None = None,
+        parse_mode: enums.ParseMode | None = None,
+        entities: list[types.MessageEntity] | None = None,
         animate_custom_emoji: bool | None = None,
         icon: str | None = None,
-        color: "enums.FolderColor | None" = None,
+        color: enums.FolderColor | None = None,
         pinned_chats: list[int | str] | None = None,
         included_chats: list[int | str] | None = None,
         excluded_chats: list[int | str] | None = None,
@@ -450,7 +451,7 @@ class Folder(Object):
         )
 
 
-    async def update_color(self, color: "enums.FolderColor") -> bool:
+    async def update_color(self, color: enums.FolderColor) -> bool:
         """Bound method *update_color* of :obj:`~pyrogram.types.Folder`.
 
         Use as a shortcut for:
@@ -479,7 +480,13 @@ class Folder(Object):
             color=color
         )
 
-    async def create_invite_link(self, name: str | None = None, chat_ids: list[int | str] | None = None) -> "types.FolderInviteLink":
+    async def create_invite_link(self, name: (
+        str
+        | None
+    ) = None, chat_ids: (
+        list[int | str]
+        | None
+    ) = None) -> types.FolderInviteLink:
         """Bound method *create_invite_link* of :obj:`~pyrogram.types.Folder`.
 
         Use as a shortcut for:

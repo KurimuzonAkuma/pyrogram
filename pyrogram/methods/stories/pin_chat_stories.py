@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from collections.abc import Iterable
 
 import pyrogram
@@ -25,7 +27,7 @@ from pyrogram import types
 
 class PinChatStories:
     async def pin_chat_stories(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         stories_ids: int | Iterable[int]
     ) -> list[int]:

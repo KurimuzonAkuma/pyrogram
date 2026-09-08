@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import typing
 from datetime import datetime
 from enum import Enum
@@ -26,10 +28,10 @@ import pyrogram
 
 
 class Object:
-    def __init__(self, client: "pyrogram.Client | None" = None):
+    def __init__(self, client: pyrogram.Client | None = None):
         self._client = client
 
-    def bind(self, client: "pyrogram.Client"):
+    def bind(self, client: pyrogram.Client):
         """Bind a Client instance to this and to all nested Pyrogram objects.
 
         Parameters:
@@ -46,7 +48,7 @@ class Object:
                 o.bind(client)
 
     @staticmethod
-    def default(obj: "Object"):
+    def default(obj: Object):
         if isinstance(obj, bytes):
             return repr(obj)
 
@@ -93,7 +95,7 @@ class Object:
             )
         )
 
-    def __eq__(self, other: "Object") -> bool:
+    def __eq__(self, other: Object) -> bool:
         for attr in self.__dict__:
             try:
                 if attr.startswith("_"):

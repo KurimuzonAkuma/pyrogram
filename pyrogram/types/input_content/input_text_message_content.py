@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import logging
 
 import pyrogram
@@ -46,9 +48,9 @@ class InputTextMessageContent(InputMessageContent):
     def __init__(
         self,
         message_text: str,
-        parse_mode: "enums.ParseMode | None" = None,
-        entities: list["types.MessageEntity"] | None = None,
-        link_preview_options: "types.LinkPreviewOptions | None" = None,
+        parse_mode: enums.ParseMode | None = None,
+        entities: list[types.MessageEntity] | None = None,
+        link_preview_options: types.LinkPreviewOptions | None = None,
 
         disable_web_page_preview: bool | None = None
     ):
@@ -67,7 +69,7 @@ class InputTextMessageContent(InputMessageContent):
 
         self.disable_web_page_preview = disable_web_page_preview
 
-    async def write(self, client: "pyrogram.Client", reply_markup):
+    async def write(self, client: pyrogram.Client, reply_markup):
         message, entities = (await utils.parse_text_entities(
             client, self.message_text, self.parse_mode, self.entities
         )).values()

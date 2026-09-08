@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -23,13 +24,13 @@ from pyrogram import raw, types, utils
 
 class PinChatMessage:
     async def pin_chat_message(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         message_id: int,
         disable_notification: bool = False,
         both_sides: bool = False,
         business_connection_id: str | None = None,
-    ) -> "types.Message | None":
+    ) -> types.Message | None:
         """Pin a message in a group, channel or your own chat.
         You must be an administrator in the chat for this to work and must have the "can_pin_messages" admin right in
         the supergroup or "can_edit_messages" admin right in the channel.

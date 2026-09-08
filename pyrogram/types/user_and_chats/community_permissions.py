@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 from pyrogram import raw
 
@@ -40,7 +41,7 @@ class CommunityPermissions(Object):
         self.can_edit_chat_list = can_edit_chat_list
 
     @staticmethod
-    def _parse(denied_permissions: "raw.base.ChatBannedRights") -> "CommunityPermissions":
+    def _parse(denied_permissions: raw.base.ChatBannedRights) -> CommunityPermissions:
         if isinstance(denied_permissions, raw.types.ChatBannedRights):
             return CommunityPermissions(
                 can_edit_chat_list=not denied_permissions.manage_linked_peers,

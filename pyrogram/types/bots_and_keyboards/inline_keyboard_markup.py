@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types
@@ -37,7 +38,7 @@ class InlineKeyboardMarkup(Object):
 
     def __init__(
         self,
-        inline_keyboard: list[list["types.InlineKeyboardButton"]],
+        inline_keyboard: list[list[types.InlineKeyboardButton]],
         force_reply: bool | None = None,
     ):
         super().__init__()
@@ -46,7 +47,7 @@ class InlineKeyboardMarkup(Object):
         self.force_reply = force_reply
 
     @staticmethod
-    def read(reply_markup: "raw.types.ReplyInlineMarkup"):
+    def read(reply_markup: raw.types.ReplyInlineMarkup):
         return InlineKeyboardMarkup(
             inline_keyboard=[
                 [types.InlineKeyboardButton.read(j) for j in i.buttons] for i in reply_markup.rows
@@ -54,7 +55,7 @@ class InlineKeyboardMarkup(Object):
             force_reply=reply_markup.force_reply,
         )
 
-    async def write(self, client: "pyrogram.Client"):
+    async def write(self, client: pyrogram.Client):
         rows = []
 
         for r in self.inline_keyboard:

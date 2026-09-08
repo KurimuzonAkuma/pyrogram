@@ -16,19 +16,20 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
 
 class EditStoryCaption:
     async def edit_story_caption(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         story_id: int,
         caption: str,
-        parse_mode: "enums.ParseMode | None" = None,
-        caption_entities: list["types.MessageEntity"] | None = None,
-    ) -> "types.Story":
+        parse_mode: enums.ParseMode | None = None,
+        caption_entities: list[types.MessageEntity] | None = None,
+    ) -> types.Story:
         """Edit the caption of story.
 
         .. include:: /_includes/usable-by/users.rst

@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 from pyrogram import types, raw
 from ..object import Object
@@ -41,7 +42,7 @@ class BusinessIntro(Object):
         *,
         title: str | None = None,
         text: str | None = None,
-        sticker: "types.Sticker | None" = None
+        sticker: types.Sticker | None = None
     ):
         super().__init__()
 
@@ -53,8 +54,8 @@ class BusinessIntro(Object):
     @staticmethod
     async def _parse(
         client,
-        business_intro: "raw.types.BusinessIntro"
-    ) -> "BusinessIntro":
+        business_intro: raw.types.BusinessIntro
+    ) -> BusinessIntro:
         if not business_intro:
             return None
         

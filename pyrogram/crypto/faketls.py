@@ -26,6 +26,8 @@ one entry at a time so the two stay comparable.
 https://github.com/tdlib/td/blob/d1085f9cebc5a62379991ae1652673954f229c1f/td/mtproto/TlsInit.cpp
 """
 
+from __future__ import annotations as _annotations
+
 import hashlib
 import hmac
 import secrets
@@ -101,7 +103,7 @@ class _Op:
     data: bytes = b""
     length: int = 0
     seed: int = 0
-    parts: tuple[tuple["_Op", ...], ...] = ()
+    parts: tuple[tuple[_Op, ...], ...] = ()
 
 
 def _string(data: bytes) -> _Op:

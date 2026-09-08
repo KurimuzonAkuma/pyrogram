@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 
 import pyrogram
@@ -84,17 +86,24 @@ class GiftAttribute(Object):
     def __init__(
         self,
         *,
-        client: "pyrogram.Client | None" = None,
-        type: "enums.GiftAttributeType",
+        client: pyrogram.Client | None = None,
+        type: enums.GiftAttributeType,
         name: str | None = None,
         backdrop_id: int | None = None,
-        rarity: "types.UpgradedGiftAttributeRarityPerMille | types.UpgradedGiftAttributeRarityUncommon | types.UpgradedGiftAttributeRarityRare | types.UpgradedGiftAttributeRarityEpic | types.UpgradedGiftAttributeRarityLegendary | None" = None,
+        rarity: (
+            types.UpgradedGiftAttributeRarityPerMille
+            | types.UpgradedGiftAttributeRarityUncommon
+            | types.UpgradedGiftAttributeRarityRare
+            | types.UpgradedGiftAttributeRarityEpic
+            | types.UpgradedGiftAttributeRarityLegendary
+            | None
+        ) = None,
         date: datetime | None = None,
         caption: str | None = None,
-        caption_entities: list["types.MessageEntity"] | None = None,
-        from_user: "types.User | None" = None,
-        to_user: "types.User | None" = None,
-        sticker: "types.Sticker | None" = None,
+        caption_entities: list[types.MessageEntity] | None = None,
+        from_user: types.User | None = None,
+        to_user: types.User | None = None,
+        sticker: types.Sticker | None = None,
         center_color: int | None = None,
         edge_color: int | None = None,
         pattern_color: int | None = None,
@@ -120,10 +129,10 @@ class GiftAttribute(Object):
     @staticmethod
     async def _parse(
         client,
-        attr: "raw.base.StarGiftAttribute",
-        users: dict[int, "raw.base.User"],
-        chats: dict[int, "raw.base.Chat"],
-    ) -> "GiftAttribute":
+        attr: raw.base.StarGiftAttribute,
+        users: dict[int, raw.base.User],
+        chats: dict[int, raw.base.Chat],
+    ) -> GiftAttribute:
         caption = None
         caption_entities = None
         sticker = None

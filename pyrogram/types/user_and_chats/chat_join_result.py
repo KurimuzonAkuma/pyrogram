@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import pyrogram
 from pyrogram import raw, types
 
@@ -38,9 +40,9 @@ class ChatJoinResult(Object):
 
     @staticmethod
     async def _parse(
-        client: "pyrogram.Client",
-        result: "raw.base.messages.ChatInviteJoinResult"
-    ) -> "ChatJoinResult":
+        client: pyrogram.Client,
+        result: raw.base.messages.ChatInviteJoinResult
+    ) -> ChatJoinResult:
         if isinstance(result, raw.types.messages.ChatInviteJoinResultOk):
             return ChatJoinResultSuccess(
                 chat=await types.Chat._parse_chat(client, result.updates.chats[0])
@@ -66,7 +68,7 @@ class ChatJoinResultSuccess(ChatJoinResult):
     def __init__(
         self,
         *,
-        chat: "types.Chat",
+        chat: types.Chat,
     ):
         super().__init__()
 
@@ -98,7 +100,7 @@ class ChatJoinResultGuardBotApprovalRequired(ChatJoinResult):
     def __init__(
         self,
         *,
-        bot: "types.User",
+        bot: types.User,
         url: str,
         query_id: str
     ):

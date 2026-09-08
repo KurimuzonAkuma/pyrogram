@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import logging
 
 import pyrogram
@@ -27,9 +29,9 @@ log = logging.getLogger(__name__)
 
 class RecoverPassword:
     async def recover_password(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         recovery_code: str
-    ) -> "types.User":
+    ) -> types.User:
         """Recover your password with a recovery code and log in.
 
         .. include:: /_includes/usable-by/users.rst

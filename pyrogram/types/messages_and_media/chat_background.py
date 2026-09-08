@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types
@@ -86,7 +87,7 @@ class ChatBackground(Object):
         self,
         *,
         id: int,
-        document: "types.Document | None" = None,
+        document: types.Document | None = None,
         is_creator: bool | None = None,
         is_default: bool | None = None,
         is_pattern: bool | None = None,
@@ -102,7 +103,7 @@ class ChatBackground(Object):
         intensity: int | None = None,
         rotation_angle: int | None = None,
         emoji: str | None = None,
-        raw: "raw.base.WallPaper | None" = None
+        raw: raw.base.WallPaper | None = None
     ):
         super().__init__()
 
@@ -127,11 +128,11 @@ class ChatBackground(Object):
 
     @staticmethod
     def _parse(
-        client: "pyrogram.Client",
-        background: "raw.base.WallPaper",
+        client: pyrogram.Client,
+        background: raw.base.WallPaper,
         is_same: bool | None = None,
         only_for_self: bool | None = None
-    ) -> "ChatBackground | None":
+    ) -> ChatBackground | None:
         if not background:
             return None
 

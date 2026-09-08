@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-
+from __future__ import annotations as _annotations
 
 import pytest
 
@@ -27,17 +27,17 @@ from pyrogram.methods.users.get_users import GetUsers
 class Answerer(GetUsers):
     """A client that answers `users.GetUsers` with a fixed vector and resolves any peer."""
 
-    def __init__(self, answer: list["raw.base.User"]) -> None:
+    def __init__(self, answer: list[raw.base.User]) -> None:
         self.answer = answer
 
-    async def resolve_peer(self, peer_id: int | str) -> "raw.types.InputUser":
+    async def resolve_peer(self, peer_id: int | str) -> raw.types.InputUser:
         return raw.types.InputUser(user_id=1, access_hash=0)
 
-    async def invoke(self, query: "raw.core.TLObject") -> list["raw.base.User"]:
+    async def invoke(self, query: raw.core.TLObject) -> list[raw.base.User]:
         return self.answer
 
 
-def a_user(user_id: int) -> "raw.types.User":
+def a_user(user_id: int) -> raw.types.User:
     # `usernames` and `restriction_reason` are `flags.N?Vector<...>`, and the generated `read()`
     #  gives an absent vector back as `[]`. `User._parse()` iterates both without guarding, so a
     #  hand-built `raw.types.User` has to spell out what the wire implies.

@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import logging
 
 import pyrogram
@@ -26,7 +28,7 @@ log = logging.getLogger(__name__)
 
 class SendRecoveryCode:
     async def send_recovery_code(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
     ) -> str:
         """Send a code to your email to recover your password.
 

@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import logging
 from datetime import datetime
 
@@ -27,35 +29,41 @@ log = logging.getLogger(__name__)
 
 class SendMessage:
     async def send_message(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         text: str,
-        parse_mode: "enums.ParseMode | None" = None,
-        entities: list["types.MessageEntity"] | None = None,
-        link_preview_options: "types.LinkPreviewOptions | None" = None,
+        parse_mode: enums.ParseMode | None = None,
+        entities: list[types.MessageEntity] | None = None,
+        link_preview_options: types.LinkPreviewOptions | None = None,
         disable_notification: bool | None = None,
         message_thread_id: int | None = None,
         direct_messages_topic_id: int | None = None,
-        ephemeral_message_parameters: "types.EphemeralMessageParameters | None" = None,
+        ephemeral_message_parameters: types.EphemeralMessageParameters | None = None,
         effect_id: int | None = None,
-        reply_parameters: "types.ReplyParameters | None" = None,
+        reply_parameters: types.ReplyParameters | None = None,
         schedule_date: datetime | None = None,
         repeat_period: int | None = None,
         protect_content: bool | None = None,
         business_connection_id: str | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
-        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
+        suggested_post_parameters: types.SuggestedPostParameters | None = None,
+        reply_markup: (
+            types.InlineKeyboardMarkup
+            | types.ReplyKeyboardMarkup
+            | types.ReplyKeyboardRemove
+            | types.ForceReply
+            | None
+        ) = None,
         show_caption_above_media: bool | None = None,
         reply_to_message_id: int | None = None,
         reply_to_chat_id: int | str | None = None,
         reply_to_story_id: int | None = None,
         quote_text: str | None = None,
-        quote_entities: list["types.MessageEntity"] | None = None,
+        quote_entities: list[types.MessageEntity] | None = None,
         quote_offset: int | None = None,
         disable_web_page_preview: bool | None = None,  # TODO: Remove later
-    ) -> "types.Message | None":
+    ) -> types.Message | None:
         """Send text messages.
 
         .. include:: /_includes/usable-by/users-bots.rst

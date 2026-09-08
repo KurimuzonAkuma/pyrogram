@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types
@@ -23,9 +24,9 @@ from pyrogram import raw, types
 
 class SetContactNote:
     async def set_contact_note(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         user_id: int | str,
-        note: "str | types.FormattedText | None" = None,
+        note: str | types.FormattedText | None = None,
     ) -> bool:
         """Changes a note of a contact user.
 

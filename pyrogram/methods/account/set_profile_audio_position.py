@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, utils
@@ -24,7 +25,7 @@ from pyrogram.file_id import FileType
 
 class SetProfileAudioPosition:
     async def set_profile_audio_position(
-        self: "pyrogram.Client", file_id: str, after_file_id: str | None = None
+        self: pyrogram.Client, file_id: str, after_file_id: str | None = None
     ) -> bool:
         """Changes position of an audio file in the profile audio files of the current user.
 

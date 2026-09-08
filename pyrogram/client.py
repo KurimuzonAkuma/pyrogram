@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import asyncio
 import functools
 import inspect
@@ -324,7 +326,7 @@ class Client(Methods):
         workers: int = WORKERS,
         workdir: str | Path = WORKDIR,
         plugins: dict | None = None,
-        parse_mode: "enums.ParseMode" = enums.ParseMode.DEFAULT,
+        parse_mode: enums.ParseMode = enums.ParseMode.DEFAULT,
         no_updates: bool | None = None,
         skip_updates: bool = True,
         takeout: bool | None = None,
@@ -334,13 +336,13 @@ class Client(Methods):
         max_message_cache_size: int = MAX_MESSAGE_CACHE_SIZE,
         max_topic_cache_size: int = MAX_TOPIC_CACHE_SIZE,
         storage_engine: Storage | None = None,
-        client_platform: "enums.ClientPlatform" = enums.ClientPlatform.OTHER,
+        client_platform: enums.ClientPlatform = enums.ClientPlatform.OTHER,
         link_preview_options: LinkPreviewOptions | None = None,
         fetch_replies: bool = True,
         fetch_topics: bool = True,
         fetch_stories: bool = True,
         fetch_stickers: bool = True,
-        init_connection_params: "dict | raw.base.JSONValue | None" = None,
+        init_connection_params: dict | raw.base.JSONValue | None = None,
         connection_factory: type[Connection] = Connection,
         protocol_factory: type[TCP] = TCPAbridged,
         loop: asyncio.AbstractEventLoop | None = None
@@ -668,7 +670,7 @@ class Client(Methods):
 
         return signed_up
 
-    async def authorize_qr(self, except_ids: list[int] = []) -> "User":
+    async def authorize_qr(self, except_ids: list[int] = []) -> User:
         from qrcode import QRCode  # ty: ignore[unresolved-import] - optional, not a project dependency
 
         qr_login = QRLogin(self, except_ids)
@@ -741,7 +743,7 @@ class Client(Methods):
             else:
                 break
 
-    def set_parse_mode(self, parse_mode: "enums.ParseMode | None"):
+    def set_parse_mode(self, parse_mode: enums.ParseMode | None):
         """Set the parse mode to be used globally by the client.
 
         When setting the parse mode with this method, all other methods having a *parse_mode* parameter will follow the
@@ -779,7 +781,7 @@ class Client(Methods):
 
         self.parse_mode = parse_mode
 
-    async def fetch_peers(self, peers: "list[raw.base.User | raw.base.Chat]") -> bool:
+    async def fetch_peers(self, peers: list[raw.base.User | raw.base.Chat]) -> bool:
         is_min = False
         parsed_peers = []
         parsed_usernames = []
@@ -1393,7 +1395,7 @@ class Client(Methods):
         server_address: str | None = None,
         port: int | None = None,
         temporary: bool = False
-    ) -> "Session":
+    ) -> Session:
         """Get existing session or create a new one.
 
         Parameters:
@@ -1516,7 +1518,7 @@ class Client(Methods):
         is_media: bool = False,
         is_cdn: bool = False,
         ipv6: bool = False
-    ) -> "raw.types.DcOption":
+    ) -> raw.types.DcOption:
         self.__config = await self.invoke(raw.functions.help.GetConfig())
 
         if dc_id is None:
@@ -1612,7 +1614,7 @@ class Client(Methods):
         self._server_time_offset = server_ts - time.time()
         log.info(f"Time synced: offset={self._server_time_offset:.3f}s, server_time={utils.timestamp_to_datetime(server_ts)}")
 
-    async def get_message_split_ranges(self) -> list["raw.base.MessageRange"]:
+    async def get_message_split_ranges(self) -> list[raw.base.MessageRange]:
         if self.message_split_ranges is None:
             self.message_split_ranges = await self.invoke(raw.functions.messages.GetSplitRanges())
         return self.message_split_ranges

@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 
 import pyrogram
@@ -99,27 +101,27 @@ class Poll(Object, Update):
     def __init__(
         self,
         *,
-        client: "pyrogram.Client | None" = None,
+        client: pyrogram.Client | None = None,
         id: str,
-        question: "types.FormattedText | None" = None,
-        options: list["types.PollOption"],
+        question: types.FormattedText | None = None,
+        options: list[types.PollOption],
         total_voter_count: int | None = None,
         is_closed: bool,
         is_anonymous: bool | None = None,
-        type: "enums.PollType | None" = None,
+        type: enums.PollType | None = None,
         allows_multiple_answers: bool | None = None,
         allows_revoting: bool | None = None,
         members_only: bool | None = None,
         country_codes: list[str] | None = None,
         chosen_option_ids: list[int] | None = None,
         correct_option_ids: list[int] | None = None,
-        explanation: "types.FormattedText | None" = None,
-        explanation_media: "types.MessageContent | None" = None,
+        explanation: types.FormattedText | None = None,
+        explanation_media: types.MessageContent | None = None,
         open_period: int | None = None,
         close_date: datetime | None = None,
-        description: "types.FormattedText | None" = None,
-        description_media: "types.MessageContent | None" = None,
-        voter: "types.User | None" = None,
+        description: types.FormattedText | None = None,
+        description_media: types.MessageContent | None = None,
+        voter: types.User | None = None,
     ):
         super().__init__(client)
 
@@ -147,11 +149,11 @@ class Poll(Object, Update):
     @staticmethod
     async def _parse(
         client,
-        media_poll: "raw.types.MessageMediaPoll | raw.types.UpdateMessagePoll",
-        description: "types.FormattedText | None" = None,
-        users: dict[int, "raw.types.User"] = {},
-        chats: dict[int, "raw.types.Chat"] = {},
-    ) -> "Poll":
+        media_poll: raw.types.MessageMediaPoll | raw.types.UpdateMessagePoll,
+        description: types.FormattedText | None = None,
+        users: dict[int, raw.types.User] = {},
+        chats: dict[int, raw.types.Chat] = {},
+    ) -> Poll:
         poll: raw.types.Poll = media_poll.poll
         poll_results: raw.types.PollResults = media_poll.results
         results: list[raw.types.PollAnswerVoters] = poll_results.results
@@ -260,10 +262,10 @@ class Poll(Object, Update):
     @staticmethod
     async def _parse_update(
         client,
-        update: "raw.types.UpdateMessagePoll | raw.types.UpdateMessagePollVote",
-        users: dict[int, "raw.types.User"] = {},
-        chats: dict[int, "raw.types.Chat"] = {},
-    ) -> "Poll":
+        update: raw.types.UpdateMessagePoll | raw.types.UpdateMessagePollVote,
+        users: dict[int, raw.types.User] = {},
+        chats: dict[int, raw.types.Chat] = {},
+    ) -> Poll:
         if isinstance(update, raw.types.UpdateMessagePoll):
             if update.poll is not None:
                 return await Poll._parse(client, update, users=users, chats=chats)

@@ -22,6 +22,8 @@ Sphinx does not fail on a target it cannot resolve: it renders the text as a pla
 and carries on, so a dead reference looks almost right and nothing reports it.
 """
 
+from __future__ import annotations as _annotations
+
 import ast
 import pathlib
 import re

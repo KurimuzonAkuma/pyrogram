@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 from pyrogram import raw
 
@@ -75,6 +76,6 @@ class LoginUrl(Object):
         self.button_id = button_id
 
     @staticmethod
-    def read(b: "raw.types.InlineButtonTypeUrlAuth") -> "LoginUrl":
+    def read(b: raw.types.InlineButtonTypeUrlAuth) -> LoginUrl:
         return LoginUrl(url=b.url, forward_text=b.fwd_text, button_id=b.button_id)
 

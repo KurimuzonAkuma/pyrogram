@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import errors, raw, types, utils
@@ -23,12 +24,12 @@ from pyrogram import errors, raw, types, utils
 
 class TransferGift:
     async def transfer_gift(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         owned_gift_id: str,
         new_owner_chat_id: int | str,
         # stars_count: int = None,
         business_connection_id: str | None = None
-    ) -> "types.Message | None":
+    ) -> types.Message | None:
         """Transfers an owned unique gift to another user.
 
         .. note::

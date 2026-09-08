@@ -34,6 +34,8 @@ Skipped unless the environment carries a proxy to run against. Fill in
     make test-integration
 """
 
+from __future__ import annotations as _annotations
+
 from typing import Final
 
 from pyrogram import Client

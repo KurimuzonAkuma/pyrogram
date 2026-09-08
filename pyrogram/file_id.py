@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import base64
 import logging
 import struct
@@ -266,7 +268,7 @@ def read_photo_tail(buffer: BytesIO, *, thumbnail_source: ThumbnailSource) -> Ph
     raise ValueError(msg)
 
 
-def write_photo_tail(file_id: "FileId") -> bytes:
+def write_photo_tail(file_id: FileId) -> bytes:
     """The counterpart of `read_photo_tail()`: same layout per source, same order."""
     if file_id.thumbnail_source == ThumbnailSource.LEGACY:
         return struct.pack("<q", file_id.secret)

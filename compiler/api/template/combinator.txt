@@ -1,5 +1,7 @@
 {notice}
 
+from __future__ import annotations as _annotations
+
 from io import BytesIO
 from typing import TYPE_CHECKING, Any
 
@@ -25,7 +27,7 @@ class {name}(TLObject{generic_type}):
         {fields}
 
     @staticmethod
-    def read(b: BytesIO, *args: Any) -> "{name}":
+    def read(b: BytesIO, *args: Any) -> {name}:
         {read_types}
         return {name}({return_arguments})
 

@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import html
 import re
 import urllib.parse
@@ -65,7 +67,7 @@ FIXED_WIDTH_DELIMS = [CODE_DELIM, PRE_DELIM]
 
 class Markdown:
     # TODO: Full refactor
-    def __init__(self, client: "pyrogram.Client | None"):
+    def __init__(self, client: pyrogram.Client | None):
         self.html = HTML(client)
 
     @staticmethod
@@ -246,7 +248,7 @@ class Markdown:
         return await self.html.parse(text)
 
     @staticmethod
-    def unparse(text: str, entities: list["types.MessageEntity"]):
+    def unparse(text: str, entities: list[types.MessageEntity]):
         text = utils.add_surrogates(text)
 
         entities_offsets = []

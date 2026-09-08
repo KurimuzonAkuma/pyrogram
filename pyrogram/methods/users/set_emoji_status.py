@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types
@@ -23,9 +24,9 @@ from pyrogram import raw, types
 
 class SetEmojiStatus:
     async def set_emoji_status(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str | None = None,
-        emoji_status: "types.EmojiStatus | None" = None
+        emoji_status: types.EmojiStatus | None = None
     ) -> bool:
         """Set the emoji status.
 

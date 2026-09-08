@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from pyrogram import raw
 
 from ..object import Object
@@ -66,8 +68,8 @@ class ShippingAddress(Object):
 
     @staticmethod
     def _parse(
-        shipping_address: "raw.types.PostAddress",
-    ) -> "ShippingAddress | None":
+        shipping_address: raw.types.PostAddress,
+    ) -> ShippingAddress | None:
         if not shipping_address:
             return None
 

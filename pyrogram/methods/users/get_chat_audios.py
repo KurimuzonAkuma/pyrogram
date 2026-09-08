@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from collections.abc import AsyncGenerator
 
 import pyrogram
@@ -24,10 +26,10 @@ from pyrogram import raw, types
 
 class GetChatAudios:
     async def get_chat_audios(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         limit: int = 0,
-    ) -> AsyncGenerator["types.Audio", None]:
+    ) -> AsyncGenerator[types.Audio, None]:
         """Get a user profile audios sequentially.
 
         .. include:: /_includes/usable-by/users.rst

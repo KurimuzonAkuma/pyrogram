@@ -16,15 +16,17 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import pyrogram
 from pyrogram import raw, types
 
 
 class GetFolderInviteLinks:
     async def get_folder_invite_links(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_folder_id: int
-    ) -> list["types.FolderInviteLink"]:
+    ) -> list[types.FolderInviteLink]:
         """Returns invite links created by the current user for a shareable chat folder.
 
         .. include:: /_includes/usable-by/users.rst

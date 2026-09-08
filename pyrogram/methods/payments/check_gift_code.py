@@ -15,6 +15,9 @@
 #
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
+
+from __future__ import annotations as _annotations
+
 import re
 
 import pyrogram
@@ -23,9 +26,9 @@ from pyrogram import raw, types
 
 class CheckGiftCode:
     async def check_gift_code(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         link: str,
-    ) -> "types.CheckedGiftCode":
+    ) -> types.CheckedGiftCode:
         """Get information about a gift code.
 
         .. include:: /_includes/usable-by/users.rst

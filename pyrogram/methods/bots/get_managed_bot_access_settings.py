@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types
@@ -23,9 +24,9 @@ from pyrogram import raw, types
 
 class GetManagedBotAccessSettings:
     async def get_managed_bot_access_settings(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         user_id: int | str,
-    ) -> "types.BotAccessSettings":
+    ) -> types.BotAccessSettings:
         """Use this method to get the access settings of a managed bot.
 
         .. include:: /_includes/usable-by/users-bots.rst

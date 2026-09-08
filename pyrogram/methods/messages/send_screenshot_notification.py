@@ -16,16 +16,17 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types, utils
 
 class SendScreenshotNotification:
     async def send_screenshot_notification(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
-        reply_parameters: "types.ReplyParameters | None" = None
-    ) -> "types.Message | None":
+        reply_parameters: types.ReplyParameters | None = None
+    ) -> types.Message | None:
         """Notify the other user in a private chat that a screenshot of the chat was taken.
 
         .. include:: /_includes/usable-by/users.rst

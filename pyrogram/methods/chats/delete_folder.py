@@ -16,13 +16,15 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import pyrogram
 from pyrogram import raw
 
 
 class DeleteFolder:
     async def delete_folder(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         folder_id: int
     ) -> bool:
         """Delete a user's folder.

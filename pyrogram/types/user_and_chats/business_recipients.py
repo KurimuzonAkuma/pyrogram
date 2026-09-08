@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 from pyrogram import types, raw
 from ..object import Object
@@ -64,9 +65,9 @@ class BusinessRecipients(Object):
     @staticmethod
     async def _parse(
         client,
-        recipients: "raw.types.BusinessRecipients",
+        recipients: raw.types.BusinessRecipients,
         users: dict | None = None
-    ) -> "BusinessRecipients":
+    ) -> BusinessRecipients:
         return BusinessRecipients(
             existing_chats=getattr(recipients, "existing_chats", None),
             new_chats=getattr(recipients, "new_chats", None),

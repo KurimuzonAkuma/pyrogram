@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 from typing import BinaryIO
 from collections.abc import Callable
@@ -144,21 +146,21 @@ class Story(Object, Update):
     def __init__(
         self,
         *,
-        client: "pyrogram.Client | None" = None,
+        client: pyrogram.Client | None = None,
         id: int,
-        from_user: "types.User | None" = None,
-        sender_chat: "types.Chat | None" = None,
+        from_user: types.User | None = None,
+        sender_chat: types.Chat | None = None,
         date: datetime | None = None,
-        chat: "types.Chat | None" = None,
-        forward_from: "types.User | None" = None,
+        chat: types.Chat | None = None,
+        forward_from: types.User | None = None,
         forward_sender_name: str | None = None,
-        forward_from_chat: "types.Chat | None" = None,
+        forward_from_chat: types.Chat | None = None,
         forward_from_story_id: int | None = None,
         expire_date: datetime | None = None,
-        media: "enums.MessageMediaType | None" = None,
+        media: enums.MessageMediaType | None = None,
         has_protected_content: bool | None = None,
-        photo: "types.Photo | None" = None,
-        video: "types.Video | None" = None,
+        photo: types.Photo | None = None,
+        video: types.Video | None = None,
         edited: bool | None = None,
         pinned: bool | None = None,
         public: bool | None = None,
@@ -166,19 +168,19 @@ class Story(Object, Update):
         contacts: bool | None = None,
         selected_contacts: bool | None = None,
         caption: str | None = None,
-        caption_entities: list["types.MessageEntity"] | None = None,
+        caption_entities: list[types.MessageEntity] | None = None,
         views: int | None = None,
         forwards: int | None = None,
         outgoing: bool | None = None,
-        privacy: "enums.StoriesPrivacyRules | None" = None,
+        privacy: enums.StoriesPrivacyRules | None = None,
         allowed_users: list[int | str] | None = None,
         disallowed_users: list[int | str] | None = None,
-        reactions: list["types.Reaction"] | None = None,
+        reactions: list[types.Reaction] | None = None,
         reactions_count: int | None = None,
         skipped: bool | None = None,
         deleted: bool | None = None,
-        media_areas: list["types.MediaArea"] | None = None,
-        raw: "raw.types.StoryItem | None" = None
+        media_areas: list[types.MediaArea] | None = None,
+        raw: raw.types.StoryItem | None = None
     ):
         super().__init__(client)
 
@@ -219,12 +221,12 @@ class Story(Object, Update):
 
     @staticmethod
     async def _parse(
-        client: "pyrogram.Client",
-        story: "raw.types.StoryItem",
-        peer: "raw.base.Peer",
-        users: dict[int, "raw.base.User"],
-        chats: dict[int, "raw.base.Chat"],
-    ) -> "Story":
+        client: pyrogram.Client,
+        story: raw.types.StoryItem,
+        peer: raw.base.Peer,
+        users: dict[int, raw.base.User],
+        chats: dict[int, raw.base.Chat],
+    ) -> Story:
         if isinstance(peer, raw.types.InputPeerSelf):
             if client.me:
                 peer_id = client.me.id
@@ -443,18 +445,24 @@ class Story(Object, Update):
     async def reply_text(
         self,
         text: str,
-        parse_mode: "enums.ParseMode | None" = None,
-        entities: list["types.MessageEntity"] | None = None,
-        link_preview_options: "types.LinkPreviewOptions | None" = None,
+        parse_mode: enums.ParseMode | None = None,
+        entities: list[types.MessageEntity] | None = None,
+        link_preview_options: types.LinkPreviewOptions | None = None,
         disable_notification: bool | None = None,
         schedule_date: datetime | None = None,
         repeat_period: int | None = None,
         protect_content: bool | None = None,
         paid_message_star_count: int | None = None,
-        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
+        reply_markup: (
+            types.InlineKeyboardMarkup
+            | types.ReplyKeyboardMarkup
+            | types.ReplyKeyboardRemove
+            | types.ForceReply
+            | None
+        ) = None,
 
         disable_web_page_preview: bool | None = None,
-    ) -> "types.Message | None":
+    ) -> types.Message | None:
         """Bound method *reply_text* of :obj:`~pyrogram.types.Story`.
 
         An alias exists as *reply*.
@@ -541,8 +549,8 @@ class Story(Object, Update):
         self,
         animation: str | BinaryIO,
         caption: str = "",
-        parse_mode: "enums.ParseMode | None" = None,
-        caption_entities: list["types.MessageEntity"] | None = None,
+        parse_mode: enums.ParseMode | None = None,
+        caption_entities: list[types.MessageEntity] | None = None,
         has_spoiler: bool | None = None,
         duration: int = 0,
         width: int = 0,
@@ -553,10 +561,16 @@ class Story(Object, Update):
         schedule_date: datetime | None = None,
         repeat_period: int | None = None,
         paid_message_star_count: int | None = None,
-        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
+        reply_markup: (
+            types.InlineKeyboardMarkup
+            | types.ReplyKeyboardMarkup
+            | types.ReplyKeyboardRemove
+            | types.ForceReply
+            | None
+        ) = None,
         progress: Callable | None = None,
         progress_args: tuple = ()
-    ) -> "types.Message | None":
+    ) -> types.Message | None:
         """Bound method *reply_animation* :obj:`~pyrogram.types.Story`.
 
         Use as a shortcut for:
@@ -691,8 +705,8 @@ class Story(Object, Update):
         self,
         audio: str | BinaryIO,
         caption: str = "",
-        parse_mode: "enums.ParseMode | None" = None,
-        caption_entities: list["types.MessageEntity"] | None = None,
+        parse_mode: enums.ParseMode | None = None,
+        caption_entities: list[types.MessageEntity] | None = None,
         duration: int = 0,
         performer: str | None = None,
         title: str | None = None,
@@ -702,10 +716,16 @@ class Story(Object, Update):
         schedule_date: datetime | None = None,
         repeat_period: int | None = None,
         paid_message_star_count: int | None = None,
-        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
+        reply_markup: (
+            types.InlineKeyboardMarkup
+            | types.ReplyKeyboardMarkup
+            | types.ReplyKeyboardRemove
+            | types.ForceReply
+            | None
+        ) = None,
         progress: Callable | None = None,
         progress_args: tuple = ()
-    ) -> "types.Message | None":
+    ) -> types.Message | None:
         """Bound method *reply_audio* of :obj:`~pyrogram.types.Story`.
 
         Use as a shortcut for:
@@ -836,12 +856,18 @@ class Story(Object, Update):
         self,
         file_id: str,
         caption: str = "",
-        parse_mode: "enums.ParseMode | None" = None,
-        caption_entities: list["types.MessageEntity"] | None = None,
+        parse_mode: enums.ParseMode | None = None,
+        caption_entities: list[types.MessageEntity] | None = None,
         disable_notification: bool | None = None,
         paid_message_star_count: int | None = None,
-        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None
-    ) -> "types.Message | None":
+        reply_markup: (
+            types.InlineKeyboardMarkup
+            | types.ReplyKeyboardMarkup
+            | types.ReplyKeyboardRemove
+            | types.ForceReply
+            | None
+        ) = None
+    ) -> types.Message | None:
         """Bound method *reply_cached_media* of :obj:`~pyrogram.types.Story`.
 
         Use as a shortcut for:
@@ -912,10 +938,10 @@ class Story(Object, Update):
 
     async def reply_media_group(
         self,
-        media: "list[types.InputMediaPhoto | types.InputMediaVideo | types.InputMediaAudio | types.InputMediaDocument]",
+        media: list[types.InputMediaPhoto | types.InputMediaVideo | types.InputMediaAudio | types.InputMediaDocument],
         paid_message_star_count: int | None = None,
         disable_notification: bool | None = None,
-    ) -> list["types.Message"]:
+    ) -> list[types.Message]:
         """Bound method *reply_media_group* of :obj:`~pyrogram.types.Story`.
 
         Use as a shortcut for:
@@ -970,8 +996,8 @@ class Story(Object, Update):
         self,
         photo: str | BinaryIO,
         caption: str = "",
-        parse_mode: "enums.ParseMode | None" = None,
-        caption_entities: list["types.MessageEntity"] | None = None,
+        parse_mode: enums.ParseMode | None = None,
+        caption_entities: list[types.MessageEntity] | None = None,
         has_spoiler: bool | None = None,
         ttl_seconds: int | None = None,
         view_once: bool | None = None,
@@ -979,10 +1005,16 @@ class Story(Object, Update):
         schedule_date: datetime | None = None,
         repeat_period: int | None = None,
         paid_message_star_count: int | None = None,
-        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
+        reply_markup: (
+            types.InlineKeyboardMarkup
+            | types.ReplyKeyboardMarkup
+            | types.ReplyKeyboardRemove
+            | types.ForceReply
+            | None
+        ) = None,
         progress: Callable | None = None,
         progress_args: tuple = ()
-    ) -> "types.Message | None":
+    ) -> types.Message | None:
         """Bound method *reply_photo* of :obj:`~pyrogram.types.Story`.
 
         Use as a shortcut for:
@@ -1107,10 +1139,16 @@ class Story(Object, Update):
         paid_message_star_count: int | None = None,
         schedule_date: datetime | None = None,
         repeat_period: int | None = None,
-        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
+        reply_markup: (
+            types.InlineKeyboardMarkup
+            | types.ReplyKeyboardMarkup
+            | types.ReplyKeyboardRemove
+            | types.ForceReply
+            | None
+        ) = None,
         progress: Callable | None = None,
         progress_args: tuple = ()
-    ) -> "types.Message | None":
+    ) -> types.Message | None:
         """Bound method *reply_sticker* of :obj:`~pyrogram.types.Story`.
 
         Use as a shortcut for:
@@ -1204,8 +1242,8 @@ class Story(Object, Update):
         self,
         video: str | BinaryIO,
         caption: str = "",
-        parse_mode: "enums.ParseMode | None" = None,
-        caption_entities: list["types.MessageEntity"] | None = None,
+        parse_mode: enums.ParseMode | None = None,
+        caption_entities: list[types.MessageEntity] | None = None,
         has_spoiler: bool | None = None,
         ttl_seconds: int | None = None,
         view_once: bool | None = None,
@@ -1222,10 +1260,16 @@ class Story(Object, Update):
         repeat_period: int | None = None,
         no_sound: bool | None = None,
         paid_message_star_count: int | None = None,
-        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
+        reply_markup: (
+            types.InlineKeyboardMarkup
+            | types.ReplyKeyboardMarkup
+            | types.ReplyKeyboardRemove
+            | types.ForceReply
+            | None
+        ) = None,
         progress: Callable | None = None,
         progress_args: tuple = ()
-    ) -> "types.Message | None":
+    ) -> types.Message | None:
         """Bound method *reply_video* of :obj:`~pyrogram.types.Story`.
 
         Use as a shortcut for:
@@ -1399,10 +1443,16 @@ class Story(Object, Update):
         repeat_period: int | None = None,
         view_once: bool | None = None,
         paid_message_star_count: int | None = None,
-        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
+        reply_markup: (
+            types.InlineKeyboardMarkup
+            | types.ReplyKeyboardMarkup
+            | types.ReplyKeyboardRemove
+            | types.ForceReply
+            | None
+        ) = None,
         progress: Callable | None = None,
         progress_args: tuple = ()
-    ) -> "types.Message | None":
+    ) -> types.Message | None:
         """Bound method *reply_video_note* of :obj:`~pyrogram.types.Story`.
 
         Use as a shortcut for:
@@ -1516,18 +1566,24 @@ class Story(Object, Update):
         self,
         voice: str | BinaryIO,
         caption: str = "",
-        parse_mode: "enums.ParseMode | None" = None,
-        caption_entities: list["types.MessageEntity"] | None = None,
+        parse_mode: enums.ParseMode | None = None,
+        caption_entities: list[types.MessageEntity] | None = None,
         duration: int = 0,
         disable_notification: bool | None = None,
         schedule_date: datetime | None = None,
         repeat_period: int | None = None,
         view_once: bool | None = None,
         paid_message_star_count: int | None = None,
-        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
+        reply_markup: (
+            types.InlineKeyboardMarkup
+            | types.ReplyKeyboardMarkup
+            | types.ReplyKeyboardRemove
+            | types.ForceReply
+            | None
+        ) = None,
         progress: Callable | None = None,
         progress_args: tuple = ()
-    ) -> "types.Message | None":
+    ) -> types.Message | None:
         """Bound method *reply_voice* of :obj:`~pyrogram.types.Story`.
 
         Use as a shortcut for:
@@ -1643,15 +1699,15 @@ class Story(Object, Update):
         self,
         chat_id: int | str,
         caption: str | None = None,
-        parse_mode: "enums.ParseMode | None" = None,
-        caption_entities: list["types.MessageEntity"] | None = None,
+        parse_mode: enums.ParseMode | None = None,
+        caption_entities: list[types.MessageEntity] | None = None,
         period: int | None = None,
-        media_areas: list["types.MediaArea"] | None = None,
-        privacy: "enums.StoriesPrivacyRules | None" = None,
+        media_areas: list[types.MediaArea] | None = None,
+        privacy: enums.StoriesPrivacyRules | None = None,
         allowed_users: list[int] | None = None,
         disallowed_users: list[int] | None = None,
         protect_content: bool | None = None
-    ) -> "types.Story | None":
+    ) -> types.Story | None:
         """Bound method *copy* of :obj:`~pyrogram.types.Story`.
 
         Use as a shortcut for:
@@ -1766,7 +1822,7 @@ class Story(Object, Update):
     async def edit_media(
         self,
         media: str | BinaryIO | None = None,
-    ) -> "types.Story | None":
+    ) -> types.Story | None:
         """Bound method *edit_media* of :obj:`~pyrogram.types.Story`.
 
         Use as a shortcut for:
@@ -1808,9 +1864,9 @@ class Story(Object, Update):
     async def edit_caption(
         self,
         caption: str,
-        parse_mode: "enums.ParseMode | None" = None,
-        caption_entities: list["types.MessageEntity"] | None = None
-    ) -> "types.Story":
+        parse_mode: enums.ParseMode | None = None,
+        caption_entities: list[types.MessageEntity] | None = None
+    ) -> types.Story:
         """Bound method *edit_caption* of :obj:`~pyrogram.types.Story`.
 
         Use as a shortcut for:
@@ -1854,10 +1910,10 @@ class Story(Object, Update):
 
     async def edit_privacy(
         self,
-        privacy: "enums.StoriesPrivacyRules" = enums.StoriesPrivacyRules.PUBLIC,
+        privacy: enums.StoriesPrivacyRules = enums.StoriesPrivacyRules.PUBLIC,
         allowed_users: list[int | str] | None = None,
         disallowed_users: list[int | str] | None = None,
-    ) -> "types.Story":
+    ) -> types.Story:
         """Bound method *edit_privacy* of :obj:`~pyrogram.types.Story`.
 
         Use as a shortcut for:
@@ -1946,7 +2002,7 @@ class Story(Object, Update):
         schedule_date: datetime | None = None,
         repeat_period: int | None = None,
         paid_message_star_count: int | None = None,
-    ) -> "types.Message | None":
+    ) -> types.Message | None:
         """Bound method *forward* of :obj:`~pyrogram.types.Story`.
 
         Use as a shortcut for:

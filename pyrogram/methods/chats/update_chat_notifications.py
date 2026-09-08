@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 
 import pyrogram
@@ -24,7 +26,7 @@ from pyrogram import raw, utils
 
 class UpdateChatNotifications:
     async def update_chat_notifications(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         mute: bool | None = None,
         mute_until: datetime | None = None,

@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from ..object import Object
 
 
@@ -41,7 +43,7 @@ class GiftPurchaseLimit(Object):
         self.remaining_count = remaining_count
 
     @staticmethod
-    def _parse(total: int, remains: int) -> "GiftPurchaseLimit | None":
+    def _parse(total: int, remains: int) -> GiftPurchaseLimit | None:
         if total is None or total <= 0:
             return None
 

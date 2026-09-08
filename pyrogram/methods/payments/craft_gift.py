@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types
@@ -24,9 +25,9 @@ from pyrogram import utils
 
 class CraftGift:
     async def craft_gift(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         owned_gift_ids: list[str]
-    ) -> "types.CraftGiftResult":
+    ) -> types.CraftGiftResult:
         """Crafts a new gift from other gifts that will be permanently lost.
 
         .. include:: /_includes/usable-by/users.rst

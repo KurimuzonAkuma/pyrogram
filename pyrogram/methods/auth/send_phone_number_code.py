@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import logging
 import re
 
@@ -28,10 +30,10 @@ log = logging.getLogger(__name__)
 
 class SendPhoneNumberCode:
     async def send_phone_number_code(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         phone_number: str,
-        settings: "types.PhoneNumberAuthenticationSettings | None" = None,
-        type: "enums.PhoneNumberCodeType" = enums.PhoneNumberCodeType.AUTHENTICATION,
+        settings: types.PhoneNumberAuthenticationSettings | None = None,
+        type: enums.PhoneNumberCodeType = enums.PhoneNumberCodeType.AUTHENTICATION,
         recaptcha_token: str | None = None,
         # Deprecated params
         current_number: bool | None = None,
@@ -42,7 +44,7 @@ class SendPhoneNumberCode:
         logout_tokens: list[bytes] | None = None,
         token: str | None = None,
         app_sandbox: bool | None = None,
-    ) -> "types.SentCode":
+    ) -> types.SentCode:
         """Sends a code to the specified phone number. Aborts previous phone number verification if there was one.
 
         .. include:: /_includes/usable-by/users.rst

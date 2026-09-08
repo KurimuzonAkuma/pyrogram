@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw
@@ -24,9 +25,9 @@ from pyrogram import types
 
 class ImportContacts:
     async def import_contacts(
-        self: "pyrogram.Client",
-        contacts: list["types.InputPhoneContact"]
-    ) -> "raw.base.contacts.ImportedContacts":
+        self: pyrogram.Client,
+        contacts: list[types.InputPhoneContact]
+    ) -> raw.base.contacts.ImportedContacts:
         """Import contacts to your Telegram address book.
 
         .. include:: /_includes/usable-by/users.rst

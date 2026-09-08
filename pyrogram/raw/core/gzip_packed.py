@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from gzip import compress, decompress
 from io import BytesIO
 from typing import cast, Any
@@ -36,7 +38,7 @@ class GzipPacked(TLObject):
         self.packed_data = packed_data
 
     @staticmethod
-    def read(data: BytesIO, *args: Any) -> "GzipPacked":
+    def read(data: BytesIO, *args: Any) -> GzipPacked:
         # Return the Object itself instead of a GzipPacked wrapping it
         return cast(GzipPacked, TLObject.read(
             BytesIO(

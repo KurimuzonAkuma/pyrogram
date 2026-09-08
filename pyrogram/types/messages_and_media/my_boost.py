@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 
 import pyrogram
@@ -48,7 +50,7 @@ class MyBoost(Object):
         self,
         *,
         slot: int,
-        chat: "types.Chat",
+        chat: types.Chat,
         date: datetime,
         expire_date: datetime,
         cooldown_until_date: datetime
@@ -62,7 +64,7 @@ class MyBoost(Object):
         self.cooldown_until_date = cooldown_until_date
 
     @staticmethod
-    async def _parse(client: "pyrogram.Client", my_boost: "raw.types.MyBoost", users, chats) -> "MyBoost":
+    async def _parse(client: pyrogram.Client, my_boost: raw.types.MyBoost, users, chats) -> MyBoost:
         peer_id = utils.get_raw_peer_id(my_boost.peer)
 
         if isinstance(my_boost.peer, raw.types.PeerChannel):

@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import asyncio
 import base64
 import hashlib
@@ -670,12 +672,12 @@ class WebProxyCarrier:
         # `None` is what `recv()` hands its caller as end-of-stream.
         self._recv_queue.put_nowait(None)
 
-    def _track(self, task: "asyncio.Task") -> None:
+    def _track(self, task: asyncio.Task) -> None:
         self._background_tasks.add(task)
         task.add_done_callback(self._background_tasks.discard)
         task.add_done_callback(self._log_task_exception)
 
-    def _log_task_exception(self, task: "asyncio.Task") -> None:
+    def _log_task_exception(self, task: asyncio.Task) -> None:
         # Nothing awaits a tracked task, so asyncio would print its traceback at
         #  collection. Retrieving it here silences that, which makes this the
         #  only report the failure gets - so the level has to say whether
@@ -697,10 +699,10 @@ class WebProxyCarrier:
 
         log.debug("WEB proxy: background task failed: %s", exception)
 
-    def _track_task(self, coroutine: "Coroutine[None, None, None]") -> None:
+    def _track_task(self, coroutine: Coroutine[None, None, None]) -> None:
         self._track(self._loop.create_task(coroutine))
 
-    async def _cancel_tracked(self, task: "asyncio.Task") -> None:
+    async def _cancel_tracked(self, task: asyncio.Task) -> None:
         task.cancel()
         try:
             await task

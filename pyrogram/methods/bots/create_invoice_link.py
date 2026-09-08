@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types
@@ -23,12 +24,12 @@ from pyrogram import raw, types
 
 class CreateInvoiceLink:
     async def create_invoice_link(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         title: str,
         description: str,
         payload: str | bytes,
         currency: str,
-        prices: list["types.LabeledPrice"],
+        prices: list[types.LabeledPrice],
         provider_token: str | None = None,
         subscription_period: int | None = None,
         max_tip_amount: int | None = None,

@@ -16,13 +16,15 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import pyrogram
 from pyrogram import enums, raw
 
 
 class SendChatJoinRequestWebApp:
     async def send_chat_join_request_web_app(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_join_request_query_id: str,
         web_app_url: str,
     ) -> bool:

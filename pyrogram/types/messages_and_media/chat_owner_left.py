@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types
@@ -31,17 +32,17 @@ class ChatOwnerLeft(Object):
             The user which will be the new owner of the chat if the previous owner does not return to the chat.
     """
 
-    def __init__(self, *, new_owner: "types.User | None" = None):
+    def __init__(self, *, new_owner: types.User | None = None):
         super().__init__()
 
         self.new_owner = new_owner
 
     @staticmethod
     async def _parse(
-        client: "pyrogram.Client",
-        action: "raw.types.MessageActionNewCreatorPending",
-        users: dict[int, "types.User"],
-    ) -> "ChatOwnerLeft":
+        client: pyrogram.Client,
+        action: raw.types.MessageActionNewCreatorPending,
+        users: dict[int, types.User],
+    ) -> ChatOwnerLeft:
         if isinstance(action, raw.types.MessageActionNewCreatorPending):
             return ChatOwnerLeft(
                 new_owner=await types.User._parse(client, users.get(action.new_creator_id))

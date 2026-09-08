@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import math
 from collections.abc import AsyncGenerator
 
@@ -26,8 +28,8 @@ from pyrogram.file_id import FileId
 
 class StreamMedia:
     async def stream_media(
-        self: "pyrogram.Client",
-        message: "types.Message | str",
+        self: pyrogram.Client,
+        message: types.Message | str,
         limit: int = 0,
         offset: int = 0
     ) -> AsyncGenerator[bytes, None]:

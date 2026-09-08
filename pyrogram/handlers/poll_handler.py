@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from typing import TYPE_CHECKING, Any
 from collections.abc import Callable
 
@@ -51,5 +53,5 @@ class PollHandler(Handler):
             The received poll.
     """
 
-    def __init__(self, callback: Callable[["pyrogram.Client", "types.Poll"], Any], filters=None):
+    def __init__(self, callback: Callable[[pyrogram.Client, types.Poll], Any], filters=None):
         super().__init__(callback, filters)

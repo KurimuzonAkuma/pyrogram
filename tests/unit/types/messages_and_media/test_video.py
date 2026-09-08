@@ -16,10 +16,12 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from pyrogram import types
 
 
-def _video() -> "types.Video":
+def _video() -> types.Video:
     return types.Video(
         file_id="file-id",
         file_unique_id="file-unique-id",

@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 
 from pyrogram import raw, utils
@@ -39,5 +41,5 @@ class VideoChatScheduled(Object):
         self.start_date = start_date
 
     @staticmethod
-    def _parse(action: "raw.types.MessageActionGroupCallScheduled") -> "VideoChatScheduled":
+    def _parse(action: raw.types.MessageActionGroupCallScheduled) -> VideoChatScheduled:
         return VideoChatScheduled(start_date=utils.timestamp_to_datetime(action.schedule_date))

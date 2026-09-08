@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -23,11 +24,11 @@ from pyrogram import raw, types, utils
 
 class RemoveCollectionGifts:
     async def remove_collection_gifts(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         owner_id: int | str,
         collection_id: int,
         gift_ids: list[str]
-    ) -> "types.GiftCollection":
+    ) -> types.GiftCollection:
         """Removes gifts from a collection.
 
         .. include:: /_includes/usable-by/users.rst

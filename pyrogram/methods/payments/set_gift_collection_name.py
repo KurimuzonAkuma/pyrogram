@@ -16,17 +16,19 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import pyrogram
 from pyrogram import raw, types
 
 
 class SetGiftCollectionName:
     async def set_gift_collection_name(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         owner_id: int | str,
         collection_id: int,
         name: str
-    ) -> "types.GiftCollection":
+    ) -> types.GiftCollection:
         """Changes name of a gift collection.
 
         .. include:: /_includes/usable-by/users.rst

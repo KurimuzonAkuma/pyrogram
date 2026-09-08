@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import asyncio
 import time
 
@@ -26,7 +28,7 @@ from pyrogram.raw.types import HttpWait, MsgsAck
 
 
 class MsgFactory:
-    def __init__(self, client: "pyrogram.Client"):
+    def __init__(self, client: pyrogram.Client):
         self.client = client
 
         self._last_msg_id = 0

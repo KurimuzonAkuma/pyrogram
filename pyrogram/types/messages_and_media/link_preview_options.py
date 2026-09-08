@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 from pyrogram import raw
 
@@ -65,10 +66,10 @@ class LinkPreviewOptions(Object):
 
     @staticmethod
     def _parse(
-        media: "raw.types.MessageMediaWebPage",
+        media: raw.types.MessageMediaWebPage,
         url: str | None = None,
         invert_media: bool | None = None
-    ) -> "LinkPreviewOptions | None":
+    ) -> LinkPreviewOptions | None:
         if isinstance(media, raw.types.MessageMediaWebPage) and not isinstance(media.webpage, raw.types.WebPageNotModified):
             return LinkPreviewOptions(
                 is_disabled=False,

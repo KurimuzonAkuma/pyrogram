@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import asyncio
 import io
 import os
@@ -34,10 +36,10 @@ class EditInlineMedia:
     MAX_RETRIES = 3
 
     async def edit_inline_media(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         inline_message_id: str,
-        media: "types.InputMedia",
-        reply_markup: "types.InlineKeyboardMarkup | None" = None
+        media: types.InputMedia,
+        reply_markup: types.InlineKeyboardMarkup | None = None
     ) -> bool:
         """Edit inline animation, audio, document, photo or video messages, or to add media to text messages.
 

@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from pyrogram import raw
 
 from ..object import Object
@@ -44,7 +46,7 @@ class LabeledPrice(Object):
         self.amount = amount
 
     @staticmethod
-    def _parse(labeled_price: "raw.types.LabeledPrice") -> "LabeledPrice":
+    def _parse(labeled_price: raw.types.LabeledPrice) -> LabeledPrice:
         if isinstance(labeled_price, raw.types.LabeledPrice):
             return LabeledPrice(
                 label=labeled_price.label,

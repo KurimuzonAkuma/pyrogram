@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types
@@ -23,13 +24,13 @@ from pyrogram import raw, types
 
 class CreateSupergroup:
     async def create_supergroup(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         title: str,
         description: str = "",
         is_forum: bool | None = None,
         message_auto_delete_time: int | None = None,
         for_import: bool | None = None
-    ) -> "types.Chat":
+    ) -> types.Chat:
         """Create a new supergroup.
 
         .. note::

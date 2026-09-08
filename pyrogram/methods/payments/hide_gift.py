@@ -16,13 +16,15 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import pyrogram
 from pyrogram import raw, utils
 
 
 class HideGift:
     async def hide_gift(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         owned_gift_id: str
     ) -> bool:
         """Hide gift on the current user's or the channel's profile page.

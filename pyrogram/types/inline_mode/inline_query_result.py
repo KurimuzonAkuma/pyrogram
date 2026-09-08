@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from uuid import uuid4
 
 import pyrogram
@@ -49,8 +51,8 @@ class InlineQueryResult(Object):
         self,
         type: str,
         id: str,
-        input_message_content: "types.InputMessageContent",
-        reply_markup: "types.InlineKeyboardMarkup"
+        input_message_content: types.InputMessageContent,
+        reply_markup: types.InlineKeyboardMarkup
     ):
         super().__init__()
 
@@ -59,5 +61,5 @@ class InlineQueryResult(Object):
         self.input_message_content = input_message_content
         self.reply_markup = reply_markup
 
-    async def write(self, client: "pyrogram.Client"):
+    async def write(self, client: pyrogram.Client):
         pass

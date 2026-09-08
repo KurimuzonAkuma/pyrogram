@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 
 import pyrogram
@@ -81,7 +83,7 @@ class Video(Object):
     def __init__(
         self,
         *,
-        client: "pyrogram.Client | None" = None,
+        client: pyrogram.Client | None = None,
         file_id: str,
         file_unique_id: str,
         width: int,
@@ -94,10 +96,10 @@ class Video(Object):
         supports_streaming: bool | None = None,
         ttl_seconds: int | None = None,
         date: datetime | None = None,
-        thumbs: list["types.Thumbnail"] | None = None,
-        video_cover: "types.Photo | None" = None,
+        thumbs: list[types.Thumbnail] | None = None,
+        video_cover: types.Photo | None = None,
         video_start_timestamp: int | None = None,
-        alternative_videos: list["types.Video"] | None = None
+        alternative_videos: list[types.Video] | None = None
     ):
         super().__init__(client)
 
@@ -121,14 +123,14 @@ class Video(Object):
     @staticmethod
     def _parse(
         client,
-        video: "raw.types.Document",
-        video_attributes: "raw.types.DocumentAttributeVideo",
+        video: raw.types.Document,
+        video_attributes: raw.types.DocumentAttributeVideo,
         file_name: str | None = None,
         ttl_seconds: int | None = None,
         video_cover = None,
         video_start_timestamp: int | None = None,
-        alternative_videos: list["raw.types.Document"] = []
-    ) -> "Video":
+        alternative_videos: list[raw.types.Document] = []
+    ) -> Video:
         _alt_videos = types.List()
 
         for alt_doc in alternative_videos:

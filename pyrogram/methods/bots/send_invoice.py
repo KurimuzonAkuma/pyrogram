@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import logging
 
 import pyrogram
@@ -26,13 +28,13 @@ log = logging.getLogger(__name__)
 
 class SendInvoice:
     async def send_invoice(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         title: str,
         description: str,
         payload: str | bytes,
         currency: str,
-        prices: list["types.LabeledPrice"],
+        prices: list[types.LabeledPrice],
         message_thread_id: int | None = None,
         provider_token: str | None = None,
         max_tip_amount: int | None = None,
@@ -53,18 +55,24 @@ class SendInvoice:
         disable_notification: bool | None = None,
         protect_content: bool | None = None,
         message_effect_id: int | None = None,
-        reply_parameters: "types.ReplyParameters | None" = None,
+        reply_parameters: types.ReplyParameters | None = None,
         allow_paid_broadcast: bool | None = None,
         direct_messages_topic_id: int | None = None,
-        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        suggested_post_parameters: types.SuggestedPostParameters | None = None,
         subscription_expiration_date: int | None = None,
-        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
+        reply_markup: (
+            types.InlineKeyboardMarkup
+            | types.ReplyKeyboardMarkup
+            | types.ReplyKeyboardRemove
+            | types.ForceReply
+            | None
+        ) = None,
         caption: str = "",
-        parse_mode: "enums.ParseMode | None" = None,
-        caption_entities: list["types.MessageEntity"] | None = None,
+        parse_mode: enums.ParseMode | None = None,
+        caption_entities: list[types.MessageEntity] | None = None,
 
         reply_to_message_id: int | None = None,
-    ) -> "types.Message | None":
+    ) -> types.Message | None:
         """Use this method to send invoices.
 
         .. include:: /_includes/usable-by/bots.rst

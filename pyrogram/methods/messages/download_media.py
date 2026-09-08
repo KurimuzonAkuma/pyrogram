@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import os
 from datetime import datetime
 from typing import BinaryIO, Literal, overload
@@ -31,8 +33,24 @@ DEFAULT_DOWNLOAD_DIR = "downloads/"
 class DownloadMedia:
     @overload
     async def download_media(
-        self: "pyrogram.Client",
-        message: "str | types.Message | types.Story | types.Audio | types.Document | types.Photo | types.Sticker | types.Animation | types.Video | types.Voice | types.VideoNote | types.PaidMediaInfo | types.Thumbnail | types.StrippedThumbnail | types.PaidMediaPreview",
+        self: pyrogram.Client,
+        message: (
+            str
+            | types.Message
+            | types.Story
+            | types.Audio
+            | types.Document
+            | types.Photo
+            | types.Sticker
+            | types.Animation
+            | types.Video
+            | types.Voice
+            | types.VideoNote
+            | types.PaidMediaInfo
+            | types.Thumbnail
+            | types.StrippedThumbnail
+            | types.PaidMediaPreview
+        ),
         file_name: str = DEFAULT_DOWNLOAD_DIR,
         in_memory: Literal[False] = False,
         block: Literal[True] = True,
@@ -42,8 +60,24 @@ class DownloadMedia:
 
     @overload
     async def download_media(
-        self: "pyrogram.Client",
-        message: "str | types.Message | types.Story | types.Audio | types.Document | types.Photo | types.Sticker | types.Animation | types.Video | types.Voice | types.VideoNote | types.PaidMediaInfo | types.Thumbnail | types.StrippedThumbnail | types.PaidMediaPreview",
+        self: pyrogram.Client,
+        message: (
+            str
+            | types.Message
+            | types.Story
+            | types.Audio
+            | types.Document
+            | types.Photo
+            | types.Sticker
+            | types.Animation
+            | types.Video
+            | types.Voice
+            | types.VideoNote
+            | types.PaidMediaInfo
+            | types.Thumbnail
+            | types.StrippedThumbnail
+            | types.PaidMediaPreview
+        ),
         file_name: str = DEFAULT_DOWNLOAD_DIR,
         in_memory: Literal[True] = True,
         block: Literal[True] = True,
@@ -53,8 +87,24 @@ class DownloadMedia:
 
     @overload
     async def download_media(
-        self: "pyrogram.Client",
-        message: "str | types.Message | types.Story | types.Audio | types.Document | types.Photo | types.Sticker | types.Animation | types.Video | types.Voice | types.VideoNote | types.PaidMediaInfo | types.Thumbnail | types.StrippedThumbnail | types.PaidMediaPreview",
+        self: pyrogram.Client,
+        message: (
+            str
+            | types.Message
+            | types.Story
+            | types.Audio
+            | types.Document
+            | types.Photo
+            | types.Sticker
+            | types.Animation
+            | types.Video
+            | types.Voice
+            | types.VideoNote
+            | types.PaidMediaInfo
+            | types.Thumbnail
+            | types.StrippedThumbnail
+            | types.PaidMediaPreview
+        ),
         file_name: str = DEFAULT_DOWNLOAD_DIR,
         *,
         in_memory: bool = False,
@@ -65,8 +115,24 @@ class DownloadMedia:
 
     @overload
     async def download_media(
-        self: "pyrogram.Client",
-        message: "str | types.Message | types.Story | types.Audio | types.Document | types.Photo | types.Sticker | types.Animation | types.Video | types.Voice | types.VideoNote | types.PaidMediaInfo | types.Thumbnail | types.StrippedThumbnail | types.PaidMediaPreview",
+        self: pyrogram.Client,
+        message: (
+            str
+            | types.Message
+            | types.Story
+            | types.Audio
+            | types.Document
+            | types.Photo
+            | types.Sticker
+            | types.Animation
+            | types.Video
+            | types.Voice
+            | types.VideoNote
+            | types.PaidMediaInfo
+            | types.Thumbnail
+            | types.StrippedThumbnail
+            | types.PaidMediaPreview
+        ),
         file_name: str,
         in_memory: bool,
         block: Literal[False],
@@ -76,8 +142,24 @@ class DownloadMedia:
 
     @overload
     async def download_media(
-        self: "pyrogram.Client",
-        message: "str | types.Message | types.Story | types.Audio | types.Document | types.Photo | types.Sticker | types.Animation | types.Video | types.Voice | types.VideoNote | types.PaidMediaInfo | types.Thumbnail | types.StrippedThumbnail | types.PaidMediaPreview",
+        self: pyrogram.Client,
+        message: (
+            str
+            | types.Message
+            | types.Story
+            | types.Audio
+            | types.Document
+            | types.Photo
+            | types.Sticker
+            | types.Animation
+            | types.Video
+            | types.Voice
+            | types.VideoNote
+            | types.PaidMediaInfo
+            | types.Thumbnail
+            | types.StrippedThumbnail
+            | types.PaidMediaPreview
+        ),
         file_name: str = DEFAULT_DOWNLOAD_DIR,
         in_memory: bool = False,
         block: bool = True,
@@ -86,8 +168,24 @@ class DownloadMedia:
     ) -> str | BinaryIO | list[str] | list[BinaryIO] | None: ...
 
     async def download_media(
-        self: "pyrogram.Client",
-        message: "str | types.Message | types.Story | types.Audio | types.Document | types.Photo | types.Sticker | types.Animation | types.Video | types.Voice | types.VideoNote | types.PaidMediaInfo | types.Thumbnail | types.StrippedThumbnail | types.PaidMediaPreview",
+        self: pyrogram.Client,
+        message: (
+            str
+            | types.Message
+            | types.Story
+            | types.Audio
+            | types.Document
+            | types.Photo
+            | types.Sticker
+            | types.Animation
+            | types.Video
+            | types.Voice
+            | types.VideoNote
+            | types.PaidMediaInfo
+            | types.Thumbnail
+            | types.StrippedThumbnail
+            | types.PaidMediaPreview
+        ),
         file_name: str = DEFAULT_DOWNLOAD_DIR,
         in_memory: bool = False,
         block: bool = True,

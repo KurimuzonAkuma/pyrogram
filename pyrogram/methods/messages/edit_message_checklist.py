@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -23,13 +24,13 @@ from pyrogram import raw, types, utils
 
 class EditMessageChecklist:
     async def edit_message_checklist(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         message_id: int,
-        checklist: "types.InputChecklist",
+        checklist: types.InputChecklist,
         business_connection_id: str | None = None,
-        reply_markup: "types.InlineKeyboardMarkup | None" = None,
-    ) -> "types.Message":
+        reply_markup: types.InlineKeyboardMarkup | None = None,
+    ) -> types.Message:
         """Use this method to edit a checklist.
 
         .. include:: /_includes/usable-by/users-bots.rst

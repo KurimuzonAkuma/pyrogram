@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import logging
 from re import Match
 
@@ -72,11 +74,11 @@ class CallbackQuery(Object, Update):
     def __init__(
         self,
         *,
-        client: "pyrogram.Client | None" = None,
+        client: pyrogram.Client | None = None,
         id: str,
-        from_user: "types.User",
+        from_user: types.User,
         chat_instance: str | None = None,
-        message: "types.Message | None" = None,
+        message: types.Message | None = None,
         inline_message_id: str | None = None,
         data: str | bytes | None = None,
         game_short_name: str | None = None,
@@ -94,11 +96,11 @@ class CallbackQuery(Object, Update):
         self.matches = matches
 
     @property
-    def chat(self) -> "types.Chat | None":
+    def chat(self) -> types.Chat | None:
         return self.message.chat if self.message else None
 
     @staticmethod
-    async def _parse(client: "pyrogram.Client", callback_query, users, chats) -> "CallbackQuery":
+    async def _parse(client: pyrogram.Client, callback_query, users, chats) -> CallbackQuery:
         message = None
         inline_message_id = None
 
@@ -167,7 +169,16 @@ class CallbackQuery(Object, Update):
             client=client
         )
 
-    async def answer(self, text: str | None = None, show_alert: bool | None = None, url: str | None = None, cache_time: int = 0):
+    async def answer(self, text: (
+        str
+        | None
+    ) = None, show_alert: (
+        bool
+        | None
+    ) = None, url: (
+        str
+        | None
+    ) = None, cache_time: int = 0):
         """Bound method *answer* of :obj:`~pyrogram.types.CallbackQuery`.
 
         Use this method as a shortcut for:
@@ -214,12 +225,12 @@ class CallbackQuery(Object, Update):
     async def edit_message_text(
         self,
         text: str | None = None,
-        parse_mode: "enums.ParseMode | None" = None,
-        link_preview_options: "types.LinkPreviewOptions | None" = None,
-        rich_message: "types.InputRichMessage | None" = None,
-        reply_markup: "types.InlineKeyboardMarkup | None" = None,
+        parse_mode: enums.ParseMode | None = None,
+        link_preview_options: types.LinkPreviewOptions | None = None,
+        rich_message: types.InputRichMessage | None = None,
+        reply_markup: types.InlineKeyboardMarkup | None = None,
         disable_web_page_preview: bool | None = None,
-    ) -> "types.Message | bool":
+    ) -> types.Message | bool:
         """Edit the text of messages attached to callback queries.
 
         Bound method *edit_message_text* of :obj:`~pyrogram.types.CallbackQuery`.
@@ -279,9 +290,9 @@ class CallbackQuery(Object, Update):
     async def edit_message_caption(
         self,
         caption: str,
-        parse_mode: "enums.ParseMode | None" = None,
-        reply_markup: "types.InlineKeyboardMarkup | None" = None
-    ) -> "types.Message | bool":
+        parse_mode: enums.ParseMode | None = None,
+        reply_markup: types.InlineKeyboardMarkup | None = None
+    ) -> types.Message | bool:
         """Edit the caption of media messages attached to callback queries.
 
         Bound method *edit_message_caption* of :obj:`~pyrogram.types.CallbackQuery`.
@@ -308,9 +319,9 @@ class CallbackQuery(Object, Update):
 
     async def edit_message_media(
         self,
-        media: "types.InputMedia",
-        reply_markup: "types.InlineKeyboardMarkup | None" = None
-    ) -> "types.Message | bool":
+        media: types.InputMedia,
+        reply_markup: types.InlineKeyboardMarkup | None = None
+    ) -> types.Message | bool:
         """Edit animation, audio, document, photo or video messages attached to callback queries.
 
         Bound method *edit_message_media* of :obj:`~pyrogram.types.CallbackQuery`.
@@ -345,8 +356,8 @@ class CallbackQuery(Object, Update):
 
     async def edit_message_reply_markup(
         self,
-        reply_markup: "types.InlineKeyboardMarkup | None" = None
-    ) -> "types.Message | bool":
+        reply_markup: types.InlineKeyboardMarkup | None = None
+    ) -> types.Message | bool:
         """Edit only the reply markup of messages attached to callback queries.
 
         Bound method *edit_message_reply_markup* of :obj:`~pyrogram.types.CallbackQuery`.

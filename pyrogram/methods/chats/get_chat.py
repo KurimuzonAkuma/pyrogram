@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw
@@ -25,10 +26,10 @@ from pyrogram import utils
 
 class GetChat:
     async def get_chat(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         force_full: bool = True
-    ) -> "types.Chat | None":
+    ) -> types.Chat | None:
         """Get up to date information about a chat.
 
         Information include current name of the user for one-on-one conversations, current username of a user, group or

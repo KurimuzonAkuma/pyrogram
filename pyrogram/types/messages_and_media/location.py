@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 from pyrogram import raw
 
@@ -70,7 +71,7 @@ class Location(Object):
         self.proximity_alert_radius = proximity_alert_radius
 
     @staticmethod
-    def _parse(geo_point: "raw.types.GeoPoint") -> "Location | None":
+    def _parse(geo_point: raw.types.GeoPoint) -> Location | None:
         if isinstance(geo_point, raw.types.GeoPoint):
             return Location(
                 longitude=geo_point.long,
@@ -79,7 +80,7 @@ class Location(Object):
             )
 
     @staticmethod
-    def _parse_business(location: "raw.types.BusinessLocation") -> "Location":
+    def _parse_business(location: raw.types.BusinessLocation) -> Location:
         if isinstance(location, raw.types.BusinessLocation):
             longitude = None
             latitude = None
@@ -98,7 +99,7 @@ class Location(Object):
             )
 
     @staticmethod
-    def _parse_media(media: "raw.types.MessageMediaGeoLive") -> "Location | None":
+    def _parse_media(media: raw.types.MessageMediaGeoLive) -> Location | None:
         if isinstance(media, raw.types.MessageMediaGeoLive):
             parsed_location = Location._parse(media.geo)
 
@@ -108,7 +109,7 @@ class Location(Object):
 
             return parsed_location
 
-    async def write(self, **kwargs) -> "raw.types.InputMediaGeoPoint | raw.types.InputMediaGeoLive":
+    async def write(self, **kwargs) -> raw.types.InputMediaGeoPoint | raw.types.InputMediaGeoLive:
         if self.live_period is not None:
             return raw.types.InputMediaGeoLive(
                 geo_point=raw.types.InputGeoPoint(

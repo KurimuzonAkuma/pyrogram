@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import enums, raw
@@ -23,9 +24,9 @@ from pyrogram import enums, raw
 
 class SetMainProfileTab:
     async def set_main_profile_tab(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
-        main_profile_tab: "enums.ProfileTab"
+        main_profile_tab: enums.ProfileTab
     ) -> bool:
         """Changes the main profile tab of the user or channel.
 

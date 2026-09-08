@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw
@@ -23,7 +24,7 @@ from pyrogram import raw
 
 class SetBotName:
     async def set_bot_name(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         name: str,
         language_code: str = "",
         for_my_bot: int | str | None = None,

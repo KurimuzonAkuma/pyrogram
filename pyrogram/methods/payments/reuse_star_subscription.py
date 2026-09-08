@@ -16,12 +16,14 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import pyrogram
 from pyrogram import raw
 
 
 class ReuseStarSubscription:
-    async def reuse_star_subscription(self: "pyrogram.Client", subscription_id: str) -> bool:
+    async def reuse_star_subscription(self: pyrogram.Client, subscription_id: str) -> bool:
         """Reuses an active Telegram Star subscription to a channel chat and joins the chat again.
 
         .. include:: /_includes/usable-by/users.rst

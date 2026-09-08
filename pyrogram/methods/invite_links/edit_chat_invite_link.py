@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 
 import pyrogram
@@ -25,14 +27,14 @@ from pyrogram import types
 
 class EditChatInviteLink:
     async def edit_chat_invite_link(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         invite_link: str,
         name: str | None = None,
         expire_date: datetime | None = None,
         member_limit: int | None = None,
         creates_join_request: bool | None = None
-    ) -> "types.ChatInviteLink | None":
+    ) -> types.ChatInviteLink | None:
         """Edit a non-primary invite link.
 
         You must be an administrator in the chat for this to work and must have the appropriate admin rights.

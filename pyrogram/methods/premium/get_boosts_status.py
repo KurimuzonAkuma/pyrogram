@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types
@@ -23,9 +24,9 @@ from pyrogram import raw, types
 
 class GetBoostsStatus:
     async def get_boosts_status(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str
-    ) -> "types.BoostsStatus":
+    ) -> types.BoostsStatus:
         """Get boosts status of channel
 
         .. include:: /_includes/usable-by/users.rst

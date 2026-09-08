@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from pyrogram import raw
 
 from ..object import Object
@@ -43,7 +45,7 @@ class SavedCredentials(Object):
         self.title = title
 
     @staticmethod
-    def _parse(credential: "raw.base.PaymentSavedCredentials") -> "SavedCredentials":
+    def _parse(credential: raw.base.PaymentSavedCredentials) -> SavedCredentials:
         return SavedCredentials(
             id=credential.id,
             title=credential.title

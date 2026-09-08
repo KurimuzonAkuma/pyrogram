@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types
@@ -24,9 +24,9 @@ from pyrogram import raw, types
 
 class SuggestBirthday:
     async def suggest_birthday(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
-        birthday: "types.Birthday"
+        birthday: types.Birthday
     ) -> bool:
         """Suggests a birthdate to another regular user with common messages and allowing non-paid messages.
 

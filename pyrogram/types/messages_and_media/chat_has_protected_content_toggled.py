@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw
@@ -54,8 +55,8 @@ class ChatHasProtectedContentToggled(Object):
     @staticmethod
     def _parse(
         message_id: int,
-        action: "raw.types.MessageActionNoForwardsToggle",
-    ) -> "ChatHasProtectedContentToggled":
+        action: raw.types.MessageActionNoForwardsToggle,
+    ) -> ChatHasProtectedContentToggled:
         return ChatHasProtectedContentToggled(
             request_message_id=message_id,
             old_has_protected_content=action.prev_value,

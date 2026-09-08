@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -23,13 +24,13 @@ from pyrogram import raw, types, utils
 
 class EditEphemeralMessageMedia:
     async def edit_ephemeral_message_media(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         receiver_user_id: int | str,
         ephemeral_message_id: int,
-        media: "types.InputMedia",
-        reply_markup: "types.InlineKeyboardMarkup | None" = None,
-    ) -> "types.Message | None":
+        media: types.InputMedia,
+        reply_markup: types.InlineKeyboardMarkup | None = None,
+    ) -> types.Message | None:
         """Use this method to edit the media of an ephemeral message.
         Note that it is not guaranteed that the user will receive the message edit event, especially if they are offline.
 

@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw
@@ -24,7 +25,7 @@ from pyrogram import errors
 
 class ToggleJoinToSend:
     async def toggle_join_to_send(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         enabled: bool = False
     ) -> bool:

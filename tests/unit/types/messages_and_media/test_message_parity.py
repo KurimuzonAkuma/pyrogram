@@ -23,6 +23,8 @@ all, and nothing else reports the gap: both signatures are valid on their own, a
 only shows up as a caller wondering why the option has no effect.
 """
 
+from __future__ import annotations as _annotations
+
 import inspect
 import re
 import sys
@@ -42,16 +44,16 @@ class Shortcut(NamedTuple):
     target_name: str
 
 
-_TARGET: Final["re.Pattern[str]"] = re.compile(r"Shortcut for method :obj:`~pyrogram\.Client\.(\w+)`")
+_TARGET: Final[re.Pattern[str]] = re.compile(r"Shortcut for method :obj:`~pyrogram\.Client\.(\w+)`")
 
 # The shortcut's own docstring lists what it fills from `self`, one bullet per attribute.
-_FILLED_FROM_SELF: Final["re.Pattern[str]"] = re.compile(r"^\* (\w+)$", re.MULTILINE)
+_FILLED_FROM_SELF: Final[re.Pattern[str]] = re.compile(r"^\* (\w+)$", re.MULTILINE)
 
 # Each `send_*` module warns about its own retired parameters with this exact wording, so which
 #  ones are retired is read off the target rather than listed here. A name can be deprecated in
 #  one target and current in another: `parse_mode` only feeds `quote_parse_mode` in
 #  `send_contact`, while in `send_photo` it parses the caption.
-_DEPRECATED: Final["re.Pattern[str]"] = re.compile(r"`(\w+)` is deprecated")
+_DEPRECATED: Final[re.Pattern[str]] = re.compile(r"`(\w+)` is deprecated")
 
 
 def shortcut_names() -> list[str]:

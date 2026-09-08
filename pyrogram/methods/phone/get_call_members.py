@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from collections.abc import AsyncGenerator
 
 import pyrogram
@@ -24,10 +26,10 @@ from pyrogram import types, raw
 
 class GetCallMembers:
     async def get_call_members(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         limit: int = 0
-    ) -> AsyncGenerator["types.GroupCallMember", None]:
+    ) -> AsyncGenerator[types.GroupCallMember, None]:
         """Get the members list of a chat call.
 
         A chat can be either a basic group or a supergroup.

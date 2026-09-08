@@ -16,15 +16,17 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import pyrogram
 from pyrogram import enums, raw
 
 
 class AnswerChatJoinRequestQuery:
     async def answer_chat_join_request_query(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_join_request_query_id: str,
-        result: "enums.ChatJoinRequestQueryResult",
+        result: enums.ChatJoinRequestQueryResult,
     ) -> bool:
         """Use this method to process a received chat join request query.
 

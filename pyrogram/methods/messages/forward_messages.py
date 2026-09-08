@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 from typing import overload
 from collections.abc import Iterable
@@ -27,7 +29,7 @@ from pyrogram import raw, types, utils
 class ForwardMessages:
     @overload
     async def forward_messages(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         from_chat_id: int | str,
         message_ids: int,
@@ -40,13 +42,13 @@ class ForwardMessages:
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         video_start_timestamp: int | None = None,
-        reply_parameters: "types.ReplyParameters | None" = None,
+        reply_parameters: types.ReplyParameters | None = None,
         paid_message_star_count: int | None = None
-    ) -> "types.Message | None": ...
+    ) -> types.Message | None: ...
 
     @overload
     async def forward_messages(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         from_chat_id: int | str,
         message_ids: Iterable[int],
@@ -59,12 +61,12 @@ class ForwardMessages:
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         video_start_timestamp: int | None = None,
-        reply_parameters: "types.ReplyParameters | None" = None,
+        reply_parameters: types.ReplyParameters | None = None,
         paid_message_star_count: int | None = None
-    ) -> list["types.Message"]: ...
+    ) -> list[types.Message]: ...
 
     async def forward_messages(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         from_chat_id: int | str,
         message_ids: int | Iterable[int],
@@ -77,9 +79,9 @@ class ForwardMessages:
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         video_start_timestamp: int | None = None,
-        reply_parameters: "types.ReplyParameters | None" = None,
+        reply_parameters: types.ReplyParameters | None = None,
         paid_message_star_count: int | None = None
-    ) -> "types.Message | list[types.Message] | None":
+    ) -> types.Message | list[types.Message] | None:
         """Forward messages of any kind.
 
         .. include:: /_includes/usable-by/users-bots.rst

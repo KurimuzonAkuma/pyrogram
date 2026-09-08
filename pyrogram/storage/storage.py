@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import base64
 import struct
 from abc import ABC, abstractmethod
@@ -135,7 +137,7 @@ class Storage(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def get_peer_by_id(self, peer_id: int) -> "raw.base.InputPeer | None":
+    async def get_peer_by_id(self, peer_id: int) -> raw.base.InputPeer | None:
         """Retrieve a peer by its ID.
 
         Parameters:
@@ -148,7 +150,7 @@ class Storage(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def get_peer_by_username(self, username: str) -> "raw.base.InputPeer | None":
+    async def get_peer_by_username(self, username: str) -> raw.base.InputPeer | None:
         """Retrieve a peer by its username.
 
         Parameters:
@@ -161,7 +163,7 @@ class Storage(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def get_peer_by_phone_number(self, phone_number: str) -> "raw.base.InputPeer | None":
+    async def get_peer_by_phone_number(self, phone_number: str) -> raw.base.InputPeer | None:
         """Retrieve a peer by its phone number.
 
         Parameters:

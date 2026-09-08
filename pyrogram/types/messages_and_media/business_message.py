@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 
 from pyrogram import types, enums, raw, utils
@@ -62,8 +64,8 @@ class BusinessMessage(Object):
         is_away: bool | None = None,
         no_activity_days: int | None = None,
         offline_only: bool | None = None,
-        recipients: list["types.User"] | None = None,
-        schedule: "enums.BusinessSchedule | None" = None,
+        recipients: list[types.User] | None = None,
+        schedule: enums.BusinessSchedule | None = None,
         start_date: datetime | None = None,
         end_date: datetime | None = None,
 
@@ -81,9 +83,9 @@ class BusinessMessage(Object):
     @staticmethod
     async def _parse(
         client,
-        message: "raw.types.BusinessGreetingMessage | raw.types.BusinessAwayMessage | None" = None,
+        message: raw.types.BusinessGreetingMessage | raw.types.BusinessAwayMessage | None = None,
         users: dict | None = None
-    ) -> "BusinessMessage | None":
+    ) -> BusinessMessage | None:
         if not message:
             return None
 

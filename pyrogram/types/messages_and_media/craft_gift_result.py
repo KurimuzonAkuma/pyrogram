@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from pyrogram import types
 
 from ..object import Object
@@ -44,7 +46,7 @@ class CraftGiftResultSuccess(CraftGiftResult):
 
     def __init__(
         self,
-        gift: "types.Gift"
+        gift: types.Gift
     ):
         super().__init__()
 

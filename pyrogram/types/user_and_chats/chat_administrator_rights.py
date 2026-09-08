@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from pyrogram import raw
 from ..object import Object
 
@@ -138,7 +140,7 @@ class ChatAdministratorRights(Object):
         self.can_send_welcome_messages: bool = can_send_welcome_messages
 
     @staticmethod
-    def _parse(admin_rights: "raw.base.ChatAdminRights") -> "ChatAdministratorRights":
+    def _parse(admin_rights: raw.base.ChatAdminRights) -> ChatAdministratorRights:
         if admin_rights is None:
             return None
 

@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import enums, raw, types
@@ -44,8 +45,8 @@ class ChatPhotoSticker(Object):
     def __init__(
         self,
         *,
-        client: "pyrogram.Client | None" = None,
-        type: "enums.ChatPhotoStickerType",
+        client: pyrogram.Client | None = None,
+        type: enums.ChatPhotoStickerType,
         set_name: str | None = None,
         sticker_id: int | None = None,
         custom_emoji_id: str | None = None,
@@ -58,7 +59,7 @@ class ChatPhotoSticker(Object):
         self.custom_emoji_id = custom_emoji_id
 
     @staticmethod
-    async def _parse(client, video_sizes: list["raw.base.VideoSize"]):
+    async def _parse(client, video_sizes: list[raw.base.VideoSize]):
         if not isinstance(video_sizes, list):
             return None
 

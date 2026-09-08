@@ -16,15 +16,17 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import pyrogram
 from pyrogram import types, enums
 
 
 class GetChatsForFolderInviteLink:
     async def get_chats_for_folder_invite_link(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_folder_id: int
-    ) -> list["types.Chat"]:
+    ) -> list[types.Chat]:
         """Returns chats from a chat folder, suitable for adding to a chat folder invite link.
 
         .. include:: /_includes/usable-by/users.rst

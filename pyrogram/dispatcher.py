@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import asyncio
 import inspect
 import logging
@@ -122,13 +124,16 @@ class Dispatcher:
     GUEST_MESSAGE_UPDATES = (UpdateBotGuestChatQuery,)
     USER_TYPING_UPDATES = (UpdateUserTyping, UpdateChatUserTyping, UpdateChannelUserTyping)
 
-    def __init__(self, client: "pyrogram.Client"):
+    def __init__(self, client: pyrogram.Client):
         self.client = client
 
         self.handler_worker_tasks = []
         self.locks_list = []
 
-        self.updates_queue: asyncio.Queue[tuple[raw.base.Update, dict[int, raw.base.User], dict[int, raw.base.Chat]] | None] = asyncio.Queue()
+        self.updates_queue: asyncio.Queue[
+            tuple[raw.base.Update, dict[int, raw.base.User], dict[int, raw.base.Chat]]
+            | None
+        ] = asyncio.Queue()
         self.groups = OrderedDict()
 
         async def message_parser(update, users, chats):
@@ -299,9 +304,9 @@ class Dispatcher:
             )
 
         async def user_typing_parser(
-            update: "raw.types.UpdateUserTyping | raw.types.UpdateChatUserTyping | raw.types.UpdateChannelUserTyping",
-            users: dict[int, "raw.base.User"],
-            chats: dict[int, "raw.base.User"],
+            update: raw.types.UpdateUserTyping | raw.types.UpdateChatUserTyping | raw.types.UpdateChannelUserTyping,
+            users: dict[int, raw.base.User],
+            chats: dict[int, raw.base.User],
         ):
             if isinstance(update.action, raw.types.SendMessageStopDraftAction):
                 return (
@@ -495,9 +500,9 @@ class Dispatcher:
         self,
         exc: Exception,
         update_handler: Handler,
-        update: "pyrogram.raw.base.Update",
-        users: dict[int, "pyrogram.raw.base.User"],
-        chats: dict[int, "pyrogram.raw.base.Chat"]
+        update: pyrogram.raw.base.Update,
+        users: dict[int, pyrogram.raw.base.User],
+        chats: dict[int, pyrogram.raw.base.Chat]
     ) -> None:
         handled = False
         try:

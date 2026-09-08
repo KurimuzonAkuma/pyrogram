@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 from pyrogram import enums, raw, types
 
@@ -38,9 +39,9 @@ class PrivacyRule(Object):
 
     def __init__(
         self, *,
-        type: "enums.PrivacyRuleType",
-        users: list["types.User"] | None = None,
-        chats: list["types.Chat"] | None = None
+        type: enums.PrivacyRuleType,
+        users: list[types.User] | None = None,
+        chats: list[types.Chat] | None = None
     ):
         super().__init__(None)
 
@@ -49,7 +50,7 @@ class PrivacyRule(Object):
         self.chats = chats
 
     @staticmethod
-    async def _parse(client, rule: "raw.base.PrivacyRule", users: dict, chats: dict) -> "PrivacyRule":
+    async def _parse(client, rule: raw.base.PrivacyRule, users: dict, chats: dict) -> PrivacyRule:
         return PrivacyRule(
             type=enums.PrivacyRuleType(type(rule)),
             users=types.List([await types.User._parse(client, users.get(i)) for i in getattr(rule, "users", [])]) or None,

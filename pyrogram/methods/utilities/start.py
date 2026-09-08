@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import logging
 
 import pyrogram
@@ -27,10 +29,10 @@ log = logging.getLogger(__name__)
 
 class Start:
     async def start(
-        self: "pyrogram.Client", *,
+        self: pyrogram.Client, *,
         use_qr: bool = False,
         except_ids: list[int] = [],
-    ) -> "pyrogram.Client":
+    ) -> pyrogram.Client:
         """Start the client.
 
         This method connects the client to Telegram and, in case of new sessions, automatically manages the

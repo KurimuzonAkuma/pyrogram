@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 
 from pyrogram import raw, utils
@@ -40,7 +42,7 @@ class StoriesStealthMode(Object):
         self.cooldown_until_date = cooldown_until_date
 
     @staticmethod
-    def _parse(ssm: "raw.types.StoriesStealthMode") -> "StoriesStealthMode":
+    def _parse(ssm: raw.types.StoriesStealthMode) -> StoriesStealthMode:
         return StoriesStealthMode(
             active_until_date=utils.timestamp_to_datetime(getattr(ssm, "active_until_date", None)),
             cooldown_until_date=utils.timestamp_to_datetime(getattr(ssm, "cooldown_until_date", None)),

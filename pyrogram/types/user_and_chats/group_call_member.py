@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 
 import pyrogram
@@ -76,8 +78,8 @@ class GroupCallMember(Object):
     def __init__(
         self,
         *,
-        client: "pyrogram.Client | None" = None,
-        chat: "types.Chat | None" = None,
+        client: pyrogram.Client | None = None,
+        chat: types.Chat | None = None,
         date: datetime | None = None,
         active_date: datetime | None = None,
         volume: int | None = None,
@@ -113,11 +115,11 @@ class GroupCallMember(Object):
 
     @staticmethod
     async def _parse(
-        client: "pyrogram.Client",
-        member: "raw.types.GroupCallParticipant",
-        users: dict[int, "raw.base.User"],
-        chats: dict[int, "raw.base.Chat"]
-    ) -> "GroupCallMember":
+        client: pyrogram.Client,
+        member: raw.types.GroupCallParticipant,
+        users: dict[int, raw.base.User],
+        chats: dict[int, raw.base.Chat]
+    ) -> GroupCallMember:
         peer = member.peer
         peer_id = utils.get_raw_peer_id(peer)
 

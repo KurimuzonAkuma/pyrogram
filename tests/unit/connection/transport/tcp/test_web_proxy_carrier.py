@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import asyncio
 import logging
 from http import HTTPStatus
@@ -283,7 +285,7 @@ def _window_grant(amount: int) -> Frame:
     return parsed.frames[0]
 
 
-async def _run_until_blocked(sending: "asyncio.Task[None]") -> None:
+async def _run_until_blocked(sending: asyncio.Task[None]) -> None:
     # `send()` suspends once it runs out of credit, and waking it after a WINDOW
     #  grant costs three loop iterations below 3.12, where `asyncio.wait_for` ran the
     #  wait in a task of its own, against one on 3.12+, which awaits the coroutine

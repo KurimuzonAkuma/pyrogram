@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types
@@ -61,7 +62,7 @@ class ReplyKeyboardMarkup(Object):
 
     def __init__(
         self,
-        keyboard: "list[list[types.KeyboardButton | str]]",
+        keyboard: list[list[types.KeyboardButton | str]],
         is_persistent: bool | None = None,
         resize_keyboard: bool | None = None,
         one_time_keyboard: bool | None = None,
@@ -80,7 +81,7 @@ class ReplyKeyboardMarkup(Object):
         self.force_reply = force_reply
 
     @staticmethod
-    def read(kb: "raw.base.ReplyMarkup"):
+    def read(kb: raw.base.ReplyMarkup):
         return ReplyKeyboardMarkup(
             keyboard=[[types.KeyboardButton.read(j) for j in i.buttons] for i in kb.rows],
             is_persistent=kb.persistent,
@@ -91,7 +92,7 @@ class ReplyKeyboardMarkup(Object):
             force_reply=kb.force_reply
         )
 
-    async def write(self, _: "pyrogram.Client"):
+    async def write(self, _: pyrogram.Client):
         return raw.types.ReplyKeyboardMarkup(
             rows=[
                 raw.types.KeyboardButtonRow(

@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import pyrogram
 from pyrogram import raw, types
 
@@ -43,7 +45,7 @@ class GiftCollection(Object):
         id: int,
         name: str,
         gift_count: int,
-        icon: "types.Sticker | None" = None
+        icon: types.Sticker | None = None
     ):
         super().__init__()
 
@@ -54,9 +56,9 @@ class GiftCollection(Object):
 
     @staticmethod
     async def _parse(
-        client: "pyrogram.Client",
-        collection: "raw.types.StarGiftCollection"
-    ) -> "GiftCollection":
+        client: pyrogram.Client,
+        collection: raw.types.StarGiftCollection
+    ) -> GiftCollection:
         sticker = None
 
         if collection.icon:

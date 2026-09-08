@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from collections.abc import AsyncGenerator
 
 import pyrogram
@@ -25,7 +27,7 @@ from pyrogram import utils
 
 class GetBusinessAccountGifts:
     async def get_business_account_gifts(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         business_connection_id: str,
         collection_id: int | None = None,
         exclude_unsaved: bool | None = None,
@@ -39,7 +41,7 @@ class GetBusinessAccountGifts:
         sort_by_price: bool | None = None,
         limit: int = 0,
         offset: str = "",
-    ) -> AsyncGenerator["types.Gift", None]:
+    ) -> AsyncGenerator[types.Gift, None]:
         """Return the gifts received and owned by a managed business account.
 
         .. note::

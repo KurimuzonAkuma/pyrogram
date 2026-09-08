@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from collections.abc import Iterable
 
 import pyrogram
@@ -25,9 +27,9 @@ from pyrogram import types
 
 class AnswerInlineQuery:
     async def answer_inline_query(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         inline_query_id: str,
-        results: Iterable["types.InlineQueryResult"],
+        results: Iterable[types.InlineQueryResult],
         cache_time: int = 300,
         is_gallery: bool = False,
         is_personal: bool = False,

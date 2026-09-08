@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types
@@ -91,14 +92,14 @@ class Invoice(Object):
     def __init__(
         self,
         *,
-        client: "pyrogram.Client | None" = None,
+        client: pyrogram.Client | None = None,
         currency: str,
         is_test: bool,
         title: str | None = None,
         description: str | None = None,
         total_amount: int | None = None,
         start_parameter: str | None = None,
-        prices: list["types.LabeledPrice"] | None = None,
+        prices: list[types.LabeledPrice] | None = None,
         is_name_requested: bool | None = None,
         is_phone_requested: bool | None = None,
         is_email_requested: bool | None = None,
@@ -110,7 +111,7 @@ class Invoice(Object):
         max_tip_amount: int | None = None,
         suggested_tip_amounts: list[int] | None = None,
         terms_url: str | None = None,
-        raw: "raw.types.MessageMediaInvoice | raw.types.Invoice | None" = None
+        raw: raw.types.MessageMediaInvoice | raw.types.Invoice | None = None
     ):
         super().__init__(client)
 
@@ -135,7 +136,7 @@ class Invoice(Object):
         self.raw = raw
 
     @staticmethod
-    def _parse(client, invoice: "raw.types.MessageMediaInvoice | raw.types.Invoice") -> "Invoice":
+    def _parse(client, invoice: raw.types.MessageMediaInvoice | raw.types.Invoice) -> Invoice:
         return Invoice(
             currency=invoice.currency,
             is_test=invoice.test,

@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 from pyrogram import raw
 
@@ -56,7 +57,7 @@ class InputRichMessage(Object):
         self.is_rtl = is_rtl
         self.skip_entity_detection = skip_entity_detection
 
-    def write(self) -> "raw.base.InputRichMessage":
+    def write(self) -> raw.base.InputRichMessage:
         if self.html:
             input_rich_message = raw.types.InputRichMessageHTML(
                 html=self.html,

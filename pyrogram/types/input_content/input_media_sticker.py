@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import io
 import pathlib
 import re
@@ -57,12 +59,12 @@ class InputMediaSticker(InputMedia):
     async def write(
         self,
         *,
-        client: "pyrogram.Client",
+        client: pyrogram.Client,
         chat_id: int | str | None = None,
         progress: Callable | None = None,
         progress_args: tuple = (),
         **kwargs
-    ) -> "raw.base.InputMedia":
+    ) -> raw.base.InputMedia:
         if chat_id is None:
             peer = raw.types.InputPeerSelf()
         else:

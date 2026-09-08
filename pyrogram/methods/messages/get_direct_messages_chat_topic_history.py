@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 from collections.abc import AsyncGenerator
 
@@ -25,7 +27,7 @@ from pyrogram import raw, types, utils
 
 async def get_chunk(
     *,
-    client: "pyrogram.Client",
+    client: pyrogram.Client,
     chat_id: int | str,
     topic_id: int,
     limit: int = 0,
@@ -61,7 +63,7 @@ async def get_chunk(
 
 class GetDirectMessagesChatTopicHistory:
     async def get_direct_messages_chat_topic_history(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         topic_id: int,
         limit: int = 0,
@@ -71,7 +73,7 @@ class GetDirectMessagesChatTopicHistory:
         min_id: int = 0,
         max_id: int = 0,
         reverse: bool = False
-    ) -> AsyncGenerator["types.Message", None]:
+    ) -> AsyncGenerator[types.Message, None]:
         """Return messages in the topic in a channel direct messages chat administered by the current user.
 
         The messages are returned in reverse chronological order.

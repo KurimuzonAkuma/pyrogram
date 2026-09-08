@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import logging
 from datetime import datetime
 
@@ -27,20 +29,20 @@ log = logging.getLogger(__name__)
 
 class EditMessageText:
     async def edit_message_text(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         message_id: int,
         text: str | None = None,
-        parse_mode: "enums.ParseMode | None" = None,
-        entities: list["types.MessageEntity"] | None = None,
-        link_preview_options: "types.LinkPreviewOptions | None" = None,
+        parse_mode: enums.ParseMode | None = None,
+        entities: list[types.MessageEntity] | None = None,
+        link_preview_options: types.LinkPreviewOptions | None = None,
         schedule_date: datetime | None = None,
         business_connection_id: str | None = None,
-        rich_message: "types.InputRichMessage | None" = None,
-        reply_markup: "types.InlineKeyboardMarkup | None" = None,
+        rich_message: types.InputRichMessage | None = None,
+        reply_markup: types.InlineKeyboardMarkup | None = None,
         show_caption_above_media: bool | None = None,
         disable_web_page_preview: bool | None = None,
-    ) -> "types.Message":
+    ) -> types.Message:
         """Edit the text of messages.
 
         .. include:: /_includes/usable-by/users-bots.rst

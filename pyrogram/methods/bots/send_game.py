@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import logging
 
 import pyrogram
@@ -25,20 +27,26 @@ log = logging.getLogger(__name__)
 
 class SendGame:
     async def send_game(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         game_short_name: str,
         disable_notification: bool | None = None,
         message_thread_id: int | None = None,
         effect_id: int | None = None,
-        reply_parameters: "types.ReplyParameters | None" = None,
+        reply_parameters: types.ReplyParameters | None = None,
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
-        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
+        reply_markup: (
+            types.InlineKeyboardMarkup
+            | types.ReplyKeyboardMarkup
+            | types.ReplyKeyboardRemove
+            | types.ForceReply
+            | None
+        ) = None,
 
         reply_to_message_id: int | None = None,
         reply_to_chat_id: int | str | None = None,
-    ) -> "types.Message | None":
+    ) -> types.Message | None:
         """Send a game.
 
         .. include:: /_includes/usable-by/bots.rst

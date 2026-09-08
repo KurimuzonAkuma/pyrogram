@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import logging
 from datetime import datetime
 
@@ -26,20 +28,26 @@ log = logging.getLogger(__name__)
 
 class SendChecklist:
     async def send_checklist(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
-        checklist: "types.InputChecklist",
+        checklist: types.InputChecklist,
         disable_notification: bool | None = None,
         protect_content: bool | None = None,
         message_thread_id: int | None = None,
         effect_id: int | None = None,
-        reply_parameters: "types.ReplyParameters | None" = None,
+        reply_parameters: types.ReplyParameters | None = None,
         schedule_date: datetime | None = None,
         repeat_period: int | None = None,
         business_connection_id: str | None = None,
         paid_message_star_count: int | None = None,
-        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
-    ) -> "types.Message | None":
+        reply_markup: (
+            types.InlineKeyboardMarkup
+            | types.ReplyKeyboardMarkup
+            | types.ReplyKeyboardRemove
+            | types.ForceReply
+            | None
+        ) = None,
+    ) -> types.Message | None:
         """Send a new checklist.
 
         .. include:: /_includes/usable-by/users-bots.rst

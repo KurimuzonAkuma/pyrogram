@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from pyrogram import raw
 from ..object import Object
 
@@ -58,7 +60,7 @@ class UserRating(Object):
         self.next_level_rating = next_level_rating
 
     @staticmethod
-    def _parse(rating: "raw.types.StarsRating") -> "UserRating | None":
+    def _parse(rating: raw.types.StarsRating) -> UserRating | None:
         if not rating:
             return None
 

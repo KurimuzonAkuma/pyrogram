@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from io import BytesIO
 from typing import Any
 
@@ -35,7 +37,7 @@ class MsgContainer(TLObject):
         self.messages = messages
 
     @staticmethod
-    def read(data: BytesIO, *args: Any) -> "MsgContainer":
+    def read(data: BytesIO, *args: Any) -> MsgContainer:
         count = Int.read(data)
         return MsgContainer([Message.read(data) for _ in range(count)])
 

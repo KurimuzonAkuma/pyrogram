@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from collections.abc import Iterable
 
 import pyrogram
@@ -24,7 +26,7 @@ from pyrogram import raw
 
 class DeleteMessages:
     async def delete_messages(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         message_ids: int | Iterable[int],
         revoke: bool = True,

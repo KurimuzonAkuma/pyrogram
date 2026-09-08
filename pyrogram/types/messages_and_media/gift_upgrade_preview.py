@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types
@@ -46,11 +47,11 @@ class GiftUpgradePreview(Object):
     def __init__(
         self,
         *,
-        models: list["types.GiftAttribute"] | None = None,
-        symbols: list["types.GiftAttribute"] | None = None,
-        backdrops: list["types.GiftAttribute"] | None = None,
-        prices: list["types.GiftUpgradePrice"] | None = None,
-        next_prices: list["types.GiftUpgradePrice"] | None = None
+        models: list[types.GiftAttribute] | None = None,
+        symbols: list[types.GiftAttribute] | None = None,
+        backdrops: list[types.GiftAttribute] | None = None,
+        prices: list[types.GiftUpgradePrice] | None = None,
+        next_prices: list[types.GiftUpgradePrice] | None = None
     ):
         super().__init__()
 
@@ -61,7 +62,7 @@ class GiftUpgradePreview(Object):
         self.next_prices = next_prices
 
     @staticmethod
-    async def _parse(client: "pyrogram.Client", gift_preview: "raw.base.payments.StarGiftUpgradePreview"):
+    async def _parse(client: pyrogram.Client, gift_preview: raw.base.payments.StarGiftUpgradePreview):
         models = types.List()
         symbols = types.List()
         backdrops = types.List()

@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from pyrogram import raw
 
 from ..object import Object
@@ -61,8 +63,8 @@ class RefundedPayment(Object):
 
     @staticmethod
     def _parse(
-        payment: "raw.types.MessageActionPaymentRefunded"
-    ) -> "RefundedPayment":
+        payment: raw.types.MessageActionPaymentRefunded
+    ) -> RefundedPayment:
         invoice_payload = None
 
         # Try to decode invoice payload into string. If that fails, fallback to bytes instead of decoding by

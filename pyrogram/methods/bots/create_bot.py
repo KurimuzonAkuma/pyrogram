@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types
@@ -23,12 +24,12 @@ from pyrogram import raw, types
 
 class CreateBot:
     async def create_bot(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         manager_bot_user_id: int | str,
         name: str,
         username: str,
         via_link: bool | None = None,
-    ) -> "types.User":
+    ) -> types.User:
         """Creates a bot which will be managed by another bot.
 
         .. include:: /_includes/usable-by/users.rst

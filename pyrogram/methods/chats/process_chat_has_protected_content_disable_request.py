@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -23,8 +24,8 @@ from pyrogram import raw, types, utils
 
 class ProcessChatHasProtectedContentDisableRequest:
     async def process_chat_has_protected_content_disable_request(
-        self: "pyrogram.Client", chat_id: int | str, request_message_id: int, approve: bool
-    ) -> "types.Message | bool":
+        self: pyrogram.Client, chat_id: int | str, request_message_id: int, approve: bool
+    ) -> types.Message | bool:
         """Processes request to disable has_protected_content in a chat.
 
         .. include:: /_includes/usable-by/users.rst

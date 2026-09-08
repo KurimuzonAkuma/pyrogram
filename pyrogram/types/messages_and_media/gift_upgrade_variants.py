@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types
@@ -40,9 +41,9 @@ class GiftUpgradeVariants(Object):
     def __init__(
         self,
         *,
-        models: list["types.GiftAttribute"],
-        symbols: list["types.GiftAttribute"],
-        backdrops: list["types.GiftAttribute"]
+        models: list[types.GiftAttribute],
+        symbols: list[types.GiftAttribute],
+        backdrops: list[types.GiftAttribute]
     ):
         super().__init__()
 
@@ -51,7 +52,7 @@ class GiftUpgradeVariants(Object):
         self.backdrops = backdrops
 
     @staticmethod
-    async def _parse(client: "pyrogram.Client", gift_upgrade_attributes: "raw.types.payments.StarGiftUpgradeAttributes"):
+    async def _parse(client: pyrogram.Client, gift_upgrade_attributes: raw.types.payments.StarGiftUpgradeAttributes):
         models = types.List()
         symbols = types.List()
         backdrops = types.List()

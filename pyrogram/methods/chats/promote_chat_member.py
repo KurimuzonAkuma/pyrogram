@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types, errors
@@ -23,10 +24,10 @@ from pyrogram import raw, types, errors
 
 class PromoteChatMember:
     async def promote_chat_member(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         user_id: int | str,
-        privileges: "types.ChatAdministratorRights | None" = None,
+        privileges: types.ChatAdministratorRights | None = None,
     ) -> bool:
         """Promote or demote a user in a supergroup or a channel.
 

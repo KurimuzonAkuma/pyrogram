@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw
@@ -46,7 +47,7 @@ class Reaction(Object):
     def __init__(
         self,
         *,
-        client: "pyrogram.Client | None" = None,
+        client: pyrogram.Client | None = None,
         emoji: str | None = None,
         custom_emoji_id: str | None = None,
         count: int | None = None,
@@ -63,9 +64,9 @@ class Reaction(Object):
 
     @staticmethod
     def _parse(
-        client: "pyrogram.Client",
-        reaction: "raw.base.Reaction"
-    ) -> "Reaction":
+        client: pyrogram.Client,
+        reaction: raw.base.Reaction
+    ) -> Reaction:
         if isinstance(reaction, raw.types.ReactionEmoji):
             return Reaction(
                 client=client,
@@ -86,9 +87,9 @@ class Reaction(Object):
 
     @staticmethod
     def _parse_count(
-        client: "pyrogram.Client",
-        reaction_count: "raw.base.ReactionCount"
-    ) -> "Reaction":
+        client: pyrogram.Client,
+        reaction_count: raw.base.ReactionCount
+    ) -> Reaction:
         reaction = Reaction._parse(client, reaction_count.reaction)
         reaction.count = reaction_count.count
         reaction.chosen_order = reaction_count.chosen_order

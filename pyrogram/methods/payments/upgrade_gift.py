@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import errors, raw, types, utils
@@ -23,12 +24,12 @@ from pyrogram import errors, raw, types, utils
 
 class UpgradeGift:
     async def upgrade_gift(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         owned_gift_id: str,
         keep_original_details: bool | None = None,
         star_count: int | None = None,
         business_connection_id: str | None = None
-    ) -> "types.Message | None":
+    ) -> types.Message | None:
         """Upgrade a given regular gift to a unique gift.
 
         .. note::

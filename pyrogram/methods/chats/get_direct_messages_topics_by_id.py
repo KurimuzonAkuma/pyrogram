@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import logging
 from typing import overload
 from collections.abc import Iterable
@@ -29,23 +31,23 @@ log = logging.getLogger(__name__)
 class GetDirectMessagesTopicsByID:
     @overload
     async def get_direct_messages_topics_by_id(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         topic_ids: int
-    ) -> "types.DirectMessagesTopic | None": ...
+    ) -> types.DirectMessagesTopic | None: ...
 
     @overload
     async def get_direct_messages_topics_by_id(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         topic_ids: Iterable[int]
-    ) -> list["types.DirectMessagesTopic"]: ...
+    ) -> list[types.DirectMessagesTopic]: ...
 
     async def get_direct_messages_topics_by_id(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         topic_ids: int | Iterable[int]
-    ) -> "types.DirectMessagesTopic | list[types.DirectMessagesTopic] | None":
+    ) -> types.DirectMessagesTopic | list[types.DirectMessagesTopic] | None:
         """Get one or more direct message topic from a chat by using topic identifiers.
 
         .. include:: /_includes/usable-by/users.rst

@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 from pyrogram import raw
 from pyrogram import types
@@ -36,7 +37,7 @@ class TermsOfService(Object):
             Special entities like URLs that appear in the text.
     """
 
-    def __init__(self, *, id: str, text: str, entities: list["types.MessageEntity"]):
+    def __init__(self, *, id: str, text: str, entities: list[types.MessageEntity]):
         super().__init__()
 
         self.id = id
@@ -44,7 +45,7 @@ class TermsOfService(Object):
         self.entities = entities
 
     @staticmethod
-    async def _parse(terms_of_service: "raw.types.help.TermsOfService") -> "TermsOfService":
+    async def _parse(terms_of_service: raw.types.help.TermsOfService) -> TermsOfService:
         return TermsOfService(
             id=terms_of_service.id.data,
             text=terms_of_service.text,

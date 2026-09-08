@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 
 import pyrogram
@@ -46,12 +48,12 @@ class ChatJoiner(Object):
     def __init__(
         self,
         *,
-        client: "pyrogram.Client",
-        user: "types.User",
+        client: pyrogram.Client,
+        user: types.User,
         date: datetime | None = None,
         bio: str | None = None,
         pending: bool | None = None,
-        approved_by: "types.User | None" = None,
+        approved_by: types.User | None = None,
     ):
         super().__init__(client)
 
@@ -63,10 +65,10 @@ class ChatJoiner(Object):
 
     @staticmethod
     async def _parse(
-        client: "pyrogram.Client",
-        joiner: "raw.base.ChatInviteImporter",
-        users: dict[int, "raw.base.User"],
-    ) -> "ChatJoiner":
+        client: pyrogram.Client,
+        joiner: raw.base.ChatInviteImporter,
+        users: dict[int, raw.base.User],
+    ) -> ChatJoiner:
         return ChatJoiner(
             user=await types.User._parse(client, users[joiner.user_id]),
             date=utils.timestamp_to_datetime(joiner.date),

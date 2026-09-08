@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types
@@ -31,17 +32,17 @@ class ChatOwnerChanged(Object):
             The new owner of the chat.
     """
 
-    def __init__(self, *, new_owner: "types.User"):
+    def __init__(self, *, new_owner: types.User):
         super().__init__()
 
         self.new_owner = new_owner
 
     @staticmethod
     async def _parse(
-        client: "pyrogram.Client",
-        action: "raw.types.MessageActionChangeCreator",
-        users: dict[int, "types.User"],
-    ) -> "ChatOwnerChanged":
+        client: pyrogram.Client,
+        action: raw.types.MessageActionChangeCreator,
+        users: dict[int, types.User],
+    ) -> ChatOwnerChanged:
         if isinstance(action, raw.types.MessageActionChangeCreator):
             return ChatOwnerChanged(
                 new_owner=await types.User._parse(client, users.get(action.new_creator_id))

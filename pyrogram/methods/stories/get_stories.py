@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import re
 from typing import overload
 from collections.abc import Iterable
@@ -27,23 +29,23 @@ from pyrogram import raw, types
 class GetStories:
     @overload
     async def get_stories(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str | None = None,
         story_ids: int | str | None = None,
-    ) -> "types.Story | None": ...
+    ) -> types.Story | None: ...
 
     @overload
     async def get_stories(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str | None,
         story_ids: Iterable[int],
-    ) -> list["types.Story"]: ...
+    ) -> list[types.Story]: ...
 
     async def get_stories(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str | None = None,
         story_ids: int | Iterable[int] | str | None = None,
-    ) -> "types.Story | list[types.Story] | None":
+    ) -> types.Story | list[types.Story] | None:
         """Get one or more stories from a chat by using stories identifiers.
 
         .. include:: /_includes/usable-by/users.rst

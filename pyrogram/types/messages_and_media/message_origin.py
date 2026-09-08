@@ -15,6 +15,9 @@
 #
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
+
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 
 import pyrogram
@@ -37,7 +40,7 @@ class MessageOrigin(Object):
 
     def __init__(
         self,
-        type: "enums.MessageOriginType",
+        type: enums.MessageOriginType,
         date: datetime | None = None
     ):
         super().__init__()
@@ -47,11 +50,11 @@ class MessageOrigin(Object):
 
     @staticmethod
     async def _parse(
-        client: "pyrogram.Client",
-        fwd_from: "raw.types.MessageFwdHeader",
-        users: dict[int, "raw.base.User"],
-        chats: dict[int, "raw.base.Chat"]
-    ) -> "MessageOrigin | None":
+        client: pyrogram.Client,
+        fwd_from: raw.types.MessageFwdHeader,
+        users: dict[int, raw.base.User],
+        chats: dict[int, raw.base.Chat]
+    ) -> MessageOrigin | None:
         if not fwd_from:
             return None
 

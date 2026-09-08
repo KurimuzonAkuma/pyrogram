@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from pyrogram import raw
 
 from ..object import Object
@@ -48,8 +50,8 @@ class DirectMessagePriceChanged(Object):
 
     @staticmethod
     def _parse(
-        action: "raw.types.MessageActionPaidMessagesPrice"
-    ) -> "DirectMessagePriceChanged":
+        action: raw.types.MessageActionPaidMessagesPrice
+    ) -> DirectMessagePriceChanged:
         return DirectMessagePriceChanged(
             is_enabled=action.broadcast_messages_allowed,
             paid_message_star_count=action.stars

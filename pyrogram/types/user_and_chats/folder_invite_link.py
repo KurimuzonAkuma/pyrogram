@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 from pyrogram import raw, types, utils
 from ..object import Object
@@ -48,7 +49,7 @@ class FolderInviteLink(Object):
         self.chat_ids = chat_ids
 
     @staticmethod
-    def _parse(invite: "raw.base.ExportedChatlistInvite") -> "FolderInviteLink":
+    def _parse(invite: raw.base.ExportedChatlistInvite) -> FolderInviteLink:
         return FolderInviteLink(
             invite_link=invite.url,
             name=invite.title,

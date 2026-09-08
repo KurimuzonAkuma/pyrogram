@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 
 
@@ -58,7 +60,7 @@ class Voice(Object):
     def __init__(
         self,
         *,
-        client: "pyrogram.Client | None" = None,
+        client: pyrogram.Client | None = None,
         file_id: str,
         file_unique_id: str,
         duration: int,
@@ -80,7 +82,10 @@ class Voice(Object):
         self.ttl_seconds = ttl_seconds
 
     @staticmethod
-    def _parse(client, voice: "raw.types.Document", attributes: "raw.types.DocumentAttributeAudio", ttl_seconds: int | None = None) -> "Voice":
+    def _parse(client, voice: raw.types.Document, attributes: raw.types.DocumentAttributeAudio, ttl_seconds: (
+        int
+        | None
+    ) = None) -> Voice:
         return Voice(
             file_id=FileId(
                 file_type=FileType.VOICE,

@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from io import BytesIO
 from typing import Any
 
@@ -37,7 +39,7 @@ class FutureSalts(TLObject):
         self.salts = salts
 
     @staticmethod
-    def read(data: BytesIO, *args: Any) -> "FutureSalts":
+    def read(data: BytesIO, *args: Any) -> FutureSalts:
         req_msg_id = Long.read(data)
         now = Int.read(data)
 

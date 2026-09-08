@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 
 from pyrogram import raw, utils
@@ -45,7 +47,7 @@ class AuctionBid(Object):
         self.position = position
 
     @staticmethod
-    def _parse(auction_bid: "raw.base.AuctionBidLevel") -> "AuctionBid":
+    def _parse(auction_bid: raw.base.AuctionBidLevel) -> AuctionBid:
         return AuctionBid(
             star_count=auction_bid.amount,
             bid_date=utils.timestamp_to_datetime(auction_bid.date),

@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import logging
 import os
 import re
@@ -31,18 +33,18 @@ log = logging.getLogger(__name__)
 class SendPaidMedia:
     # TODO: Add progress parameter
     async def send_paid_media(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         stars_amount: int,
-        media: "list[types.InputMediaPhoto | types.InputMediaVideo]",
+        media: list[types.InputMediaPhoto | types.InputMediaVideo],
         caption: str = "",
         payload: str | None = None,
-        parse_mode: "enums.ParseMode | None" = None,
-        caption_entities: list["types.MessageEntity"] | None = None,
+        parse_mode: enums.ParseMode | None = None,
+        caption_entities: list[types.MessageEntity] | None = None,
         disable_notification: bool | None = None,
         direct_messages_topic_id: int | None = None,
-        reply_parameters: "types.ReplyParameters | None" = None,
-        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
+        reply_parameters: types.ReplyParameters | None = None,
+        suggested_post_parameters: types.SuggestedPostParameters | None = None,
         schedule_date: datetime | None = None,
         protect_content: bool | None = None,
         show_caption_above_media: bool | None = None,
@@ -50,9 +52,9 @@ class SendPaidMedia:
 
         reply_to_message_id: int | None = None,
         quote_text: str | None = None,
-        quote_entities: list["types.MessageEntity"] | None = None,
+        quote_entities: list[types.MessageEntity] | None = None,
         quote_offset: int | None = None,
-    ) -> list["types.Message"]:
+    ) -> list[types.Message]:
         """Send a group or one paid photo/video.
 
         .. include:: /_includes/usable-by/users-bots.rst

@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import logging
 from datetime import datetime
 from typing import TYPE_CHECKING
@@ -29,16 +31,16 @@ log = logging.getLogger(__name__)
 
 class CopyMessage:
     async def copy_message(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         from_chat_id: int | str,
         message_id: int,
         caption: str | None = None,
-        parse_mode: "enums.ParseMode | None" = None,
-        caption_entities: list["types.MessageEntity"] | None = None,
+        parse_mode: enums.ParseMode | None = None,
+        caption_entities: list[types.MessageEntity] | None = None,
         disable_notification: bool | None = None,
         message_thread_id: int | None = None,
-        reply_parameters: "types.ReplyParameters | None" = None,
+        reply_parameters: types.ReplyParameters | None = None,
         schedule_date: datetime | None = None,
         protect_content: bool | None = None,
         has_spoiler: bool | None = None,
@@ -49,13 +51,20 @@ class CopyMessage:
         # `object` (the class, not an instance) is the sentinel for "not specified",
         #  distinct from None, which means "remove the reply markup": so the parameter
         #  type has to include it alongside the real markup types.
-        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None | type[object]" = object,
+        reply_markup: (
+            types.InlineKeyboardMarkup
+            | types.ReplyKeyboardMarkup
+            | types.ReplyKeyboardRemove
+            | types.ForceReply
+            | None
+            | type[object]
+        ) = object,
 
         reply_to_chat_id: int | str | None = None,
         reply_to_message_id: int | None = None,
         quote_text: str | None = None,
-        quote_entities: list["types.MessageEntity"] | None = None,
-    ) -> "types.Message | None":
+        quote_entities: list[types.MessageEntity] | None = None,
+    ) -> types.Message | None:
         """Copy messages of any kind.
 
         The method is analogous to the method :meth:`~pyrogram.Client.forward_messages`, but the copied message doesn't have a

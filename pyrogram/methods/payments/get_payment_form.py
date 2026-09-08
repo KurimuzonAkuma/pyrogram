@@ -16,15 +16,17 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import pyrogram
 from pyrogram import raw, types
 
 
 class GetPaymentForm:
     async def get_payment_form(
-        self: "pyrogram.Client",
-        input_invoice: "types.InputInvoice"
-    ) -> "types.PaymentForm":
+        self: pyrogram.Client,
+        input_invoice: types.InputInvoice
+    ) -> types.PaymentForm:
         """Get an invoice payment form.
 
         This method must be called when the user presses inline button of the type InlineKeyboardButton with buy parameter,

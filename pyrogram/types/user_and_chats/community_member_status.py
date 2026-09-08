@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 from pyrogram import raw, types
 
@@ -39,8 +40,8 @@ class CommunityMemberStatus(Object):
 
     @staticmethod
     def _parse(
-        community: "raw.types.Community | raw.types.CommunityForbidden",
-    ) -> "CommunityMemberStatus":
+        community: raw.types.Community | raw.types.CommunityForbidden,
+    ) -> CommunityMemberStatus:
         if isinstance(community, raw.types.CommunityForbidden):
             return CommunityMemberStatusBanned()
 
@@ -77,7 +78,7 @@ class CommunityMemberStatusAdministrator(CommunityMemberStatus):
             Rights of the administrator.
     """
 
-    def __init__(self, can_be_edited: bool, rights: "types.CommunityAdministratorRights"):
+    def __init__(self, can_be_edited: bool, rights: types.CommunityAdministratorRights):
         super().__init__()
 
         self.can_be_edited = can_be_edited

@@ -19,6 +19,8 @@
 """Test values shared by more than one proxy test module, so no module declares
 its own copy."""
 
+from __future__ import annotations as _annotations
+
 from typing import Final
 
 # A made-up value. Every test using it only parses or re-encodes it, so nothing

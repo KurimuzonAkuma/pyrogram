@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types
@@ -39,7 +40,7 @@ class MessageGenerationStopped(Object, Update):
     """
 
     def __init__(
-        self, *, chat: "types.Chat", message_thread_id: int | None = None, draft_id: int
+        self, *, chat: types.Chat, message_thread_id: int | None = None, draft_id: int
     ):
         super().__init__()
 
@@ -49,11 +50,11 @@ class MessageGenerationStopped(Object, Update):
 
     @staticmethod
     async def _parse(
-        client: "pyrogram.Client",
-        update: "raw.types.UpdateUserTyping | raw.types.UpdateChannelUserTyping",
-        users: list["raw.base.User"],
-        chats: list["raw.base.Chat"],
-    ) -> "MessageGenerationStopped":
+        client: pyrogram.Client,
+        update: raw.types.UpdateUserTyping | raw.types.UpdateChannelUserTyping,
+        users: list[raw.base.User],
+        chats: list[raw.base.Chat],
+    ) -> MessageGenerationStopped:
         action: raw.types.SendMessageStopDraftAction = update.action
 
         return MessageGenerationStopped(

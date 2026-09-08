@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 from pyrogram import raw, types
 from ..object import Object
@@ -75,7 +76,7 @@ class BoostsStatus(Object):
         self.my_boost_slots = my_boost_slots
 
     @staticmethod
-    def _parse(boosts_status: "raw.types.premium.BoostsStatus") -> "BoostsStatus":
+    def _parse(boosts_status: raw.types.premium.BoostsStatus) -> BoostsStatus:
         return BoostsStatus(
             level=boosts_status.level,
             current_level_boosts=boosts_status.current_level_boosts,

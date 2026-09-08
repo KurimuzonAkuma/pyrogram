@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types
@@ -131,7 +132,7 @@ class WebPage(Object):
     def __init__(
         self,
         *,
-        client: "pyrogram.Client | None" = None,
+        client: pyrogram.Client | None = None,
         id: str,
         url: str,
         display_url: str | None = None,
@@ -139,11 +140,11 @@ class WebPage(Object):
         site_name: str | None = None,
         title: str | None = None,
         description: str | None = None,
-        audio: "types.Audio | None" = None,
-        document: "types.Document | None" = None,
-        photo: "types.Photo | None" = None,
-        animation: "types.Animation | None" = None,
-        video: "types.Video | None" = None,
+        audio: types.Audio | None = None,
+        document: types.Document | None = None,
+        photo: types.Photo | None = None,
+        animation: types.Animation | None = None,
+        video: types.Video | None = None,
         embed_url: str | None = None,
         embed_type: str | None = None,
         embed_width: int | None = None,
@@ -155,7 +156,7 @@ class WebPage(Object):
         safe: bool | None = None,
         duration: int | None = None,
         author: str | None = None,
-        raw: "raw.types.MessageMediaWebPage | None" = None
+        raw: raw.types.MessageMediaWebPage | None = None
     ):
         super().__init__(client)
 
@@ -187,8 +188,8 @@ class WebPage(Object):
     @staticmethod
     def _parse(
         client,
-        media: "raw.types.MessageMediaWebPage"
-    ) -> "WebPage | None":
+        media: raw.types.MessageMediaWebPage
+    ) -> WebPage | None:
         if not media:
             return None
 

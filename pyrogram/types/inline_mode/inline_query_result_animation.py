@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types, utils, enums
@@ -87,10 +88,10 @@ class InlineQueryResultAnimation(InlineQueryResult):
         title: str | None = None,
         description: str | None = None,
         caption: str = "",
-        parse_mode: "enums.ParseMode | None" = None,
-        caption_entities: list["types.MessageEntity"] | None = None,
-        reply_markup: "types.InlineKeyboardMarkup | None" = None,
-        input_message_content: "types.InputMessageContent | None" = None
+        parse_mode: enums.ParseMode | None = None,
+        caption_entities: list[types.MessageEntity] | None = None,
+        reply_markup: types.InlineKeyboardMarkup | None = None,
+        input_message_content: types.InputMessageContent | None = None
     ):
         super().__init__("gif", id, input_message_content, reply_markup)
 
@@ -108,7 +109,7 @@ class InlineQueryResultAnimation(InlineQueryResult):
         self.reply_markup = reply_markup
         self.input_message_content = input_message_content
 
-    async def write(self, client: "pyrogram.Client"):
+    async def write(self, client: pyrogram.Client):
         animation = raw.types.InputWebDocument(
             url=self.animation_url,
             size=0,

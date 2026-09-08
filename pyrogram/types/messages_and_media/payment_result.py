@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw
@@ -42,7 +43,7 @@ class PaymentResult(Object):
         *,
         success: bool,
         verification_url: str | None = None,
-        raw: "raw.base.payments.PaymentResult | None" = None,
+        raw: raw.base.payments.PaymentResult | None = None,
     ):
         super().__init__()
 
@@ -51,7 +52,7 @@ class PaymentResult(Object):
         self.raw = raw
 
     @staticmethod
-    def _parse(payment_result: "raw.base.payments.PaymentResult") -> "PaymentResult":
+    def _parse(payment_result: raw.base.payments.PaymentResult) -> PaymentResult:
         if isinstance(payment_result, raw.types.payments.PaymentVerificationNeeded):
             return PaymentResult(
                 success=False,

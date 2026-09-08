@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types
@@ -46,7 +47,7 @@ class TextQuote(Object):
     def __init__(
         self, *,
         text: str | None = None,
-        entities: list["types.MessageEntity"] | None = None,
+        entities: list[types.MessageEntity] | None = None,
         position: int | None = None,
         is_manual: bool | None = None
     ):
@@ -59,10 +60,10 @@ class TextQuote(Object):
 
     @staticmethod
     async def _parse(
-        client: "pyrogram.Client",
-        users: dict[int, "raw.types.User"],
-        reply_to: "raw.types.MessageReplyHeader"
-    ) -> "TextQuote":
+        client: pyrogram.Client,
+        users: dict[int, raw.types.User],
+        reply_to: raw.types.MessageReplyHeader
+    ) -> TextQuote:
         if isinstance(reply_to, raw.types.MessageReplyHeader):
             entities = types.List(
                 filter(

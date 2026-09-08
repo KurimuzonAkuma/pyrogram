@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 
 import pyrogram
@@ -147,7 +149,7 @@ class ChatEvent(Object):
         self, *,
         id: int,
         date: datetime,
-        user: "types.User",
+        user: types.User,
         action: str,
 
         old_description: str | None = None,
@@ -156,11 +158,11 @@ class ChatEvent(Object):
         old_history_ttl: int | None = None,
         new_history_ttl: int | None = None,
 
-        old_linked_chat: "types.Chat | None" = None,
-        new_linked_chat: "types.Chat | None" = None,
+        old_linked_chat: types.Chat | None = None,
+        new_linked_chat: types.Chat | None = None,
 
-        old_photo: "types.Photo | None" = None,
-        new_photo: "types.Photo | None" = None,
+        old_photo: types.Photo | None = None,
+        new_photo: types.Photo | None = None,
 
         old_title: str | None = None,
         new_title: str | None = None,
@@ -168,25 +170,25 @@ class ChatEvent(Object):
         old_username: str | None = None,
         new_username: str | None = None,
 
-        old_chat_permissions: "types.ChatPermissions | None" = None,
-        new_chat_permissions: "types.ChatPermissions | None" = None,
+        old_chat_permissions: types.ChatPermissions | None = None,
+        new_chat_permissions: types.ChatPermissions | None = None,
 
-        deleted_message: "types.Message | None" = None,
+        deleted_message: types.Message | None = None,
 
-        old_message: "types.Message | None" = None,
-        new_message: "types.Message | None" = None,
+        old_message: types.Message | None = None,
+        new_message: types.Message | None = None,
 
-        invited_member: "types.ChatMember | None" = None,
+        invited_member: types.ChatMember | None = None,
 
-        old_administrator_privileges: "types.ChatMember | None" = None,
-        new_administrator_privileges: "types.ChatMember | None" = None,
+        old_administrator_privileges: types.ChatMember | None = None,
+        new_administrator_privileges: types.ChatMember | None = None,
 
-        old_member_permissions: "types.ChatMember | None" = None,
-        new_member_permissions: "types.ChatMember | None" = None,
+        old_member_permissions: types.ChatMember | None = None,
+        new_member_permissions: types.ChatMember | None = None,
 
-        stopped_poll: "types.Message | None" = None,
+        stopped_poll: types.Message | None = None,
 
-        invites_enabled: "types.ChatMember | None" = None,
+        invites_enabled: types.ChatMember | None = None,
 
         history_hidden: bool | None = None,
 
@@ -195,18 +197,18 @@ class ChatEvent(Object):
         old_slow_mode: int | None = None,
         new_slow_mode: int | None = None,
 
-        pinned_message: "types.Message | None" = None,
-        unpinned_message: "types.Message | None" = None,
+        pinned_message: types.Message | None = None,
+        unpinned_message: types.Message | None = None,
 
-        old_invite_link: "types.ChatInviteLink | None" = None,
-        new_invite_link: "types.ChatInviteLink | None" = None,
-        revoked_invite_link: "types.ChatInviteLink | None" = None,
-        deleted_invite_link: "types.ChatInviteLink | None" = None,
+        old_invite_link: types.ChatInviteLink | None = None,
+        new_invite_link: types.ChatInviteLink | None = None,
+        revoked_invite_link: types.ChatInviteLink | None = None,
+        deleted_invite_link: types.ChatInviteLink | None = None,
 
-        created_forum_topic: "types.ForumTopic | None" = None,
-        old_forum_topic: "types.ForumTopic | None" = None,
-        new_forum_topic: "types.ForumTopic | None" = None,
-        deleted_forum_topic: "types.ForumTopic | None" = None
+        created_forum_topic: types.ForumTopic | None = None,
+        old_forum_topic: types.ForumTopic | None = None,
+        new_forum_topic: types.ForumTopic | None = None,
+        deleted_forum_topic: types.ForumTopic | None = None
     ):
         super().__init__()
 
@@ -275,10 +277,10 @@ class ChatEvent(Object):
 
     @staticmethod
     async def _parse(
-        client: "pyrogram.Client",
-        event: "raw.base.ChannelAdminLogEvent",
-        users: list["raw.base.User"],
-        chats: list["raw.base.Chat"]
+        client: pyrogram.Client,
+        event: raw.base.ChannelAdminLogEvent,
+        users: list[raw.base.User],
+        chats: list[raw.base.Chat]
     ):
         users = {i.id: i for i in users}
         chats = {i.id: i for i in chats}

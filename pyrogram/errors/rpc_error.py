@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import re
 from dataclasses import dataclass
 from datetime import datetime
@@ -122,7 +124,7 @@ class RPCError(Exception):
                 f.write(f"{datetime.now()}\t{value}\t{rpc_name}\n")
 
     @staticmethod
-    def raise_it(rpc_error: "raw.types.RpcError", rpc_type: type[TLObject]):
+    def raise_it(rpc_error: raw.types.RpcError, rpc_type: type[TLObject]):
         error_code = rpc_error.error_code
         is_signed = error_code < 0
         error_message = rpc_error.error_message

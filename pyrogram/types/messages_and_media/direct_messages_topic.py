@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types
@@ -59,14 +60,14 @@ class DirectMessagesTopic(Object):
         self,
         *,
         id: int,
-        user: "types.User | None" = None,
+        user: types.User | None = None,
         can_send_unpaid_messages: bool | None = None,
         is_marked_as_unread: bool | None = None,
         unread_count: int | None = None,
         last_read_inbox_message_id: int | None = None,
         last_read_outbox_message_id: int | None = None,
         unread_reactions_count: int | None = None,
-        last_message: "types.Message | None" = None
+        last_message: types.Message | None = None
     ):
         super().__init__()
 
@@ -82,12 +83,12 @@ class DirectMessagesTopic(Object):
 
     @staticmethod
     async def _parse(
-        client: "pyrogram.Client",
-        topic: "raw.types.MonoForumDialog",
+        client: pyrogram.Client,
+        topic: raw.types.MonoForumDialog,
         messages: dict = {},
-        users: dict[int, "raw.base.User"] = {},
-        chats: dict[int, "raw.base.Chat"] = {}
-    ) -> "DirectMessagesTopic":
+        users: dict[int, raw.base.User] = {},
+        chats: dict[int, raw.base.Chat] = {}
+    ) -> DirectMessagesTopic:
         if not topic:
             return None
 

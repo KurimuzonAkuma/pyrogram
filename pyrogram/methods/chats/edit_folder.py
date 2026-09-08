@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -23,14 +24,14 @@ from pyrogram import enums, raw, types, utils
 
 class EditFolder:
     async def edit_folder(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         folder_id: int,
         name: str | None = None,
-        parse_mode: "enums.ParseMode | None" = None,
-        entities: list["types.MessageEntity"] | None = None,
+        parse_mode: enums.ParseMode | None = None,
+        entities: list[types.MessageEntity] | None = None,
         animate_custom_emoji: bool | None = None,
         icon: str | None = None,
-        color: "enums.FolderColor | None" = None,
+        color: enums.FolderColor | None = None,
         pinned_chats: list[int | str] | None = None,
         included_chats: list[int | str] | None = None,
         excluded_chats: list[int | str] | None = None,

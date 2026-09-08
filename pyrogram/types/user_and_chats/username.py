@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 from pyrogram import raw
 from ..object import Object
@@ -43,7 +44,7 @@ class Username(Object):
         self.active = active
 
     @staticmethod
-    def _parse(username: "raw.types.Username") -> "Username":
+    def _parse(username: raw.types.Username) -> Username:
         return Username(
             username=username.username,
             editable=username.editable,

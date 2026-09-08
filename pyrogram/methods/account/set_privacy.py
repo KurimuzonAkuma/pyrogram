@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types, enums
@@ -23,10 +24,23 @@ from pyrogram import raw, types, enums
 
 class SetPrivacy:
     async def set_privacy(
-        self: "pyrogram.Client",
-        key: "enums.PrivacyKey",
-        rules: "list[types.InputPrivacyRuleAllowAll | types.InputPrivacyRuleAllowBots | types.InputPrivacyRuleAllowChats | types.InputPrivacyRuleAllowCloseFriends | types.InputPrivacyRuleAllowContacts | types.InputPrivacyRuleAllowPremium | types.InputPrivacyRuleAllowUsers | types.InputPrivacyRuleDisallowAll | types.InputPrivacyRuleDisallowBots | types.InputPrivacyRuleDisallowChats | types.InputPrivacyRuleDisallowContacts | types.InputPrivacyRuleDisallowUsers]",
-    ) -> list["types.PrivacyRule"]:
+        self: pyrogram.Client,
+        key: enums.PrivacyKey,
+        rules: list[
+            types.InputPrivacyRuleAllowAll
+            | types.InputPrivacyRuleAllowBots
+            | types.InputPrivacyRuleAllowChats
+            | types.InputPrivacyRuleAllowCloseFriends
+            | types.InputPrivacyRuleAllowContacts
+            | types.InputPrivacyRuleAllowPremium
+            | types.InputPrivacyRuleAllowUsers
+            | types.InputPrivacyRuleDisallowAll
+            | types.InputPrivacyRuleDisallowBots
+            | types.InputPrivacyRuleDisallowChats
+            | types.InputPrivacyRuleDisallowContacts
+            | types.InputPrivacyRuleDisallowUsers
+        ],
+    ) -> list[types.PrivacyRule]:
         """Set account privacy rules.
 
         .. include:: /_includes/usable-by/users.rst

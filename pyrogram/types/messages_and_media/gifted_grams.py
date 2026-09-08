@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import random
 
 from pyrogram import raw, types
@@ -47,11 +49,11 @@ class GiftedGrams(Object):
     def __init__(
         self,
         *,
-        gifter: "types.User | None" = None,
-        receiver: "types.User",
+        gifter: types.User | None = None,
+        receiver: types.User,
         gram_amount: int | None = None,
         transaction_id: str | None = None,
-        sticker: "types.Sticker | None" = None,
+        sticker: types.Sticker | None = None,
     ):
         super().__init__()
 
@@ -64,10 +66,10 @@ class GiftedGrams(Object):
     @staticmethod
     async def _parse(
         client,
-        action: "raw.types.MessageActionGiftTon",
-        gifter: "raw.base.User | None" = None,
-        receiver: "raw.base.User | None" = None,
-    ) -> "GiftedGrams":
+        action: raw.types.MessageActionGiftTon,
+        gifter: raw.base.User | None = None,
+        receiver: raw.base.User | None = None,
+    ) -> GiftedGrams:
         raw_stickers = await client.invoke(
             raw.functions.messages.GetStickerSet(
                 stickerset=raw.types.InputStickerSetTonGifts(),

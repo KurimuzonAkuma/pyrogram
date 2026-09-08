@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw
@@ -25,10 +26,10 @@ from pyrogram.errors import UserNotParticipant
 
 class GetChatMember:
     async def get_chat_member(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         user_id: int | str
-    ) -> "types.ChatMember":
+    ) -> types.ChatMember:
         """Get information about one member of a chat.
 
         .. include:: /_includes/usable-by/users-bots.rst

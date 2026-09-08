@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, enums
@@ -23,10 +24,10 @@ from pyrogram import raw, enums
 
 class SearchMessagesCount:
     async def search_messages_count(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         query: str = "",
-        filter: "enums.MessagesFilter" = enums.MessagesFilter.EMPTY,
+        filter: enums.MessagesFilter = enums.MessagesFilter.EMPTY,
         from_user: int | str | None = None,
         message_thread_id: int | None = None
     ) -> int:

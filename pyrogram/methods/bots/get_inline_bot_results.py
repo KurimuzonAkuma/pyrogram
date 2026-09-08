@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw
@@ -24,13 +25,13 @@ from pyrogram.errors import Timeout503
 
 class GetInlineBotResults:
     async def get_inline_bot_results(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         bot: int | str,
         query: str = "",
         offset: str = "",
         latitude: float | None = None,
         longitude: float | None = None
-    ) -> "raw.base.messages.BotResults":
+    ) -> raw.base.messages.BotResults:
         """Get bot results via inline queries.
         You can then send a result using :meth:`~pyrogram.Client.send_inline_bot_result`
 

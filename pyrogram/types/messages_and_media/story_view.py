@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 
 import pyrogram
@@ -47,12 +49,12 @@ class StoryView(Object):
     def __init__(
         self,
         *,
-        client: "pyrogram.Client | None" = None,
-        from_user: "types.User",
+        client: pyrogram.Client | None = None,
+        from_user: types.User,
         date: datetime,
         is_blocked: bool | None = None,
         is_blocked_my_stories_from: bool | None = None,
-        reaction: "types.Reaction | None" = None
+        reaction: types.Reaction | None = None
     ):
         super().__init__(client)
 
@@ -63,7 +65,7 @@ class StoryView(Object):
         self.reaction = reaction
 
     @staticmethod
-    async def _parse(client, view: "raw.types.StoryView", users: list["raw.types.User"]) -> "StoryView":
+    async def _parse(client, view: raw.types.StoryView, users: list[raw.types.User]) -> StoryView:
         return StoryView(
             from_user=await types.User._parse(client, users[view.user_id]),
             date=utils.timestamp_to_datetime(view.date),

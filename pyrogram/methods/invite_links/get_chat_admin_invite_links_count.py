@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw
@@ -23,7 +24,7 @@ from pyrogram import raw
 
 class GetChatAdminInviteLinksCount:
     async def get_chat_admin_invite_links_count(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         admin_id: int | str,
         revoked: bool = False,

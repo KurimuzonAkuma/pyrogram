@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw
@@ -23,7 +24,7 @@ from pyrogram import raw
 
 class SetChatAccentColor:
     async def set_chat_accent_color(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         accent_color_id: int | None = None,
         background_custom_emoji_id: str | None = None,

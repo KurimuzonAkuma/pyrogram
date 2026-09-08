@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import asyncio
 import functools
 import inspect
@@ -45,7 +47,7 @@ class SaveFile:
     #  wider than `Client`, and an overload the implementation does not accept is an error.
     @overload
     async def save_file(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         path: None,
         file_id: int | None = None,
         file_part: int = 0,
@@ -55,7 +57,7 @@ class SaveFile:
 
     @overload
     async def save_file(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         path: str | BinaryIO,
         file_id: int,
         file_part: int = 0,
@@ -65,22 +67,22 @@ class SaveFile:
 
     @overload
     async def save_file(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         path: str | BinaryIO,
         file_id: None = None,
         file_part: int = 0,
         progress: Callable | None = None,
         progress_args: tuple = ()
-    ) -> "raw.types.InputFile | raw.types.InputFileBig": ...
+    ) -> raw.types.InputFile | raw.types.InputFileBig: ...
 
     async def save_file(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         path: str | BinaryIO | None,
         file_id: int | None = None,
         file_part: int = 0,
         progress: Callable | None = None,
         progress_args: tuple = ()
-    ) -> "raw.types.InputFile | raw.types.InputFileBig | None":
+    ) -> raw.types.InputFile | raw.types.InputFileBig | None:
         """Upload a file onto Telegram servers, without actually sending the message to anyone.
         Useful whenever an InputFile type is required.
 

@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import os
 from typing import BinaryIO
 from collections.abc import Callable
@@ -27,28 +29,28 @@ from pyrogram.errors import FilePartMissing
 
 class SendStory:
     async def send_story(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         media: str | BinaryIO,
         caption: str | None = None,
         period: int | None = None,
-        media_areas: list["types.MediaArea"] | None = None,
+        media_areas: list[types.MediaArea] | None = None,
         duration: int = 0,
         width: int = 0,
         height: int = 0,
         thumb: str | BinaryIO | None = None,
         supports_streaming: bool = True,
         file_name: str | None = None,
-        privacy: "enums.StoriesPrivacyRules | None" = None,
+        privacy: enums.StoriesPrivacyRules | None = None,
         allowed_users: list[int | str] | None = None,
         disallowed_users: list[int | str] | None = None,
         pinned: bool | None = None,
         protect_content: bool | None = None,
-        parse_mode: "enums.ParseMode | None" = None,
-        caption_entities: list["types.MessageEntity"] | None = None,
+        parse_mode: enums.ParseMode | None = None,
+        caption_entities: list[types.MessageEntity] | None = None,
         progress: Callable | None = None,
         progress_args: tuple = (),
-    ) -> "types.Story | None":
+    ) -> types.Story | None:
         """Post new story.
 
         .. include:: /_includes/usable-by/users.rst

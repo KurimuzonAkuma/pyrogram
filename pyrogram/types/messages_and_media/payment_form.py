@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import enums, raw, types
@@ -82,24 +83,24 @@ class PaymentForm(Object):
     def __init__(
         self,
         *,
-        client: "pyrogram.Client | None" = None,
+        client: pyrogram.Client | None = None,
         id: int,
-        type: "enums.PaymentFormType",
+        type: enums.PaymentFormType,
         title: str | None = None,
         description: str | None = None,
-        photo: "types.Photo | None" = None,
+        photo: types.Photo | None = None,
         seller_bot_user_id: int | None = None,
-        seller_bot: "types.User | None" = None,
+        seller_bot: types.User | None = None,
         payment_provider_user_id: int | None = None,
-        payment_provider: "types.User | None" = None,
-        additional_payment_options: list["types.PaymentOption"] | None = None,
-        saved_credentials: list["types.SavedCredentials"] | None = None,
-        invoice: "types.Invoice | None" = None,
+        payment_provider: types.User | None = None,
+        additional_payment_options: list[types.PaymentOption] | None = None,
+        saved_credentials: list[types.SavedCredentials] | None = None,
+        invoice: types.Invoice | None = None,
         url: str | None = None,
         can_save_credentials: bool | None = None,
         need_password: bool | None = None,
         native_provider: str | None = None,
-        raw: "raw.base.payments.PaymentForm | None" = None,
+        raw: raw.base.payments.PaymentForm | None = None,
     ):
         super().__init__(client)
 
@@ -122,7 +123,7 @@ class PaymentForm(Object):
         self.raw = raw
 
     @staticmethod
-    async def _parse(client, form: "raw.base.payments.PaymentForm") -> "PaymentForm":
+    async def _parse(client, form: raw.base.payments.PaymentForm) -> PaymentForm:
         users = {i.id: i for i in getattr(form, "users", [])}
 
         if isinstance(form, raw.types.payments.PaymentForm):

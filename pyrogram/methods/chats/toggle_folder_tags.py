@@ -16,13 +16,15 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import pyrogram
 from pyrogram import raw
 
 
 class ToggleFolderTags:
     async def toggle_folder_tags(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         are_tags_enabled: bool
     ) -> bool:
         """Toggles whether chat folder tags are enabled.

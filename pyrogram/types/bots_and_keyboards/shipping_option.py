@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 from pyrogram import raw, types
 
@@ -41,7 +42,7 @@ class ShippingOption(Object):
         self,
         id: str,
         title: str,
-        prices: list["types.LabeledPrice"]
+        prices: list[types.LabeledPrice]
     ):
         super().__init__()
 
@@ -50,7 +51,7 @@ class ShippingOption(Object):
         self.prices = prices
 
     @staticmethod
-    def _parse(shipping_option: "raw.types.ShippingOption") -> "ShippingOption":
+    def _parse(shipping_option: raw.types.ShippingOption) -> ShippingOption:
         if isinstance(shipping_option, raw.types.ShippingOption):
             return ShippingOption(
                 id=shipping_option.id,

@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, enums
@@ -23,11 +24,11 @@ from pyrogram import raw, enums
 
 class GetMainWebApp:
     async def get_main_web_app(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         bot_user_id: int | str,
         start_parameter: str = "",
-        platform: "enums.ClientPlatform | None" = None
+        platform: enums.ClientPlatform | None = None
     ) -> str:
         """Returns information needed to open the main Web App of a bot.
 

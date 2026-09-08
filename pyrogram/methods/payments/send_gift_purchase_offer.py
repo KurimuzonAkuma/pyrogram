@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -23,13 +24,13 @@ from pyrogram import raw, types, utils
 
 class SendGiftPurchaseOffer:
     async def send_gift_purchase_offer(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         owner_id: int | str,
         gift_name: str,
-        price: "types.GiftResalePrice",
+        price: types.GiftResalePrice,
         duration: int,
         paid_message_star_count: int | None = None
-    ) -> "types.Message | None":
+    ) -> types.Message | None:
         """Sends an offer to purchase an upgraded gift.
 
         .. include:: /_includes/usable-by/users.rst

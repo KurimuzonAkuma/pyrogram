@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import logging
 
 import pyrogram
@@ -97,7 +99,7 @@ class InputInvoiceMessageContent(InputMessageContent):
         description: str,
         payload: str | bytes,
         currency: str,
-        prices: list["types.LabeledPrice"],
+        prices: list[types.LabeledPrice],
         provider_token: str | None = None,
         max_tip_amount: int | None = None,
         suggested_tip_amounts: list[int] | None = None,
@@ -137,7 +139,7 @@ class InputInvoiceMessageContent(InputMessageContent):
         self.send_email_to_provider = send_email_to_provider
         self.is_flexible = is_flexible
 
-    async def write(self, client: "pyrogram.Client", reply_markup):
+    async def write(self, client: pyrogram.Client, reply_markup):
         return raw.types.InputBotInlineMessageMediaInvoice(
             title=self.title,
             description=self.description,

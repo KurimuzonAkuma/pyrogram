@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from typing import TYPE_CHECKING
 
 from pyrogram.file_id import FileId, FileType, FileUniqueId, FileUniqueType
@@ -56,7 +58,7 @@ class LivePhoto(Object):
     def __init__(
         self,
         *,
-        client: "pyrogram.Client | None" = None,
+        client: pyrogram.Client | None = None,
         file_id: str,
         file_unique_id: str,
         width: int,
@@ -78,9 +80,9 @@ class LivePhoto(Object):
     @staticmethod
     def _parse(
         client,
-        video: "raw.types.Document",
-        video_attributes: "raw.types.DocumentAttributeVideo",
-    ) -> "LivePhoto":
+        video: raw.types.Document,
+        video_attributes: raw.types.DocumentAttributeVideo,
+    ) -> LivePhoto:
         return LivePhoto(
             file_id=FileId(
                 file_type=FileType.VIDEO,

@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types
@@ -71,9 +72,9 @@ class Dialog(Object):
     def __init__(
         self,
         *,
-        client: "pyrogram.Client | None" = None,
-        chat: "types.Chat",
-        top_message: "types.Message",
+        client: pyrogram.Client | None = None,
+        chat: types.Chat,
+        top_message: types.Message,
         last_read_inbox_message_id: int,
         last_read_outbox_message_id: int,
         unread_messages_count: int,
@@ -84,7 +85,7 @@ class Dialog(Object):
         is_pinned: bool,
         folder_id: int | None = None,
         ttl_period: int | None = None,
-        raw: "raw.types.Dialog | None" = None
+        raw: raw.types.Dialog | None = None
     ):
         super().__init__(client)
 
@@ -103,7 +104,7 @@ class Dialog(Object):
         self.raw = raw
 
     @staticmethod
-    async def _parse(client, dialog: "raw.types.Dialog", messages, users, chats) -> "Dialog":
+    async def _parse(client, dialog: raw.types.Dialog, messages, users, chats) -> Dialog:
         return Dialog(
             chat=await types.Chat._parse_dialog(client, dialog.peer, users, chats),
             top_message=messages.get(utils.get_peer_id(dialog.peer)),

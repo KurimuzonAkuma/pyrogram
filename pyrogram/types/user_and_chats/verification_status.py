@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 from pyrogram import raw
 
@@ -55,7 +56,7 @@ class VerificationStatus(Object):
         self.bot_verification_icon_custom_emoji_id = bot_verification_icon_custom_emoji_id
 
     @staticmethod
-    def _parse(chat: "raw.base.User | raw.base.Chat | raw.base.ChatInvite") -> "VerificationStatus | None":
+    def _parse(chat: raw.base.User | raw.base.Chat | raw.base.ChatInvite) -> VerificationStatus | None:
         if not isinstance(chat, (raw.types.User, raw.types.Channel, raw.types.ChatInvite)):
             return None
 

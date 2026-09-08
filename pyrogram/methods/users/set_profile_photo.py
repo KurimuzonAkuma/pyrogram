@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import logging
 from typing import BinaryIO
 
@@ -26,8 +28,8 @@ log = logging.getLogger(__name__)
 
 class SetProfilePhoto:
     async def set_profile_photo(
-        self: "pyrogram.Client",
-        photo: "types.InputChatPhoto | None" = None,
+        self: pyrogram.Client,
+        photo: types.InputChatPhoto | None = None,
         is_public: bool | None = None,
         *,
         video: str | BinaryIO | None = None
@@ -100,9 +102,9 @@ class SetProfilePhoto:
 
 class SetBotProfilePhoto:
     async def set_bot_profile_photo(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         bot_user_id: int | str,
-        photo: "types.InputChatPhoto | None" = None,
+        photo: types.InputChatPhoto | None = None,
     ) -> bool:
         """Changes a profile photo for a bot.
 

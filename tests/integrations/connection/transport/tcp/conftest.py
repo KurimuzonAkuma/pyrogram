@@ -21,6 +21,8 @@
 (see .env.test.example); a test that asks for one of these is skipped, by name,
 when the environment does not carry it."""
 
+from __future__ import annotations as _annotations
+
 import asyncio
 import os
 import shutil

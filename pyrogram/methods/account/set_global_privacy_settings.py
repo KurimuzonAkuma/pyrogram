@@ -16,13 +16,15 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import pyrogram
 from pyrogram import raw, types
 
 
 class SetGlobalPrivacySettings:
     async def set_global_privacy_settings(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         archive_and_mute_new_chats: bool | None = None,
         keep_unmuted_chats_archived: bool | None = None,
         keep_chats_from_folders_archived: bool | None = None,
@@ -31,7 +33,7 @@ class SetGlobalPrivacySettings:
         incoming_paid_message_star_count: int | None = None,
         show_gift_button: bool | None = None,
         accepted_gift_types: types.AcceptedGiftTypes | None = None,
-    ) -> "types.GlobalPrivacySettings":
+    ) -> types.GlobalPrivacySettings:
         """Set account global privacy settings.
 
         .. include:: /_includes/usable-by/users.rst

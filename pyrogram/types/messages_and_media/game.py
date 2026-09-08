@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw
@@ -51,13 +52,13 @@ class Game(Object):
     def __init__(
         self,
         *,
-        client: "pyrogram.Client | None" = None,
+        client: pyrogram.Client | None = None,
         id: int,
         title: str,
         short_name: str,
         description: str,
-        photo: "types.Photo",
-        animation: "types.Animation | None" = None
+        photo: types.Photo,
+        animation: types.Animation | None = None
     ):
         super().__init__(client)
 
@@ -69,7 +70,7 @@ class Game(Object):
         self.animation = animation
 
     @staticmethod
-    def _parse(client, media: "raw.types.MessageMediaGame") -> "Game":
+    def _parse(client, media: raw.types.MessageMediaGame) -> Game:
         animation = None
 
         if media.game.document:

@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 from pyrogram import types, raw
 from ..object import Object
@@ -39,7 +40,7 @@ class BusinessWorkingHours(Object):
         self,
         *,
         timezone: str,
-        working_hours: list["types.BusinessWeeklyOpen"],
+        working_hours: list[types.BusinessWeeklyOpen],
         is_open_now: bool | None = None
 
     ):
@@ -48,7 +49,7 @@ class BusinessWorkingHours(Object):
         self.working_hours = working_hours
 
     @staticmethod
-    def _parse(work_hours: "raw.types.BusinessWorkHours | None" = None) -> "BusinessWorkingHours | None":
+    def _parse(work_hours: raw.types.BusinessWorkHours | None = None) -> BusinessWorkingHours | None:
         if not work_hours:
             return None
 

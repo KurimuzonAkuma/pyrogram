@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 
 import pyrogram
@@ -62,8 +64,8 @@ class Giveaway(Object):
     def __init__(
         self,
         *,
-        client: "pyrogram.Client | None" = None,
-        chats: list["types.Chat"] | None = None,
+        client: pyrogram.Client | None = None,
+        chats: list[types.Chat] | None = None,
         quantity: int | None = None,
         months: int | None = None,
         until_date: datetime | None = None,
@@ -88,9 +90,9 @@ class Giveaway(Object):
     @staticmethod
     async def _parse(
         client,
-        giveaway: "raw.types.MessageMediaGiveaway",
+        giveaway: raw.types.MessageMediaGiveaway,
         chats: dict
-    ) -> "Giveaway":
+    ) -> Giveaway:
         return Giveaway(
             chats=types.List([await types.Chat._parse_channel_chat(client, chats.get(i)) for i in giveaway.channels]),
             quantity=giveaway.quantity,

@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 from typing import TYPE_CHECKING
 
@@ -64,7 +65,7 @@ class CommunityAdministratorRights(Object):
         self.can_ban_members = can_ban_members
 
     @staticmethod
-    def _parse(admin_rights: "raw.base.ChatAdminRights") -> "CommunityAdministratorRights":
+    def _parse(admin_rights: raw.base.ChatAdminRights) -> CommunityAdministratorRights:
         if admin_rights is None:
             return None
 

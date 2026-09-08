@@ -26,6 +26,8 @@ https://github.com/tdlib/td/blob/d1085f9cebc5a62379991ae1652673954f229c1f/td/mtp
 https://github.com/tdlib/td/blob/d1085f9cebc5a62379991ae1652673954f229c1f/td/mtproto/TlsReaderByteFlow.cpp#L15-L36
 """
 
+from __future__ import annotations as _annotations
+
 from typing import Final, Protocol
 
 # The five bytes every record opens with: content type 0x17 for application data

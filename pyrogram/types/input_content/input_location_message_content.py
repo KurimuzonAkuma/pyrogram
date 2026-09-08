@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import logging
 
 import pyrogram
@@ -70,7 +72,7 @@ class InputLocationMessageContent(InputMessageContent):
         self.heading = heading
         self.proximity_alert_radius = proximity_alert_radius
 
-    async def write(self, client: "pyrogram.Client", reply_markup):
+    async def write(self, client: pyrogram.Client, reply_markup):
         return raw.types.InputBotInlineMessageMediaGeo(
             geo_point=raw.types.InputGeoPoint(
                 lat=self.latitude,

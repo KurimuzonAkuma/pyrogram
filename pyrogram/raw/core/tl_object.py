@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from io import BytesIO
 from json import dumps
 from typing import cast, Any, TypeVar, Generic
@@ -38,7 +40,7 @@ class TLObject(Generic[ReturnType]):
         raise NotImplementedError
 
     @staticmethod
-    def default(obj: "TLObject") -> str | dict[str, str]:
+    def default(obj: TLObject) -> str | dict[str, str]:
         if isinstance(obj, bytes):
             return repr(obj)
 

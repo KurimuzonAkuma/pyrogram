@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import logging
 from datetime import datetime
 from typing import BinaryIO
@@ -559,9 +561,9 @@ class Chat(Object):
     def __init__(
         self,
         *,
-        client: "pyrogram.Client | None" = None,
+        client: pyrogram.Client | None = None,
         id: int | None = None,
-        type: "enums.ChatType | None" = None,
+        type: enums.ChatType | None = None,
         is_forum: bool | None = None,
         is_direct_messages: bool | None = None,
         is_min: bool | None = None,
@@ -580,23 +582,23 @@ class Chat(Object):
         is_call_not_empty: bool | None = None,
         is_public: bool | None = None,
         is_paid_reactions_available: bool | None = None,
-        verification_status: "types.VerificationStatus | None" = None,
+        verification_status: types.VerificationStatus | None = None,
         can_send_gift: bool | None = None,
         title: str | None = None,
         username: str | None = None,
-        usernames: list["types.Username"] | None = None,
+        usernames: list[types.Username] | None = None,
         first_name: str | None = None,
         last_name: str | None = None,
-        personal_photo: "types.ChatPhoto | None" = None,
-        photo: "types.ChatPhoto | None" = None,
-        public_photo: "types.ChatPhoto | None" = None,
-        stories: list["types.Story"] | None = None,
-        chat_background: "types.ChatBackground | None" = None,
+        personal_photo: types.ChatPhoto | None = None,
+        photo: types.ChatPhoto | None = None,
+        public_photo: types.ChatPhoto | None = None,
+        stories: list[types.Story] | None = None,
+        chat_background: types.ChatBackground | None = None,
         bio: str | None = None,
         description: str | None = None,
         show_message_sender_name: bool | None = None,
         sign_messages: bool | None = None,
-        emoji_status: "types.EmojiStatus | None" = None,
+        emoji_status: types.EmojiStatus | None = None,
         dc_id: int | None = None,
         folder_id: int | None = None,
         has_protected_content: bool | None = None,
@@ -607,34 +609,34 @@ class Chat(Object):
         has_direct_messages_group: bool | None = None,
         has_welcome_messages: bool | None = None,
         invite_link: str | None = None,
-        pinned_message: "types.Message | None" = None,
+        pinned_message: types.Message | None = None,
         sticker_set_name: str | None = None,
         custom_emoji_sticker_set_name: str | None = None,
         can_set_sticker_set: bool | None = None,
         can_send_paid_media: bool | None = None,
-        members: list["types.User"] | None = None,
+        members: list[types.User] | None = None,
         members_count: int | None = None,
-        restrictions: list["types.Restriction"] | None = None,
-        permissions: "types.ChatPermissions | None" = None,
-        personal_channel: "types.Chat | None" = None,
-        personal_channel_message: "types.Message | None" = None,
+        restrictions: list[types.Restriction] | None = None,
+        permissions: types.ChatPermissions | None = None,
+        personal_channel: types.Chat | None = None,
+        personal_channel_message: types.Message | None = None,
         linked_chat_id: int | None = None,
         direct_messages_chat_id: int | None = None,
-        parent_chat: "types.Chat | None" = None,
-        linked_chat: "types.Chat | None" = None,
-        send_as_chat: "types.Chat | None" = None,
-        available_reactions: "types.ChatReactions | None" = None,
+        parent_chat: types.Chat | None = None,
+        linked_chat: types.Chat | None = None,
+        send_as_chat: types.Chat | None = None,
+        available_reactions: types.ChatReactions | None = None,
         level: int | None = None,
         accent_color_id: int | None = None,
         background_custom_emoji_id: str | None = None,
         profile_accent_color_id: int | None = None,
         profile_background_custom_emoji_id: str | None = None,
-        business_away_message: "types.BusinessMessage | None" = None,
-        business_greeting_message: "types.BusinessMessage | None" = None,
-        business_work_hours: "types.BusinessMessage | None" = None,
-        business_location: "types.Location | None" = None,
-        business_intro: "types.BusinessIntro | None" = None,
-        birthday: "types.Birthday | None" = None,
+        business_away_message: types.BusinessMessage | None = None,
+        business_greeting_message: types.BusinessMessage | None = None,
+        business_work_hours: types.BusinessMessage | None = None,
+        business_location: types.Location | None = None,
+        business_intro: types.BusinessIntro | None = None,
+        birthday: types.Birthday | None = None,
         message_auto_delete_time: int | None = None,
         unrestrict_boost_count: int | None = None,
         slow_mode_delay: int | None = None,
@@ -645,20 +647,20 @@ class Chat(Object):
         subscription_until_date: datetime | None = None,
         reactions_limit: int | None = None,
         gift_count: int | None = None,
-        bot_verification: "types.BotVerification | None" = None,
-        main_profile_tab: "enums.ProfileTab | None" = None,
-        first_profile_audio: "types.Audio | None" = None,
-        rating: "types.UserRating | None" = None,
-        pending_rating: "types.UserRating | None" = None,
+        bot_verification: types.BotVerification | None = None,
+        main_profile_tab: enums.ProfileTab | None = None,
+        first_profile_audio: types.Audio | None = None,
+        rating: types.UserRating | None = None,
+        pending_rating: types.UserRating | None = None,
         pending_rating_date: datetime | None = None,
-        settings: "types.ChatSettings | None" = None,
+        settings: types.ChatSettings | None = None,
         admins_count: int | None = None,
         kicked_count: int | None = None,
         banned_count: int | None = None,
         available_min_id: int | None = None,
         boosts_applied: int | None = None,
-        channel_admin_rights: "types.ChatAdministratorRights | None" = None,
-        chat_admin_rights: "types.ChatAdministratorRights | None" = None,
+        channel_admin_rights: types.ChatAdministratorRights | None = None,
+        chat_admin_rights: types.ChatAdministratorRights | None = None,
         bot_can_manage_emoji_status: bool | None = None,
         can_delete_channel: bool | None = None,
         can_pin_message: bool | None = None,
@@ -698,12 +700,12 @@ class Chat(Object):
         is_paid_messages_available: bool | None = None,
         display_gifts_button: bool | None = None,
         uses_unofficial_app: bool | None = None,
-        accepted_gift_types: "types.AcceptedGiftTypes | None" = None,
-        note: "types.FormattedText | None" = None,
-        guard_bot: "types.User | None" = None,
+        accepted_gift_types: types.AcceptedGiftTypes | None = None,
+        note: types.FormattedText | None = None,
+        guard_bot: types.User | None = None,
         community_id: int | None = None,
-        community: "types.Community | None" = None,
-        raw: "raw.types.UserFull | raw.types.ChatFull | raw.types.ChannelFull | None" = None,
+        community: types.Community | None = None,
+        raw: raw.types.UserFull | raw.types.ChatFull | raw.types.ChannelFull | None = None,
     ):
         super().__init__(client)
 
@@ -881,8 +883,8 @@ class Chat(Object):
     @staticmethod
     async def _parse_user_chat(
         client,
-        user: "raw.types.User",
-    ) -> "Chat | None":
+        user: raw.types.User,
+    ) -> Chat | None:
         if user is None or isinstance(user, raw.types.UserEmpty):
             return None
 
@@ -939,7 +941,7 @@ class Chat(Object):
         )
 
     @staticmethod
-    async def _parse_chat_chat(client, chat: "raw.types.Chat") -> "Chat | None":
+    async def _parse_chat_chat(client, chat: raw.types.Chat) -> Chat | None:
         if chat is None or isinstance(chat, raw.types.ChatEmpty):
             return None
 
@@ -978,8 +980,8 @@ class Chat(Object):
     @staticmethod
     async def _parse_channel_chat(
         client,
-        channel: "raw.types.Channel",
-    ) -> "Chat | None":
+        channel: raw.types.Channel,
+    ) -> Chat | None:
         if channel is None:
             return None
 
@@ -1082,11 +1084,11 @@ class Chat(Object):
     @staticmethod
     async def _parse(
         client,
-        message: "raw.types.Message | raw.types.MessageService",
-        users: dict[int, "raw.base.User"],
-        chats: dict[int, "raw.base.Chat"],
+        message: raw.types.Message | raw.types.MessageService,
+        users: dict[int, raw.base.User],
+        chats: dict[int, raw.base.Chat],
         is_chat: bool,
-    ) -> "Chat | None":
+    ) -> Chat | None:
         from_id = utils.get_raw_peer_id(message.from_id)
         peer_id = utils.get_raw_peer_id(message.peer_id)
         chat_id = (peer_id or from_id) if is_chat else (from_id or peer_id)
@@ -1101,9 +1103,9 @@ class Chat(Object):
     @staticmethod
     async def _parse_dialog(
         client,
-        peer: "raw.base.Peer",
-        users: dict[int, "raw.base.User"],
-        chats: dict[int, "raw.base.Chat"],
+        peer: raw.base.Peer,
+        users: dict[int, raw.base.User],
+        chats: dict[int, raw.base.Chat],
     ):
         if isinstance(peer, (raw.types.PeerUser, raw.types.InputPeerUser)):
             return await Chat._parse_user_chat(client, users.get(peer.user_id))
@@ -1114,11 +1116,11 @@ class Chat(Object):
 
     @staticmethod
     async def _parse_full_user(
-        client: "pyrogram.Client",
-        user: "raw.types.UserFull",
-        users: dict[int, "raw.base.User"],
-        chats: dict[int, "raw.base.Chat"],
-    ) -> "Chat":
+        client: pyrogram.Client,
+        user: raw.types.UserFull,
+        users: dict[int, raw.base.User],
+        chats: dict[int, raw.base.Chat],
+    ) -> Chat:
         parsed_chat = await Chat._parse_user_chat(client, users[user.id])
         parsed_chat.raw = user
 
@@ -1242,11 +1244,11 @@ class Chat(Object):
 
     @staticmethod
     async def _parse_full_chat(
-        client: "pyrogram.Client",
-        chat: "raw.types.ChatFull",
-        users: dict[int, "raw.base.User"],
-        chats: dict[int, "raw.base.Chat"],
-    ) -> "Chat":
+        client: pyrogram.Client,
+        chat: raw.types.ChatFull,
+        users: dict[int, raw.base.User],
+        chats: dict[int, raw.base.Chat],
+    ) -> Chat:
         parsed_chat = await Chat._parse_chat_chat(client, chats[chat.id])
         parsed_chat.raw = chat
 
@@ -1287,11 +1289,11 @@ class Chat(Object):
 
     @staticmethod
     async def _parse_full_channel(
-        client: "pyrogram.Client",
-        channel: "raw.types.ChannelFull",
-        users: dict[int, "raw.base.User"],
-        chats: dict[int, "raw.base.Chat"],
-    ) -> "Chat":
+        client: pyrogram.Client,
+        channel: raw.types.ChannelFull,
+        users: dict[int, raw.base.User],
+        chats: dict[int, raw.base.Chat],
+    ) -> Chat:
         parsed_chat = await Chat._parse_channel_chat(client, chats[channel.id])
         parsed_chat.raw = channel
 
@@ -1419,9 +1421,9 @@ class Chat(Object):
 
     @staticmethod
     async def _parse_full(
-        client: "pyrogram.Client",
-        chat_full: "raw.types.UserFull | raw.types.ChatFull | raw.types.ChannelFull",
-    ) -> "Chat | None":
+        client: pyrogram.Client,
+        chat_full: raw.types.UserFull | raw.types.ChatFull | raw.types.ChannelFull,
+    ) -> Chat | None:
         users = {u.id: u for u in chat_full.users}
         chats = {c.id: c for c in chat_full.chats}
 
@@ -1440,7 +1442,7 @@ class Chat(Object):
     async def _parse_chat(
         client,
         chat: raw.types.Chat | raw.types.User | raw.types.Channel
-    ) -> "Chat | None":
+    ) -> Chat | None:
         if isinstance(chat, (raw.types.Chat, raw.types.ChatForbidden)):
             return await Chat._parse_chat_chat(client, chat)
         elif isinstance(chat, raw.types.User):
@@ -1449,7 +1451,7 @@ class Chat(Object):
             return await Chat._parse_channel_chat(client, chat)
 
     @staticmethod
-    async def _parse_preview(client, chat_invite: "raw.types.ChatInvite") -> "Chat":
+    async def _parse_preview(client, chat_invite: raw.types.ChatInvite) -> Chat:
         return Chat(
             type=(
                 enums.ChatType.SUPERGROUP
@@ -1524,7 +1526,7 @@ class Chat(Object):
         """
         return await self._client.unarchive_chats(self.id)
 
-    async def set_title(self, title: str) -> "types.Message | None":
+    async def set_title(self, title: str) -> types.Message | None:
         """Bound method *set_title* of :obj:`~pyrogram.types.Chat`.
 
         Use as a shortcut for:
@@ -1591,7 +1593,7 @@ class Chat(Object):
         photo: str | BinaryIO | None = None,
         video: str | BinaryIO | None = None,
         video_start_ts: float | None = None,
-    ) -> "types.Message | None":
+    ) -> types.Message | None:
         """Bound method *set_photo* of :obj:`~pyrogram.types.Chat`.
 
         Use as a shortcut for:
@@ -1645,7 +1647,7 @@ class Chat(Object):
             chat_id=self.id, photo=photo, video=video, video_start_ts=video_start_ts
         )
 
-    async def set_ttl(self, ttl_seconds: int) -> "types.Message | None":
+    async def set_ttl(self, ttl_seconds: int) -> types.Message | None:
         """Bound method *set_ttl* of :obj:`~pyrogram.types.Chat`.
 
         Use as a shortcut for:
@@ -1673,7 +1675,7 @@ class Chat(Object):
         user_id: int | str,
         until_date: datetime = utils.zero_datetime(),
         revoke_messages: bool | None = None,
-    ) -> "types.Message | bool":
+    ) -> types.Message | bool:
         """Bound method *ban_member* of :obj:`~pyrogram.types.Chat`.
 
         Use as a shortcut for:
@@ -1753,9 +1755,9 @@ class Chat(Object):
     async def restrict_member(
         self,
         user_id: int | str,
-        permissions: "types.ChatPermissions",
+        permissions: types.ChatPermissions,
         until_date: datetime = utils.zero_datetime(),
-    ) -> "types.Chat":
+    ) -> types.Chat:
         """Bound method *unban_member* of :obj:`~pyrogram.types.Chat`.
 
         Use as a shortcut for:
@@ -1802,7 +1804,7 @@ class Chat(Object):
     # Set None as privileges default due to issues with partially initialized module, because at the time Chat
     # is being initialized, ChatAdministratorRights would be required here, but was not initialized yet.
     async def promote_member(
-        self, user_id: int | str, privileges: "types.ChatAdministratorRights | None" = None
+        self, user_id: int | str, privileges: types.ChatAdministratorRights | None = None
     ) -> bool:
         """Bound method *promote_member* of :obj:`~pyrogram.types.Chat`.
 
@@ -1839,7 +1841,7 @@ class Chat(Object):
             chat_id=self.id, user_id=user_id, privileges=privileges
         )
 
-    async def join(self) -> "types.ChatJoinResult":
+    async def join(self) -> types.ChatJoinResult:
         """Bound method *join* of :obj:`~pyrogram.types.Chat`.
 
         Use as a shortcut for:
@@ -1884,7 +1886,7 @@ class Chat(Object):
         """
         return await self._client.leave_chat(self.id)
 
-    async def export_invite_link(self) -> "types.ChatInviteLink":
+    async def export_invite_link(self) -> types.ChatInviteLink:
         """Bound method *export_invite_link* of :obj:`~pyrogram.types.Chat`.
 
         Use as a shortcut for:
@@ -1909,7 +1911,7 @@ class Chat(Object):
     async def get_member(
         self,
         user_id: int | str,
-    ) -> "types.ChatMember":
+    ) -> types.ChatMember:
         """Bound method *get_member* of :obj:`~pyrogram.types.Chat`.
 
         Use as a shortcut for:
@@ -1935,8 +1937,8 @@ class Chat(Object):
         self,
         query: str = "",
         limit: int = 0,
-        filter: "enums.ChatMembersFilter" = enums.ChatMembersFilter.SEARCH,
-    ) -> AsyncGenerator["types.ChatMember", None]:
+        filter: enums.ChatMembersFilter = enums.ChatMembersFilter.SEARCH,
+    ) -> AsyncGenerator[types.ChatMember, None]:
         """Bound method *get_members* of :obj:`~pyrogram.types.Chat`.
 
         Use as a shortcut for:
@@ -1974,7 +1976,7 @@ class Chat(Object):
 
     async def add_members(
         self, user_ids: int | str | list[int | str], forward_limit: int = 100
-    ) -> list["types.FailedToAddMember"]:
+    ) -> list[types.FailedToAddMember]:
         """Bound method *add_members* of :obj:`~pyrogram.types.Chat`.
 
         Use as a shortcut for:

@@ -16,13 +16,15 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import pyrogram
 from pyrogram import raw
 
 
 class AcceptTermsOfService:
     async def accept_terms_of_service(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         terms_of_service_id: str
     ) -> bool:
         """Accept the given terms of service.

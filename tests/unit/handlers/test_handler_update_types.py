@@ -23,13 +23,17 @@ nor stop the chain, because both live on `Update`. Neither failure announces its
 sender filters answer `False`, which reads as "no sender" rather than "never looked".
 """
 
+from __future__ import annotations as _annotations
+
 import inspect
 import re
+import sys
 import typing
 from typing import Any, Final
 from re import Pattern
 from collections.abc import Iterator
 
+import pyrogram
 from pyrogram import handlers, types
 from pyrogram.types import Update
 
@@ -64,20 +68,9 @@ def handler_classes() -> Iterator[type[handlers.Handler]]:
             yield one
 
 
-def name_of(annotation: Any) -> str:
-    """The last component of what an annotation names, whether or not it is still a string.
-
-    Handler modules import `types` under `TYPE_CHECKING` only, so their annotations survive
-    unevaluated and `typing.get_type_hints` cannot resolve them. Which unevaluated form they
-    survive as depends on the container: `typing.List["X"]` converts the string to a
-    `ForwardRef`, while `list["X"]` hands it back as the plain `str` it was written as.
-    """
-    if isinstance(annotation, str):
-        return annotation.split(".")[-1]
-
-    written = getattr(annotation, "__forward_arg__", None)
-
-    return (written or annotation.__name__).split(".")[-1]
+def name_of(annotation: type) -> str:
+    """The last component of what an annotation names."""
+    return annotation.__name__.split(".")[-1]
 
 
 def handed_to(handler: type[handlers.Handler]) -> str | None:
@@ -87,7 +80,17 @@ def handed_to(handler: type[handlers.Handler]) -> str | None:
     once. The element is what a sender filter would read, and the list carries neither that
     nor `stop_propagation()`: a separate shape, and a separate decision.
     """
-    callback = inspect.signature(handler.__init__).parameters["callback"].annotation
+    # Every module carries `from __future__ import annotations`, so the signature is a set
+    #  of strings until something evaluates them. A handler module imports `types` under
+    #  `TYPE_CHECKING` only, so its own globals cannot resolve that name: hand it in.
+    signature = inspect.signature(
+        handler.__init__,
+        globals=vars(sys.modules[handler.__module__]),
+        locals={"pyrogram": pyrogram, "types": types},
+        eval_str=True,
+    )
+
+    callback = signature.parameters["callback"].annotation
     arguments = typing.get_args(callback)
 
     if not arguments or len(arguments[0]) < 2:

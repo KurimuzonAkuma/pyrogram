@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import logging
 
 import pyrogram
@@ -28,9 +30,9 @@ log = logging.getLogger(__name__)
 
 class GetScheduledMessages:
     async def get_scheduled_messages(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str
-    ) -> list["types.Message"]:
+    ) -> list[types.Message]:
         """Get one or more scheduled messages from a chat.
 
         .. include:: /_includes/usable-by/users.rst

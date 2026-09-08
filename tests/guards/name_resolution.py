@@ -24,6 +24,8 @@ names it writes are only bound under `TYPE_CHECKING`, so both resolve against th
 package.
 """
 
+from __future__ import annotations as _annotations
+
 import importlib
 import pathlib
 from typing import Any, Final

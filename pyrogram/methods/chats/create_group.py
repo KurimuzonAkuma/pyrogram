@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw
@@ -24,10 +25,10 @@ from pyrogram import types
 
 class CreateGroup:
     async def create_group(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         title: str,
         users: int | str | list[int | str]
-    ) -> "types.Chat":
+    ) -> types.Chat:
         """Create a new basic group.
 
         .. note::

@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from collections.abc import AsyncGenerator
 
 import pyrogram
@@ -24,7 +26,7 @@ from pyrogram import raw, types, utils
 
 class GetChatGifts:
     async def get_chat_gifts(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         collection_id: int | None = None,
         exclude_unsaved: bool | None = None,
@@ -38,7 +40,7 @@ class GetChatGifts:
         sort_by_price: bool | None = None,
         limit: int = 0,
         offset: str = ""
-    ) -> AsyncGenerator["types.Gift", None]:
+    ) -> AsyncGenerator[types.Gift, None]:
         """Get all gifts owned by specified chat.
 
         .. include:: /_includes/usable-by/users-bots.rst

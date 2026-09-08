@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 from pyrogram import raw
 
@@ -106,7 +107,7 @@ class BusinessBotRights(Object):
         self.can_manage_stories = can_manage_stories
 
     @staticmethod
-    def _parse(permissions: "raw.types.BusinessBotRights") -> "BusinessBotRights":
+    def _parse(permissions: raw.types.BusinessBotRights) -> BusinessBotRights:
         if isinstance(permissions, raw.types.BusinessBotRights):
             return BusinessBotRights(
                 can_reply=permissions.reply,

@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw
@@ -25,9 +26,9 @@ from pyrogram import utils
 
 class EditInlineReplyMarkup:
     async def edit_inline_reply_markup(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         inline_message_id: str,
-        reply_markup: "types.InlineKeyboardMarkup | None" = None
+        reply_markup: types.InlineKeyboardMarkup | None = None
     ) -> bool:
         """Edit only the reply markup of inline messages sent via the bot (for inline bots).
 

@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 
 import pyrogram
@@ -64,7 +66,7 @@ class Audio(Object):
     def __init__(
         self,
         *,
-        client: "pyrogram.Client | None" = None,
+        client: pyrogram.Client | None = None,
         file_id: str,
         file_unique_id: str,
         duration: int,
@@ -74,7 +76,7 @@ class Audio(Object):
         mime_type: str | None = None,
         file_size: int | None = None,
         date: datetime | None = None,
-        thumbs: list["types.Thumbnail"] | None = None
+        thumbs: list[types.Thumbnail] | None = None
     ):
         super().__init__(client)
 
@@ -92,10 +94,10 @@ class Audio(Object):
     @staticmethod
     def _parse(
         client,
-        audio: "raw.types.Document",
-        audio_attributes: "raw.types.DocumentAttributeAudio",
+        audio: raw.types.Document,
+        audio_attributes: raw.types.DocumentAttributeAudio,
         file_name: str
-    ) -> "Audio":
+    ) -> Audio:
         return Audio(
             file_id=FileId(
                 file_type=FileType.AUDIO,

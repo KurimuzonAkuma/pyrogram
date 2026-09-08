@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 
 import pyrogram
@@ -58,7 +60,7 @@ class Photo(Object):
     def __init__(
         self,
         *,
-        client: "pyrogram.Client | None" = None,
+        client: pyrogram.Client | None = None,
         file_id: str,
         file_unique_id: str,
         width: int,
@@ -66,7 +68,7 @@ class Photo(Object):
         file_size: int,
         date: datetime,
         ttl_seconds: int | None = None,
-        thumbs: list["types.Thumbnail"] | None = None
+        thumbs: list[types.Thumbnail] | None = None
     ):
         super().__init__(client)
 
@@ -80,7 +82,7 @@ class Photo(Object):
         self.thumbs = thumbs
 
     @staticmethod
-    def _parse(client, photo: "raw.types.Photo", ttl_seconds: int | None = None) -> "Photo":
+    def _parse(client, photo: raw.types.Photo, ttl_seconds: int | None = None) -> Photo:
         if isinstance(photo, raw.types.Photo):
             photos: list[raw.types.PhotoSize] = []
 

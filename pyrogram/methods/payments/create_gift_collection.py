@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -23,11 +24,11 @@ from pyrogram import raw, types, utils
 
 class CreateGiftCollection:
     async def create_gift_collection(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         owner_id: int | str,
         name: str,
         gift_ids: list[str]
-    ) -> "types.GiftCollection":
+    ) -> types.GiftCollection:
         """Creates a collection from gifts on the current user's or a channel's profile page.
 
         .. include:: /_includes/usable-by/users.rst

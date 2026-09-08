@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import asyncio
 import base64
 import datetime
@@ -42,7 +44,7 @@ class QRLogin:
             )
         )
 
-    async def wait(self, timeout: float | None = None) -> "types.User | None":
+    async def wait(self, timeout: float | None = None) -> types.User | None:
         if timeout is None:
             timeout = self.r.expires - int(datetime.datetime.now().timestamp())
 

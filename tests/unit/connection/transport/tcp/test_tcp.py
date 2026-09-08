@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import asyncio
 import hashlib
 import hmac
@@ -86,7 +88,7 @@ def _web_proxy(secret_hex: str = PLAIN_SECRET_HEX) -> WebProxy:
 class _ProxyStub(NamedTuple):
     server: asyncio.AbstractServer
     port: int
-    received: "asyncio.Future[bytes]"
+    received: asyncio.Future[bytes]
 
 
 async def _start_proxy_stub(*, read_bytes: int) -> _ProxyStub:
@@ -213,8 +215,8 @@ async def test_connect_via_mtproxy_rejects_an_ee_secret_on_the_wrong_class() -> 
 class _FakeTlsStub(NamedTuple):
     server: asyncio.AbstractServer
     port: int
-    hello: "asyncio.Future[bytes]"
-    received: "asyncio.Future[bytes]"
+    hello: asyncio.Future[bytes]
+    received: asyncio.Future[bytes]
 
 
 def _server_hello(client_random: bytes, *, secret: bytes) -> bytes:

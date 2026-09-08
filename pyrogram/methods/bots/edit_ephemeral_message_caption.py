@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from typing import TYPE_CHECKING
 
 from pyrogram import types
@@ -27,16 +29,16 @@ if TYPE_CHECKING:
 
 class EditEphemeralMessageCaption:
     async def edit_ephemeral_message_caption(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         receiver_user_id: int | str,
         ephemeral_message_id: int,
         caption: str = "",
-        parse_mode: "enums.ParseMode | None" = None,
-        caption_entities: list["types.MessageEntity"] | None = None,
+        parse_mode: enums.ParseMode | None = None,
+        caption_entities: list[types.MessageEntity] | None = None,
         show_caption_above_media: bool | None = None,
-        reply_markup: "types.InlineKeyboardMarkup | None" = None,
-    ) -> "types.Message | None":
+        reply_markup: types.InlineKeyboardMarkup | None = None,
+    ) -> types.Message | None:
         """Use this method to edit the caption of an ephemeral message.
         Note that it is not guaranteed that the user will receive the message edit event, especially if they are offline.
 

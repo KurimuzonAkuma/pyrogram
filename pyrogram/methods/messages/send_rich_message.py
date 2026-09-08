@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import logging
 
 import pyrogram
@@ -26,20 +28,26 @@ log = logging.getLogger(__name__)
 
 class SendRichMessage:
     async def send_rich_message(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
-        rich_message: "types.InputRichMessage",
+        rich_message: types.InputRichMessage,
         disable_notification: bool | None = None,
         message_thread_id: int | None = None,
         direct_messages_topic_id: int | None = None,
-        ephemeral_message_parameters: "types.EphemeralMessageParameters | None" = None,
+        ephemeral_message_parameters: types.EphemeralMessageParameters | None = None,
         effect_id: int | None = None,
-        reply_parameters: "types.ReplyParameters | None" = None,
+        reply_parameters: types.ReplyParameters | None = None,
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
-        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
-        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
-    ) -> "types.Message | None":
+        suggested_post_parameters: types.SuggestedPostParameters | None = None,
+        reply_markup: (
+            types.InlineKeyboardMarkup
+            | types.ReplyKeyboardMarkup
+            | types.ReplyKeyboardRemove
+            | types.ForceReply
+            | None
+        ) = None,
+    ) -> types.Message | None:
         """Send text messages.
 
         .. include:: /_includes/usable-by/users-bots.rst

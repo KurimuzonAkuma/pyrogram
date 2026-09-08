@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import enums, raw
@@ -23,11 +24,11 @@ from pyrogram import enums, raw
 
 class SendPaidReaction:
     async def send_paid_reaction(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         message_id: int,
         amount: int,
-        privacy: "enums.PaidReactionPrivacy | None" = None,
+        privacy: enums.PaidReactionPrivacy | None = None,
         send_as: int | str | None = None,
     ) -> bool:
         """Send a paid reaction to a message.

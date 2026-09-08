@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import asyncio
 from typing import overload
 from collections.abc import Iterable
@@ -30,20 +32,20 @@ class GetUsers:
     #  The single-user one comes first, resolving it the way the body does.
     @overload
     async def get_users(  # type: ignore[overload-overlap]
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         user_ids: int | str
-    ) -> "types.User | None": ...
+    ) -> types.User | None: ...
 
     @overload
     async def get_users(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         user_ids: Iterable[int | str]
-    ) -> list["types.User"]: ...
+    ) -> list[types.User]: ...
 
     async def get_users(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         user_ids: int | str | Iterable[int | str]
-    ) -> "types.User | list[types.User] | None":
+    ) -> types.User | list[types.User] | None:
         """Get information about a user.
         You can retrieve up to 200 users at once.
 

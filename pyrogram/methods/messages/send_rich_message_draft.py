@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types
@@ -23,10 +24,10 @@ from pyrogram import raw, types
 
 class SendRichMessageDraft:
     async def send_rich_message_draft(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         draft_id: int,
-        rich_message: "types.InputRichMessage",
+        rich_message: types.InputRichMessage,
         message_thread_id: int | None = None,
         can_stop: bool | None = None,
         keep_on_stop: bool | None = None

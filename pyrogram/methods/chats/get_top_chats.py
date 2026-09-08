@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from collections.abc import AsyncGenerator
 
 import pyrogram
@@ -24,10 +26,10 @@ from pyrogram import enums, raw, types, utils
 
 class GetTopChats:
     async def get_top_chats(
-        self: "pyrogram.Client",
-        category: "enums.TopChatCategory",
+        self: pyrogram.Client,
+        category: enums.TopChatCategory,
         limit: int = 0,
-    ) -> AsyncGenerator["types.Chat", None]:
+    ) -> AsyncGenerator[types.Chat, None]:
         """Returns a list of frequently used chats.
 
         .. include:: /_includes/usable-by/users.rst

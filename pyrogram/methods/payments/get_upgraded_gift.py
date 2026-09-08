@@ -16,15 +16,17 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import pyrogram
 from pyrogram import raw, types
 
 
 class GetUpgradedGift:
     async def get_upgraded_gift(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         link: str
-    ) -> "types.Gift":
+    ) -> types.Gift:
         """Get information about upgraded gift.
 
         .. include:: /_includes/usable-by/users.rst

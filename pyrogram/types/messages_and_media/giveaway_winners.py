@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 
 import pyrogram
@@ -76,15 +78,15 @@ class GiveawayWinners(Object):
     def __init__(
         self,
         *,
-        client: "pyrogram.Client | None" = None,
-        chat: "types.Chat",
+        client: pyrogram.Client | None = None,
+        chat: types.Chat,
         giveaway_message_id: int,
         winners_selection_date: datetime,
         quantity: int,
         winner_count: int,
         unclaimed_prize_count: int | None = None,
-        winners: list["types.User"],
-        giveaway_message: "types.Message | None" = None,
+        winners: list[types.User],
+        giveaway_message: types.Message | None = None,
         additional_chat_count: int | None = None,
         prize_star_count: int | None = None,
         premium_subscription_month_count: int | None = None,
@@ -112,10 +114,10 @@ class GiveawayWinners(Object):
     @staticmethod
     async def _parse(
         client,
-        giveaway_media: "raw.types.MessageMediaGiveawayResults",
+        giveaway_media: raw.types.MessageMediaGiveawayResults,
         users: dict,
         chats: dict
-    ) -> "GiveawayWinners":
+    ) -> GiveawayWinners:
         if not isinstance(giveaway_media, raw.types.MessageMediaGiveawayResults):
             return
 

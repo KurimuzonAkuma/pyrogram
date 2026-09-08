@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from pyrogram import raw, types
 
 from ..object import Object
@@ -38,8 +40,8 @@ class UpgradedGiftAttributeId(Object):
 
     @staticmethod
     def _parse(
-        attribute_id: "raw.base.StarGiftAttributeId"
-    ) -> "UpgradedGiftAttributeId | None":
+        attribute_id: raw.base.StarGiftAttributeId
+    ) -> UpgradedGiftAttributeId | None:
         if not attribute_id:
             return None
 

@@ -16,12 +16,14 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import pyrogram
 
 
 class ExportSessionString:
     async def export_session_string(
-        self: "pyrogram.Client"
+        self: pyrogram.Client
     ) -> str:
         """Export the current authorized session as a serialized string.
 

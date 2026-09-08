@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from typing import TYPE_CHECKING, Any
 from collections.abc import Callable
 
@@ -51,6 +53,6 @@ class CallbackQueryHandler(Handler):
     """
 
     def __init__(
-        self, callback: Callable[["pyrogram.Client", "types.CallbackQuery"], Any], filters=None
+        self, callback: Callable[[pyrogram.Client, types.CallbackQuery], Any], filters=None
     ):
         super().__init__(callback, filters)

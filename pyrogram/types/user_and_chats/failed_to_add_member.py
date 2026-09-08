@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 from pyrogram import raw
 from ..object import Object
@@ -46,7 +47,7 @@ class FailedToAddMember(Object):
         self.premium_required_to_send_messages = premium_required_to_send_messages
 
     @staticmethod
-    def _parse(missing_invite: "raw.types.MissingInvitee") -> "FailedToAddMember":
+    def _parse(missing_invite: raw.types.MissingInvitee) -> FailedToAddMember:
         return FailedToAddMember(
             user_id=missing_invite.user_id,
             premium_would_allow_invite=missing_invite.premium_would_allow_invite,

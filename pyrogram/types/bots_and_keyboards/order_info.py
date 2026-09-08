@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 from pyrogram import types
 
@@ -46,7 +47,7 @@ class OrderInfo(Object):
         name: str | None = None,
         phone_number: str | None = None,
         email: str | None = None,
-        shipping_address: "types.ShippingAddress | None" = None
+        shipping_address: types.ShippingAddress | None = None
     ):
         super().__init__()
 

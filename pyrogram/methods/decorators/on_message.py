@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from collections.abc import Callable
 
 import pyrogram
@@ -26,7 +28,7 @@ from .unbound_arguments import unbound_arguments
 
 class OnMessage:
     def on_message(
-        self: "OnMessage | Filter | None" = None,
+        self: OnMessage | Filter | None = None,
         filters: Filter | None = None,
         group: int = 0,
     ) -> Callable[[HandlerType], HandlerType]:

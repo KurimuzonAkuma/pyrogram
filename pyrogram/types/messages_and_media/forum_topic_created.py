@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 from pyrogram import raw
 from ..object import Object
@@ -54,7 +55,7 @@ class ForumTopicCreated(Object):
         self.custom_emoji_id = custom_emoji_id
 
     @staticmethod
-    def _parse(message: "raw.base.Message") -> "ForumTopicCreated":
+    def _parse(message: raw.base.Message) -> ForumTopicCreated:
         custom_emoji_id = getattr(message.action, "icon_emoji_id", None)
 
         return ForumTopicCreated(

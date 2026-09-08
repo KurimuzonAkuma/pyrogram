@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 
 from pyrogram import raw, types, utils
@@ -43,9 +45,9 @@ class UpgradedGiftOriginalDetails(Object):
     def __init__(
         self,
         *,
-        sender: "types.Chat | None" = None,
-        receiver: "types.Chat | None" = None,
-        text: "types.FormattedText | None" = None,
+        sender: types.Chat | None = None,
+        receiver: types.Chat | None = None,
+        text: types.FormattedText | None = None,
         date: datetime | None = None
     ):
         super().__init__()
@@ -58,10 +60,10 @@ class UpgradedGiftOriginalDetails(Object):
     @staticmethod
     async def _parse(
         client,
-        attr: "raw.types.StarGiftAttributeOriginalDetails",
-        users: dict[int, "raw.base.User"],
-        chats: dict[int, "raw.base.Chat"]
-    ) -> "UpgradedGiftOriginalDetails":
+        attr: raw.types.StarGiftAttributeOriginalDetails,
+        users: dict[int, raw.base.User],
+        chats: dict[int, raw.base.Chat]
+    ) -> UpgradedGiftOriginalDetails:
         sender_id = utils.get_raw_peer_id(attr.sender_id)
         recipient_id = utils.get_raw_peer_id(attr.recipient_id)
 

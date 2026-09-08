@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types
@@ -31,17 +32,17 @@ class CommunityChatJoined(Object):
             The community from which the chat was joined.
     """
 
-    def __init__(self, *, community: "types.Community"):
+    def __init__(self, *, community: types.Community):
         super().__init__()
 
         self.community = community
 
     @staticmethod
     async def _parse(
-        client: "pyrogram.Client",
-        action: "raw.types.MessageActionChatJoinedViaCommunity",
-        chats: dict[int, "raw.base.Chat"],
-    ) -> "CommunityChatJoined":
+        client: pyrogram.Client,
+        action: raw.types.MessageActionChatJoinedViaCommunity,
+        chats: dict[int, raw.base.Chat],
+    ) -> CommunityChatJoined:
         return CommunityChatJoined(
             community=await types.Community._parse(client, chats.get(action.community_id)),
         )

@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import logging
 from collections.abc import Iterable
 
@@ -35,7 +37,7 @@ log = logging.getLogger(__name__)
 
 class RecoverGaps:
     async def recover_gaps(
-        self: "pyrogram.Client", ids: int | Iterable[int] | None = None
+        self: pyrogram.Client, ids: int | Iterable[int] | None = None
     ) -> tuple[int, int]:
         """Restores updates for the time while the client was offline.
 

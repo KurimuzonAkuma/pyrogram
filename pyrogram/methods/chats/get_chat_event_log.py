@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from collections.abc import AsyncGenerator
 
 import pyrogram
@@ -25,14 +27,14 @@ from pyrogram import types
 
 class GetChatEventLog:
     async def get_chat_event_log(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         query: str = "",
         offset_id: int = 0,
         limit: int = 0,
-        filters: "types.ChatEventFilter | None" = None,
+        filters: types.ChatEventFilter | None = None,
         user_ids: list[int | str] | None = None
-    ) -> AsyncGenerator["types.ChatEvent", None]:
+    ) -> AsyncGenerator[types.ChatEvent, None]:
         """Get the actions taken by chat members and administrators in the last 48h.
 
         Only available for supergroups and channels. Requires administrator rights.

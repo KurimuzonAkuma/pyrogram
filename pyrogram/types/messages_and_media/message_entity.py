@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import re
 
 import pyrogram
@@ -65,12 +67,12 @@ class MessageEntity(Object):
     def __init__(
         self,
         *,
-        client: "pyrogram.Client | None" = None,
-        type: "enums.MessageEntityType",
+        client: pyrogram.Client | None = None,
+        type: enums.MessageEntityType,
         offset: int,
         length: int,
         url: str | None = None,
-        user: "types.User | None" = None,
+        user: types.User | None = None,
         language: str | None = None,
         custom_emoji_id: str | None = None,
         expandable: bool | None = None,
@@ -91,7 +93,7 @@ class MessageEntity(Object):
         self.date_time_format = date_time_format
 
     @staticmethod
-    async def _parse(client, entity: "raw.base.MessageEntity", users: dict) -> "MessageEntity":
+    async def _parse(client, entity: raw.base.MessageEntity, users: dict) -> MessageEntity:
         user_id = None
         unix_time = None
         date_time_format = None

@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 
 from pyrogram import raw, utils
@@ -46,7 +48,7 @@ class GiftUpgradePrice(Object):
         self.star_count = star_count
 
     @staticmethod
-    def _parse(attr: "raw.base.StarGiftUpgradePrice") -> "GiftUpgradePrice":
+    def _parse(attr: raw.base.StarGiftUpgradePrice) -> GiftUpgradePrice:
         return GiftUpgradePrice(
             date=utils.timestamp_to_datetime(attr.date),
             star_count=attr.upgrade_stars

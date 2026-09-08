@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 
 import pyrogram
@@ -56,8 +58,8 @@ class Checklist(Object):
         self,
         *,
         title: str,
-        entities: list["types.MessageEntity"] | None = None,
-        tasks: list["types.ChecklistTask"] | None = None,
+        entities: list[types.MessageEntity] | None = None,
+        tasks: list[types.ChecklistTask] | None = None,
         others_can_add_tasks: bool | None = None,
         can_add_tasks: bool | None = None,
         others_can_mark_tasks_as_done: bool | None = None,
@@ -75,11 +77,11 @@ class Checklist(Object):
 
     @staticmethod
     async def _parse(
-        client: "pyrogram.Client",
-        checklist: "raw.types.MessageMediaToDo",
-        users: dict[int, "raw.base.User"],
-        chats: dict[int, "raw.base.Chat"],
-    ) -> "Checklist":
+        client: pyrogram.Client,
+        checklist: raw.types.MessageMediaToDo,
+        users: dict[int, raw.base.User],
+        chats: dict[int, raw.base.Chat],
+    ) -> Checklist:
         completions = {i.id: i for i in getattr(checklist, "completions", [])}
 
         checklist_tasks = []

@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 from pyrogram import enums, raw
 
@@ -43,7 +44,7 @@ class MaskPosition(Object):
     def __init__(
         self,
         *,
-        point: "enums.MaskPointType",
+        point: enums.MaskPointType,
         x_shift: float,
         y_shift: float,
         scale: float
@@ -57,8 +58,8 @@ class MaskPosition(Object):
 
     @staticmethod
     def _parse(
-        coords: "raw.types.MaskCoords"
-    ) -> "MaskPosition":
+        coords: raw.types.MaskCoords
+    ) -> MaskPosition:
         if not coords:
             return None
 

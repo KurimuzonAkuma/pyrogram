@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import logging
 from typing import TypeVar
 
@@ -31,7 +33,7 @@ ReturnType = TypeVar('ReturnType')
 
 class Invoke:
     async def invoke(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         query: TLObject[ReturnType],
         retries: int = Session.MAX_RETRIES,
         timeout: float = Session.WAIT_TIMEOUT,

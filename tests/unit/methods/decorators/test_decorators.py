@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import inspect
 from pathlib import Path
 from typing import Final
@@ -79,7 +81,11 @@ def test_decorator_binds_the_callback_signature_to_one_type_variable(decorator_n
     #  tests above pass either way: they check what the decorator returns, not what it promises.
     decorator = getattr(pyrogram.Client, decorator_name)
 
-    assert inspect.signature(decorator).return_annotation == Callable[[HandlerType], HandlerType]
+    # `from __future__ import annotations` leaves the return annotation a string, and
+    #  `eval_str` is what turns it back into the object this compares against.
+    signature = inspect.signature(decorator, eval_str=True)
+
+    assert signature.return_annotation == Callable[[HandlerType], HandlerType]
 
 
 @pytest.fixture

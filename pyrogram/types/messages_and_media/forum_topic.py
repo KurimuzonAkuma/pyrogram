@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 
 import pyrogram
@@ -87,8 +89,8 @@ class ForumTopic(Object):
         date: datetime | None = None,
         icon_color: str | None = None,
         icon_emoji_id: int | None = None,
-        creator: "types.Chat | None" = None,
-        top_message: "types.Message | None" = None,
+        creator: types.Chat | None = None,
+        top_message: types.Message | None = None,
         unread_count: int | None = None,
         unread_mentions_count: int | None = None,
         unread_reactions_count: int | None = None,
@@ -121,7 +123,7 @@ class ForumTopic(Object):
         self.is_deleted = is_deleted
 
     @staticmethod
-    async def _parse(client: "pyrogram.Client", forum_topic: "raw.types.ForumTopic", messages: dict = {},  users: dict = {}, chats: dict = {}) -> "ForumTopic":
+    async def _parse(client: pyrogram.Client, forum_topic: raw.types.ForumTopic, messages: dict = {},  users: dict = {}, chats: dict = {}) -> ForumTopic:
         if not forum_topic:
             return None
 

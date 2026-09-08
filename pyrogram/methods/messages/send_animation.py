@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import logging
 import os
 import re
@@ -33,13 +35,13 @@ log = logging.getLogger(__name__)
 
 class SendAnimation:
     async def send_animation(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         animation: str | BinaryIO,
         caption: str = "",
         unsave: bool = False,
-        parse_mode: "enums.ParseMode | None" = None,
-        caption_entities: list["types.MessageEntity"] | None = None,
+        parse_mode: enums.ParseMode | None = None,
+        caption_entities: list[types.MessageEntity] | None = None,
         has_spoiler: bool | None = None,
         duration: int = 0,
         width: int = 0,
@@ -49,27 +51,33 @@ class SendAnimation:
         disable_notification: bool | None = None,
         message_thread_id: int | None = None,
         direct_messages_topic_id: int | None = None,
-        ephemeral_message_parameters: "types.EphemeralMessageParameters | None" = None,
+        ephemeral_message_parameters: types.EphemeralMessageParameters | None = None,
         effect_id: int | None = None,
         show_caption_above_media: bool | None = None,
-        reply_parameters: "types.ReplyParameters | None" = None,
+        reply_parameters: types.ReplyParameters | None = None,
         schedule_date: datetime | None = None,
         repeat_period: int | None = None,
         protect_content: bool | None = None,
         business_connection_id: str | None = None,
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
-        suggested_post_parameters: "types.SuggestedPostParameters | None" = None,
-        reply_markup: "types.InlineKeyboardMarkup | types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove | types.ForceReply | None" = None,
+        suggested_post_parameters: types.SuggestedPostParameters | None = None,
+        reply_markup: (
+            types.InlineKeyboardMarkup
+            | types.ReplyKeyboardMarkup
+            | types.ReplyKeyboardRemove
+            | types.ForceReply
+            | None
+        ) = None,
         progress: Callable | None = None,
         progress_args: tuple = (),
         reply_to_message_id: int | None = None,
         reply_to_chat_id: int | str | None = None,
         reply_to_story_id: int | None = None,
         quote_text: str | None = None,
-        quote_entities: list["types.MessageEntity"] | None = None,
+        quote_entities: list[types.MessageEntity] | None = None,
         quote_offset: int | None = None,
-    ) -> "types.Message | None":
+    ) -> types.Message | None:
         """Send animation files (animation or H.264/MPEG-4 AVC video without sound).
 
         .. include:: /_includes/usable-by/users-bots.rst

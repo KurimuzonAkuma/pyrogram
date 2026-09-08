@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 
 import pyrogram
@@ -24,7 +26,7 @@ from pyrogram import raw, types, utils
 
 class ForwardMediaGroup:
     async def forward_media_group(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         from_chat_id: int | str,
         message_id: int,
@@ -35,9 +37,9 @@ class ForwardMediaGroup:
         hide_captions: bool | None = None,
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
-        reply_parameters: "types.ReplyParameters | None" = None,
+        reply_parameters: types.ReplyParameters | None = None,
         paid_message_star_count: int | None = None
-    ) -> list["types.Message"]:
+    ) -> list[types.Message]:
         """Forward a media group by providing one of the message ids.
 
         .. include:: /_includes/usable-by/users-bots.rst

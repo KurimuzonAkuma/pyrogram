@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types
@@ -23,8 +24,8 @@ from pyrogram import raw, types
 
 class GetSuitableDiscussionChats:
     async def get_suitable_discussion_chats(
-        self: "pyrogram.Client"
-    ) -> list["types.Chat"]:
+        self: pyrogram.Client
+    ) -> list[types.Chat]:
         """Return a list of basic group and supergroup chats, which can be used as a discussion group for a channel.
 
         Returned basic group chats must be first upgraded to supergroups before they can be set as a discussion group.

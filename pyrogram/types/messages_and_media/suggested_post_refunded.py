@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -40,8 +41,8 @@ class SuggestedPostRefunded(Object):
     def __init__(
         self, *,
         suggested_post_message_id: int | None = None,
-        suggested_post_message: "types.Message | None" = None,
-        reason: "enums.SuggestedPostRefundReason | None" = None
+        suggested_post_message: types.Message | None = None,
+        reason: enums.SuggestedPostRefundReason | None = None
     ):
         super().__init__()
 
@@ -51,9 +52,9 @@ class SuggestedPostRefunded(Object):
 
     @staticmethod
     async def _parse(
-        client: "pyrogram.Client",
-        message: "raw.types.MessageService"
-    ) -> "SuggestedPostRefunded":
+        client: pyrogram.Client,
+        message: raw.types.MessageService
+    ) -> SuggestedPostRefunded:
         action: raw.types.MessageActionSuggestedPostRefund = message.action
 
         if not isinstance(action, raw.types.MessageActionSuggestedPostRefund):

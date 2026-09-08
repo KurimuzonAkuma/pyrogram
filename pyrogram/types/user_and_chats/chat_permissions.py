@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import logging
 from datetime import datetime
 
@@ -109,7 +111,10 @@ class ChatPermissions(Object):
         can_pin_messages: bool | None = None,
         can_manage_topics: bool | None = None,
 
-        can_send_media_messages: bool | None = None,  # Audio files, documents, photos, videos, video notes and voice notes. Deprecated
+        can_send_media_messages: (
+            bool
+            | None
+        ) = None,  # Audio files, documents, photos, videos, video notes and voice notes. Deprecated
     ):
         super().__init__(None)
 
@@ -133,7 +138,7 @@ class ChatPermissions(Object):
         self.can_send_media_messages = can_send_media_messages
 
     @staticmethod
-    def _parse(denied_permissions: "raw.base.ChatBannedRights") -> "ChatPermissions | None":
+    def _parse(denied_permissions: raw.base.ChatBannedRights) -> ChatPermissions | None:
         if isinstance(denied_permissions, raw.types.ChatBannedRights):
             return ChatPermissions(
                 can_send_messages=not denied_permissions.send_messages,
@@ -159,7 +164,7 @@ class ChatPermissions(Object):
                 can_manage_topics=not denied_permissions.manage_topics
             )
 
-    def write(self, until_date: datetime = utils.zero_datetime()) -> "raw.types.ChatBannedRights":
+    def write(self, until_date: datetime = utils.zero_datetime()) -> raw.types.ChatBannedRights:
         send_messages = not self.can_send_messages
         send_audios = not self.can_send_audios
         send_docs = not self.can_send_documents

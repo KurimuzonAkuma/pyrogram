@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import enums, raw, types
@@ -23,13 +24,13 @@ from pyrogram import enums, raw, types
 
 class SendMessageDraft:
     async def send_message_draft(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         chat_id: int | str,
         draft_id: int,
         text: str = "",
         message_thread_id: int | None = None,
-        parse_mode: "enums.ParseMode | None" = None,
-        entities: list["types.MessageEntity"] | None = None,
+        parse_mode: enums.ParseMode | None = None,
+        entities: list[types.MessageEntity] | None = None,
         can_stop: bool | None = None,
         keep_on_stop: bool | None = None
     ) -> bool:

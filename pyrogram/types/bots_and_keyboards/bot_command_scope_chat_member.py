@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw
@@ -40,7 +41,7 @@ class BotCommandScopeChatMember(BotCommandScope):
         self.chat_id = chat_id
         self.user_id = user_id
 
-    async def write(self, client: "pyrogram.Client") -> "raw.base.BotCommandScope":
+    async def write(self, client: pyrogram.Client) -> raw.base.BotCommandScope:
         return raw.types.BotCommandScopePeerUser(
             peer=await client.resolve_peer(self.chat_id),
             user_id=await client.resolve_peer(self.user_id)

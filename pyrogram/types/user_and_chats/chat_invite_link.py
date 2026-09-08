@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 
 import pyrogram
@@ -73,7 +75,7 @@ class ChatInviteLink(Object):
         date: datetime,
         is_primary: bool | None = None,
         is_revoked: bool | None = None,
-        creator: "types.User | None" = None,
+        creator: types.User | None = None,
         name: str | None = None,
         creates_join_request: bool | None = None,
         start_date: datetime | None = None,
@@ -99,10 +101,10 @@ class ChatInviteLink(Object):
 
     @staticmethod
     async def _parse(
-        client: "pyrogram.Client",
-        invite: "raw.base.ExportedChatInvite",
-        users: dict[int, "raw.types.User"] | None = None
-    ) -> "ChatInviteLink | None":
+        client: pyrogram.Client,
+        invite: raw.base.ExportedChatInvite,
+        users: dict[int, raw.types.User] | None = None
+    ) -> ChatInviteLink | None:
         if not isinstance(invite, raw.types.ChatInviteExported):
             return None
 

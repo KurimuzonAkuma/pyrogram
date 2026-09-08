@@ -16,15 +16,17 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import pyrogram
 from pyrogram import raw, types
 
 
 class GetGiftCollections:
     async def get_gift_collections(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         owner_id: int | str
-    ) -> list["types.GiftCollection"]:
+    ) -> list[types.GiftCollection]:
         """Returns collections of gifts owned by the given user or chat.
 
         .. include:: /_includes/usable-by/users.rst

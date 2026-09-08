@@ -22,6 +22,8 @@ A plugin module is ordinary user code, so anything at all can sit beside the dec
 functions: a database handle, a client object, a lazily built proxy.
 """
 
+from __future__ import annotations as _annotations
+
 import asyncio
 import logging
 from pathlib import Path
@@ -118,7 +120,7 @@ async def test_load_plugins_reads_past_an_attribute_proxy(write_plugin: PluginWr
 
 def test_plugin_handlers_ignores_what_is_not_a_pair_list() -> None:
     class AnyAttribute:
-        def __getattr__(self, name: str) -> "AnyAttribute":
+        def __getattr__(self, name: str) -> AnyAttribute:
             return AnyAttribute()
 
     def undecorated() -> None:

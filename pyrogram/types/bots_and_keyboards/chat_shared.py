@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -36,7 +37,7 @@ class ChatShared(Object):
     def __init__(
         self, *,
         button_id: int,
-        chat: "types.Chat",
+        chat: types.Chat,
     ):
         super().__init__()
 
@@ -45,10 +46,10 @@ class ChatShared(Object):
 
     @staticmethod
     async def _parse(
-        client: "pyrogram.Client",
-        action: "raw.types.MessageActionRequestedPeer | raw.types.MessageActionRequestedPeerSentMe",
-        chats: dict[int, "raw.base.Chat"] = {}
-    ) -> "ChatShared | None":
+        client: pyrogram.Client,
+        action: raw.types.MessageActionRequestedPeer | raw.types.MessageActionRequestedPeerSentMe,
+        chats: dict[int, raw.base.Chat] = {}
+    ) -> ChatShared | None:
         peer = action.peers[0]
 
         if isinstance(peer, (raw.types.PeerUser, raw.types.RequestedPeerUser)):

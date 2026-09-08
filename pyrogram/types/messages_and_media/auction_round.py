@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 from pyrogram import raw
 
@@ -54,7 +55,7 @@ class AuctionRound(Object):
         self.top_winner_count = top_winner_count
 
     @staticmethod
-    def _parse(auction_round: "raw.base.StarGiftAuctionRound"):
+    def _parse(auction_round: raw.base.StarGiftAuctionRound):
         if isinstance(auction_round, raw.types.StarGiftAuctionRound):
             return AuctionRound(
                 number=auction_round.num,

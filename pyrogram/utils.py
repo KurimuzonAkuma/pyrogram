@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import asyncio
 import base64
 import functools
@@ -63,11 +65,11 @@ def get_input_media_from_file_id(
     expected_file_type: FileType | None = None,
     ttl_seconds: int | None = None,
     has_spoiler: bool | None = None,
-    video_cover: "raw.types.InputPhoto | None" = None,
+    video_cover: raw.types.InputPhoto | None = None,
     video_start_timestamp: int | None = None,
     live_photo: bool | None = None,
     live_photo_video_file_id: str | None = None
-) -> "raw.types.InputMediaPhoto | raw.types.InputMediaDocument":
+) -> raw.types.InputMediaPhoto | raw.types.InputMediaDocument:
     try:
         decoded = FileId.decode(file_id)
     except Exception:
@@ -118,7 +120,7 @@ def get_input_media_from_file_id(
     raise ValueError(f"Unknown file id: {file_id}")
 
 
-async def get_input_stargift(client: "pyrogram.Client", owned_gift_id: str) -> "raw.base.InputSavedStarGift":
+async def get_input_stargift(client: pyrogram.Client, owned_gift_id: str) -> raw.base.InputSavedStarGift:
     if not isinstance(owned_gift_id, str):
         raise ValueError(f"owned_gift_id has to be str, but {type(owned_gift_id)} was provided")
 
@@ -141,10 +143,10 @@ async def get_input_stargift(client: "pyrogram.Client", owned_gift_id: str) -> "
 
 
 async def parse_messages(
-    client: "pyrogram.Client",
-    messages: "raw.base.messages.Messages | raw.base.Updates",
+    client: pyrogram.Client,
+    messages: raw.base.messages.Messages | raw.base.Updates,
     replies: int = 1
-) -> list["types.Message"]:
+) -> list[types.Message]:
     users = {i.id: i for i in getattr(messages, "users", [])}
     chats = {i.id: i for i in getattr(messages, "chats", [])}
     topics = {i.id: i for i in getattr(messages, "topics", [])}
@@ -254,7 +256,7 @@ async def parse_messages(
     return types.List(parsed_messages)
 
 
-async def parse_deleted_messages(client, update, users, chats) -> list["types.Message"]:
+async def parse_deleted_messages(client, update, users, chats) -> list[types.Message]:
     is_ephemeral = isinstance(update, raw.types.UpdateDeleteEphemeralMessages)
 
     messages = update.ids if is_ephemeral else update.messages
@@ -296,7 +298,7 @@ async def parse_deleted_messages(client, update, users, chats) -> list["types.Me
     return types.List(parsed_messages)
 
 
-def pack_inline_message_id(msg_id: "raw.base.InputBotInlineMessageID"):
+def pack_inline_message_id(msg_id: raw.base.InputBotInlineMessageID):
     if isinstance(msg_id, raw.types.InputBotInlineMessageID):
         inline_message_id_packed = struct.pack(
             "<iqq",
@@ -316,7 +318,7 @@ def pack_inline_message_id(msg_id: "raw.base.InputBotInlineMessageID"):
     return base64.urlsafe_b64encode(inline_message_id_packed).decode().rstrip("=")
 
 
-def unpack_inline_message_id(inline_message_id: str) -> "raw.base.InputBotInlineMessageID":
+def unpack_inline_message_id(inline_message_id: str) -> raw.base.InputBotInlineMessageID:
     padded = inline_message_id + "=" * (-len(inline_message_id) % 4)
     decoded = base64.urlsafe_b64decode(padded)
 
@@ -420,11 +422,11 @@ def get_peer_type(peer_id: int) -> str:
 
 
 async def get_reply_to(
-    client: "pyrogram.Client",
-    reply_parameters: "types.ReplyParameters | None" = None,
+    client: pyrogram.Client,
+    reply_parameters: types.ReplyParameters | None = None,
     message_thread_id: int | None = None,
     direct_messages_topic_id: int | None = None
-) -> "raw.base.InputReplyTo | None":
+) -> raw.base.InputReplyTo | None:
     """Get InputReply for reply_to argument"""
     if reply_parameters:
         if reply_parameters.chat_id and reply_parameters.story_id:
@@ -592,10 +594,10 @@ def compute_password_check(
 
 
 async def parse_text_entities(
-    client: "pyrogram.Client",
+    client: pyrogram.Client,
     text: str,
     parse_mode: enums.ParseMode | None,
-    entities: list["types.MessageEntity"] | None
+    entities: list[types.MessageEntity] | None
 ) -> dict[str, str | list[raw.base.MessageEntity]]:
     if entities:
         # Inject the client instance because parsing user mentions requires it
@@ -676,7 +678,7 @@ def split_text(text: str, max_length: int = 4096) -> list[str]:
     return chunks
 
 
-async def parse_text_with_entities(client, message: "raw.types.TextWithEntities", users):
+async def parse_text_with_entities(client, message: raw.types.TextWithEntities, users):
     entities = types.List(
         filter(
             lambda x: x is not None,
@@ -753,7 +755,7 @@ def from_inline_bytes(data: bytes, file_name: str | None = None) -> BytesIO:
     return b
 
 
-def obj_to_jsonvalue(obj) -> "raw.base.JSONValue":
+def obj_to_jsonvalue(obj) -> raw.base.JSONValue:
     if obj is None:
         return raw.types.JsonNull()
     elif isinstance(obj, bool):
@@ -770,7 +772,7 @@ def obj_to_jsonvalue(obj) -> "raw.base.JSONValue":
     raise TypeError(f"Unsupported type: {type(obj)}")
 
 
-def jsonvalue_to_obj(obj: "raw.base.JSONValue"):
+def jsonvalue_to_obj(obj: raw.base.JSONValue):
     if isinstance(obj, raw.types.JsonNull):
         return None
     elif isinstance(obj, raw.types.JsonBool):

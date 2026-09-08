@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from pyrogram import raw
 from ..object import Object
 
@@ -42,7 +44,7 @@ class Restriction(Object):
         self.text = text
 
     @staticmethod
-    def _parse(restriction: "raw.types.RestrictionReason") -> "Restriction":
+    def _parse(restriction: raw.types.RestrictionReason) -> Restriction:
         return Restriction(
             platform=restriction.platform,
             reason=restriction.reason,

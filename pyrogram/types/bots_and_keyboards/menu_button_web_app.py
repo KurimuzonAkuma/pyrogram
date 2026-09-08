@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import pyrogram
 from pyrogram import raw, types
 from .menu_button import MenuButton
@@ -37,14 +39,14 @@ class MenuButtonWebApp(MenuButton):
     def __init__(
         self,
         text: str,
-        web_app: "types.WebAppInfo"
+        web_app: types.WebAppInfo
     ):
         super().__init__("web_app")
 
         self.text = text
         self.web_app = web_app
 
-    async def write(self, client: "pyrogram.Client") -> "raw.types.BotMenuButton":
+    async def write(self, client: pyrogram.Client) -> raw.types.BotMenuButton:
         return raw.types.BotMenuButton(
             text=self.text,
             url=self.web_app.url

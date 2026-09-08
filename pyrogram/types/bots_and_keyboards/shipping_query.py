@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import types, raw
@@ -43,11 +44,11 @@ class ShippingQuery(Object, Update):
     def __init__(
         self,
         *,
-        client: "pyrogram.Client | None" = None,
+        client: pyrogram.Client | None = None,
         id: str,
-        from_user: "types.User",
+        from_user: types.User,
         invoice_payload: str,
-        shipping_address: "types.ShippingAddress | None" = None
+        shipping_address: types.ShippingAddress | None = None
     ):
         super().__init__(client)
 
@@ -58,10 +59,10 @@ class ShippingQuery(Object, Update):
 
     @staticmethod
     async def _parse(
-        client: "pyrogram.Client",
-        shipping_query: "raw.types.UpdateBotShippingQuery",
+        client: pyrogram.Client,
+        shipping_query: raw.types.UpdateBotShippingQuery,
         users: dict
-    ) -> "ShippingQuery":
+    ) -> ShippingQuery:
         # Try to decode shipping query payload into string. If that fails, fallback to bytes instead of decoding by
         # ignoring/replacing errors, this way, button clicks will still work.
         try:
@@ -80,7 +81,7 @@ class ShippingQuery(Object, Update):
     async def answer(
         self,
         ok: bool,
-        shipping_options: list["types.ShippingOption"] | None = None,
+        shipping_options: list[types.ShippingOption] | None = None,
         error_message: str | None = None
     ) -> bool:
         """Bound method *answer* of :obj:`~pyrogram.types.ShippingQuery`.

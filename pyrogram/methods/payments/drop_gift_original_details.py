@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, utils
@@ -23,7 +24,7 @@ from pyrogram import raw, utils
 
 class DropGiftOriginalDetails:
     async def drop_gift_original_details(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         owned_gift_id: str,
         star_count: int | None = None,
     ) -> bool:

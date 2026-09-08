@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -36,7 +37,7 @@ class UsersShared(Object):
     def __init__(
         self, *,
         button_id: int,
-        users: list["types.User"],
+        users: list[types.User],
     ):
         super().__init__()
 
@@ -45,10 +46,10 @@ class UsersShared(Object):
 
     @staticmethod
     async def _parse(
-        client: "pyrogram.Client",
-        action: "raw.types.MessageActionRequestedPeer | raw.types.MessageActionRequestedPeerSentMe",
-        users: dict[int, "raw.base.User"] = {}
-    ) -> "UsersShared":
+        client: pyrogram.Client,
+        action: raw.types.MessageActionRequestedPeer | raw.types.MessageActionRequestedPeerSentMe,
+        users: dict[int, raw.base.User] = {}
+    ) -> UsersShared:
         requested_users = types.List()
 
         for peer in action.peers:

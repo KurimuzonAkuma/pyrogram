@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import os
 from typing import BinaryIO
 from collections.abc import Callable
@@ -28,7 +30,7 @@ from pyrogram.file_id import FileType
 
 class AddProfileAudio:
     async def add_profile_audio(
-        self: "pyrogram.Client",
+        self: pyrogram.Client,
         audio: str | BinaryIO,
         duration: int = 0,
         performer: str | None = None,

@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 
 import pyrogram
@@ -80,21 +82,21 @@ class ChatMember(Object):
     def __init__(
         self,
         *,
-        client: "pyrogram.Client | None" = None,
-        status: "enums.ChatMemberStatus",
+        client: pyrogram.Client | None = None,
+        status: enums.ChatMemberStatus,
         tag: str | None = None,
-        user: "types.User | None" = None,
-        chat: "types.Chat | None" = None,
+        user: types.User | None = None,
+        chat: types.Chat | None = None,
         custom_title: str | None = None,
         until_date: datetime | None = None,
         joined_date: datetime | None = None,
-        invited_by: "types.User | None" = None,
-        promoted_by: "types.User | None" = None,
-        restricted_by: "types.User | None" = None,
+        invited_by: types.User | None = None,
+        promoted_by: types.User | None = None,
+        restricted_by: types.User | None = None,
         is_member: bool | None = None,
         can_be_edited: bool | None = None,
-        permissions: "types.ChatPermissions | None" = None,
-        privileges: "types.ChatAdministratorRights | None" = None,
+        permissions: types.ChatPermissions | None = None,
+        privileges: types.ChatAdministratorRights | None = None,
         subscription_until_date: datetime | None = None
     ):
         super().__init__(client)
@@ -117,11 +119,11 @@ class ChatMember(Object):
 
     @staticmethod
     async def _parse(
-        client: "pyrogram.Client",
-        member: "raw.base.ChatParticipant | raw.base.ChannelParticipant",
-        users: dict[int, "raw.base.User"],
-        chats: dict[int, "raw.base.Chat"]
-    ) -> "ChatMember":
+        client: pyrogram.Client,
+        member: raw.base.ChatParticipant | raw.base.ChannelParticipant,
+        users: dict[int, raw.base.User],
+        chats: dict[int, raw.base.Chat]
+    ) -> ChatMember:
         # Chat participants
         if isinstance(member, raw.types.ChatParticipant):
             return ChatMember(

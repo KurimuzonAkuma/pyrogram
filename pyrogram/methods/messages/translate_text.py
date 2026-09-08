@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import raw, types
@@ -23,11 +24,11 @@ from pyrogram import raw, types
 
 class TranslateText:
     async def translate_text(
-        self: "pyrogram.Client",
-        text: "str | types.FormattedText",
+        self: pyrogram.Client,
+        text: str | types.FormattedText,
         to_language_code: str | None = None,
         tone: str | None = None,
-    ) -> "types.FormattedText":
+    ) -> types.FormattedText:
         """Translate a text to the given language.
 
         If the current user is a Telegram Premium user, then text formatting is preserved.

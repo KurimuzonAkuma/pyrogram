@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 
 from pyrogram import types, raw, utils
@@ -50,11 +52,11 @@ class BusinessConnection(Object, Update):
         self,
         *,
         id: str,
-        user: "types.User",
+        user: types.User,
         dc_id: int,
         date: datetime,
         is_enabled: bool | None = None,
-        rights: "types.BusinessBotRights | None" = None
+        rights: types.BusinessBotRights | None = None
     ):
         self.id = id
         self.user = user
@@ -66,9 +68,9 @@ class BusinessConnection(Object, Update):
     @staticmethod
     async def _parse(
         client,
-        connection: "raw.types.BotBusinessConnection | raw.types.UpdateBotBusinessConnect | None" = None,
+        connection: raw.types.BotBusinessConnection | raw.types.UpdateBotBusinessConnect | None = None,
         users = {}
-    ) -> "BusinessConnection | None":
+    ) -> BusinessConnection | None:
         if not connection:
             return None
 

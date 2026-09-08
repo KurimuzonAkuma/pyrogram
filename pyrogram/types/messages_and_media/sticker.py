@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 from datetime import datetime
 
 import pyrogram
@@ -95,7 +97,7 @@ class Sticker(Object):
         *,
         file_id: str,
         file_unique_id: str,
-        type: "enums.StickerType",
+        type: enums.StickerType,
         width: int,
         height: int,
         is_animated: bool,
@@ -106,12 +108,12 @@ class Sticker(Object):
         date: datetime | None = None,
         emoji: str | None = None,
         set_name: str | None = None,
-        premium_animation: "types.Animation | None" = None,
-        mask_position: "types.MaskPosition | None" = None,
+        premium_animation: types.Animation | None = None,
+        mask_position: types.MaskPosition | None = None,
         custom_emoji_id: str | None = None,
         needs_repainting: bool | None = None,
-        thumbs: list["types.Thumbnail"] | None = None,
-        raw: "raw.types.Document | None" = None
+        thumbs: list[types.Thumbnail] | None = None,
+        raw: raw.types.Document | None = None
     ):
         super().__init__()
 
@@ -170,10 +172,10 @@ class Sticker(Object):
 
     @staticmethod
     async def _parse(
-        client: "pyrogram.Client",
-        sticker: "raw.types.Document",
-        document_attributes: dict[type["raw.base.DocumentAttribute"], "raw.base.DocumentAttribute"],
-    ) -> "Sticker":
+        client: pyrogram.Client,
+        sticker: raw.types.Document,
+        document_attributes: dict[type[raw.base.DocumentAttribute], raw.base.DocumentAttribute],
+    ) -> Sticker:
         sticker_attribute = None
         set_name = None
 

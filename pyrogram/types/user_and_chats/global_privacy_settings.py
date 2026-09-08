@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 from pyrogram import raw, types
 
@@ -72,7 +73,7 @@ class GlobalPrivacySettings(Object):
         allow_new_chats_from_unknown_users: bool | None = None,
         incoming_paid_message_star_count: int | None = None,
         show_gift_button: bool | None = None,
-        accepted_gift_types: "types.AcceptedGiftTypes | None" = None
+        accepted_gift_types: types.AcceptedGiftTypes | None = None
     ):
         self.archive_and_mute_new_chats = archive_and_mute_new_chats
         self.keep_unmuted_chats_archived = keep_unmuted_chats_archived
@@ -85,8 +86,8 @@ class GlobalPrivacySettings(Object):
 
     @staticmethod
     def _parse(
-        settings: "raw.types.GlobalPrivacySettings | None" = None
-    ) -> "GlobalPrivacySettings | None":
+        settings: raw.types.GlobalPrivacySettings | None = None
+    ) -> GlobalPrivacySettings | None:
         if not settings:
             return
 
@@ -101,7 +102,7 @@ class GlobalPrivacySettings(Object):
             accepted_gift_types=types.AcceptedGiftTypes._parse(getattr(settings, "disallowed_gifts", None))
         )
 
-    def write(self) -> "raw.types.GlobalPrivacySettings":
+    def write(self) -> raw.types.GlobalPrivacySettings:
         return raw.types.GlobalPrivacySettings(
             archive_and_mute_new_noncontact_peers=self.archive_and_mute_new_chats,
             keep_archived_unmuted=self.keep_unmuted_chats_archived,

@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -114,33 +115,33 @@ class ExternalReplyInfo(Object):
     def __init__(
         self,
         *,
-        client: "pyrogram.Client | None" = None,
-        origin: "types.MessageOrigin | None" = None,
-        chat: "types.Chat | None" = None,
+        client: pyrogram.Client | None = None,
+        origin: types.MessageOrigin | None = None,
+        chat: types.Chat | None = None,
         message_id: int,
-        link_preview_options: "types.LinkPreviewOptions | None" = None,
-        media: "enums.MessageMediaType | None" = None,
-        animation: "types.Animation | None" = None,
-        audio: "types.Audio | None" = None,
-        document: "types.Document | None" = None,
-        paid_media: "types.PaidMediaInfo | None" = None,
-        photo: "types.Photo | None" = None,
-        sticker: "types.Sticker | None" = None,
-        story: "types.Story | None" = None,
-        video: "types.Video | None" = None,
-        video_note: "types.VideoNote | None" = None,
-        voice: "types.Voice | None" = None,
+        link_preview_options: types.LinkPreviewOptions | None = None,
+        media: enums.MessageMediaType | None = None,
+        animation: types.Animation | None = None,
+        audio: types.Audio | None = None,
+        document: types.Document | None = None,
+        paid_media: types.PaidMediaInfo | None = None,
+        photo: types.Photo | None = None,
+        sticker: types.Sticker | None = None,
+        story: types.Story | None = None,
+        video: types.Video | None = None,
+        video_note: types.VideoNote | None = None,
+        voice: types.Voice | None = None,
         has_media_spoiler: bool | None = None,
-        checklist: "types.Checklist | None" = None,
-        contact: "types.Contact | None" = None,
-        dice: "types.Dice | None" = None,
-        game: "types.Game | None" = None,
-        giveaway: "types.Giveaway | None" = None,
-        giveaway_winners: "types.GiveawayWinners | None" = None,
-        invoice: "types.Invoice | None" = None,
-        location: "types.Location | None" = None,
-        poll: "types.Poll | None" = None,
-        venue: "types.Venue | None" = None,
+        checklist: types.Checklist | None = None,
+        contact: types.Contact | None = None,
+        dice: types.Dice | None = None,
+        game: types.Game | None = None,
+        giveaway: types.Giveaway | None = None,
+        giveaway_winners: types.GiveawayWinners | None = None,
+        invoice: types.Invoice | None = None,
+        location: types.Location | None = None,
+        poll: types.Poll | None = None,
+        venue: types.Venue | None = None,
     ):
         super().__init__(client)
 
@@ -174,10 +175,10 @@ class ExternalReplyInfo(Object):
     @staticmethod
     async def _parse(
         client,
-        reply: "raw.types.MessageReplyHeader",
-        users: dict[int, "raw.types.User"],
-        chats: dict[int, "raw.types.Chat"],
-    ) -> "ExternalReplyInfo | None":
+        reply: raw.types.MessageReplyHeader,
+        users: dict[int, raw.types.User],
+        chats: dict[int, raw.types.Chat],
+    ) -> ExternalReplyInfo | None:
         if not isinstance(reply, raw.types.MessageReplyHeader):
             return None
 

@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
 
 from pyrogram import raw
 
@@ -61,8 +62,8 @@ class SwitchInlineQueryChosenChat(Object):
 
     @staticmethod
     def _parse(
-        button_type: "raw.types.InlineButtonTypeSwitchInline",
-    ) -> "SwitchInlineQueryChosenChat | None":
+        button_type: raw.types.InlineButtonTypeSwitchInline,
+    ) -> SwitchInlineQueryChosenChat | None:
         if not isinstance(button_type, raw.types.InlineButtonTypeSwitchInline):
             return None
 

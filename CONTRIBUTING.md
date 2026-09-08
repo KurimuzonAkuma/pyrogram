@@ -106,6 +106,15 @@ A few conventions that have come up repeatedly in code review but aren't enforce
 - **Every new `.py` file carries the licence header** that the rest of the tree carries: copy it
   from a module in the same package. The only files without one are the empty package
   `__init__.py` files. Nothing checks this, so a missing header only surfaces in review.
+- **Always use `list[str]` and `int | None`, never `List[str]` and `Optional[int]`.** The
+  `typing` generics are deprecated aliases of the builtins.
+  https://docs.python.org/3/library/typing.html#deprecated-aliases
+- **Every module carries `from __future__ import annotations as _annotations`**, directly below
+  the docstring. The import is what lets an annotation name a type the module imports only under
+  `TYPE_CHECKING`, so nothing in the tree quotes an annotation and `UP037` can stay selected;
+  `tests/guards/test_future_annotations.py` fails on a package module that writes one without it.
+  Keep the alias: the name is never used, and the underscore says the import is there for its
+  side effect alone.
 - **A dependency is declared with a floor, never a ceiling.** `pyproject.toml` carries the
   reasoning beside the declarations. Where a major version genuinely breaks us, add the upper
   bound and name the breakage in a comment next to it.

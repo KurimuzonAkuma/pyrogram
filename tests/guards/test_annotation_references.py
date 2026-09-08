@@ -18,10 +18,12 @@
 
 """Every name an annotation writes exists where the annotation is written.
 
-Almost every annotation in this tree is a string, so nothing evaluates it: a name that does
-not exist reaches an IDE and a type checker as though it did, and no part of the build says
-otherwise.
+The package defers every annotation, which `test_future_annotations.py` is what keeps true,
+so nothing evaluates one: a name that does not exist reaches an IDE and a type checker as
+though it did, and no part of the build says otherwise.
 """
+
+from __future__ import annotations as _annotations
 
 import ast
 import builtins
@@ -240,8 +242,9 @@ def test_a_string_annotation_is_read_as_the_expression_it_holds() -> None:
     assert names('"types.Chat | None"') == [("types", "Chat")]
     assert names('list["types.Chat"] | None') == [("list",), ("types", "Chat")]
 
-    # The `typing` spelling is no longer written here, but the sweep is what would have to
-    #  report a dead name in one, so it keeps reading it.
+    # Neither spelling above is written in the tree any more: the future import made the
+    #  quotes unnecessary and the builtins replaced the `typing` aliases. The sweep is what
+    #  would have to report a dead name in one, so it keeps reading both.
     assert names('Optional[List["types.Chat"]]') == [("Optional",), ("List",), ("types", "Chat")]
     assert names('Union["types.Chat", int]') == [("Union",), ("types", "Chat"), ("int",)]
     assert names('"Optional[types.Chat]"') == [("Optional",), ("types", "Chat")]

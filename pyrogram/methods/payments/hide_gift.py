@@ -23,10 +23,7 @@ from pyrogram import raw, utils
 
 
 class HideGift:
-    async def hide_gift(
-        self: pyrogram.Client,
-        owned_gift_id: str
-    ) -> bool:
+    async def hide_gift(self: pyrogram.Client, owned_gift_id: str) -> bool:
         """Hide gift on the current user's or the channel's profile page.
 
         .. note::
@@ -56,8 +53,7 @@ class HideGift:
         """
         r = await self.invoke(
             raw.functions.payments.SaveStarGift(
-                stargift=await utils.get_input_stargift(self, owned_gift_id),
-                unsave=True
+                stargift=await utils.get_input_stargift(self, owned_gift_id), unsave=True
             )
         )
 

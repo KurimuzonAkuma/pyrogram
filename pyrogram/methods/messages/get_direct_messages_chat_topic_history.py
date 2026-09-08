@@ -36,7 +36,7 @@ async def get_chunk(
     from_date: datetime = utils.zero_datetime(),
     min_id: int = 0,
     max_id: int = 0,
-    reverse: bool = False
+    reverse: bool = False,
 ):
     from_message_id = from_message_id or (1 if reverse else 0)
 
@@ -50,9 +50,9 @@ async def get_chunk(
             max_id=max_id,
             min_id=min_id,
             hash=0,
-            parent_peer=await client.resolve_peer(chat_id)
+            parent_peer=await client.resolve_peer(chat_id),
         ),
-        sleep_threshold=60
+        sleep_threshold=60,
     )
 
     messages = await utils.parse_messages(client, messages, replies=0)
@@ -60,6 +60,7 @@ async def get_chunk(
         messages.reverse()
 
     return messages
+
 
 class GetDirectMessagesChatTopicHistory:
     async def get_direct_messages_chat_topic_history(
@@ -72,7 +73,7 @@ class GetDirectMessagesChatTopicHistory:
         offset_date: datetime = utils.zero_datetime(),
         min_id: int = 0,
         max_id: int = 0,
-        reverse: bool = False
+        reverse: bool = False,
     ) -> AsyncGenerator[types.Message, None]:
         """Return messages in the topic in a channel direct messages chat administered by the current user.
 
@@ -134,7 +135,7 @@ class GetDirectMessagesChatTopicHistory:
                 from_date=offset_date,
                 max_id=max_id,
                 min_id=min_id,
-                reverse=reverse
+                reverse=reverse,
             )
 
             if not messages:

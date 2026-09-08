@@ -44,13 +44,7 @@ class TLObject(Generic[ReturnType]):
         if isinstance(obj, bytes):
             return repr(obj)
 
-        attributes_to_mask = {
-            "code",
-            "phone",
-            "token",
-            "autologin_token",
-            "logout_tokens"
-        }
+        attributes_to_mask = {"code", "phone", "token", "autologin_token", "logout_tokens"}
 
         filtered_attributes = {}
 
@@ -65,10 +59,7 @@ class TLObject(Generic[ReturnType]):
             else:
                 filtered_attributes[attr] = value
 
-        return {
-            "_": obj.QUALNAME,
-            **filtered_attributes
-        }
+        return {"_": obj.QUALNAME, **filtered_attributes}
 
     def __str__(self) -> str:
         return dumps(self, indent=4, default=TLObject.default, ensure_ascii=False)
@@ -83,7 +74,7 @@ class TLObject(Generic[ReturnType]):
                 f"{attr}={repr(getattr(self, attr))}"
                 for attr in self.__slots__
                 if getattr(self, attr) is not None
-            )
+            ),
         )
 
     def __eq__(self, other: Any) -> bool:

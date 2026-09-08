@@ -39,7 +39,7 @@ async def get_chunk(
     min_id: int = 0,
     max_id: int = 0,
     from_user: int | str | None = None,
-    message_thread_id: int | None = None
+    message_thread_id: int | None = None,
 ) -> list[types.Message]:
     r = await client.invoke(
         raw.functions.messages.Search(
@@ -47,21 +47,17 @@ async def get_chunk(
             q=query,
             filter=filter.value(),
             min_date=utils.datetime_to_timestamp(min_date),
-            max_date= utils.datetime_to_timestamp(max_date),
+            max_date=utils.datetime_to_timestamp(max_date),
             offset_id=offset_id,
             add_offset=offset,
             limit=limit,
             min_id=min_id,
             max_id=max_id,
-            from_id=(
-                await client.resolve_peer(from_user)
-                if from_user
-                else None
-            ),
+            from_id=(await client.resolve_peer(from_user) if from_user else None),
             top_msg_id=message_thread_id,
-            hash=0
+            hash=0,
         ),
-        sleep_threshold=60
+        sleep_threshold=60,
     )
 
     return await utils.parse_messages(client, r, replies=0)
@@ -82,7 +78,7 @@ class SearchMessages:
         filter: enums.MessagesFilter = enums.MessagesFilter.EMPTY,
         limit: int = 0,
         from_user: int | str | None = None,
-        message_thread_id: int | None = None
+        message_thread_id: int | None = None,
     ) -> AsyncGenerator[types.Message, None]:
         """Search for text and media messages inside a specific chat.
 
@@ -175,7 +171,7 @@ class SearchMessages:
                 max_id=max_id,
                 limit=limit,
                 from_user=from_user,
-                message_thread_id=message_thread_id
+                message_thread_id=message_thread_id,
             )
 
             if not messages:

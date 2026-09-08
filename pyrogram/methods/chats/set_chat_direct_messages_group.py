@@ -58,7 +58,7 @@ class SetChatDirectMessagesGroup:
                 raw.functions.channels.UpdatePaidMessagesPrice(
                     channel=await self.resolve_peer(chat_id),
                     send_paid_messages_stars=paid_message_star_count,
-                    broadcast_messages_allowed=is_enabled
+                    broadcast_messages_allowed=is_enabled,
                 )
             )
 

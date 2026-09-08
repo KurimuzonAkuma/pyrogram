@@ -33,6 +33,7 @@ class InputCredentials(Object):
     - :obj:`~pyrogram.types.InputCredentialsNew`
     - :obj:`~pyrogram.types.InputCredentialsSaved`
     """
+
     def __init__(self):
         super().__init__()
 

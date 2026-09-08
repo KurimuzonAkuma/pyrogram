@@ -23,9 +23,7 @@ from pyrogram import raw
 
 
 class GetTonBalance:
-    async def get_ton_balance(
-        self: pyrogram.Client
-    ) -> float:
+    async def get_ton_balance(self: pyrogram.Client) -> float:
         """Get the current TON balance of the current account.
 
         .. include:: /_includes/usable-by/users.rst
@@ -44,10 +42,7 @@ class GetTonBalance:
         """
         r = await self.invoke(
             raw.functions.payments.GetStarsTransactions(
-                peer=raw.types.InputPeerSelf(),
-                offset="",
-                limit=0,
-                ton=True
+                peer=raw.types.InputPeerSelf(), offset="", limit=0, ton=True
             )
         )
 

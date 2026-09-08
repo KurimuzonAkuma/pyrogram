@@ -24,10 +24,7 @@ from pyrogram import raw, types, utils
 
 class RemoveCollectionGifts:
     async def remove_collection_gifts(
-        self: pyrogram.Client,
-        owner_id: int | str,
-        collection_id: int,
-        gift_ids: list[str]
+        self: pyrogram.Client, owner_id: int | str, collection_id: int, gift_ids: list[str]
     ) -> types.GiftCollection:
         """Removes gifts from a collection.
 
@@ -61,7 +58,7 @@ class RemoveCollectionGifts:
             raw.functions.payments.UpdateStarGiftCollection(
                 peer=await self.resolve_peer(owner_id),
                 collection_id=collection_id,
-                delete_stargift=stargifts
+                delete_stargift=stargifts,
             )
         )
 

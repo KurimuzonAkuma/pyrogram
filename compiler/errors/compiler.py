@@ -48,6 +48,7 @@ _LEADING_DIGIT_WORDS: Final[dict[str, str]] = {"2": "Two"}
 @dataclass(frozen=True)
 class _Table:
     """A source table, and the module it compiles to."""
+
     path: Path
     code: int
     module_name: str
@@ -58,6 +59,7 @@ class _Table:
 @dataclass(frozen=True)
 class _Row:
     """A line of a source table."""
+
     table: _Table
     error_id: str
     message: str
@@ -68,6 +70,7 @@ class _Row:
 @dataclass(frozen=True)
 class _Error:
     """A row, once every claimant of the name it asks for is known and it has one of its own."""
+
     row: _Row
     class_name: str
     bases: list[str]
@@ -88,6 +91,7 @@ class _Templates:
     The newlines that join a block to that body are spelled out where the block is written, rather
     than left to whichever ones a template file happens to begin and end with.
     """
+
     module: str
     sub_class: str
     code_and_name: str
@@ -117,7 +121,7 @@ def _read_templates() -> _Templates:
         sub_class=_read_template("sub_class"),
         code_and_name=_read_template("code_and_name"),
         value_property=_read_template("value_property"),
-        value_name_reset=_read_template("value_name_reset")
+        value_name_reset=_read_template("value_name_reset"),
     )
 
 
@@ -134,7 +138,7 @@ def _read_table(path: Path) -> _Table:
         code=int(code),
         module_name="{}_{}".format(name.lower(), code),
         super_class=_to_pascal_case(name),
-        title=" ".join([word.capitalize() for word in words])
+        title=" ".join([word.capitalize() for word in words]),
     )
 
 
@@ -155,7 +159,7 @@ def _read_row(table: _Table, *, line: list[str]) -> _Row:
         error_id=error_id,
         message=message,
         value_name=_value_name_of(error_id=error_id, message=message),
-        base_name=_base_name_of(error_id)
+        base_name=_base_name_of(error_id),
     )
 
 
@@ -220,10 +224,7 @@ def _name_errors(rows: list[_Row]) -> list[_Error]:
         group.sort(key=lambda claimant: (claimant.table.code, claimant.error_id))
 
         primary = _Error(
-            row=group[0],
-            class_name=base_name,
-            bases=[group[0].table.super_class],
-            primary=None
+            row=group[0], class_name=base_name, bases=[group[0].table.super_class], primary=None
         )
 
         named[primary.row] = primary
@@ -249,7 +250,7 @@ def _subclass_of(primary: _Error, *, row: _Row) -> _Error:
             row=row,
             class_name="{}{}".format(primary.class_name, row.table.code),
             bases=[primary.class_name, row.table.super_class],
-            primary=primary
+            primary=primary,
         )
 
     # Two ids under one code that only differ by the value they carry, such as `EMAIL_UNCONFIRMED`
@@ -259,7 +260,7 @@ def _subclass_of(primary: _Error, *, row: _Row) -> _Error:
         row=row,
         class_name="{}X".format(primary.class_name),
         bases=[primary.class_name],
-        primary=primary
+        primary=primary,
     )
 
 
@@ -280,20 +281,23 @@ def _code_and_name_block(templates: _Templates, *, error: _Error) -> str:
         return ""
 
     return "\n" + templates.code_and_name.format(
-        code=error.table.code,
-        name=error.table.title
+        code=error.table.code, name=error.table.title
     ).rstrip("\n")
 
 
 def _value_block(templates: _Templates, *, error: _Error) -> str:
     if error.row.value_name != _PLAIN_VALUE_NAME:
-        return "\n\n" + templates.value_property.format(value_name=error.row.value_name).rstrip("\n")
+        return "\n\n" + templates.value_property.format(value_name=error.row.value_name).rstrip(
+            "\n"
+        )
 
     # An error that carries nothing inherits the name of a value it never has when the error it
     # subclasses names one. `ALLOW_PAYMENT_REQUIRED` at 406 is the only one: the 403 it shares a
     # name with is the parameterised `ALLOW_PAYMENT_REQUIRED_X`, which carries `{star_count}`.
     if error.primary is not None and error.primary.row.value_name != _PLAIN_VALUE_NAME:
-        return "\n\n" + templates.value_name_reset.format(primary=error.primary.class_name).rstrip("\n")
+        return "\n\n" + templates.value_name_reset.format(primary=error.primary.class_name).rstrip(
+            "\n"
+        )
 
     return ""
 
@@ -307,13 +311,17 @@ def _import_block(table: _Table, *, errors: list[_Error]) -> str:
 
     # An error only ever subclasses one of a lower code, and the modules are written in that order,
     # so these imports run downwards and can never form a cycle.
-    return "".join([
-        "\nfrom .{} import (\n{}\n)".format(
-            module_name,
-            "".join(["    {},\n".format(class_name) for class_name in sorted(class_names)]).rstrip("\n")
-        )
-        for module_name, class_names in sorted(imports.items())
-    ])
+    return "".join(
+        [
+            "\nfrom .{} import (\n{}\n)".format(
+                module_name,
+                "".join(
+                    ["    {},\n".format(class_name) for class_name in sorted(class_names)]
+                ).rstrip("\n"),
+            )
+            for module_name, class_names in sorted(imports.items())
+        ]
+    )
 
 
 def _write_init(tables: list[_Table], *, notice: str) -> None:
@@ -327,11 +335,10 @@ def _write_all(tables: dict[_Table, list[_Error]], *, notice: str, count: int) -
 
     for table, errors in tables.items():
         lines.append("    {}: {{".format(table.code))
-        lines.append("        \"_\": \"{}\",".format(table.super_class))
-        lines.extend([
-            "        \"{}\": \"{}\",".format(error.row.error_id, error.class_name)
-            for error in errors
-        ])
+        lines.append('        "_": "{}",'.format(table.super_class))
+        lines.extend(
+            ['        "{}": "{}",'.format(error.row.error_id, error.class_name) for error in errors]
+        )
         lines.append("    },")
 
     lines.append("}")
@@ -343,7 +350,9 @@ def _write(path: Path, *, lines: list[str]) -> None:
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def _write_module(table: _Table, *, errors: list[_Error], notice: str, templates: _Templates) -> None:
+def _write_module(
+    table: _Table, *, errors: list[_Error], notice: str, templates: _Templates
+) -> None:
     sub_classes: list[str] = []
     written: set[str] = set()
 
@@ -351,16 +360,18 @@ def _write_module(table: _Table, *, errors: list[_Error], notice: str, templates
         primary = error.primary
 
         if primary is not None and primary.table == table and primary.class_name not in written:
-            msg = "{} is written before the {} it subclasses".format(error.class_name, primary.class_name)
+            msg = "{} is written before the {} it subclasses".format(
+                error.class_name, primary.class_name
+            )
             raise RuntimeError(msg)
 
         sub_class = templates.sub_class.format(
             sub_class=error.class_name,
             bases=", ".join(error.bases),
-            id="\"{}\"".format(error.row.error_id),
+            id='"{}"'.format(error.row.error_id),
             docstring='"""{}"""'.format(error.row.message),
             code_and_name=_code_and_name_block(templates, error=error),
-            value_property=_value_block(templates, error=error)
+            value_property=_value_block(templates, error=error),
         )
 
         sub_classes.append(sub_class)
@@ -372,7 +383,7 @@ def _write_module(table: _Table, *, errors: list[_Error], notice: str, templates
         super_class=table.super_class,
         code=table.code,
         docstring='"""{}"""'.format(table.title),
-        sub_classes="".join(sub_classes)
+        sub_classes="".join(sub_classes),
     )
 
     (_DEST / "{}.py".format(table.module_name)).write_text(module, encoding="utf-8")

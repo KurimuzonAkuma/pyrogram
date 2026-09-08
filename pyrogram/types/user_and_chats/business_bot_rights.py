@@ -87,7 +87,7 @@ class BusinessBotRights(Object):
         can_change_gift_settings: bool | None = None,
         can_transfer_and_upgrade_gifts: bool | None = None,
         can_transfer_stars: bool | None = None,
-        can_manage_stories: bool | None = None
+        can_manage_stories: bool | None = None,
     ):
         super().__init__(None)
 

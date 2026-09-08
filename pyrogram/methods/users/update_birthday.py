@@ -27,7 +27,7 @@ class UpdateBirthday:
         self: pyrogram.Client,
         day: int | None = None,
         month: int | None = None,
-        year: int | None = None
+        year: int | None = None,
     ) -> bool:
         """Update birthday in your profile.
 
@@ -60,10 +60,4 @@ class UpdateBirthday:
         if all((day, month)):
             birthday = raw.types.Birthday(day=day, month=month, year=year)
 
-        return bool(
-            await self.invoke(
-                raw.functions.account.UpdateBirthday(
-                    birthday=birthday
-                )
-            )
-        )
+        return bool(await self.invoke(raw.functions.account.UpdateBirthday(birthday=birthday)))

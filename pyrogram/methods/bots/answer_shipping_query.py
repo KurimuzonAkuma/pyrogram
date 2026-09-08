@@ -29,7 +29,7 @@ class AnswerShippingQuery:
         shipping_query_id: str,
         ok: bool,
         shipping_options: list[types.ShippingOption] | None = None,
-        error_message: str | None = None
+        error_message: str | None = None,
     ) -> bool:
         """If you sent an invoice requesting a shipping address and the parameter ``is_flexible`` was specified, the API sends the confirmation in the form of an :obj:`~pyrogram.handlers.ShippingQueryHandler`.
 
@@ -70,11 +70,10 @@ class AnswerShippingQuery:
         r = await self.invoke(
             raw.functions.messages.SetBotShippingResults(
                 query_id=int(shipping_query_id),
-                shipping_options=[
-                    so.write()
-                    for so in shipping_options
-                ] if shipping_options else None,
-                error=error_message
+                shipping_options=[so.write() for so in shipping_options]
+                if shipping_options
+                else None,
+                error=error_message,
             )
         )
 

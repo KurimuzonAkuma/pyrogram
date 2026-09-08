@@ -91,7 +91,7 @@ class InlineQueryResultAnimation(InlineQueryResult):
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[types.MessageEntity] | None = None,
         reply_markup: types.InlineKeyboardMarkup | None = None,
-        input_message_content: types.InputMessageContent | None = None
+        input_message_content: types.InputMessageContent | None = None,
     ):
         super().__init__("gif", id, input_message_content, reply_markup)
 
@@ -118,24 +118,23 @@ class InlineQueryResultAnimation(InlineQueryResult):
                 raw.types.DocumentAttributeVideo(
                     w=self.animation_width,
                     h=self.animation_height,
-                    duration=self.animation_duration
+                    duration=self.animation_duration,
                 )
-            ]
+            ],
         )
 
         if self.thumb_url is None:
             thumb = animation
         else:
             thumb = raw.types.InputWebDocument(
-                url=self.thumb_url,
-                size=0,
-                mime_type=self.thumb_mime_type,
-                attributes=[]
+                url=self.thumb_url, size=0, mime_type=self.thumb_mime_type, attributes=[]
             )
 
-        message, entities = (await utils.parse_text_entities(
-            client, self.caption, self.parse_mode, self.caption_entities
-        )).values()
+        message, entities = (
+            await utils.parse_text_entities(
+                client, self.caption, self.parse_mode, self.caption_entities
+            )
+        ).values()
 
         return raw.types.InputBotInlineResult(
             id=self.id,
@@ -148,9 +147,11 @@ class InlineQueryResultAnimation(InlineQueryResult):
                 await self.input_message_content.write(client, self.reply_markup)
                 if self.input_message_content
                 else raw.types.InputBotInlineMessageMediaAuto(
-                    reply_markup=await self.reply_markup.write(client) if self.reply_markup else None,
+                    reply_markup=await self.reply_markup.write(client)
+                    if self.reply_markup
+                    else None,
                     message=message,
-                    entities=entities
+                    entities=entities,
                 )
-            )
+            ),
         )

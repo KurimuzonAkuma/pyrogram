@@ -33,11 +33,7 @@ class PhoneCallStarted(Object):
             True, if call was a video call.
     """
 
-    def __init__(
-        self, *,
-        id: int,
-        is_video: bool
-    ):
+    def __init__(self, *, id: int, is_video: bool):
         super().__init__()
 
         self.id = id
@@ -45,7 +41,4 @@ class PhoneCallStarted(Object):
 
     @staticmethod
     def _parse(action: raw.types.MessageActionPhoneCall) -> PhoneCallStarted:
-        return PhoneCallStarted(
-            id=action.call_id,
-            is_video=action.video
-        )
+        return PhoneCallStarted(id=action.call_id, is_video=action.video)

@@ -44,6 +44,7 @@ class MessageOriginChannel(MessageOrigin):
         author_signature (``str``, *optional*):
             Signature of the original post author.
     """
+
     def __init__(
         self,
         *,
@@ -51,12 +52,9 @@ class MessageOriginChannel(MessageOrigin):
         date: datetime | None = None,
         chat: types.Chat | None = None,
         message_id: int | None = None,
-        author_signature: str | None = None
+        author_signature: str | None = None,
     ):
-        super().__init__(
-            type=type,
-            date=date
-        )
+        super().__init__(type=type, date=date)
 
         self.chat = chat
         self.message_id = message_id

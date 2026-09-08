@@ -56,11 +56,9 @@ class UnpinChatMessage:
         """
         await self.invoke(
             raw.functions.messages.UpdatePinnedMessage(
-                peer=await self.resolve_peer(chat_id),
-                id=message_id,
-                unpin=True
+                peer=await self.resolve_peer(chat_id), id=message_id, unpin=True
             ),
-            business_connection_id=business_connection_id
+            business_connection_id=business_connection_id,
         )
 
         return True

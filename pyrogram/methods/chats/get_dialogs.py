@@ -29,7 +29,7 @@ class GetDialogs:
         self: pyrogram.Client,
         limit: int = 0,
         exclude_pinned: bool | None = None,
-        from_archive: bool | None = None
+        from_archive: bool | None = None,
     ) -> AsyncGenerator[types.Dialog, None]:
         """Get a user's dialogs sequentially.
 
@@ -79,9 +79,9 @@ class GetDialogs:
                     limit=limit,
                     hash=0,
                     exclude_pinned=exclude_pinned,
-                    folder_id=None if from_archive is None else 1 if from_archive else 0
+                    folder_id=None if from_archive is None else 1 if from_archive else 0,
                 ),
-                sleep_threshold=60
+                sleep_threshold=60,
             )
 
             users = {i.id: i for i in r.users}
@@ -108,7 +108,10 @@ class GetDialogs:
                 if peer_id in seen_dialogs_ids:
                     continue
 
-                if isinstance(users.get(peer_id) or chats.get(peer_id), (raw.types.UserEmpty, raw.types.ChatEmpty)):
+                if isinstance(
+                    users.get(peer_id) or chats.get(peer_id),
+                    (raw.types.UserEmpty, raw.types.ChatEmpty),
+                ):
                     continue
 
                 seen_dialogs_ids.add(peer_id)

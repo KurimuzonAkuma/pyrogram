@@ -64,7 +64,8 @@ class SuccessfulPayment(Object):
     """
 
     def __init__(
-        self, *,
+        self,
+        *,
         currency: str,
         total_amount: str,
         invoice_payload: str,
@@ -93,7 +94,8 @@ class SuccessfulPayment(Object):
 
     @staticmethod
     def _parse(
-        payment: raw.types.MessageActionPaymentSent | raw.types.MessageActionPaymentSentMe) -> SuccessfulPayment:
+        payment: raw.types.MessageActionPaymentSent | raw.types.MessageActionPaymentSentMe,
+    ) -> SuccessfulPayment:
         invoice_payload = None
         telegram_payment_charge_id = None
         provider_payment_charge_id = None
@@ -119,9 +121,7 @@ class SuccessfulPayment(Object):
                     name=getattr(payment_info, "name", None),
                     phone_number=getattr(payment_info, "phone", None),
                     email=getattr(payment_info, "email", None),
-                    shipping_address=types.ShippingAddress._parse(
-                        payment_info.shipping_address
-                    )
+                    shipping_address=types.ShippingAddress._parse(payment_info.shipping_address),
                 )
 
         return SuccessfulPayment(
@@ -135,5 +135,7 @@ class SuccessfulPayment(Object):
             is_recurring=getattr(payment, "recurring_used", None),
             is_first_recurring=getattr(payment, "recurring_init", None),
             invoice_slug=getattr(payment, "invoice_slug", None),
-            subscription_expiration_date=utils.timestamp_to_datetime(payment.subscription_until_date),
+            subscription_expiration_date=utils.timestamp_to_datetime(
+                payment.subscription_until_date
+            ),
         )

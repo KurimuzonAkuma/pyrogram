@@ -75,7 +75,7 @@ class GetTopChats:
                     bots_app=category == enums.TopChatCategory.WEB_APP_BOTS,
                     bots_guestchat=category == enums.TopChatCategory.GUEST_BOTS,
                 ),
-                sleep_threshold=60
+                sleep_threshold=60,
             )
 
             if not isinstance(r, raw.types.contacts.TopPeers):
@@ -90,7 +90,9 @@ class GetTopChats:
                 for top_peer in cat.peers:
                     peer_id = utils.get_raw_peer_id(top_peer.peer)
 
-                    chat = await types.Chat._parse_chat(self, users.get(peer_id) or chats.get(peer_id))
+                    chat = await types.Chat._parse_chat(
+                        self, users.get(peer_id) or chats.get(peer_id)
+                    )
 
                     if chat is not None:
                         result_chats.append(chat)

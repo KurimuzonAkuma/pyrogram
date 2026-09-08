@@ -29,7 +29,7 @@ class SendGiftPurchaseOffer:
         gift_name: str,
         price: types.GiftResalePrice,
         duration: int,
-        paid_message_star_count: int | None = None
+        paid_message_star_count: int | None = None,
     ) -> types.Message | None:
         """Sends an offer to purchase an upgraded gift.
 
@@ -70,7 +70,7 @@ class SendGiftPurchaseOffer:
                 price=price.write(),
                 duration=duration,
                 random_id=self.rnd_id(),
-                allow_paid_stars=paid_message_star_count
+                allow_paid_stars=paid_message_star_count,
             )
         )
 

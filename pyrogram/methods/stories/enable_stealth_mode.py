@@ -24,9 +24,7 @@ from pyrogram import raw, types
 
 class EnableStealthMode:
     async def enable_stealth_mode(
-        self: pyrogram.Client,
-        past: bool | None = None,
-        future: bool | None = None
+        self: pyrogram.Client, past: bool | None = None, future: bool | None = None
     ) -> types.StoriesStealthMode:
         """Activates stories stealth mode.
 
@@ -55,12 +53,7 @@ class EnableStealthMode:
                 await app.enable_stealth_mode(past=True, future=True)
         """
 
-        r = await self.invoke(
-            raw.functions.stories.ActivateStealthMode(
-                past=past,
-                future=future
-            )
-        )
+        r = await self.invoke(raw.functions.stories.ActivateStealthMode(past=past, future=future))
 
         for i in r.updates:
             if isinstance(i, raw.types.UpdateStoriesStealthMode):

@@ -81,7 +81,7 @@ class GetChatAdminInviteLinks:
                     limit=limit,
                     revoked=revoked,
                     offset_date=offset_date,
-                    offset_link=offset_link
+                    offset_link=offset_link,
                 )
             )
 

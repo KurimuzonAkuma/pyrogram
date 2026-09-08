@@ -23,10 +23,7 @@ from pyrogram import raw, types
 
 
 class GetUpgradedGift:
-    async def get_upgraded_gift(
-        self: pyrogram.Client,
-        link: str
-    ) -> types.Gift:
+    async def get_upgraded_gift(self: pyrogram.Client, link: str) -> types.Gift:
         """Get information about upgraded gift.
 
         .. include:: /_includes/usable-by/users.rst
@@ -56,11 +53,7 @@ class GetUpgradedGift:
         else:
             raise ValueError("Invalid gift link")
 
-        r = await self.invoke(
-            raw.functions.payments.GetUniqueStarGift(
-                slug=slug.replace(" ", "")
-            )
-        )
+        r = await self.invoke(raw.functions.payments.GetUniqueStarGift(slug=slug.replace(" ", "")))
 
         users = {i.id: i for i in r.users}
         chats = {i.id: i for i in r.chats}

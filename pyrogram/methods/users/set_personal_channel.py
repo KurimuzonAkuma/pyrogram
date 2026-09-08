@@ -23,10 +23,7 @@ from pyrogram import raw
 
 
 class SetPersonalChannel:
-    async def set_personal_channel(
-        self: pyrogram.Client,
-        chat_id: int | str | None = None
-    ) -> bool:
+    async def set_personal_channel(self: pyrogram.Client, chat_id: int | str | None = None) -> bool:
         """Set a personal channel in bio.
 
         .. include:: /_includes/usable-by/users.rst
@@ -58,10 +55,4 @@ class SetPersonalChannel:
             if not isinstance(peer, raw.types.InputPeerChannel):
                 return False
 
-        return bool(
-            await self.invoke(
-                raw.functions.account.UpdatePersonalChannel(
-                    channel=peer
-                )
-            )
-        )
+        return bool(await self.invoke(raw.functions.account.UpdatePersonalChannel(channel=peer)))

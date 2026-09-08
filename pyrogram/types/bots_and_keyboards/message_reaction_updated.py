@@ -66,7 +66,7 @@ class MessageReactionUpdated(Object, Update):
         actor_chat: types.Chat,
         date: datetime,
         old_reaction: list[types.Reaction],
-        new_reaction: list[types.Reaction]
+        new_reaction: list[types.Reaction],
     ):
         super().__init__(client)
 
@@ -83,7 +83,7 @@ class MessageReactionUpdated(Object, Update):
         client: pyrogram.Client,
         update: raw.types.UpdateBotMessageReaction,
         users: dict[int, raw.types.User],
-        chats: dict[int, raw.types.Chat]
+        chats: dict[int, raw.types.Chat],
     ) -> MessageReactionUpdated:
         peer_id = utils.get_peer_id(update.peer)
         raw_peer_id = utils.get_raw_peer_id(update.peer)
@@ -112,15 +112,9 @@ class MessageReactionUpdated(Object, Update):
             actor_chat=actor_chat,
             date=utils.timestamp_to_datetime(update.date),
             old_reaction=[
-                types.Reaction._parse(
-                    client,
-                    reaction
-                ) for reaction in update.old_reactions
+                types.Reaction._parse(client, reaction) for reaction in update.old_reactions
             ],
             new_reaction=[
-                types.Reaction._parse(
-                    client,
-                    reaction
-                ) for reaction in update.new_reactions
-            ]
+                types.Reaction._parse(client, reaction) for reaction in update.new_reactions
+            ],
         )

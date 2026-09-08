@@ -73,7 +73,7 @@ class Giveaway(Object):
         only_new_subscribers: bool | None = None,
         only_for_countries: list[str] | None = None,
         winners_are_visible: bool | None = None,
-        stars: int | None = None
+        stars: int | None = None,
     ):
         super().__init__(client)
 
@@ -88,13 +88,14 @@ class Giveaway(Object):
         self.stars = stars
 
     @staticmethod
-    async def _parse(
-        client,
-        giveaway: raw.types.MessageMediaGiveaway,
-        chats: dict
-    ) -> Giveaway:
+    async def _parse(client, giveaway: raw.types.MessageMediaGiveaway, chats: dict) -> Giveaway:
         return Giveaway(
-            chats=types.List([await types.Chat._parse_channel_chat(client, chats.get(i)) for i in giveaway.channels]),
+            chats=types.List(
+                [
+                    await types.Chat._parse_channel_chat(client, chats.get(i))
+                    for i in giveaway.channels
+                ]
+            ),
             quantity=giveaway.quantity,
             months=giveaway.months,
             until_date=utils.timestamp_to_datetime(giveaway.until_date),
@@ -103,5 +104,5 @@ class Giveaway(Object):
             only_for_countries=types.List(getattr(giveaway, "countries_iso2", [])) or None,
             winners_are_visible=getattr(giveaway, "winners_are_visible", None),
             stars=getattr(giveaway, "stars", None),
-            client=client
+            client=client,
         )

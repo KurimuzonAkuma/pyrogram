@@ -34,9 +34,7 @@ class BotAccessSettings(Object):
             The list of other users who have access to the bot if the access is restricted.
     """
 
-    def __init__(
-        self, is_access_restricted: bool, added_users: list[types.User] | None = None
-    ):
+    def __init__(self, is_access_restricted: bool, added_users: list[types.User] | None = None):
         super().__init__()
 
         self.is_access_restricted = is_access_restricted

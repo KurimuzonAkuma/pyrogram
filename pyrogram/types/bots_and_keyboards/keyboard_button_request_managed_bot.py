@@ -35,12 +35,7 @@ class KeyboardButtonRequestManagedBot(Object):
             Suggested username for the bot.
     """
 
-    def __init__(
-        self, *,
-        button_id: int,
-        suggested_name: str,
-        suggested_username: str
-    ):
+    def __init__(self, *, button_id: int, suggested_name: str, suggested_username: str):
         super().__init__()
 
         self.button_id = button_id

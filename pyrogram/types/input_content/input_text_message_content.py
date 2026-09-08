@@ -27,6 +27,7 @@ from .input_message_content import InputMessageContent
 
 log = logging.getLogger(__name__)
 
+
 class InputTextMessageContent(InputMessageContent):
     """Content of a text message to be sent as the result of an inline query.
 
@@ -51,8 +52,7 @@ class InputTextMessageContent(InputMessageContent):
         parse_mode: enums.ParseMode | None = None,
         entities: list[types.MessageEntity] | None = None,
         link_preview_options: types.LinkPreviewOptions | None = None,
-
-        disable_web_page_preview: bool | None = None
+        disable_web_page_preview: bool | None = None,
     ):
         super().__init__()
 
@@ -70,9 +70,11 @@ class InputTextMessageContent(InputMessageContent):
         self.disable_web_page_preview = disable_web_page_preview
 
     async def write(self, client: pyrogram.Client, reply_markup):
-        message, entities = (await utils.parse_text_entities(
-            client, self.message_text, self.parse_mode, self.entities
-        )).values()
+        message, entities = (
+            await utils.parse_text_entities(
+                client, self.message_text, self.parse_mode, self.entities
+            )
+        ).values()
 
         if self.link_preview_options is None:
             self.link_preview_options = client.link_preview_options
@@ -86,7 +88,7 @@ class InputTextMessageContent(InputMessageContent):
                 url=self.link_preview_options.url,
                 reply_markup=await reply_markup.write(client) if reply_markup else None,
                 message=message,
-                entities=entities
+                entities=entities,
             )
 
         return raw.types.InputBotInlineMessageText(
@@ -94,5 +96,5 @@ class InputTextMessageContent(InputMessageContent):
             invert_media=getattr(self.link_preview_options, "show_above_text", None) or None,
             reply_markup=await reply_markup.write(client) if reply_markup else None,
             message=message,
-            entities=entities
+            entities=entities,
         )

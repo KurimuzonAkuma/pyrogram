@@ -93,7 +93,7 @@ class InlineQueryResultVideo(InlineQueryResult):
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[types.MessageEntity] | None = None,
         reply_markup: types.InlineKeyboardMarkup | None = None,
-        input_message_content: types.InputMessageContent | None = None
+        input_message_content: types.InputMessageContent | None = None,
     ):
         super().__init__("video", id, input_message_content, reply_markup)
 
@@ -114,23 +114,22 @@ class InlineQueryResultVideo(InlineQueryResult):
             url=self.video_url,
             size=0,
             mime_type=self.mime_type,
-            attributes=[raw.types.DocumentAttributeVideo(
-                duration=self.video_duration,
-                w=self.video_width,
-                h=self.video_height
-            )]
+            attributes=[
+                raw.types.DocumentAttributeVideo(
+                    duration=self.video_duration, w=self.video_width, h=self.video_height
+                )
+            ],
         )
 
         thumb = raw.types.InputWebDocument(
-            url=self.thumb_url,
-            size=0,
-            mime_type="image/jpeg",
-            attributes=[]
+            url=self.thumb_url, size=0, mime_type="image/jpeg", attributes=[]
         )
 
-        message, entities = (await utils.parse_text_entities(
-            client, self.caption, self.parse_mode, self.caption_entities
-        )).values()
+        message, entities = (
+            await utils.parse_text_entities(
+                client, self.caption, self.parse_mode, self.caption_entities
+            )
+        ).values()
 
         return raw.types.InputBotInlineResult(
             id=self.id,
@@ -143,9 +142,11 @@ class InlineQueryResultVideo(InlineQueryResult):
                 await self.input_message_content.write(client, self.reply_markup)
                 if self.input_message_content
                 else raw.types.InputBotInlineMessageMediaAuto(
-                    reply_markup=await self.reply_markup.write(client) if self.reply_markup else None,
+                    reply_markup=await self.reply_markup.write(client)
+                    if self.reply_markup
+                    else None,
                     message=message,
-                    entities=entities
+                    entities=entities,
                 )
-            )
+            ),
         )

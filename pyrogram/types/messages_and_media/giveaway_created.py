@@ -24,7 +24,6 @@ from pyrogram import raw
 from ..object import Object
 
 
-
 class GiveawayCreated(Object):
     """This object represents a service message about the creation of a scheduled giveaway.
 
@@ -35,23 +34,15 @@ class GiveawayCreated(Object):
     """
 
     def __init__(
-        self,
-        *,
-        client: pyrogram.Client | None = None,
-        prize_star_count: int | None = None
+        self, *, client: pyrogram.Client | None = None, prize_star_count: int | None = None
     ):
         super().__init__(client)
 
         self.prize_star_count = prize_star_count
 
-
     @staticmethod
-    def _parse(
-        client,
-        giveaway_launch: raw.types.MessageActionGiveawayLaunch
-    ) -> GiveawayCreated:
+    def _parse(client, giveaway_launch: raw.types.MessageActionGiveawayLaunch) -> GiveawayCreated:
         if isinstance(giveaway_launch, raw.types.MessageActionGiveawayLaunch):
             return GiveawayCreated(
-                client=client,
-                prize_star_count=getattr(giveaway_launch, "stars", None)
+                client=client, prize_star_count=getattr(giveaway_launch, "stars", None)
             )

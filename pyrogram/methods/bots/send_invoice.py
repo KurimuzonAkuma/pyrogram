@@ -70,7 +70,6 @@ class SendInvoice:
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[types.MessageEntity] | None = None,
-
         reply_to_message_id: int | None = None,
     ) -> types.Message | None:
         """Use this method to send invoices.
@@ -201,9 +200,7 @@ class SendInvoice:
                 "`reply_to_message_id` is deprecated and will be removed in future updates. Use `reply_parameters` instead."
             )
 
-            reply_parameters = types.ReplyParameters(
-                message_id=reply_to_message_id
-            )
+            reply_parameters = types.ReplyParameters(message_id=reply_to_message_id)
 
         media = raw.types.InputMediaInvoice(
             title=title,
@@ -212,13 +209,10 @@ class SendInvoice:
                 url=photo_url,
                 mime_type="image/jpg",
                 size=photo_size,
-                attributes=[
-                    raw.types.DocumentAttributeImageSize(
-                        w=photo_width,
-                        h=photo_height
-                    )
-                ]
-            ) if photo_url else None,
+                attributes=[raw.types.DocumentAttributeImageSize(w=photo_width, h=photo_height)],
+            )
+            if photo_url
+            else None,
             invoice=raw.types.Invoice(
                 currency=currency,
                 prices=[i.write() for i in prices],
@@ -233,14 +227,12 @@ class SendInvoice:
                 max_tip_amount=max_tip_amount,
                 suggested_tip_amounts=suggested_tip_amounts,
                 recurring=True if subscription_expiration_date is not None else None,
-                subscription_period=subscription_expiration_date
+                subscription_period=subscription_expiration_date,
             ),
             payload=payload.encode() if isinstance(payload, str) else payload,
             provider=provider_token,
-            provider_data=raw.types.DataJSON(
-                data=provider_data if provider_data else "{}"
-            ),
-            start_param=start_parameter
+            provider_data=raw.types.DataJSON(data=provider_data if provider_data else "{}"),
+            start_param=start_parameter,
         )
 
         rpc = raw.functions.messages.SendMedia(
@@ -251,7 +243,7 @@ class SendInvoice:
                 self,
                 reply_parameters,
                 message_thread_id,
-                direct_messages_topic_id=direct_messages_topic_id
+                direct_messages_topic_id=direct_messages_topic_id,
             ),
             random_id=self.rnd_id(),
             noforwards=protect_content,
@@ -259,7 +251,7 @@ class SendInvoice:
             reply_markup=await reply_markup.write(self) if reply_markup else None,
             effect=message_effect_id,
             suggested_post=suggested_post_parameters.write() if suggested_post_parameters else None,
-            **await utils.parse_text_entities(self, caption, parse_mode, caption_entities)
+            **await utils.parse_text_entities(self, caption, parse_mode, caption_entities),
         )
 
         r = await self.invoke(rpc)

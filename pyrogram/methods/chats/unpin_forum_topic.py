@@ -23,11 +23,7 @@ from pyrogram import raw
 
 
 class UnpinForumTopic:
-    async def unpin_forum_topic(
-        self: pyrogram.Client,
-        chat_id: int | str,
-        topic_id: int
-    ) -> bool:
+    async def unpin_forum_topic(self: pyrogram.Client, chat_id: int | str, topic_id: int) -> bool:
         """Unpin a forum topic.
 
         .. include:: /_includes/usable-by/users.rst
@@ -49,9 +45,7 @@ class UnpinForumTopic:
         """
         await self.invoke(
             raw.functions.messages.UpdatePinnedForumTopic(
-                peer=await self.resolve_peer(chat_id),
-                topic_id=topic_id,
-                pinned=False
+                peer=await self.resolve_peer(chat_id), topic_id=topic_id, pinned=False
             )
         )
 

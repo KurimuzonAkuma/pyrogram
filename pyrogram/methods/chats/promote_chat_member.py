@@ -64,12 +64,11 @@ class PromoteChatMember:
             privileges = types.ChatAdministratorRights()
 
         try:
-            raw_chat_member = (await self.invoke(
-                raw.functions.channels.GetParticipant(
-                    channel=chat_id,
-                    participant=user_id
+            raw_chat_member = (
+                await self.invoke(
+                    raw.functions.channels.GetParticipant(channel=chat_id, participant=user_id)
                 )
-            )).participant
+            ).participant
         except errors.RPCError:
             raw_chat_member = None
 
@@ -100,7 +99,7 @@ class PromoteChatMember:
                     manage_welcome_messages=privileges.can_send_welcome_messages,
                     other=privileges.can_manage_chat,
                 ),
-                rank=rank or ""
+                rank=rank or "",
             )
         )
 

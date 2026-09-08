@@ -104,7 +104,7 @@ def test_the_positional_form_stores_the_filter_and_the_group(
 ) -> None:
     getattr(pyrogram.Client, decorator_name)(filters.text, 1)(handler)
 
-    (built, group), = handler.handlers
+    ((built, group),) = handler.handlers
 
     assert group == 1
     assert built.filters is filters.text
@@ -117,7 +117,7 @@ def test_the_mixed_form_stores_the_filter_and_the_group(
 ) -> None:
     getattr(pyrogram.Client, decorator_name)(filters.text, group=1)(handler)
 
-    (built, group), = handler.handlers
+    ((built, group),) = handler.handlers
 
     assert group == 1
     assert built.filters is filters.text
@@ -130,20 +130,22 @@ def test_the_keyword_form_stores_the_filter_and_the_group(
 ) -> None:
     getattr(pyrogram.Client, decorator_name)(filters=filters.text, group=1)(handler)
 
-    (built, group), = handler.handlers
+    ((built, group),) = handler.handlers
 
     assert group == 1
     assert built.filters is filters.text
 
 
-@pytest.mark.parametrize("decorator_name", sorted(set(_decorator_names()) - set(_filtered_decorator_names())))
+@pytest.mark.parametrize(
+    "decorator_name", sorted(set(_decorator_names()) - set(_filtered_decorator_names()))
+)
 def test_a_decorator_called_with_no_arguments_stores_the_default_group(
     decorator_name: str,
     handler: HandlerType,
 ) -> None:
     getattr(pyrogram.Client, decorator_name)()(handler)
 
-    (_, group), = handler.handlers
+    ((_, group),) = handler.handlers
 
     assert group == 0
 
@@ -153,7 +155,7 @@ def test_a_decorator_called_with_no_arguments_stores_the_default_group(
 def test_on_error_reads_the_positional_form(handler: HandlerType) -> None:
     pyrogram.Client.on_error(ValueError, filters.text, 1)(handler)
 
-    (built, group), = handler.handlers
+    ((built, group),) = handler.handlers
 
     assert group == 1
     assert built.exceptions == (ValueError,)
@@ -163,7 +165,7 @@ def test_on_error_reads_the_positional_form(handler: HandlerType) -> None:
 def test_on_error_reads_the_keyword_form(handler: HandlerType) -> None:
     pyrogram.Client.on_error(exceptions=ValueError, filters=filters.text, group=1)(handler)
 
-    (built, group), = handler.handlers
+    ((built, group),) = handler.handlers
 
     assert group == 1
     assert built.exceptions == (ValueError,)
@@ -173,7 +175,7 @@ def test_on_error_reads_the_keyword_form(handler: HandlerType) -> None:
 def test_on_error_keeps_the_only_exception_it_was_given(handler: HandlerType) -> None:
     pyrogram.Client.on_error(ValueError)(handler)
 
-    (built, group), = handler.handlers
+    ((built, group),) = handler.handlers
 
     assert group == 0
     assert built.exceptions == (ValueError,)

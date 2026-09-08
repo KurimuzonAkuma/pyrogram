@@ -31,7 +31,7 @@ class OpenWebApp:
         message_thread_id: int | None = None,
         direct_messages_topic_id: int | None = None,
         reply_parameters: types.ReplyParameters | None = None,
-        platform: enums.ClientPlatform | None = None
+        platform: enums.ClientPlatform | None = None,
     ) -> str:
         """Informs pyrogram that a Web App is being opened from the attachment menu,
         a :obj:`~pyrogram.types.MenuButton`, an url,
@@ -83,9 +83,8 @@ class OpenWebApp:
                     client=self,
                     reply_parameters=reply_parameters,
                     message_thread_id=message_thread_id,
-                    direct_messages_topic_id=direct_messages_topic_id
+                    direct_messages_topic_id=direct_messages_topic_id,
                 ),
-
             )
         )
 

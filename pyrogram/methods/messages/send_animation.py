@@ -304,9 +304,7 @@ class SendAnimation:
                         ],
                     )
                 elif re.match("^https?://", animation):
-                    media = raw.types.InputMediaDocumentExternal(
-                        url=animation, spoiler=has_spoiler
-                    )
+                    media = raw.types.InputMediaDocumentExternal(url=animation, spoiler=has_spoiler)
                 else:
                     media = utils.get_input_media_from_file_id(
                         animation, FileType.ANIMATION, has_spoiler=has_spoiler

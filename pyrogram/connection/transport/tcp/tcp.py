@@ -92,7 +92,9 @@ _PYTHON_SOCKS_TYPES: Final[dict[ProxyScheme, ProxyType]] = {
 }
 
 
-def generate_obfuscated2_nonce(reserved_prefixes: tuple[bytes, ...] = _OBFUSCATED2_RESERVED_PREFIXES) -> bytearray:
+def generate_obfuscated2_nonce(
+    reserved_prefixes: tuple[bytes, ...] = _OBFUSCATED2_RESERVED_PREFIXES,
+) -> bytearray:
     # Avoids fixed prefixes a firewall could use to fingerprint the stream:
     #  a literal 0xef tag byte, common cleartext protocol prefixes, and an
     #  all-zero field. Shared by TCPAbridgedO's plain obfuscated2 handshake
@@ -121,7 +123,9 @@ class Obfuscated2Header(NamedTuple):
     decrypt: CipherArgs
 
 
-def build_obfuscated2_header(secret: bytes, *, dc_id: int, obfuscate_tag: bytes) -> Obfuscated2Header:
+def build_obfuscated2_header(
+    secret: bytes, *, dc_id: int, obfuscate_tag: bytes
+) -> Obfuscated2Header:
     # secret is the bare key - callers strip any 0xDD marker first.
     if len(secret) != OBFUSCATED2_SECRET_SIZE:
         msg = f"obfuscated2: secret must be exactly {OBFUSCATED2_SECRET_SIZE} bytes, got {len(secret)}"
@@ -225,7 +229,10 @@ class TCP:
         # A dd or ee secret asks for random padding, and the padded intermediate
         #  transport is the only one that sends any. `Connection` picks that class
         #  on its own, so reaching this means the transport was built by hand.
-        if uses_random_padding(self.proxy) and self.OBFUSCATE_TAG != INTERMEDIATE_PADDED_OBFUSCATE_TAG:
+        if (
+            uses_random_padding(self.proxy)
+            and self.OBFUSCATE_TAG != INTERMEDIATE_PADDED_OBFUSCATE_TAG
+        ):
             msg = (
                 f"this proxy's secret asks for random padding, which {type(self).__name__} "
                 f"does not send; use TCPIntermediatePadded"
@@ -257,7 +264,9 @@ class TCP:
             await carrier.close()
             raise OSError(e) from e
 
-        built = build_obfuscated2_header(bare_secret, dc_id=self.dc_id, obfuscate_tag=self.OBFUSCATE_TAG)
+        built = build_obfuscated2_header(
+            bare_secret, dc_id=self.dc_id, obfuscate_tag=self.OBFUSCATE_TAG
+        )
         self._encrypt = built.encrypt
         self._decrypt = built.decrypt
 
@@ -334,7 +343,9 @@ class TCP:
 
         self.reader, self.writer = await asyncio.open_connection(sock=sock)
 
-    async def _connect_via_direct(self, destination: tuple[str, int], *, family: int | None = None) -> None:
+    async def _connect_via_direct(
+        self, destination: tuple[str, int], *, family: int | None = None
+    ) -> None:
         host, port = destination
 
         if family is None:
@@ -368,7 +379,9 @@ class TCP:
         #  was derived from, so let getaddrinfo pick the family it actually has.
         await self._connect_via_direct((mtproxy.hostname, mtproxy.port), family=socket.AF_UNSPEC)
 
-        built = build_obfuscated2_header(bare_secret, dc_id=self.dc_id, obfuscate_tag=self.OBFUSCATE_TAG)
+        built = build_obfuscated2_header(
+            bare_secret, dc_id=self.dc_id, obfuscate_tag=self.OBFUSCATE_TAG
+        )
 
         if mtproxy.sni_hostname is None:
             # Written straight to the socket: self.send() is the framing subclass's
@@ -396,7 +409,9 @@ class TCP:
 
         response = await self._read_greeting_response()
 
-        if not faketls.server_hello_is_authentic(response, secret=secret, client_random=hello.random):
+        if not faketls.server_hello_is_authentic(
+            response, secret=secret, client_random=hello.random
+        ):
             msg = f"fake-TLS: {domain} answered the greeting without knowing the proxy secret"
             raise OSError(msg)
 
@@ -451,7 +466,9 @@ class TCP:
 
         try:
             await asyncio.wait_for(self._connect(address), timeout=TCP.TIMEOUT)
-        except asyncio.TimeoutError:  # Re-raise as TimeoutError. asyncio.TimeoutError is deprecated in 3.11
+        except (
+            asyncio.TimeoutError
+        ):  # Re-raise as TimeoutError. asyncio.TimeoutError is deprecated in 3.11
             raise TimeoutError("Connection timed out")
 
     async def close(self) -> None:

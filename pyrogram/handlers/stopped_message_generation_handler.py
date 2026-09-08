@@ -52,6 +52,8 @@ class StoppedMessageGenerationHandler(Handler):
     """
 
     def __init__(
-        self, callback: Callable[[pyrogram.Client, types.MessageGenerationStopped], Any], filters=None
+        self,
+        callback: Callable[[pyrogram.Client, types.MessageGenerationStopped], Any],
+        filters=None,
     ):
         super().__init__(callback, filters)

@@ -99,10 +99,24 @@ log = logging.getLogger(__name__)
 
 
 class Dispatcher:
-    NEW_MESSAGE_UPDATES = (UpdateNewMessage, UpdateNewChannelMessage, UpdateNewScheduledMessage, UpdateNewEphemeralMessage)
+    NEW_MESSAGE_UPDATES = (
+        UpdateNewMessage,
+        UpdateNewChannelMessage,
+        UpdateNewScheduledMessage,
+        UpdateNewEphemeralMessage,
+    )
     EDIT_MESSAGE_UPDATES = (UpdateEditMessage, UpdateEditChannelMessage, UpdateEditEphemeralMessage)
-    DELETE_MESSAGES_UPDATES = (UpdateDeleteMessages, UpdateDeleteChannelMessages, UpdateDeleteEphemeralMessages)
-    CALLBACK_QUERY_UPDATES = (UpdateBotCallbackQuery, UpdateInlineBotCallbackQuery, UpdateBusinessBotCallbackQuery, UpdateEphemeralBotCallbackQuery)
+    DELETE_MESSAGES_UPDATES = (
+        UpdateDeleteMessages,
+        UpdateDeleteChannelMessages,
+        UpdateDeleteEphemeralMessages,
+    )
+    CALLBACK_QUERY_UPDATES = (
+        UpdateBotCallbackQuery,
+        UpdateInlineBotCallbackQuery,
+        UpdateBusinessBotCallbackQuery,
+        UpdateEphemeralBotCallbackQuery,
+    )
     CHAT_MEMBER_UPDATES = (UpdateChatParticipant, UpdateChannelParticipant)
     USER_STATUS_UPDATES = (UpdateUserStatus,)
     BOT_INLINE_QUERY_UPDATES = (UpdateBotInlineQuery,)
@@ -131,8 +145,7 @@ class Dispatcher:
         self.locks_list = []
 
         self.updates_queue: asyncio.Queue[
-            tuple[raw.base.Update, dict[int, raw.base.User], dict[int, raw.base.Chat]]
-            | None
+            tuple[raw.base.Update, dict[int, raw.base.User], dict[int, raw.base.Chat]] | None
         ] = asyncio.Queue()
         self.groups = OrderedDict()
 
@@ -147,19 +160,16 @@ class Dispatcher:
                     replies=0 if getattr(update, "connection_id", None) else 1,
                     business_connection_id=getattr(update, "connection_id", None),
                     guest_query_id=getattr(update, "query_id", None),
-                    raw_reply_to_message=getattr(update, "reply_to_message", None)
+                    raw_reply_to_message=getattr(update, "reply_to_message", None),
                 ),
-                MessageHandler
+                MessageHandler,
             )
 
         async def edited_message_parser(update, users, chats):
             # Edited messages are parsed the same way as new messages, but the handler is different
             parsed, _ = await message_parser(update, users, chats)
 
-            return (
-                parsed,
-                EditedMessageHandler
-            )
+            return (parsed, EditedMessageHandler)
 
         async def deleted_messages_parser(update, users, chats):
             return (
@@ -170,110 +180,107 @@ class Dispatcher:
         async def callback_query_parser(update, users, chats):
             return (
                 await pyrogram.types.CallbackQuery._parse(self.client, update, users, chats),
-                CallbackQueryHandler
+                CallbackQueryHandler,
             )
 
         async def user_status_parser(update, users, chats):
-            return (
-                pyrogram.types.User._parse_user_status(self.client, update),
-                UserStatusHandler
-            )
+            return (pyrogram.types.User._parse_user_status(self.client, update), UserStatusHandler)
 
         async def inline_query_parser(update, users, chats):
             return (
                 await pyrogram.types.InlineQuery._parse(self.client, update, users),
-                InlineQueryHandler
+                InlineQueryHandler,
             )
 
         async def poll_parser(update, users, chats):
             return (
                 await pyrogram.types.Poll._parse_update(self.client, update, users, chats),
-                PollHandler
+                PollHandler,
             )
 
         async def chosen_inline_result_parser(update, users, chats):
             return (
                 await pyrogram.types.ChosenInlineResult._parse(self.client, update, users),
-                ChosenInlineResultHandler
+                ChosenInlineResultHandler,
             )
 
         async def chat_member_updated_parser(update, users, chats):
             return (
                 await pyrogram.types.ChatMemberUpdated._parse(self.client, update, users, chats),
-                ChatMemberUpdatedHandler
+                ChatMemberUpdatedHandler,
             )
 
         async def chat_join_request_parser(update, users, chats):
             return (
                 await pyrogram.types.ChatJoinRequest._parse(self.client, update, users, chats),
-                ChatJoinRequestHandler
+                ChatJoinRequestHandler,
             )
 
         async def story_parser(update, users, chats):
             return (
-                await pyrogram.types.Story._parse(self.client, update.story, update.peer, users, chats),
-                StoryHandler
+                await pyrogram.types.Story._parse(
+                    self.client, update.story, update.peer, users, chats
+                ),
+                StoryHandler,
             )
 
         async def pre_checkout_query_parser(update, users, chats):
             return (
                 await pyrogram.types.PreCheckoutQuery._parse(self.client, update, users),
-                PreCheckoutQueryHandler
+                PreCheckoutQueryHandler,
             )
 
         async def shipping_query_parser(update, users, chats):
             return (
                 await pyrogram.types.ShippingQuery._parse(self.client, update, users),
-                ShippingQueryHandler
+                ShippingQueryHandler,
             )
 
         async def message_reaction_parser(update, users, chats):
             return (
-                await pyrogram.types.MessageReactionUpdated._parse(self.client, update, users, chats),
-                MessageReactionHandler
+                await pyrogram.types.MessageReactionUpdated._parse(
+                    self.client, update, users, chats
+                ),
+                MessageReactionHandler,
             )
 
         async def message_reaction_count_parser(update, users, chats):
             return (
-                await pyrogram.types.MessageReactionCountUpdated._parse(self.client, update, users, chats),
-                MessageReactionCountHandler
+                await pyrogram.types.MessageReactionCountUpdated._parse(
+                    self.client, update, users, chats
+                ),
+                MessageReactionCountHandler,
             )
 
         async def chat_boost_parser(update, users, chats):
             return (
                 await pyrogram.types.ChatBoostUpdated._parse(self.client, update, users, chats),
-                ChatBoostHandler
+                ChatBoostHandler,
             )
 
         async def purchased_paid_media_parser(update, users, chats):
             return (
                 await pyrogram.types.PurchasedPaidMedia._parse(self.client, update, users),
-                PurchasedPaidMediaHandler
+                PurchasedPaidMediaHandler,
             )
 
         async def business_connection_parser(update, users, chats):
             return (
                 await pyrogram.types.BusinessConnection._parse(self.client, update, users),
-                BusinessConnectionHandler
+                BusinessConnectionHandler,
             )
 
         async def business_message_parser(update, users, chats):
             # Business messages are parsed the same way as regular messages, but the handler is different
             parsed, _ = await message_parser(update, users, chats)
 
-            return (
-                parsed,
-                BusinessMessageHandler
-            )
+            return (parsed, BusinessMessageHandler)
 
         async def edited_business_message_parser(update, users, chats):
             # Edited messages are parsed the same way as regular messages, but the handler is different
             parsed, _ = await message_parser(update, users, chats)
 
-            return (
-                parsed,
-                EditedBusinessMessageHandler
-            )
+            return (parsed, EditedBusinessMessageHandler)
 
         async def deleted_business_messages_parser(update, users, chats):
             # Deleted messages are parsed the same way as regular messages, but the handler is different
@@ -287,7 +294,7 @@ class Dispatcher:
         async def managed_bot_parser(update, users, chats):
             return (
                 await pyrogram.types.ManagedBotUpdated._parse(self.client, update, users),
-                ManagedBotUpdatedHandler
+                ManagedBotUpdatedHandler,
             )
 
         async def guest_message_parser(update, users, chats):
@@ -298,25 +305,21 @@ class Dispatcher:
 
             parsed, _ = await message_parser(update, users, chats)
 
-            return (
-                parsed,
-                GuestMessageHandler
-            )
+            return (parsed, GuestMessageHandler)
 
         async def user_typing_parser(
-            update: raw.types.UpdateUserTyping | raw.types.UpdateChatUserTyping | raw.types.UpdateChannelUserTyping,
+            update: raw.types.UpdateUserTyping
+            | raw.types.UpdateChatUserTyping
+            | raw.types.UpdateChannelUserTyping,
             users: dict[int, raw.base.User],
             chats: dict[int, raw.base.User],
         ):
             if isinstance(update.action, raw.types.SendMessageStopDraftAction):
                 return (
                     await pyrogram.types.MessageGenerationStopped._parse(
-                        self.client,
-                        update,
-                        users,
-                        chats
+                        self.client, update, users, chats
                     ),
-                    StoppedMessageGenerationHandler
+                    StoppedMessageGenerationHandler,
                 )
             return (None, type(None))
 
@@ -344,10 +347,12 @@ class Dispatcher:
             Dispatcher.DELETED_BUSINESS_MESSAGES_UPDATES: deleted_business_messages_parser,
             Dispatcher.MANAGED_BOT_UPDATES: managed_bot_parser,
             Dispatcher.GUEST_MESSAGE_UPDATES: guest_message_parser,
-            Dispatcher.USER_TYPING_UPDATES: user_typing_parser
+            Dispatcher.USER_TYPING_UPDATES: user_typing_parser,
         }
 
-        self.update_parsers = {key: value for key_tuple, value in self.update_parsers.items() for key in key_tuple}
+        self.update_parsers = {
+            key: value for key_tuple, value in self.update_parsers.items() for key in key_tuple
+        }
 
     async def start(self):
         if callable(self.client.start_handler):
@@ -413,9 +418,7 @@ class Dispatcher:
 
             try:
                 if group not in self.groups:
-                    raise ValueError(
-                        f"Group {group} does not exist. Handler was not removed."
-                    )
+                    raise ValueError(f"Group {group} does not exist. Handler was not removed.")
 
                 self.groups[group].remove(handler)
 
@@ -439,9 +442,7 @@ class Dispatcher:
                 parser = self.update_parsers.get(type(update), None)
 
                 parsed_update, handler_type = (
-                    await parser(update, users, chats)
-                    if parser is not None
-                    else (None, type(None))
+                    await parser(update, users, chats) if parser is not None else (None, type(None))
                 )
 
                 async with lock:
@@ -476,10 +477,7 @@ class Dispatcher:
                                     await handler.callback(self.client, *args)
                                 else:
                                     await self.client.loop.run_in_executor(
-                                        self.client.executor,
-                                        handler.callback,
-                                        self.client,
-                                        *args
+                                        self.client.executor, handler.callback, self.client, *args
                                     )
                             except pyrogram.StopPropagation:
                                 raise
@@ -502,7 +500,7 @@ class Dispatcher:
         update_handler: Handler,
         update: pyrogram.raw.base.Update,
         users: dict[int, pyrogram.raw.base.User],
-        chats: dict[int, pyrogram.raw.base.Chat]
+        chats: dict[int, pyrogram.raw.base.Chat],
     ) -> None:
         handled = False
         try:
@@ -521,8 +519,14 @@ class Dispatcher:
                             )
                         else:
                             await self.client.loop.run_in_executor(
-                                self.client.executor, handler.callback,
-                                self.client, exc, update_handler, update, users, chats
+                                self.client.executor,
+                                handler.callback,
+                                self.client,
+                                exc,
+                                update_handler,
+                                update,
+                                users,
+                                chats,
                             )
                     except pyrogram.StopPropagation:
                         handled = True
@@ -542,5 +546,5 @@ class Dispatcher:
             if not handled:
                 log.error(
                     f"Unexpected exception raised in {type(update_handler).__name__}:",
-                    exc_info=(type(exc), exc, exc.__traceback__)
+                    exc_info=(type(exc), exc, exc.__traceback__),
                 )

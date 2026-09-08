@@ -56,7 +56,9 @@ class VerificationStatus(Object):
         self.bot_verification_icon_custom_emoji_id = bot_verification_icon_custom_emoji_id
 
     @staticmethod
-    def _parse(chat: raw.base.User | raw.base.Chat | raw.base.ChatInvite) -> VerificationStatus | None:
+    def _parse(
+        chat: raw.base.User | raw.base.Chat | raw.base.ChatInvite,
+    ) -> VerificationStatus | None:
         if not isinstance(chat, (raw.types.User, raw.types.Channel, raw.types.ChatInvite)):
             return None
 
@@ -71,5 +73,7 @@ class VerificationStatus(Object):
             is_verified=chat.verified,
             is_scam=chat.scam,
             is_fake=chat.fake,
-            bot_verification_icon_custom_emoji_id=str(bot_verification_icon) if bot_verification_icon else None
+            bot_verification_icon_custom_emoji_id=str(bot_verification_icon)
+            if bot_verification_icon
+            else None,
         )

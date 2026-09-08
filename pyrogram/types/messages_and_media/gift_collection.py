@@ -40,13 +40,8 @@ class GiftCollection(Object):
         icon (:obj:`~pyrogram.types.Sticker`, *optional*):
             Icon of the collection.
     """
-    def __init__(
-        self, *,
-        id: int,
-        name: str,
-        gift_count: int,
-        icon: types.Sticker | None = None
-    ):
+
+    def __init__(self, *, id: int, name: str, gift_count: int, icon: types.Sticker | None = None):
         super().__init__()
 
         self.id = id
@@ -56,8 +51,7 @@ class GiftCollection(Object):
 
     @staticmethod
     async def _parse(
-        client: pyrogram.Client,
-        collection: raw.types.StarGiftCollection
+        client: pyrogram.Client, collection: raw.types.StarGiftCollection
     ) -> GiftCollection:
         sticker = None
 
@@ -70,5 +64,5 @@ class GiftCollection(Object):
             id=collection.collection_id,
             name=collection.title,
             gift_count=collection.gifts_count,
-            icon=sticker
+            icon=sticker,
         )

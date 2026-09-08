@@ -21,12 +21,10 @@ from __future__ import annotations as _annotations
 import pyrogram
 from pyrogram import raw
 
-class DeclineSuggestedPost():
+
+class DeclineSuggestedPost:
     async def decline_suggested_post(
-        self: pyrogram.Client,
-        chat_id: int | str,
-        message_id: int,
-        comment: str | None = None
+        self: pyrogram.Client, chat_id: int | str, message_id: int, comment: str | None = None
     ) -> bool:
         """Use this method to decline a suggested post in a direct messages chat.
 
@@ -56,7 +54,7 @@ class DeclineSuggestedPost():
                 peer=await self.resolve_peer(chat_id),
                 msg_id=message_id,
                 reject=True,
-                reject_comment=comment
+                reject_comment=comment,
             )
         )
 

@@ -460,9 +460,7 @@ class SQLiteStorage(Storage):
 
     async def _accessor(self, table: str, attr: str, value: Any = object):
         return (
-            await self._get(table, attr)
-            if value is object
-            else await self._set(table, attr, value)
+            await self._get(table, attr) if value is object else await self._set(table, attr, value)
         )
 
     # `object` (the class, not an instance) is the sentinel for "no value passed"

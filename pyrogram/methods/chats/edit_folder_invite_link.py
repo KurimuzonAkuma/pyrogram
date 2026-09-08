@@ -65,7 +65,10 @@ class EditFolderInviteLink:
                     name="News"
                 )
         """
-        match = re.match(r"^(?:https?://)?(?:www\.)?(?:t(?:elegram)?\.(?:org|me|dog)/(?:addlist/|\+))([\w-]+)$", invite_link)
+        match = re.match(
+            r"^(?:https?://)?(?:www\.)?(?:t(?:elegram)?\.(?:org|me|dog)/(?:addlist/|\+))([\w-]+)$",
+            invite_link,
+        )
 
         if match:
             slug = match.group(1)
@@ -79,7 +82,9 @@ class EditFolderInviteLink:
                 chatlist=raw.types.InputChatlistDialogFilter(filter_id=chat_folder_id),
                 slug=slug,
                 title=name,
-                peers=[await self.resolve_peer(i) for i in chat_ids] if chat_ids is not None else None,
+                peers=[await self.resolve_peer(i) for i in chat_ids]
+                if chat_ids is not None
+                else None,
             )
         )
 

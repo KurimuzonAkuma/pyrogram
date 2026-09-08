@@ -73,7 +73,7 @@ class GlobalPrivacySettings(Object):
         allow_new_chats_from_unknown_users: bool | None = None,
         incoming_paid_message_star_count: int | None = None,
         show_gift_button: bool | None = None,
-        accepted_gift_types: types.AcceptedGiftTypes | None = None
+        accepted_gift_types: types.AcceptedGiftTypes | None = None,
     ):
         self.archive_and_mute_new_chats = archive_and_mute_new_chats
         self.keep_unmuted_chats_archived = keep_unmuted_chats_archived
@@ -86,20 +86,26 @@ class GlobalPrivacySettings(Object):
 
     @staticmethod
     def _parse(
-        settings: raw.types.GlobalPrivacySettings | None = None
+        settings: raw.types.GlobalPrivacySettings | None = None,
     ) -> GlobalPrivacySettings | None:
         if not settings:
             return
 
         return GlobalPrivacySettings(
-            archive_and_mute_new_chats=getattr(settings, "archive_and_mute_new_noncontact_peers", None),
+            archive_and_mute_new_chats=getattr(
+                settings, "archive_and_mute_new_noncontact_peers", None
+            ),
             keep_unmuted_chats_archived=getattr(settings, "keep_archived_unmuted", None),
             keep_chats_from_folders_archived=getattr(settings, "keep_archived_folders", None),
             show_read_date=getattr(settings, "hide_read_marks", None),
-            allow_new_chats_from_unknown_users=getattr(settings, "new_noncontact_peers_require_premium", None),
+            allow_new_chats_from_unknown_users=getattr(
+                settings, "new_noncontact_peers_require_premium", None
+            ),
             incoming_paid_message_star_count=getattr(settings, "noncontact_peers_paid_stars", None),
             show_gift_button=getattr(settings, "display_gifts_button", None),
-            accepted_gift_types=types.AcceptedGiftTypes._parse(getattr(settings, "disallowed_gifts", None))
+            accepted_gift_types=types.AcceptedGiftTypes._parse(
+                getattr(settings, "disallowed_gifts", None)
+            ),
         )
 
     def write(self) -> raw.types.GlobalPrivacySettings:
@@ -111,5 +117,5 @@ class GlobalPrivacySettings(Object):
             new_noncontact_peers_require_premium=self.allow_new_chats_from_unknown_users,
             noncontact_peers_paid_stars=self.incoming_paid_message_star_count,
             display_gifts_button=self.show_gift_button,
-            disallowed_gifts=self.accepted_gift_types.write() if self.accepted_gift_types else None
+            disallowed_gifts=self.accepted_gift_types.write() if self.accepted_gift_types else None,
         )

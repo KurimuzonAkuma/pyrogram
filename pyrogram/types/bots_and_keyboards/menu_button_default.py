@@ -24,8 +24,7 @@ from .menu_button import MenuButton
 
 
 class MenuButtonDefault(MenuButton):
-    """Describes that no specific value for the menu button was set.
-    """
+    """Describes that no specific value for the menu button was set."""
 
     def __init__(self):
         super().__init__("default")

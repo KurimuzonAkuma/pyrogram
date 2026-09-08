@@ -27,8 +27,7 @@ from pyrogram import types
 
 class GetChatStories:
     async def get_chat_stories(
-        self: pyrogram.Client,
-        chat_id: int | str
+        self: pyrogram.Client, chat_id: int | str
     ) -> AsyncGenerator[types.Story, None]:
         """Get all non expired stories from a chat by using chat identifier.
 
@@ -55,20 +54,10 @@ class GetChatStories:
         """
         peer = await self.resolve_peer(chat_id)
 
-        r = await self.invoke(
-            raw.functions.stories.GetPeerStories(
-                peer=peer
-            )
-        )
+        r = await self.invoke(raw.functions.stories.GetPeerStories(peer=peer))
 
         users = {i.id: i for i in r.users}
         chats = {i.id: i for i in r.chats}
 
         for story in r.stories.stories:
-            yield await types.Story._parse(
-                self,
-                story,
-                r.stories.peer,
-                users,
-                chats
-            )
+            yield await types.Story._parse(self, story, r.stories.peer, users, chats)

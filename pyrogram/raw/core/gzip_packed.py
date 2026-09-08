@@ -40,25 +40,13 @@ class GzipPacked(TLObject):
     @staticmethod
     def read(data: BytesIO, *args: Any) -> GzipPacked:
         # Return the Object itself instead of a GzipPacked wrapping it
-        return cast(GzipPacked, TLObject.read(
-            BytesIO(
-                decompress(
-                    Bytes.read(data)
-                )
-            )
-        ))
+        return cast(GzipPacked, TLObject.read(BytesIO(decompress(Bytes.read(data)))))
 
     def write(self, *args: Any) -> bytes:
         b = BytesIO()
 
         b.write(Int(self.ID, False))
 
-        b.write(
-            Bytes(
-                compress(
-                    self.packed_data.write()
-                )
-            )
-        )
+        b.write(Bytes(compress(self.packed_data.write())))
 
         return b.getvalue()

@@ -27,10 +27,7 @@ from pyrogram import types
 
 class GetChatInviteLinkJoiners:
     async def get_chat_invite_link_joiners(
-        self: pyrogram.Client,
-        chat_id: int | str,
-        invite_link: str,
-        limit: int = 0
+        self: pyrogram.Client, chat_id: int | str, invite_link: str, limit: int = 0
     ) -> AsyncGenerator[types.ChatJoiner, None]:
         """Get the members who joined the chat with the invite link.
 
@@ -68,7 +65,7 @@ class GetChatInviteLinkJoiners:
                     link=invite_link,
                     limit=limit,
                     offset_date=offset_date,
-                    offset_user=offset_user
+                    offset_user=offset_user,
                 )
             )
 

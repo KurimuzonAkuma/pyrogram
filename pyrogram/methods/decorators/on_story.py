@@ -58,10 +58,7 @@ class OnStory:
                 arguments = unbound_arguments(self, filters=filters, group=group)
 
                 func.handlers.append(
-                    (
-                        pyrogram.handlers.StoryHandler(func, arguments.filters),
-                        arguments.group
-                    )
+                    (pyrogram.handlers.StoryHandler(func, arguments.filters), arguments.group)
                 )
 
             return func

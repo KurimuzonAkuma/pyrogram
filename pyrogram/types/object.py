@@ -77,10 +77,7 @@ class Object:
             else:
                 filtered_attributes[attr] = value
 
-        return {
-            "_": obj.__class__.__name__,
-            **filtered_attributes
-        }
+        return {"_": obj.__class__.__name__, **filtered_attributes}
 
     def __str__(self) -> str:
         return dumps(self, indent=4, default=Object.default, ensure_ascii=False)
@@ -92,7 +89,7 @@ class Object:
                 f"{attr}={repr(getattr(self, attr))}"
                 for attr in filter(lambda x: not x.startswith("_"), self.__dict__)
                 if getattr(self, attr) is not None
-            )
+            ),
         )
 
     def __eq__(self, other: Object) -> bool:

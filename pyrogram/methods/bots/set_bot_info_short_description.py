@@ -30,7 +30,7 @@ class SetBotInfoShortDescription:
         for_my_bot: int | str | None = None,
     ) -> bool:
         """Use this method to change the bot's short description, which is shown on the bot's profile page and is sent together with the link when users share the bot.
-        
+
         .. note::
 
             If the current account is an User, can be called only if the ``for_my_bot`` has ``can_be_edited`` property set to True.
@@ -61,6 +61,6 @@ class SetBotInfoShortDescription:
             raw.functions.bots.SetBotInfo(
                 bot=await self.resolve_peer(for_my_bot) if for_my_bot else None,
                 lang_code=language_code,
-                about=short_description
+                about=short_description,
             )
         )

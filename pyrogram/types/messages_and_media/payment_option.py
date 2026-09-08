@@ -33,12 +33,8 @@ class PaymentOption(Object):
         url (``str``):
             Payment form URL to be opened in a web view.
     """
-    def __init__(
-        self,
-        *,
-        title: str,
-        url: str
-    ):
+
+    def __init__(self, *, title: str, url: str):
         super().__init__()
 
         self.title = title
@@ -46,7 +42,4 @@ class PaymentOption(Object):
 
     @staticmethod
     def _parse(option: raw.base.PaymentFormMethod) -> PaymentOption:
-        return PaymentOption(
-            title=option.title,
-            url=option.url
-        )
+        return PaymentOption(title=option.title, url=option.url)

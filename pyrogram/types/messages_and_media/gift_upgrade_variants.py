@@ -43,7 +43,7 @@ class GiftUpgradeVariants(Object):
         *,
         models: list[types.GiftAttribute],
         symbols: list[types.GiftAttribute],
-        backdrops: list[types.GiftAttribute]
+        backdrops: list[types.GiftAttribute],
     ):
         super().__init__()
 
@@ -52,7 +52,10 @@ class GiftUpgradeVariants(Object):
         self.backdrops = backdrops
 
     @staticmethod
-    async def _parse(client: pyrogram.Client, gift_upgrade_attributes: raw.types.payments.StarGiftUpgradeAttributes):
+    async def _parse(
+        client: pyrogram.Client,
+        gift_upgrade_attributes: raw.types.payments.StarGiftUpgradeAttributes,
+    ):
         models = types.List()
         symbols = types.List()
         backdrops = types.List()
@@ -65,8 +68,4 @@ class GiftUpgradeVariants(Object):
             elif isinstance(attr, raw.types.StarGiftAttributeBackdrop):
                 backdrops.append(await types.GiftAttribute._parse(client, attr, {}, {}))
 
-        return GiftUpgradeVariants(
-            models=models,
-            symbols=symbols,
-            backdrops=backdrops
-        )
+        return GiftUpgradeVariants(models=models, symbols=symbols, backdrops=backdrops)

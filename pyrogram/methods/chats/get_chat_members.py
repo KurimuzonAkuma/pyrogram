@@ -35,9 +35,11 @@ async def get_chunk(
     limit: int,
     query: str,
 ):
-    is_queryable = filter in [enums.ChatMembersFilter.SEARCH,
-                              enums.ChatMembersFilter.BANNED,
-                              enums.ChatMembersFilter.RESTRICTED]
+    is_queryable = filter in [
+        enums.ChatMembersFilter.SEARCH,
+        enums.ChatMembersFilter.BANNED,
+        enums.ChatMembersFilter.RESTRICTED,
+    ]
 
     filter = filter.value(q=query) if is_queryable else filter.value()
 
@@ -47,9 +49,9 @@ async def get_chunk(
             filter=filter,
             offset=offset,
             limit=limit,
-            hash=0
+            hash=0,
         ),
-        sleep_threshold=60
+        sleep_threshold=60,
     )
 
     members = r.participants
@@ -65,7 +67,7 @@ class GetChatMembers:
         chat_id: int | str,
         query: str = "",
         limit: int = 0,
-        filter: enums.ChatMembersFilter = enums.ChatMembersFilter.SEARCH
+        filter: enums.ChatMembersFilter = enums.ChatMembersFilter.SEARCH,
     ) -> AsyncGenerator[types.ChatMember, None]:
         """Get the members list of a chat.
 
@@ -117,11 +119,7 @@ class GetChatMembers:
         peer = await self.resolve_peer(chat_id)
 
         if isinstance(peer, raw.types.InputPeerChat):
-            r = await self.invoke(
-                raw.functions.messages.GetFullChat(
-                    chat_id=peer.chat_id
-                )
-            )
+            r = await self.invoke(raw.functions.messages.GetFullChat(chat_id=peer.chat_id))
 
             members = getattr(r.full_chat.participants, "participants", [])
             users = {i.id: i for i in r.users}
@@ -138,12 +136,7 @@ class GetChatMembers:
 
         while True:
             members = await get_chunk(
-                client=self,
-                chat_id=chat_id,
-                offset=offset,
-                filter=filter,
-                limit=limit,
-                query=query
+                client=self, chat_id=chat_id, offset=offset, filter=filter, limit=limit, query=query
             )
 
             if not members:

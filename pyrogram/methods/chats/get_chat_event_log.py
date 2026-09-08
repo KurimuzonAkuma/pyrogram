@@ -33,7 +33,7 @@ class GetChatEventLog:
         offset_id: int = 0,
         limit: int = 0,
         filters: types.ChatEventFilter | None = None,
-        user_ids: list[int | str] | None = None
+        user_ids: list[int | str] | None = None,
     ) -> AsyncGenerator[types.ChatEvent, None]:
         """Get the actions taken by chat members and administrators in the last 48h.
 
@@ -92,7 +92,7 @@ class GetChatEventLog:
                         [await self.resolve_peer(i) for i in user_ids]
                         if user_ids is not None
                         else user_ids
-                    )
+                    ),
                 )
             )
 

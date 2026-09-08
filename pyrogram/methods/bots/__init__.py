@@ -104,6 +104,6 @@ class Bots(
     AnswerWebAppQuery,
     CheckBotUsername,
     CreateBot,
-    SetManagedBotAccessSettings
+    SetManagedBotAccessSettings,
 ):
     pass

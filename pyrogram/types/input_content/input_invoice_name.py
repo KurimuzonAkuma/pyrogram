@@ -33,6 +33,7 @@ class InputInvoiceName(InputInvoice):
         name (``str``):
             The name of the invoice or link itself.
     """
+
     def __init__(
         self,
         name: str,
@@ -42,13 +43,13 @@ class InputInvoiceName(InputInvoice):
         self.name = name
 
     async def write(self, client: pyrogram.Client):
-        match = re.match(r"^(?:https?://)?(?:www\.)?(?:t(?:elegram)?\.(?:org|me|dog)/\$)([\w-]+)$", self.name)
+        match = re.match(
+            r"^(?:https?://)?(?:www\.)?(?:t(?:elegram)?\.(?:org|me|dog)/\$)([\w-]+)$", self.name
+        )
 
         if match:
             slug = match.group(1)
         else:
             slug = self.name
 
-        return raw.types.InputInvoiceSlug(
-            slug=slug
-        )
+        return raw.types.InputInvoiceSlug(slug=slug)

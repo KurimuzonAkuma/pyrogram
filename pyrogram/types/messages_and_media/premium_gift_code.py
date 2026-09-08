@@ -82,7 +82,7 @@ class PremiumGiftCode(Object):
         month_count: int,
         day_count: int,
         sticker: types.Sticker | None = None,
-        code: str
+        code: str,
     ):
         super().__init__()
 
@@ -105,13 +105,14 @@ class PremiumGiftCode(Object):
 
         raw_stickers = await client.invoke(
             raw.functions.messages.GetStickerSet(
-                stickerset=raw.types.InputStickerSetPremiumGifts(),
-                hash=0
+                stickerset=raw.types.InputStickerSetPremiumGifts(), hash=0
             )
         )
 
         return PremiumGiftCode(
-            creator=await types.Chat._parse_chat(client, users.get(raw_peer_id) or chats.get(raw_peer_id)),
+            creator=await types.Chat._parse_chat(
+                client, users.get(raw_peer_id) or chats.get(raw_peer_id)
+            ),
             text=await types.FormattedText._parse(client, giftcode.message),
             is_from_giveaway=giftcode.via_giveaway,
             is_unclaimed=giftcode.unclaimed,
@@ -125,16 +126,13 @@ class PremiumGiftCode(Object):
                 types.List(
                     [
                         await types.Sticker._parse(
-                            client,
-                            doc,
-                            {
-                                type(i): i for i in doc.attributes
-                            }
-                        ) for doc in raw_stickers.documents
+                            client, doc, {type(i): i for i in doc.attributes}
+                        )
+                        for doc in raw_stickers.documents
                     ]
                 )
             ),
-            code=giftcode.slug
+            code=giftcode.slug,
         )
 
     @property

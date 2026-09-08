@@ -155,13 +155,17 @@ class SendStory:
         Raises:
             ValueError: In case of invalid arguments.
         """
-        message, entities = (await utils.parse_text_entities(self, caption, parse_mode, caption_entities)).values()
+        message, entities = (
+            await utils.parse_text_entities(self, caption, parse_mode, caption_entities)
+        ).values()
 
         try:
             if isinstance(media, str):
                 if os.path.isfile(media):
                     thumb = await self.save_file(thumb)
-                    file = await self.save_file(media, progress=progress, progress_args=progress_args)
+                    file = await self.save_file(
+                        media, progress=progress, progress_args=progress_args
+                    )
                     mime_type = self.guess_mime_type(file.name)
                     if mime_type == "video/mp4":
                         media = raw.types.InputMediaUploadedDocument(
@@ -174,8 +178,10 @@ class SendStory:
                                     w=width,
                                     h=height,
                                 ),
-                                raw.types.DocumentAttributeFilename(file_name=file_name or os.path.basename(media))
-                            ]
+                                raw.types.DocumentAttributeFilename(
+                                    file_name=file_name or os.path.basename(media)
+                                ),
+                            ],
                         )
                     else:
                         media = raw.types.InputMediaUploadedPhoto(
@@ -199,8 +205,8 @@ class SendStory:
                                 w=width,
                                 h=height,
                             ),
-                            raw.types.DocumentAttributeFilename(file_name=file_name or media.name)
-                        ]
+                            raw.types.DocumentAttributeFilename(file_name=file_name or media.name),
+                        ],
                     )
                 else:
                     media = raw.types.InputMediaUploadedPhoto(
@@ -225,7 +231,9 @@ class SendStory:
                     users = [await self.resolve_peer(user_id) for user_id in allowed_users]
                     privacy_rules.append(raw.types.InputPrivacyValueAllowUsers(users=users))
                 else:
-                    privacy_rules.append(raw.types.InputPrivacyValueAllowUsers(users=[raw.types.InputPeerEmpty()]))
+                    privacy_rules.append(
+                        raw.types.InputPrivacyValueAllowUsers(users=[raw.types.InputPeerEmpty()])
+                    )
             elif privacy == enums.StoriesPrivacyRules.SELECTED_USERS:
                 _allowed_users = []
                 _allowed_chats = []
@@ -235,15 +243,23 @@ class SendStory:
                         peer = await self.resolve_peer(user)
                         if isinstance(peer, raw.types.InputPeerUser):
                             _allowed_users.append(peer)
-                        elif isinstance(peer, (raw.types.InputPeerChat, raw.types.InputPeerChannel)):
+                        elif isinstance(
+                            peer, (raw.types.InputPeerChat, raw.types.InputPeerChannel)
+                        ):
                             _allowed_chats.append(peer)
                 else:
-                    privacy_rules.append(raw.types.InputPrivacyValueAllowUsers(users=[raw.types.InputPeerEmpty()]))
+                    privacy_rules.append(
+                        raw.types.InputPrivacyValueAllowUsers(users=[raw.types.InputPeerEmpty()])
+                    )
 
                 if _allowed_users:
-                    privacy_rules.append(raw.types.InputPrivacyValueAllowUsers(users=_allowed_users))
+                    privacy_rules.append(
+                        raw.types.InputPrivacyValueAllowUsers(users=_allowed_users)
+                    )
                 if _allowed_chats:
-                    privacy_rules.append(raw.types.InputPrivacyValueAllowChatParticipants(chats=_allowed_chats))
+                    privacy_rules.append(
+                        raw.types.InputPrivacyValueAllowChatParticipants(chats=_allowed_chats)
+                    )
             else:
                 privacy_rules.append(raw.types.InputPrivacyValueAllowAll())
 
@@ -257,7 +273,8 @@ class SendStory:
                             random_id=self.rnd_id(),
                             pinned=pinned,
                             noforwards=protect_content,
-                            media_areas=[await area.write(self) for area in (media_areas or [])] or None,
+                            media_areas=[await area.write(self) for area in (media_areas or [])]
+                            or None,
                             caption=message,
                             entities=entities,
                             period=period,
@@ -273,7 +290,7 @@ class SendStory:
                                 i.story,
                                 i.peer,
                                 {i.id: i for i in r.users},
-                                {i.id: i for i in r.chats}
+                                {i.id: i for i in r.chats},
                             )
         except StopTransmission:
             return None

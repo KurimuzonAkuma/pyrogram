@@ -74,7 +74,9 @@ _SHORTCUTS: Final[list[Shortcut]] = list(shortcuts())
 
 
 def filled_from_self(shortcut: Shortcut) -> set[str]:
-    return set(_FILLED_FROM_SELF.findall(inspect.getdoc(getattr(types.Message, shortcut.name)) or ""))
+    return set(
+        _FILLED_FROM_SELF.findall(inspect.getdoc(getattr(types.Message, shortcut.name)) or "")
+    )
 
 
 def deprecated_in(module: ModuleType) -> set[str]:
@@ -98,7 +100,9 @@ def forwarded_by(shortcut: Shortcut) -> set[str]:
 
 def parameters_the_caller_must_supply(shortcut: Shortcut) -> list[str]:
     target = getattr(Client, shortcut.target_name)
-    ignored: set[str] = filled_from_self(shortcut) | deprecated_in(sys.modules[target.__module__]) | {"self"}
+    ignored: set[str] = (
+        filled_from_self(shortcut) | deprecated_in(sys.modules[target.__module__]) | {"self"}
+    )
 
     return [name for name in inspect.signature(target).parameters if name not in ignored]
 

@@ -219,7 +219,9 @@ def test_unknown_file_type():
 
 
 def test_unknown_thumbnail_source():
-    unknown = "AAMCAgADHQIAAaCv0AACCY9ftvhTFuM2gUQ78vQjizrCtc0kDwACBAADgaS5Sb0UW8ho6FdZIH3qihAAA6QBAAIeBA"
+    unknown = (
+        "AAMCAgADHQIAAaCv0AACCY9ftvhTFuM2gUQ78vQjizrCtc0kDwACBAADgaS5Sb0UW8ho6FdZIH3qihAAA6QBAAIeBA"
+    )
 
     with pytest.raises(ValueError, match=r"Unknown thumbnail_source \d+ of file_id \w+"):
         check(unknown, FileType.THUMBNAIL)
@@ -443,10 +445,10 @@ def test_documents_are_unaffected_by_the_photo_layout():
         assert decoded.encode() == file_id
 
 
-EXTREMES = [0, 1, -1, 2 ** 62, -(2 ** 62), 2 ** 63 - 1, -(2 ** 63)]
+EXTREMES = [0, 1, -1, 2**62, -(2**62), 2**63 - 1, -(2**63)]
 
 # `local_id` is an int32 and TDLib notes it can be negative in secret chat thumbnails.
-SMALL_EXTREMES = [0, 1, -1, 2 ** 31 - 1, -(2 ** 31)]
+SMALL_EXTREMES = [0, 1, -1, 2**31 - 1, -(2**31)]
 
 
 def photo_fields(*, thumbnail_source: ThumbnailSource, big: int, small: int) -> dict:
@@ -468,7 +470,7 @@ def photo_fields(*, thumbnail_source: ThumbnailSource, big: int, small: int) -> 
 
     if thumbnail_source in (
         ThumbnailSource.CHAT_PHOTO_SMALL_LEGACY,
-        ThumbnailSource.CHAT_PHOTO_BIG_LEGACY
+        ThumbnailSource.CHAT_PHOTO_BIG_LEGACY,
     ):
         return {"chat_id": big, "chat_access_hash": big, "volume_id": big, "local_id": small}
 
@@ -523,9 +525,11 @@ def test_every_source_survives_a_round_trip_at_its_extremes(thumbnail_source):
 
 def test_stringify_file_id():
     file_id = "BQACAgIAAx0CAAGgr9AAAgmPX7b4UxbjNoFEO_L0I4s6wrXNJA8AAgQAA4GkuUm9FFvIaOhXWR4E"
-    string = "{'major': 4, 'minor': 30, 'file_type': <FileType.DOCUMENT: 5>, 'dc_id': 2, " \
-             "'file_reference': b'\\x02\\x00\\xa0\\xaf\\xd0\\x00\\x00\\t\\x8f_\\xb6\\xf8S\\x16\\xe36\\x81D;\\xf2\\xf4#\\x8b:\\xc2\\xb5\\xcd$\\x0f', " \
-             "'media_id': 5312458109417947140, 'access_hash': 6437869729085068477, 'thumbnail_size': ''}"
+    string = (
+        "{'major': 4, 'minor': 30, 'file_type': <FileType.DOCUMENT: 5>, 'dc_id': 2, "
+        "'file_reference': b'\\x02\\x00\\xa0\\xaf\\xd0\\x00\\x00\\t\\x8f_\\xb6\\xf8S\\x16\\xe36\\x81D;\\xf2\\xf4#\\x8b:\\xc2\\xb5\\xcd$\\x0f', "
+        "'media_id': 5312458109417947140, 'access_hash': 6437869729085068477, 'thumbnail_size': ''}"
+    )
 
     assert str(FileId.decode(file_id)) == string
 

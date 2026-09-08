@@ -24,8 +24,7 @@ from pyrogram import raw, types
 
 class GetGiftUpgradeVariants:
     async def get_gift_upgrade_variants(
-        self: pyrogram.Client,
-        gift_id: int
+        self: pyrogram.Client, gift_id: int
     ) -> types.GiftUpgradeVariants:
         """Returns all possible variants of upgraded gifts for a regular gift.
 
@@ -38,10 +37,6 @@ class GetGiftUpgradeVariants:
         Returns:
             :obj:`~pyrogram.types.GiftUpgradeVariants`: On success, returns all possible variants of upgraded gifts for the given regular gift.
         """
-        r = await self.invoke(
-            raw.functions.payments.GetStarGiftUpgradeAttributes(
-                gift_id=gift_id
-            )
-        )
+        r = await self.invoke(raw.functions.payments.GetStarGiftUpgradeAttributes(gift_id=gift_id))
 
         return await types.GiftUpgradeVariants._parse(self, r)

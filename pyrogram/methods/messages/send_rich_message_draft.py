@@ -30,7 +30,7 @@ class SendRichMessageDraft:
         rich_message: types.InputRichMessage,
         message_thread_id: int | None = None,
         can_stop: bool | None = None,
-        keep_on_stop: bool | None = None
+        keep_on_stop: bool | None = None,
     ) -> bool:
         """Use this method to stream a partial rich message to a user while the message is being generated.
 

@@ -58,7 +58,7 @@ class Game(Object):
         short_name: str,
         description: str,
         photo: types.Photo,
-        animation: types.Animation | None = None
+        animation: types.Animation | None = None,
     ):
         super().__init__(client)
 
@@ -77,16 +77,14 @@ class Game(Object):
             attributes = {type(i): i for i in media.game.document.attributes}
 
             file_name = getattr(
-                attributes.get(
-                    raw.types.DocumentAttributeFilename, None
-                ), "file_name", None
+                attributes.get(raw.types.DocumentAttributeFilename, None), "file_name", None
             )
 
             animation = types.Animation._parse(
                 client,
                 media.game.document,
                 attributes.get(raw.types.DocumentAttributeVideo, None),
-                file_name
+                file_name,
             )
 
         return Game(
@@ -96,5 +94,5 @@ class Game(Object):
             description=media.game.description,
             photo=types.Photo._parse(client, media.game.photo),
             animation=animation,
-            client=client
+            client=client,
         )

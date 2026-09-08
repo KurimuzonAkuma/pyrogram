@@ -36,12 +36,7 @@ class DirectMessagePriceChanged(Object):
             0 if the direct messages group was disabled or the messages are free.
     """
 
-    def __init__(
-        self,
-        *,
-        is_enabled: bool,
-        paid_message_star_count: int
-    ):
+    def __init__(self, *, is_enabled: bool, paid_message_star_count: int):
 
         super().__init__()
 
@@ -49,10 +44,7 @@ class DirectMessagePriceChanged(Object):
         self.paid_message_star_count = paid_message_star_count
 
     @staticmethod
-    def _parse(
-        action: raw.types.MessageActionPaidMessagesPrice
-    ) -> DirectMessagePriceChanged:
+    def _parse(action: raw.types.MessageActionPaidMessagesPrice) -> DirectMessagePriceChanged:
         return DirectMessagePriceChanged(
-            is_enabled=action.broadcast_messages_allowed,
-            paid_message_star_count=action.stars
+            is_enabled=action.broadcast_messages_allowed, paid_message_star_count=action.stars
         )

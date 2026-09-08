@@ -40,12 +40,14 @@ class FactCheck(Object):
         entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
             For text messages, special entities like usernames, URLs, bot commands, etc. that appear in the text.
     """
+
     def __init__(
-        self, *,
+        self,
+        *,
         need_check: bool | None = None,
         country: str | None = None,
         text: str | None = None,
-        entities: list[types.MessageEntity] | None = None
+        entities: list[types.MessageEntity] | None = None,
     ):
         super().__init__()
 
@@ -58,16 +60,18 @@ class FactCheck(Object):
     async def _parse(
         client: pyrogram.Client,
         fact_check: raw.types.FactCheck,
-        users: dict[int, list[raw.base.User]]
+        users: dict[int, list[raw.base.User]],
     ) -> FactCheck | None:
         if not fact_check:
             return None
 
-        message, entities = (await utils.parse_text_with_entities(client, getattr(fact_check, "text", None), users)).values()
+        message, entities = (
+            await utils.parse_text_with_entities(client, getattr(fact_check, "text", None), users)
+        ).values()
 
         return FactCheck(
             need_check=getattr(fact_check, "need_check", None),
             country=getattr(fact_check, "country", None),
             text=message,
-            entities=entities
+            entities=entities,
         )

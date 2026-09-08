@@ -26,6 +26,7 @@ from pyrogram import enums, raw, types, utils
 
 log = logging.getLogger(__name__)
 
+
 class SendPoll:
     async def send_poll(
         self: pyrogram.Client,
@@ -243,11 +244,7 @@ class SendPoll:
 
         for option in options:
             if isinstance(option, str):
-                answers.append(
-                    types.InputPollOption(
-                        text=types.FormattedText(text=option)
-                    )
-                )
+                answers.append(types.InputPollOption(text=types.FormattedText(text=option)))
             else:
                 answers.append(option)
 
@@ -277,31 +274,37 @@ class SendPoll:
                         hash=0,
                         closed=is_closed,
                         public_voters=not is_anonymous,
-                        multiple_choice=True if correct_option_ids and len(correct_option_ids) > 1 else allows_multiple_answers,
+                        multiple_choice=True
+                        if correct_option_ids and len(correct_option_ids) > 1
+                        else allows_multiple_answers,
                         quiz=type == enums.PollType.QUIZ or False,
-                        open_answers=False if type == enums.PollType.QUIZ and allow_adding_options else allow_adding_options,
-                        revoting_disabled=not allows_revoting if allows_revoting is not None else (type == enums.PollType.QUIZ),
+                        open_answers=False
+                        if type == enums.PollType.QUIZ and allow_adding_options
+                        else allow_adding_options,
+                        revoting_disabled=not allows_revoting
+                        if allows_revoting is not None
+                        else (type == enums.PollType.QUIZ),
                         subscribers_only=members_only,
                         countries_iso2=country_codes,
                         shuffle_answers=shuffle_options,
                         hide_results_until_close=hide_results_until_closes,
                         close_period=open_period,
-                        close_date=utils.datetime_to_timestamp(close_date)
+                        close_date=utils.datetime_to_timestamp(close_date),
                     ),
                     correct_answers=correct_option_ids,
-                    attached_media=await description_media.write(client=self) if description_media is not None else None,
+                    attached_media=await description_media.write(client=self)
+                    if description_media is not None
+                    else None,
                     solution=solution,
                     solution_entities=solution_entities,
-                    solution_media=await explanation_media.write(client=self) if explanation_media is not None else None
+                    solution_media=await explanation_media.write(client=self)
+                    if explanation_media is not None
+                    else None,
                 ),
                 message=message or "",
                 entities=entities or None,
                 silent=disable_notification,
-                reply_to=await utils.get_reply_to(
-                    self,
-                    reply_parameters,
-                    message_thread_id
-                ),
+                reply_to=await utils.get_reply_to(self, reply_parameters, message_thread_id),
                 random_id=self.rnd_id(),
                 schedule_date=utils.datetime_to_timestamp(schedule_date),
                 schedule_repeat_period=repeat_period,
@@ -309,9 +312,9 @@ class SendPoll:
                 allow_paid_floodskip=allow_paid_broadcast,
                 allow_paid_stars=paid_message_star_count,
                 reply_markup=await reply_markup.write(self) if reply_markup else None,
-                effect=effect_id
+                effect=effect_id,
             ),
-            business_connection_id=business_connection_id
+            business_connection_id=business_connection_id,
         )
 
         return next(iter(await utils.parse_messages(client=self, messages=r)), None)

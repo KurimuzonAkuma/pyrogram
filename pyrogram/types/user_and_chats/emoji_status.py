@@ -74,7 +74,7 @@ class EmojiStatus(Object):
         center_color: int | None = None,
         edge_color: int | None = None,
         pattern_color: int | None = None,
-        text_color: int | None = None
+        text_color: int | None = None,
     ):
         super().__init__(client)
 
@@ -95,7 +95,7 @@ class EmojiStatus(Object):
             return EmojiStatus(
                 client=client,
                 custom_emoji_id=str(emoji_status.document_id),
-                until_date=utils.timestamp_to_datetime(getattr(emoji_status, "until", None))
+                until_date=utils.timestamp_to_datetime(getattr(emoji_status, "until", None)),
             )
 
         if isinstance(emoji_status, raw.types.EmojiStatusCollectible):
@@ -110,7 +110,7 @@ class EmojiStatus(Object):
                 center_color=emoji_status.center_color,
                 edge_color=emoji_status.edge_color,
                 pattern_color=emoji_status.pattern_color,
-                text_color=emoji_status.text_color
+                text_color=emoji_status.text_color,
             )
 
         return None
@@ -118,11 +118,10 @@ class EmojiStatus(Object):
     def write(self):
         if self.gift_id:
             return raw.types.InputEmojiStatusCollectible(
-                collectible_id=self.gift_id,
-                until=utils.datetime_to_timestamp(self.until_date)
+                collectible_id=self.gift_id, until=utils.datetime_to_timestamp(self.until_date)
             )
 
         return raw.types.EmojiStatus(
             document_id=int(self.custom_emoji_id),
-            until=utils.datetime_to_timestamp(self.until_date)
+            until=utils.datetime_to_timestamp(self.until_date),
         )

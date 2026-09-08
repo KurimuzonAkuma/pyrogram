@@ -21,6 +21,7 @@ from __future__ import annotations as _annotations
 import pyrogram
 from pyrogram import enums, raw, types
 
+
 class EditStoryPrivacy:
     async def edit_story_privacy(
         self: pyrogram.Client,
@@ -109,8 +110,9 @@ class EditStoryPrivacy:
             if _allowed_users:
                 privacy_rules.append(raw.types.InputPrivacyValueAllowUsers(users=_allowed_users))
             if _allowed_chats:
-                privacy_rules.append(raw.types.InputPrivacyValueAllowChatParticipants(chats=_allowed_chats))
-
+                privacy_rules.append(
+                    raw.types.InputPrivacyValueAllowChatParticipants(chats=_allowed_chats)
+                )
 
         r = await self.invoke(
             raw.functions.stories.EditStory(
@@ -123,9 +125,5 @@ class EditStoryPrivacy:
         for i in r.updates:
             if isinstance(i, raw.types.UpdateStory):
                 return await types.Story._parse(
-                    self,
-                    i.story,
-                    i.peer,
-                    {i.id: i for i in r.users},
-                    {i.id: i for i in r.chats}
+                    self, i.story, i.peer, {i.id: i for i in r.users}, {i.id: i for i in r.chats}
                 )

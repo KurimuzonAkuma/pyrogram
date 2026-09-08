@@ -78,4 +78,3 @@ class LoginUrl(Object):
     @staticmethod
     def read(b: raw.types.InlineButtonTypeUrlAuth) -> LoginUrl:
         return LoginUrl(url=b.url, forward_text=b.fwd_text, button_id=b.button_id)
-

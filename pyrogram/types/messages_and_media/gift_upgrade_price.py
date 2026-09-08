@@ -36,12 +36,7 @@ class GiftUpgradePrice(Object):
             The amount of Telegram Stars required to pay to upgrade the gift.
     """
 
-    def __init__(
-        self,
-        *,
-        date: datetime,
-        star_count: int
-    ):
+    def __init__(self, *, date: datetime, star_count: int):
         super().__init__()
 
         self.date = date
@@ -50,6 +45,5 @@ class GiftUpgradePrice(Object):
     @staticmethod
     def _parse(attr: raw.base.StarGiftUpgradePrice) -> GiftUpgradePrice:
         return GiftUpgradePrice(
-            date=utils.timestamp_to_datetime(attr.date),
-            star_count=attr.upgrade_stars
+            date=utils.timestamp_to_datetime(attr.date), star_count=attr.upgrade_stars
         )

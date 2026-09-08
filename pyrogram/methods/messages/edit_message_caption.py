@@ -84,7 +84,9 @@ class EditMessageCaption:
         link_preview_options = self.link_preview_options
 
         if show_caption_above_media is not None:
-            link_preview_options = types.LinkPreviewOptions(show_above_text=show_caption_above_media)
+            link_preview_options = types.LinkPreviewOptions(
+                show_above_text=show_caption_above_media
+            )
 
         return await self.edit_message_text(
             chat_id=chat_id,
@@ -95,5 +97,5 @@ class EditMessageCaption:
             schedule_date=schedule_date,
             business_connection_id=business_connection_id,
             link_preview_options=link_preview_options,
-            reply_markup=reply_markup
+            reply_markup=reply_markup,
         )

@@ -37,11 +37,9 @@ class ProximityAlertTriggered(Object):
         distance (``str``):
             The distance between the users.
     """
+
     def __init__(
-        self, *,
-        traveler: pyrogram.types.User,
-        watcher: pyrogram.types.User,
-        distance: str
+        self, *, traveler: pyrogram.types.User, watcher: pyrogram.types.User, distance: str
     ):
         super().__init__()
 
@@ -54,7 +52,7 @@ class ProximityAlertTriggered(Object):
         client: pyrogram.Client,
         action: raw.types.MessageActionGeoProximityReached,
         users: dict[int, raw.base.User],
-        chats: dict[int, raw.base.Chat]
+        chats: dict[int, raw.base.Chat],
     ) -> ProximityAlertTriggered:
         from_id = utils.get_raw_peer_id(action.from_id)
         to_id = utils.get_raw_peer_id(action.to_id)
@@ -62,5 +60,5 @@ class ProximityAlertTriggered(Object):
         return ProximityAlertTriggered(
             traveler=await types.Chat._parse_chat(client, users.get(from_id) or chats.get(from_id)),
             watcher=await types.Chat._parse_chat(client, users.get(to_id) or chats.get(to_id)),
-            distance=action.distance
+            distance=action.distance,
         )

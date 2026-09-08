@@ -71,8 +71,10 @@ class UpgradedGiftValueInfo(Object):
         fragment_url (``str``, *optional*):
             The HTTPS link to the Fragment for the gift.
     """
+
     def __init__(
-        self, *,
+        self,
+        *,
         currency: str,
         value: int,
         is_value_average: bool,
@@ -86,7 +88,7 @@ class UpgradedGiftValueInfo(Object):
         average_sale_price: int | None = None,
         telegram_listed_gift_count: int | None = None,
         fragment_listed_gift_count: int | None = None,
-        fragment_url: str | None = None
+        fragment_url: str | None = None,
     ):
         super().__init__()
 
@@ -121,5 +123,5 @@ class UpgradedGiftValueInfo(Object):
             average_sale_price=value_info.average_price,
             telegram_listed_gift_count=value_info.listed_count,
             fragment_listed_gift_count=value_info.fragment_listed_count,
-            fragment_url=value_info.fragment_listed_url
+            fragment_url=value_info.fragment_listed_url,
         )

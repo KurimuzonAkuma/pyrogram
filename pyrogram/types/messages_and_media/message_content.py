@@ -217,16 +217,16 @@ class MessageContent(Object):
                 attributes = {type(i): i for i in doc.attributes}
 
                 file_name = getattr(
-                    attributes.get(
-                        raw.types.DocumentAttributeFilename, None
-                    ), "file_name", None
+                    attributes.get(raw.types.DocumentAttributeFilename, None), "file_name", None
                 )
 
                 if raw.types.DocumentAttributeAnimated in attributes:
                     video_attributes = attributes.get(raw.types.DocumentAttributeVideo, None)
 
                     if video_attributes and video_attributes.round_message:
-                        video_note = types.VideoNote._parse(client, doc, video_attributes, media.ttl_seconds)
+                        video_note = types.VideoNote._parse(
+                            client, doc, video_attributes, media.ttl_seconds
+                        )
                         media_type = enums.MessageMediaType.VIDEO_NOTE
                     else:
                         animation = types.Animation._parse(client, doc, video_attributes, file_name)
@@ -238,10 +238,21 @@ class MessageContent(Object):
                     video_attributes = attributes[raw.types.DocumentAttributeVideo]
 
                     if video_attributes.round_message:
-                        video_note = types.VideoNote._parse(client, doc, video_attributes, media.ttl_seconds)
+                        video_note = types.VideoNote._parse(
+                            client, doc, video_attributes, media.ttl_seconds
+                        )
                         media_type = enums.MessageMediaType.VIDEO_NOTE
                     else:
-                        video = types.Video._parse(client, doc, video_attributes, file_name, media.ttl_seconds, media.video_cover, media.video_timestamp, media.alt_documents)
+                        video = types.Video._parse(
+                            client,
+                            doc,
+                            video_attributes,
+                            file_name,
+                            media.ttl_seconds,
+                            media.video_cover,
+                            media.video_timestamp,
+                            media.alt_documents,
+                        )
                         media_type = enums.MessageMediaType.VIDEO
                 elif raw.types.DocumentAttributeAudio in attributes:
                     audio_attributes = attributes[raw.types.DocumentAttributeAudio]
@@ -262,12 +273,9 @@ class MessageContent(Object):
             poll = await types.Poll._parse(
                 client,
                 media,
-                description=await types.FormattedText._parse(
-                    client,
-                    message
-                ) if message else None,
+                description=await types.FormattedText._parse(client, message) if message else None,
                 users=users,
-                chats=chats
+                chats=chats,
             )
             media_type = enums.MessageMediaType.POLL
         elif isinstance(media, raw.types.MessageMediaDice):
@@ -302,5 +310,5 @@ class MessageContent(Object):
             poll=poll,
             dice=dice,
             paid_media=paid_media,
-            checklist=checklist
+            checklist=checklist,
         )

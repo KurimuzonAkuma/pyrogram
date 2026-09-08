@@ -69,7 +69,7 @@ class SearchGlobalCount:
                 broadcasts_only=channels_only,
                 groups_only=groups_only,
                 users_only=users_only,
-                limit=1
+                limit=1,
             )
         )
 

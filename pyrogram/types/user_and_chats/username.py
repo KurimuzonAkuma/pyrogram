@@ -46,7 +46,5 @@ class Username(Object):
     @staticmethod
     def _parse(username: raw.types.Username) -> Username:
         return Username(
-            username=username.username,
-            editable=username.editable,
-            active=username.active
+            username=username.username, editable=username.editable, active=username.active
         )

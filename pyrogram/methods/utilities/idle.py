@@ -26,8 +26,7 @@ log = logging.getLogger(__name__)
 
 # Signal number to name
 signals = {
-    k: v for v, k in signal.__dict__.items()
-    if v.startswith("SIG") and not v.startswith("SIG_")
+    k: v for v, k in signal.__dict__.items() if v.startswith("SIG") and not v.startswith("SIG_")
 }
 
 

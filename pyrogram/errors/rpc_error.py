@@ -32,7 +32,7 @@ from .exceptions.all import exceptions
 STRING_PARAMETER_PREFIXES: Final[tuple[str, ...]] = (
     "APNS_VERIFY_CHECK_",
     "INTEGRITY_CHECK_CLASSIC_",
-    "RECAPTCHA_CHECK_"
+    "RECAPTCHA_CHECK_",
 )
 PARAMETER: Final[Pattern[str]] = re.compile(r"_(\d+)")
 
@@ -70,10 +70,7 @@ def _split_error_message(error_message: str) -> _MessageParts:
     # https://github.com/tdlib/td/blob/022d60202e446ad1287b9fb68e687c8a0760788b/td/telegram/net/NetQueryDispatcher.cpp#L112-L146
     for prefix in STRING_PARAMETER_PREFIXES:
         if error_message.startswith(prefix):
-            return _MessageParts(
-                error_id=f"{prefix}X",
-                value=error_message[len(prefix):]
-            )
+            return _MessageParts(error_id=f"{prefix}X", value=error_message[len(prefix) :])
 
     match = PARAMETER.search(error_message)
     if match is None:
@@ -83,10 +80,7 @@ def _split_error_message(error_message: str) -> _MessageParts:
     # blanked out: `FLOOD_WAIT_42` is listed as `FLOOD_WAIT_X`. `sub()` rather than the first match
     # alone, because the id is the shape of the whole message; no table id carries more than one
     # parameter, which is why the single `search()` above is enough to read the value back.
-    return _MessageParts(
-        error_id=PARAMETER.sub("_X", error_message),
-        value=match.group(1)
-    )
+    return _MessageParts(error_id=PARAMETER.sub("_X", error_message), value=match.group(1))
 
 
 class RPCError(Exception):
@@ -101,7 +95,7 @@ class RPCError(Exception):
         value: int | str | raw.types.RpcError | None = None,
         rpc_name: str | None = None,
         is_unknown: bool = False,
-        is_signed: bool = False
+        is_signed: bool = False,
     ):
         code = f"-{self.CODE}" if is_signed else self.CODE
         name = self.ID or self.NAME
@@ -138,7 +132,7 @@ class RPCError(Exception):
                 value=f"[{error_code} {error_message}]",
                 rpc_name=rpc_name,
                 is_unknown=True,
-                is_signed=is_signed
+                is_signed=is_signed,
             )
 
         errors = import_module("pyrogram.errors")
@@ -151,16 +145,13 @@ class RPCError(Exception):
                 value=f"[{error_code} {error_message}]",
                 rpc_name=rpc_name,
                 is_unknown=True,
-                is_signed=is_signed
+                is_signed=is_signed,
             )
 
         error_type = getattr(errors, exceptions[error_code][parts.error_id])
 
         raise error_type(
-            value=parts.value,
-            rpc_name=rpc_name,
-            is_unknown=False,
-            is_signed=is_signed
+            value=parts.value, rpc_name=rpc_name, is_unknown=False, is_signed=is_signed
         )
 
 

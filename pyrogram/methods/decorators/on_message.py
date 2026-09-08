@@ -58,10 +58,7 @@ class OnMessage:
                 arguments = unbound_arguments(self, filters=filters, group=group)
 
                 func.handlers.append(
-                    (
-                        pyrogram.handlers.MessageHandler(func, arguments.filters),
-                        arguments.group
-                    )
+                    (pyrogram.handlers.MessageHandler(func, arguments.filters), arguments.group)
                 )
 
             return func

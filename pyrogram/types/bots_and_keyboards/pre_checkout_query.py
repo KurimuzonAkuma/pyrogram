@@ -60,7 +60,7 @@ class PreCheckoutQuery(Object, Update):
         total_amount: int,
         invoice_payload: str,
         shipping_option_id: str | None = None,
-        order_info: types.OrderInfo | None = None
+        order_info: types.OrderInfo | None = None,
     ):
         super().__init__(client)
 
@@ -76,7 +76,7 @@ class PreCheckoutQuery(Object, Update):
     async def _parse(
         client: pyrogram.Client,
         pre_checkout_query: raw.types.UpdateBotPrecheckoutQuery,
-        users: dict
+        users: dict,
     ) -> PreCheckoutQuery:
         # Try to decode pre-checkout query payload into string. If that fails, fallback to bytes instead of decoding by
         # ignoring/replacing errors, this way, button clicks will still work.
@@ -98,9 +98,11 @@ class PreCheckoutQuery(Object, Update):
                 email=pre_checkout_query.info.email,
                 shipping_address=types.ShippingAddress._parse(
                     pre_checkout_query.info.shipping_address
-                )
-            ) if pre_checkout_query.info else None,
-            client=client
+                ),
+            )
+            if pre_checkout_query.info
+            else None,
+            client=client,
         )
 
     async def answer(self, ok: bool | None = None, error_message: str | None = None) -> bool:
@@ -131,7 +133,5 @@ class PreCheckoutQuery(Object, Update):
             ``bool``: True, on success.
         """
         return await self._client.answer_pre_checkout_query(
-            pre_checkout_query_id=self.id,
-            ok=ok,
-            error_message=error_message
+            pre_checkout_query_id=self.id, ok=ok, error_message=error_message
         )

@@ -27,7 +27,7 @@ class ToggleForumTopics:
         self: pyrogram.Client,
         chat_id: int | str,
         is_forum: bool = False,
-        has_forum_tabs: bool = False
+        has_forum_tabs: bool = False,
     ) -> bool:
         """Enable or disable forum functionality in a supergroup.
 
@@ -61,9 +61,7 @@ class ToggleForumTopics:
         try:
             r = await self.invoke(
                 raw.functions.channels.ToggleForum(
-                    channel=await self.resolve_peer(chat_id),
-                    enabled=is_forum,
-                    tabs=has_forum_tabs
+                    channel=await self.resolve_peer(chat_id), enabled=is_forum, tabs=has_forum_tabs
                 )
             )
 

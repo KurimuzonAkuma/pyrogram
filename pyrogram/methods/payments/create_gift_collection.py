@@ -24,10 +24,7 @@ from pyrogram import raw, types, utils
 
 class CreateGiftCollection:
     async def create_gift_collection(
-        self: pyrogram.Client,
-        owner_id: int | str,
-        name: str,
-        gift_ids: list[str]
+        self: pyrogram.Client, owner_id: int | str, name: str, gift_ids: list[str]
     ) -> types.GiftCollection:
         """Creates a collection from gifts on the current user's or a channel's profile page.
 
@@ -56,7 +53,10 @@ class CreateGiftCollection:
             raw.functions.payments.CreateStarGiftCollection(
                 peer=await self.resolve_peer(owner_id),
                 title=name,
-                stargift=[await utils.get_input_stargift(self, owned_gift_id) for owned_gift_id in gift_ids],
+                stargift=[
+                    await utils.get_input_stargift(self, owned_gift_id)
+                    for owned_gift_id in gift_ids
+                ],
             )
         )
 

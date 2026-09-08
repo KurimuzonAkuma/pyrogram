@@ -34,8 +34,10 @@ class UsersShared(Object):
         users (List of :obj:`~pyrogram.types.User`):
             List of requested users.
     """
+
     def __init__(
-        self, *,
+        self,
+        *,
         button_id: int,
         users: list[types.User],
     ):
@@ -48,7 +50,7 @@ class UsersShared(Object):
     async def _parse(
         client: pyrogram.Client,
         action: raw.types.MessageActionRequestedPeer | raw.types.MessageActionRequestedPeerSentMe,
-        users: dict[int, raw.base.User] = {}
+        users: dict[int, raw.base.User] = {},
     ) -> UsersShared:
         requested_users = types.List()
 
@@ -70,11 +72,8 @@ class UsersShared(Object):
                         last_name=getattr(peer, "last_name", None),
                         username=getattr(peer, "username", None),
                         photo=types.Photo._parse(client, getattr(peer, "photo", None)),
-                        client=client
+                        client=client,
                     )
                 )
 
-        return UsersShared(
-            button_id=action.button_id,
-            users=requested_users
-        )
+        return UsersShared(button_id=action.button_id, users=requested_users)

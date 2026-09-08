@@ -85,7 +85,7 @@ class QRLogin:
                 server_address=dc_option.ip_address,
                 port=dc_option.port,
                 export_authorization=False,
-                temporary=True
+                temporary=True,
             )
 
             await self.client.storage.dc_id(r.dc_id)
@@ -93,9 +93,7 @@ class QRLogin:
             await self.client.storage.port(dc_option.port)
             await self.client.storage.auth_key(self.client.session.auth_key)
 
-            r = await self.client.invoke(
-                raw.functions.auth.ImportLoginToken(token=r.token)
-            )
+            r = await self.client.invoke(raw.functions.auth.ImportLoginToken(token=r.token))
 
         if isinstance(r, raw.types.auth.LoginTokenSuccess):
             user = await types.User._parse(self.client, r.authorization.user)

@@ -30,7 +30,7 @@ class GetWebAppLinkUrl:
         web_app_short_name: str,
         start_parameter: str = "",
         allow_write_access: bool = False,
-        platform: enums.ClientPlatform | None = None
+        platform: enums.ClientPlatform | None = None,
     ) -> str:
         """Returns an HTTPS URL of a Web App to open.
 
@@ -70,13 +70,11 @@ class GetWebAppLinkUrl:
             raw.functions.messages.RequestAppWebView(
                 peer=await self.resolve_peer(chat_id),
                 app=raw.types.InputBotAppShortName(
-                    bot_id=await self.resolve_peer(bot_user_id),
-                    short_name=web_app_short_name
+                    bot_id=await self.resolve_peer(bot_user_id), short_name=web_app_short_name
                 ),
                 platform=platform.value,
                 write_allowed=allow_write_access,
                 start_param=start_parameter,
-
             )
         )
 

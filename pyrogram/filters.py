@@ -73,11 +73,7 @@ class InvertFilter(Filter):
         if inspect.iscoroutinefunction(self.base.__call__):
             x = await self.base(client, update)
         else:
-            x = await client.loop.run_in_executor(
-                client.executor,
-                self.base,
-                client, update
-            )
+            x = await client.loop.run_in_executor(client.executor, self.base, client, update)
 
         return not x
 
@@ -91,11 +87,7 @@ class AndFilter(Filter):
         if inspect.iscoroutinefunction(self.base.__call__):
             x = await self.base(client, update)
         else:
-            x = await client.loop.run_in_executor(
-                client.executor,
-                self.base,
-                client, update
-            )
+            x = await client.loop.run_in_executor(client.executor, self.base, client, update)
 
         # short circuit
         if not x:
@@ -104,11 +96,7 @@ class AndFilter(Filter):
         if inspect.iscoroutinefunction(self.other.__call__):
             y = await self.other(client, update)
         else:
-            y = await client.loop.run_in_executor(
-                client.executor,
-                self.other,
-                client, update
-            )
+            y = await client.loop.run_in_executor(client.executor, self.other, client, update)
 
         return x and y
 
@@ -122,11 +110,7 @@ class OrFilter(Filter):
         if inspect.iscoroutinefunction(self.base.__call__):
             x = await self.base(client, update)
         else:
-            x = await client.loop.run_in_executor(
-                client.executor,
-                self.base,
-                client, update
-            )
+            x = await client.loop.run_in_executor(client.executor, self.base, client, update)
 
         # short circuit
         if x:
@@ -135,11 +119,7 @@ class OrFilter(Filter):
         if inspect.iscoroutinefunction(self.other.__call__):
             y = await self.other(client, update)
         else:
-            y = await client.loop.run_in_executor(
-                client.executor,
-                self.other,
-                client, update
-            )
+            y = await client.loop.run_in_executor(client.executor, self.other, client, update)
 
         return x or y
 
@@ -281,9 +261,7 @@ def create(func: Callable, name: str | None = None, **kwargs) -> Filter:
             :meth:`~pyrogram.filters.command` or :meth:`~pyrogram.filters.regex`.
     """
     return type(
-        name or func.__name__ or CUSTOM_FILTER_NAME,
-        (Filter,),
-        {"__call__": func, **kwargs}
+        name or func.__name__ or CUSTOM_FILTER_NAME, (Filter,), {"__call__": func, **kwargs}
     )()
 
 
@@ -298,6 +276,7 @@ all = create(all_filter)
 
 # endregion
 
+
 # region me_filter
 async def me_filter(_, __, update: Update):
     sender = _sender_of(update)
@@ -309,6 +288,7 @@ me = create(me_filter)
 
 
 # endregion
+
 
 # region bot_filter
 async def bot_filter(_, __, update: Update):
@@ -322,6 +302,7 @@ bot = create(bot_filter)
 
 # endregion
 
+
 # region sender_chat_filter
 async def sender_chat_filter(_, __, update: Update):
     return bool(_sender_chat_of(update))
@@ -332,6 +313,7 @@ sender_chat = create(sender_chat_filter)
 
 
 # endregion
+
 
 # region incoming_filter
 async def incoming_filter(_, __, update: Update):
@@ -344,6 +326,7 @@ incoming = create(incoming_filter)
 
 # endregion
 
+
 # region outgoing_filter
 async def outgoing_filter(_, __, update: Update):
     return _is_outgoing(update)
@@ -354,6 +337,7 @@ outgoing = create(outgoing_filter)
 
 
 # endregion
+
 
 # region text_filter
 async def text_filter(_, __, message: Message):
@@ -366,6 +350,7 @@ text = create(text_filter)
 
 # endregion
 
+
 # region reply_filter
 async def reply_filter(_, __, message: Message):
     return bool(message.reply_to_message_id or message.reply_to_story_id)
@@ -376,6 +361,7 @@ reply = create(reply_filter)
 
 
 # endregion
+
 
 # region forwarded_filter
 async def forwarded_filter(_, __, message: Message):
@@ -388,6 +374,7 @@ forwarded = create(forwarded_filter)
 
 # endregion
 
+
 # region caption_filter
 async def caption_filter(_, __, message: Message):
     return bool(message.caption)
@@ -398,6 +385,7 @@ caption = create(caption_filter)
 
 
 # endregion
+
 
 # region self_destruction_filter
 async def self_destruction_filter(_, __, message: Message):
@@ -411,6 +399,7 @@ self_destruction = create(self_destruction_filter)
 
 # endregion
 
+
 # region audio_filter
 async def audio_filter(_, __, message: Message):
     return bool(message.audio)
@@ -421,6 +410,7 @@ audio = create(audio_filter)
 
 
 # endregion
+
 
 # region document_filter
 async def document_filter(_, __, message: Message):
@@ -433,6 +423,7 @@ document = create(document_filter)
 
 # endregion
 
+
 # region photo_filter
 async def photo_filter(_, __, message: Message):
     return bool(message.photo)
@@ -443,6 +434,7 @@ photo = create(photo_filter)
 
 
 # endregion
+
 
 # region sticker_filter
 async def sticker_filter(_, __, message: Message):
@@ -455,6 +447,7 @@ sticker = create(sticker_filter)
 
 # endregion
 
+
 # region animation_filter
 async def animation_filter(_, __, message: Message):
     return bool(message.animation)
@@ -465,6 +458,7 @@ animation = create(animation_filter)
 
 
 # endregion
+
 
 # region game_filter
 async def game_filter(_, __, message: Message):
@@ -477,6 +471,7 @@ game = create(game_filter)
 
 # endregion
 
+
 # region giveaway_filter
 async def giveaway_filter(_, __, message: Message):
     return bool(message.giveaway)
@@ -487,6 +482,7 @@ giveaway = create(giveaway_filter)
 
 
 # endregion
+
 
 # region giveaway_winners_filter
 async def giveaway_winners_filter(_, __, message: Message):
@@ -499,6 +495,7 @@ giveaway_winners = create(giveaway_winners_filter)
 
 # endregion
 
+
 # region gift_code_filter
 async def gift_code_filter(_, __, message: Message):
     return bool(message.premium_gift_code)
@@ -509,6 +506,7 @@ gift_code = create(gift_code_filter)
 
 
 # endregion
+
 
 # region gift_filter
 async def gift_filter(_, __, message: Message):
@@ -521,6 +519,7 @@ gift = create(gift_filter)
 
 # endregion
 
+
 # region users_shared_filter
 async def users_shared_filter(_, __, message: Message):
     return bool(message.users_shared)
@@ -531,6 +530,7 @@ users_shared = create(users_shared_filter)
 
 
 # endregion
+
 
 # region chat_shared_filter
 async def chat_shared_filter(_, __, message: Message):
@@ -543,6 +543,7 @@ chat_shared = create(chat_shared_filter)
 
 # endregion
 
+
 # region video_filter
 async def video_filter(_, __, message: Message):
     return bool(message.video)
@@ -553,6 +554,7 @@ video = create(video_filter)
 
 
 # endregion
+
 
 # region media_group_filter
 async def media_group_filter(_, __, message: Message):
@@ -565,6 +567,7 @@ media_group = create(media_group_filter)
 
 # endregion
 
+
 # region voice_filter
 async def voice_filter(_, __, message: Message):
     return bool(message.voice)
@@ -575,6 +578,7 @@ voice = create(voice_filter)
 
 
 # endregion
+
 
 # region video_note_filter
 async def video_note_filter(_, __, message: Message):
@@ -587,6 +591,7 @@ video_note = create(video_note_filter)
 
 # endregion
 
+
 # region contact_filter
 async def contact_filter(_, __, message: Message):
     return bool(message.contact)
@@ -597,6 +602,7 @@ contact = create(contact_filter)
 
 
 # endregion
+
 
 # region location_filter
 async def location_filter(_, __, message: Message):
@@ -609,6 +615,7 @@ location = create(location_filter)
 
 # endregion
 
+
 # region live_location_filter
 async def live_location_filter(_, __, message: Message):
     return bool(message.location and message.location.live_period)
@@ -619,6 +626,7 @@ live_location = create(live_location_filter)
 
 
 # endregion
+
 
 # region venue_filter
 async def venue_filter(_, __, message: Message):
@@ -631,6 +639,7 @@ venue = create(venue_filter)
 
 # endregion
 
+
 # region web_page_filter
 async def web_page_filter(_, __, message: Message):
     return bool(message.web_page)
@@ -641,6 +650,7 @@ web_page = create(web_page_filter)
 
 
 # endregion
+
 
 # region poll_filter
 async def poll_filter(_, __, message: Message):
@@ -653,6 +663,7 @@ poll = create(poll_filter)
 
 # endregion
 
+
 # region dice_filter
 async def dice_filter(_, __, message: Message):
     return bool(message.dice)
@@ -663,6 +674,7 @@ dice = create(dice_filter)
 
 
 # endregion
+
 
 # region quote_filter
 async def quote_filter(_, __, message: Message):
@@ -675,6 +687,7 @@ quote = create(quote_filter)
 
 # endregion
 
+
 # region media_spoiler
 async def media_spoiler_filter(_, __, message: Message):
     return bool(message.has_media_spoiler)
@@ -686,10 +699,13 @@ media_spoiler = create(media_spoiler_filter)
 
 # endregion
 
+
 # region private_filter
 async def private_filter(_, __, update: Update):
     chat_of_update = _chat_of(update)
-    return bool(chat_of_update and chat_of_update.type in {enums.ChatType.PRIVATE, enums.ChatType.BOT})
+    return bool(
+        chat_of_update and chat_of_update.type in {enums.ChatType.PRIVATE, enums.ChatType.BOT}
+    )
 
 
 private = create(private_filter)
@@ -698,12 +714,14 @@ private = create(private_filter)
 
 # endregion
 
+
 # region group_filter
 async def group_filter(_, __, update: Update):
     chat_of_update = _chat_of(update)
     return bool(
         chat_of_update
-        and chat_of_update.type in {enums.ChatType.GROUP, enums.ChatType.SUPERGROUP, enums.ChatType.FORUM}
+        and chat_of_update.type
+        in {enums.ChatType.GROUP, enums.ChatType.SUPERGROUP, enums.ChatType.FORUM}
     )
 
 
@@ -712,6 +730,7 @@ group = create(group_filter)
 
 
 # endregion
+
 
 # region channel_filter
 async def channel_filter(_, __, update: Update):
@@ -725,6 +744,7 @@ channel = create(channel_filter)
 
 # endregion
 
+
 # region direct_filter
 async def direct_filter(_, __, update: Update):
     chat_of_update = _chat_of(update)
@@ -736,6 +756,7 @@ direct = create(direct_filter)
 
 
 # endregion
+
 
 # region forum_filter
 async def forum_filter(_, __, update: Update):
@@ -749,6 +770,7 @@ forum = create(forum_filter)
 
 # endregion
 
+
 # region story_filter
 async def story_filter(_, __, message: Message):
     return bool(message.story)
@@ -759,6 +781,7 @@ story = create(story_filter)
 
 
 # endregion
+
 
 # region new_chat_members_filter
 async def new_chat_members_filter(_, __, message: Message):
@@ -771,6 +794,7 @@ new_chat_members = create(new_chat_members_filter)
 
 # endregion
 
+
 # region left_chat_member_filter
 async def left_chat_member_filter(_, __, message: Message):
     return bool(message.left_chat_member)
@@ -781,6 +805,7 @@ left_chat_member = create(left_chat_member_filter)
 
 
 # endregion
+
 
 # region new_chat_title_filter
 async def new_chat_title_filter(_, __, message: Message):
@@ -793,6 +818,7 @@ new_chat_title = create(new_chat_title_filter)
 
 # endregion
 
+
 # region new_chat_photo_filter
 async def new_chat_photo_filter(_, __, message: Message):
     return bool(message.new_chat_photo)
@@ -803,6 +829,7 @@ new_chat_photo = create(new_chat_photo_filter)
 
 
 # endregion
+
 
 # region delete_chat_photo_filter
 async def delete_chat_photo_filter(_, __, message: Message):
@@ -815,6 +842,7 @@ delete_chat_photo = create(delete_chat_photo_filter)
 
 # endregion
 
+
 # region group_chat_created_filter
 async def group_chat_created_filter(_, __, message: Message):
     return bool(message.group_chat_created)
@@ -825,6 +853,7 @@ group_chat_created = create(group_chat_created_filter)
 
 
 # endregion
+
 
 # region supergroup_chat_created_filter
 async def supergroup_chat_created_filter(_, __, message: Message):
@@ -837,6 +866,7 @@ supergroup_chat_created = create(supergroup_chat_created_filter)
 
 # endregion
 
+
 # region channel_chat_created_filter
 async def channel_chat_created_filter(_, __, message: Message):
     return bool(message.channel_chat_created)
@@ -847,6 +877,7 @@ channel_chat_created = create(channel_chat_created_filter)
 
 
 # endregion
+
 
 # region migrate_to_chat_id_filter
 async def migrate_to_chat_id_filter(_, __, message: Message):
@@ -859,6 +890,7 @@ migrate_to_chat_id = create(migrate_to_chat_id_filter)
 
 # endregion
 
+
 # region migrate_from_chat_id_filter
 async def migrate_from_chat_id_filter(_, __, message: Message):
     return bool(message.migrate_from_chat_id)
@@ -869,6 +901,7 @@ migrate_from_chat_id = create(migrate_from_chat_id_filter)
 
 
 # endregion
+
 
 # region pinned_message_filter
 async def pinned_message_filter(_, __, message: Message):
@@ -881,6 +914,7 @@ pinned_message = create(pinned_message_filter)
 
 # endregion
 
+
 # region game_high_score_filter
 async def game_high_score_filter(_, __, message: Message):
     return bool(message.game_high_score)
@@ -891,6 +925,7 @@ game_high_score = create(game_high_score_filter)
 
 
 # endregion
+
 
 # region reply_keyboard_filter
 async def reply_keyboard_filter(_, __, message: Message):
@@ -903,6 +938,7 @@ reply_keyboard = create(reply_keyboard_filter)
 
 # endregion
 
+
 # region inline_keyboard_filter
 async def inline_keyboard_filter(_, __, message: Message):
     return isinstance(message.reply_markup, InlineKeyboardMarkup)
@@ -913,6 +949,7 @@ inline_keyboard = create(inline_keyboard_filter)
 
 
 # endregion
+
 
 # region mentioned_filter
 async def mentioned_filter(_, __, message: Message):
@@ -925,6 +962,7 @@ mentioned = create(mentioned_filter)
 
 # endregion
 
+
 # region via_bot_filter
 async def via_bot_filter(_, __, message: Message):
     return bool(message.via_bot)
@@ -935,6 +973,7 @@ via_bot = create(via_bot_filter)
 
 
 # endregion
+
 
 # region admin_filter
 async def admin_filter(_, __, update: Update):
@@ -948,6 +987,7 @@ admin = create(admin_filter)
 
 # endregion
 
+
 # region video_chat_started_filter
 async def video_chat_started_filter(_, __, message: Message):
     return bool(message.video_chat_started)
@@ -959,6 +999,7 @@ video_chat_started = create(video_chat_started_filter)
 
 # endregion
 
+
 # region video_chat_ended_filter
 async def video_chat_ended_filter(_, __, message: Message):
     return bool(message.video_chat_ended)
@@ -969,6 +1010,7 @@ video_chat_ended = create(video_chat_ended_filter)
 
 
 # endregion
+
 
 # region business
 async def business_filter(_, __, update: Update):
@@ -982,6 +1024,7 @@ business = create(business_filter)
 
 # endregion
 
+
 # region video_chat_members_invited_filter
 async def video_chat_members_invited_filter(_, __, message: Message):
     return bool(message.video_chat_members_invited)
@@ -993,6 +1036,7 @@ video_chat_members_invited = create(video_chat_members_invited_filter)
 
 # endregion
 
+
 # region successful_payment_filter
 async def successful_payment_filter(_, __, message: Message):
     return bool(message.successful_payment)
@@ -1003,6 +1047,7 @@ successful_payment = create(successful_payment_filter)
 
 
 # endregion
+
 
 # region service_filter
 async def service_filter(_, __, message: Message):
@@ -1021,6 +1066,7 @@ A service message contains any of the following fields set: *left_chat_member*,
 
 # endregion
 
+
 # region media_filter
 async def media_filter(_, __, message: Message):
     return bool(message.media)
@@ -1036,6 +1082,7 @@ A media message contains any of the following fields set: *audio*, *document*, *
 
 # endregion
 
+
 # region scheduled_filter
 async def scheduled_filter(_, __, message: Message):
     return bool(message.scheduled)
@@ -1046,6 +1093,7 @@ scheduled = create(scheduled_filter)
 
 
 # endregion
+
 
 # region from_scheduled_filter
 async def from_scheduled_filter(_, __, message: Message):
@@ -1058,6 +1106,7 @@ from_scheduled = create(from_scheduled_filter)
 
 # endregion
 
+
 # region paid_message_filter
 async def paid_message_filter(_, __, message: Message):
     return bool(message.send_paid_messages_stars)
@@ -1069,14 +1118,15 @@ paid_message = create(paid_message_filter)
 
 # endregion
 
+
 # region linked_channel_filter
 async def linked_channel_filter(_, __, update: Update):
     message = _message_of(update)
     return bool(
-        message and
-        message.forward_origin and
-        message.forward_origin.type == enums.MessageOriginType.CHANNEL and
-        message.forward_origin.chat == message.sender_chat
+        message
+        and message.forward_origin
+        and message.forward_origin.type == enums.MessageOriginType.CHANNEL
+        and message.forward_origin.chat == message.sender_chat
     )
 
 
@@ -1086,10 +1136,12 @@ linked_channel = create(linked_channel_filter)
 
 # endregion
 
+
 # region gift_offer_filter
 async def gift_offer_filter(_, __, message: Message):
     return bool(
-        message.upgraded_gift_purchase_offer and message.upgraded_gift_purchase_offer.state == enums.GiftPurchaseOfferState.PENDING
+        message.upgraded_gift_purchase_offer
+        and message.upgraded_gift_purchase_offer.state == enums.GiftPurchaseOfferState.PENDING
     )
 
 
@@ -1099,10 +1151,12 @@ gift_offer = create(gift_offer_filter)
 
 # endregion
 
+
 # region gift_offer_accepted_filter
 async def gift_offer_accepted_filter(_, __, message: Message):
     return bool(
-        message.upgraded_gift_purchase_offer and message.upgraded_gift_purchase_offer.state == enums.GiftPurchaseOfferState.ACCEPTED
+        message.upgraded_gift_purchase_offer
+        and message.upgraded_gift_purchase_offer.state == enums.GiftPurchaseOfferState.ACCEPTED
     )
 
 
@@ -1112,10 +1166,14 @@ gift_offer_accepted = create(gift_offer_accepted_filter)
 
 # endregion
 
+
 # region gift_offer_rejected_filter
 async def gift_offer_rejected_filter(_, __, message: Message):
     return bool(
-        (message.upgraded_gift_purchase_offer and message.upgraded_gift_purchase_offer.state == enums.GiftPurchaseOfferState.REJECTED)
+        (
+            message.upgraded_gift_purchase_offer
+            and message.upgraded_gift_purchase_offer.state == enums.GiftPurchaseOfferState.REJECTED
+        )
         or message.upgraded_gift_purchase_offer_rejected
     )
 
@@ -1133,8 +1191,11 @@ ephemeral = create(lambda _, __, message: message.ephemeral_message_id is not No
 
 # endregion
 
+
 # region command_filter
-def command(commands: str | list[str], prefixes: str | list[str] | None = "/", case_sensitive: bool = False):
+def command(
+    commands: str | list[str], prefixes: str | list[str] | None = "/", case_sensitive: bool = False
+):
     """Filter commands, i.e.: text messages starting with "/" or any other custom prefix.
 
     Parameters:
@@ -1167,15 +1228,23 @@ def command(commands: str | list[str], prefixes: str | list[str] | None = "/", c
             if not text.startswith(prefix):
                 continue
 
-            without_prefix = text[len(prefix):]
+            without_prefix = text[len(prefix) :]
 
             for cmd in flt.commands:
-                if not re.match(rf"^(?:{cmd}(?:@?{username})?)(?:\s|$)", without_prefix,
-                                flags=re.IGNORECASE if not flt.case_sensitive else 0):
+                if not re.match(
+                    rf"^(?:{cmd}(?:@?{username})?)(?:\s|$)",
+                    without_prefix,
+                    flags=re.IGNORECASE if not flt.case_sensitive else 0,
+                ):
                     continue
 
-                without_command = re.sub(rf"{cmd}(?:@?{username})?\s?", "", without_prefix, count=1,
-                                         flags=re.IGNORECASE if not flt.case_sensitive else 0)
+                without_command = re.sub(
+                    rf"{cmd}(?:@?{username})?\s?",
+                    "",
+                    without_prefix,
+                    count=1,
+                    flags=re.IGNORECASE if not flt.case_sensitive else 0,
+                )
 
                 # match.groups are 1-indexed, group(1) is the quote, group(2) is the text
                 # between the quotes, group(3) is unquoted, whitespace-split text
@@ -1198,15 +1267,12 @@ def command(commands: str | list[str], prefixes: str | list[str] | None = "/", c
     prefixes = set(prefixes) if prefixes else {""}
 
     return create(
-        func,
-        "CommandFilter",
-        commands=commands,
-        prefixes=prefixes,
-        case_sensitive=case_sensitive
+        func, "CommandFilter", commands=commands, prefixes=prefixes, case_sensitive=case_sensitive
     )
 
 
 # endregion
+
 
 def regex(pattern: str | Pattern, flags: int = 0):
     """Filter updates that match a given regular expression pattern.
@@ -1250,7 +1316,7 @@ def regex(pattern: str | Pattern, flags: int = 0):
     return create(
         func,
         "RegexFilter",
-        p=pattern if isinstance(pattern, Pattern) else re.compile(pattern, flags)
+        p=pattern if isinstance(pattern, Pattern) else re.compile(pattern, flags),
     )
 
 
@@ -1272,9 +1338,8 @@ class user(Filter, set):
         users = [] if users is None else users if isinstance(users, list) else [users]
 
         super().__init__(
-            _ME if u in _ME_ALIASES
-            else u.lower().strip("@") if isinstance(u, str)
-            else u for u in users
+            _ME if u in _ME_ALIASES else u.lower().strip("@") if isinstance(u, str) else u
+            for u in users
         )
 
     async def __call__(self, _, update: Update):
@@ -1304,16 +1369,17 @@ class chat(Filter, set):
         chats = [] if chats is None else chats if isinstance(chats, list) else [chats]
 
         super().__init__(
-            _ME if c in _ME_ALIASES
-            else c.lower().strip("@") if isinstance(c, str)
-            else c for c in chats
+            _ME if c in _ME_ALIASES else c.lower().strip("@") if isinstance(c, str) else c
+            for c in chats
         )
 
     async def __call__(self, _, update: Update):
         chat_of_update = _chat_of(update)
         if not chat_of_update:
             return False
-        if chat_of_update.id in self or (chat_of_update.username and chat_of_update.username.lower() in self):
+        if chat_of_update.id in self or (
+            chat_of_update.username and chat_of_update.username.lower() in self
+        ):
             return True
         sender = _sender_of(update)
 
@@ -1343,9 +1409,7 @@ class topic(Filter, set):
     def __init__(self, topics: int | list[int] | None = None):
         topics = [] if topics is None else topics if isinstance(topics, list) else [topics]
 
-        super().__init__(
-            t for t in topics
-        )
+        super().__init__(t for t in topics)
 
     async def __call__(self, _, update: Update):
         message = _message_of(update)

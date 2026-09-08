@@ -60,7 +60,7 @@ class OnDeletedMessages:
                 func.handlers.append(
                     (
                         pyrogram.handlers.DeletedMessagesHandler(func, arguments.filters),
-                        arguments.group
+                        arguments.group,
                     )
                 )
 

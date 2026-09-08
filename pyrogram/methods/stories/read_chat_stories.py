@@ -56,8 +56,7 @@ class ReadChatStories:
         """
         r = await self.invoke(
             raw.functions.stories.ReadStories(
-                peer=await self.resolve_peer(chat_id),
-                max_id=max_id or (1 << 31) - 1
+                peer=await self.resolve_peer(chat_id), max_id=max_id or (1 << 31) - 1
             )
         )
 

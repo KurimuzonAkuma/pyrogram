@@ -32,7 +32,7 @@ class UpdateChatNotifications:
         mute_until: datetime | None = None,
         stories_muted: bool | None = None,
         stories_hide_sender: bool | None = None,
-        show_previews: bool | None = None
+        show_previews: bool | None = None,
     ) -> bool:
         """Update the notification settings for the selected chat
 
@@ -86,7 +86,7 @@ class UpdateChatNotifications:
                     mute_until=utils.datetime_to_timestamp(mute_until),
                     stories_muted=stories_muted,
                     stories_hide_sender=stories_hide_sender,
-                )
+                ),
             )
         )
 

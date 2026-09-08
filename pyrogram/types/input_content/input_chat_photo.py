@@ -36,6 +36,7 @@ class InputChatPhoto(Object):
     - :obj:`~pyrogram.types.InputChatPhotoStatic`
     - :obj:`~pyrogram.types.InputChatPhotoAnimation`
     """
+
     # TODO: - :obj:`~pyrogram.types.InputChatPhotoSticker`
 
     def __init__(
@@ -54,10 +55,8 @@ class InputChatPhotoPrevious(InputChatPhoto):
         chat_photo_file_id (``str``):
             Identifier of the current user's profile photo to reuse.
     """
-    def __init__(
-        self,
-        chat_photo_file_id: str
-    ):
+
+    def __init__(self, chat_photo_file_id: str):
         super().__init__()
 
         self.chat_photo_file_id = chat_photo_file_id
@@ -77,10 +76,8 @@ class InputChatPhotoStatic(InputChatPhoto):
         photo (``str`` | ``BinaryIO``):
             Photo to be set as profile photo.
     """
-    def __init__(
-        self,
-        photo: str | BinaryIO
-    ):
+
+    def __init__(self, photo: str | BinaryIO):
         super().__init__()
 
         self.photo = photo
@@ -103,11 +100,8 @@ class InputChatPhotoAnimation(InputChatPhoto):
         main_frame_timestamp (``float``):
             Timestamp of the frame, which will be used as static chat photo.
     """
-    def __init__(
-        self,
-        animation: str | BinaryIO,
-        main_frame_timestamp: float | None = None
-    ):
+
+    def __init__(self, animation: str | BinaryIO, main_frame_timestamp: float | None = None):
         super().__init__()
 
         self.animation = animation

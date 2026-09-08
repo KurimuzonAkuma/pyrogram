@@ -41,11 +41,13 @@ class SuggestedPostInfo(Object):
         state (:obj:`~pyrogram.enums.SuggestedPostState`, *optional*):
             State of the suggested post.
     """
+
     def __init__(
-        self, *,
+        self,
+        *,
         price: types.SuggestedPostPrice | None = None,
         send_date: datetime | None = None,
-        state: enums.SuggestedPostState | None = None
+        state: enums.SuggestedPostState | None = None,
     ):
         super().__init__()
 

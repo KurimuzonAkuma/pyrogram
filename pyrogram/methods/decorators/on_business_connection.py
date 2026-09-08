@@ -60,7 +60,7 @@ class OnBusinessConnection:
                 func.handlers.append(
                     (
                         pyrogram.handlers.BusinessConnectionHandler(func, arguments.filters),
-                        arguments.group
+                        arguments.group,
                     )
                 )
 

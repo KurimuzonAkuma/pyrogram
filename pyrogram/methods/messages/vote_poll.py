@@ -24,10 +24,7 @@ from pyrogram import raw, types
 
 class VotePoll:
     async def vote_poll(
-        self: pyrogram.Client,
-        chat_id: int | str,
-        message_id: int,
-        options: int | list[int]
+        self: pyrogram.Client, chat_id: int | str, message_id: int, options: int | list[int]
     ) -> types.Poll:
         """Vote a poll.
 
@@ -61,7 +58,7 @@ class VotePoll:
             raw.functions.messages.SendVote(
                 peer=await self.resolve_peer(chat_id),
                 msg_id=message_id,
-                options=[poll.options[option].persistent_id.encode() for option in options]
+                options=[poll.options[option].persistent_id.encode() for option in options],
             )
         )
 

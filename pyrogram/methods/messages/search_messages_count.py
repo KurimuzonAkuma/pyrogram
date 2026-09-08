@@ -29,7 +29,7 @@ class SearchMessagesCount:
         query: str = "",
         filter: enums.MessagesFilter = enums.MessagesFilter.EMPTY,
         from_user: int | str | None = None,
-        message_thread_id: int | None = None
+        message_thread_id: int | None = None,
     ) -> int:
         """Get the count of messages resulting from a search inside a chat.
 
@@ -86,8 +86,8 @@ class SearchMessagesCount:
                         max_id=0,
                         from_id=from_id,
                         top_msg_id=message_thread_id,
-                        hash=0
-                    )
+                        hash=0,
+                    ),
                 )
             )
             if hasattr(r, "count"):

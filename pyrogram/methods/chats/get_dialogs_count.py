@@ -24,9 +24,7 @@ from pyrogram import raw
 
 class GetDialogsCount:
     async def get_dialogs_count(
-        self: pyrogram.Client,
-        pinned_only: bool = False,
-        from_archive: bool | None = None
+        self: pyrogram.Client, pinned_only: bool = False, from_archive: bool | None = None
     ) -> int:
         """Get the total count of your dialogs.
 
@@ -52,11 +50,9 @@ class GetDialogsCount:
 
         if pinned_only:
             r = await self.invoke(
-                raw.functions.messages.GetPinnedDialogs(
-                    folder_id=1 if from_archive else 0
-                )
+                raw.functions.messages.GetPinnedDialogs(folder_id=1 if from_archive else 0)
             )
-            
+
             return len(r.dialogs)
         else:
             r = await self.invoke(
@@ -66,7 +62,7 @@ class GetDialogsCount:
                     offset_peer=raw.types.InputPeerEmpty(),
                     limit=1,
                     hash=0,
-                    folder_id=None if from_archive is None else 1 if from_archive else 0
+                    folder_id=None if from_archive is None else 1 if from_archive else 0,
                 )
             )
 

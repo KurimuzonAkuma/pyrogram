@@ -30,7 +30,7 @@ class OnPurchasedPaidMedia:
     def on_purchased_paid_media(
         self: OnPurchasedPaidMedia | Filter | None = None,
         filters: Filter | None = None,
-        group: int = 0
+        group: int = 0,
     ) -> Callable[[HandlerType], HandlerType]:
         """Decorator for handling purchased paid media.
 
@@ -59,7 +59,7 @@ class OnPurchasedPaidMedia:
                 func.handlers.append(
                     (
                         pyrogram.handlers.PurchasedPaidMediaHandler(func, arguments.filters),
-                        arguments.group
+                        arguments.group,
                     )
                 )
 

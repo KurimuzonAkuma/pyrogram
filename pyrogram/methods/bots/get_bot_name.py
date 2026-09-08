@@ -29,7 +29,7 @@ class GetBotName:
         for_my_bot: int | str | None = None,
     ) -> str:
         """Use this method to get the current / owned bot name for the given user language.
-        
+
         .. note::
 
             If the current account is an User, can be called only if the ``for_my_bot`` has ``can_be_edited`` property set to True.
@@ -56,7 +56,7 @@ class GetBotName:
         bot_info = await self.invoke(
             raw.functions.bots.GetBotInfo(
                 bot=await self.resolve_peer(for_my_bot) if for_my_bot else None,
-                lang_code=language_code
+                lang_code=language_code,
             )
         )
         return bot_info.name

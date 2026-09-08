@@ -135,7 +135,7 @@ class InputMediaVideo(InputMedia):
         progress: Callable | None = None,
         progress_args: tuple = (),
         ttl_seconds: int | None = None,
-        **kwargs
+        **kwargs,
     ) -> raw.base.InputMedia:
         if chat_id is None:
             peer = raw.types.InputPeerSelf()
@@ -145,10 +145,7 @@ class InputMediaVideo(InputMedia):
         input_video_cover = None
 
         if self.video_cover is not None:
-            if (
-                isinstance(self.video_cover, io.BytesIO)
-                or pathlib.Path(self.video_cover).is_file()
-            ):
+            if isinstance(self.video_cover, io.BytesIO) or pathlib.Path(self.video_cover).is_file():
                 uploaded_media = await client.invoke(
                     raw.functions.messages.UploadMedia(
                         peer=peer,

@@ -46,6 +46,7 @@ class GiftedGrams(Object):
         sticker (:obj:`~pyrogram.types.Sticker`):
             A sticker to be shown in the message.
     """
+
     def __init__(
         self,
         *,
@@ -72,8 +73,7 @@ class GiftedGrams(Object):
     ) -> GiftedGrams:
         raw_stickers = await client.invoke(
             raw.functions.messages.GetStickerSet(
-                stickerset=raw.types.InputStickerSetTonGifts(),
-                hash=0
+                stickerset=raw.types.InputStickerSetTonGifts(), hash=0
             )
         )
 
@@ -86,13 +86,10 @@ class GiftedGrams(Object):
                 types.List(
                     [
                         await types.Sticker._parse(
-                            client,
-                            doc,
-                            {
-                                type(i): i for i in doc.attributes
-                            }
-                        ) for doc in raw_stickers.documents
+                            client, doc, {type(i): i for i in doc.attributes}
+                        )
+                        for doc in raw_stickers.documents
                     ]
                 )
-            )
+            ),
         )

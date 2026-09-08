@@ -43,8 +43,10 @@ class SuggestedPostPaid(Object):
             The amount of Telegram Stars that was received by the channel.
             For payments in Telegram Stars only.
     """
+
     def __init__(
-        self, *,
+        self,
+        *,
         suggested_post_message_id: int | None = None,
         suggested_post_message: types.Message | None = None,
         amount: int | None = None,
@@ -59,8 +61,7 @@ class SuggestedPostPaid(Object):
 
     @staticmethod
     async def _parse(
-        client: pyrogram.Client,
-        message: raw.types.MessageService
+        client: pyrogram.Client, message: raw.types.MessageService
     ) -> SuggestedPostPaid:
         action: raw.types.MessageActionSuggestedPostSuccess = message.action
 
@@ -82,8 +83,7 @@ class SuggestedPostPaid(Object):
             if client.fetch_replies:
                 try:
                     suggested_post_message = await client.get_messages(
-                        chat_id=chat_id,
-                        message_ids=suggested_post_message_id
+                        chat_id=chat_id, message_ids=suggested_post_message_id
                     )
                 except MessageIdsEmpty:
                     pass
@@ -97,5 +97,5 @@ class SuggestedPostPaid(Object):
             suggested_post_message_id=suggested_post_message_id,
             suggested_post_message=suggested_post_message,
             amount=amount,
-            star_amount=star_amount
+            star_amount=star_amount,
         )

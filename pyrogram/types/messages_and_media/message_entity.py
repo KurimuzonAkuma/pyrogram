@@ -77,7 +77,7 @@ class MessageEntity(Object):
         custom_emoji_id: str | None = None,
         expandable: bool | None = None,
         unix_time: int | None = None,
-        date_time_format: str | None = None
+        date_time_format: str | None = None,
     ):
         super().__init__(client)
 
@@ -141,7 +141,7 @@ class MessageEntity(Object):
             expandable=getattr(entity, "collapsed", None),
             unix_time=unix_time,
             date_time_format=date_time_format or None,
-            client=client
+            client=client,
         )
 
     async def write(self):

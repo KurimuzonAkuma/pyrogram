@@ -52,7 +52,7 @@ class SaveFile:
         file_id: int | None = None,
         file_part: int = 0,
         progress: Callable | None = None,
-        progress_args: tuple = ()
+        progress_args: tuple = (),
     ) -> None: ...
 
     @overload
@@ -62,7 +62,7 @@ class SaveFile:
         file_id: int,
         file_part: int = 0,
         progress: Callable | None = None,
-        progress_args: tuple = ()
+        progress_args: tuple = (),
     ) -> None: ...
 
     @overload
@@ -72,7 +72,7 @@ class SaveFile:
         file_id: None = None,
         file_part: int = 0,
         progress: Callable | None = None,
-        progress_args: tuple = ()
+        progress_args: tuple = (),
     ) -> raw.types.InputFile | raw.types.InputFileBig: ...
 
     async def save_file(
@@ -81,7 +81,7 @@ class SaveFile:
         file_id: int | None = None,
         file_part: int = 0,
         progress: Callable | None = None,
-        progress_args: tuple = ()
+        progress_args: tuple = (),
     ) -> raw.types.InputFile | raw.types.InputFileBig | None:
         """Upload a file onto Telegram servers, without actually sending the message to anyone.
         Useful whenever an InputFile type is required.
@@ -164,7 +164,9 @@ class SaveFile:
             elif isinstance(path, io.IOBase):
                 fp = path
             else:
-                raise ValueError("Invalid file. Expected a file path as string or a binary (not text) file pointer")
+                raise ValueError(
+                    "Invalid file. Expected a file path as string or a binary (not text) file pointer"
+                )
 
             file_name = getattr(fp, "name", "file.jpg")
 
@@ -212,13 +214,11 @@ class SaveFile:
                             file_id=file_id,
                             file_part=file_part,
                             file_total_parts=file_total_parts,
-                            bytes=chunk
+                            bytes=chunk,
                         )
                     else:
                         rpc = raw.functions.upload.SaveFilePart(
-                            file_id=file_id,
-                            file_part=file_part,
-                            bytes=chunk
+                            file_id=file_id, file_part=file_part, bytes=chunk
                         )
 
                     await queue.put(rpc)
@@ -236,7 +236,7 @@ class SaveFile:
                             progress,
                             min(file_part * part_size, file_size),
                             file_size,
-                            *progress_args
+                            *progress_args,
                         )
 
                         if inspect.iscoroutinefunction(progress):
@@ -266,15 +266,8 @@ class SaveFile:
                 return None
 
             if is_big:
-                return raw.types.InputFileBig(
-                    id=file_id,
-                    parts=file_total_parts,
-                    name=file_name
-                )
+                return raw.types.InputFileBig(id=file_id, parts=file_total_parts, name=file_name)
 
             return raw.types.InputFile(
-                id=file_id,
-                parts=file_total_parts,
-                name=file_name,
-                md5_checksum=md5_sum
+                id=file_id, parts=file_total_parts, name=file_name, md5_checksum=md5_sum
             )

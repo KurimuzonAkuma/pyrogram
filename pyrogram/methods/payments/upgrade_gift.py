@@ -28,7 +28,7 @@ class UpgradeGift:
         owned_gift_id: str,
         keep_original_details: bool | None = None,
         star_count: int | None = None,
-        business_connection_id: str | None = None
+        business_connection_id: str | None = None,
     ) -> types.Message | None:
         """Upgrade a given regular gift to a unique gift.
 
@@ -74,22 +74,18 @@ class UpgradeGift:
         try:
             r = await self.invoke(
                 raw.functions.payments.UpgradeStarGift(
-                    stargift=stargift,
-                    keep_original_details=keep_original_details
+                    stargift=stargift, keep_original_details=keep_original_details
                 ),
-                business_connection_id=business_connection_id
+                business_connection_id=business_connection_id,
             )
         except errors.PaymentRequired:
             invoice = raw.types.InputInvoiceStarGiftUpgrade(
-                stargift=stargift,
-                keep_original_details=keep_original_details
+                stargift=stargift, keep_original_details=keep_original_details
             )
 
             form = await self.invoke(
-                raw.functions.payments.GetPaymentForm(
-                    invoice=invoice
-                ),
-                business_connection_id=business_connection_id
+                raw.functions.payments.GetPaymentForm(invoice=invoice),
+                business_connection_id=business_connection_id,
             )
 
             if star_count is not None:
@@ -100,16 +96,13 @@ class UpgradeGift:
                     raise ValueError("Have not enough Telegram Stars.")
 
             r = await self.invoke(
-                raw.functions.payments.SendStarsForm(
-                    form_id=form.form_id,
-                    invoice=invoice
-                ),
-                business_connection_id=business_connection_id
+                raw.functions.payments.SendStarsForm(form_id=form.form_id, invoice=invoice),
+                business_connection_id=business_connection_id,
             )
 
         messages = await utils.parse_messages(
             client=self,
-            messages=r.updates if isinstance(r, raw.types.payments.PaymentResult) else r
+            messages=r.updates if isinstance(r, raw.types.payments.PaymentResult) else r,
         )
 
         return messages[0] if messages else None

@@ -34,9 +34,7 @@ class FakeClient(GetBlockedMessageSenders):
         self.users = users
         self.invocations = 0
 
-    async def invoke(
-        self, query: raw.functions.contacts.GetBlocked
-    ) -> raw.types.contacts.Blocked:
+    async def invoke(self, query: raw.functions.contacts.GetBlocked) -> raw.types.contacts.Blocked:
         self.invocations += 1
 
         if self.invocations > 1:

@@ -40,11 +40,13 @@ class SuggestedPostApprovalFailed(Object):
         price (:obj:`~pyrogram.types.SuggestedPostPrice`, *optional*):
             Expected price of the post.
     """
+
     def __init__(
-        self, *,
+        self,
+        *,
         suggested_post_message_id: int | None = None,
         suggested_post_message: types.Message | None = None,
-        price: types.SuggestedPostPrice | None = None
+        price: types.SuggestedPostPrice | None = None,
     ):
         super().__init__()
 
@@ -54,8 +56,7 @@ class SuggestedPostApprovalFailed(Object):
 
     @staticmethod
     async def _parse(
-        client: pyrogram.Client,
-        message: raw.types.MessageService
+        client: pyrogram.Client, message: raw.types.MessageService
     ) -> SuggestedPostApprovalFailed:
         action: raw.types.MessageActionSuggestedPostApproval = message.action
 
@@ -75,8 +76,7 @@ class SuggestedPostApprovalFailed(Object):
             if client.fetch_replies:
                 try:
                     suggested_post_message = await client.get_messages(
-                        chat_id=chat_id,
-                        message_ids=suggested_post_message_id
+                        chat_id=chat_id, message_ids=suggested_post_message_id
                     )
                 except MessageIdsEmpty:
                     pass

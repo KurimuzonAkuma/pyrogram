@@ -26,6 +26,7 @@ from pyrogram import enums, raw, types, utils
 
 log = logging.getLogger(__name__)
 
+
 class SendCachedMedia:
     async def send_cached_media(
         self: pyrogram.Client,
@@ -54,7 +55,6 @@ class SendCachedMedia:
             | types.ForceReply
             | None
         ) = None,
-
         reply_to_message_id: int | None = None,
         reply_to_chat_id: int | str | None = None,
         reply_to_story_id: int | None = None,
@@ -196,7 +196,7 @@ class SendCachedMedia:
                 quote=quote_text,
                 quote_parse_mode=parse_mode,
                 quote_entities=quote_entities,
-                quote_position=quote_offset
+                quote_position=quote_offset,
             )
 
         r = await self.invoke(
@@ -206,10 +206,7 @@ class SendCachedMedia:
                 silent=disable_notification or None,
                 invert_media=show_caption_above_media,
                 reply_to=await utils.get_reply_to(
-                    self,
-                    reply_parameters,
-                    message_thread_id,
-                    direct_messages_topic_id
+                    self, reply_parameters, message_thread_id, direct_messages_topic_id
                 ),
                 random_id=self.rnd_id(),
                 schedule_date=utils.datetime_to_timestamp(schedule_date),
@@ -218,10 +215,12 @@ class SendCachedMedia:
                 reply_markup=await reply_markup.write(self) if reply_markup else None,
                 effect=effect_id,
                 allow_paid_stars=paid_message_star_count,
-                suggested_post=suggested_post_parameters.write() if suggested_post_parameters else None,
-                **await utils.parse_text_entities(self, caption, parse_mode, caption_entities)
+                suggested_post=suggested_post_parameters.write()
+                if suggested_post_parameters
+                else None,
+                **await utils.parse_text_entities(self, caption, parse_mode, caption_entities),
             ),
-            business_connection_id=business_connection_id
+            business_connection_id=business_connection_id,
         )
 
         messages = await utils.parse_messages(client=self, messages=r)

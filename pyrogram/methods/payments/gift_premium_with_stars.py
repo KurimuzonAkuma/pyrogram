@@ -57,7 +57,9 @@ class GiftPremiumWithStars:
 
                 await app.gift_premium_with_stars(user_id=123, month_count=3)
         """
-        text, entities = (await utils.parse_text_entities(self, text, parse_mode, entities)).values()
+        text, entities = (
+            await utils.parse_text_entities(self, text, parse_mode, entities)
+        ).values()
         entities = entities or []
 
         invoice = raw.types.InputInvoicePremiumGiftStars(
@@ -66,14 +68,12 @@ class GiftPremiumWithStars:
             message=raw.types.TextWithEntities(
                 text=text,
                 entities=entities,
-            ) if text else None
+            )
+            if text
+            else None,
         )
 
-        form = await self.invoke(
-            raw.functions.payments.GetPaymentForm(
-                invoice=invoice
-            )
-        )
+        form = await self.invoke(raw.functions.payments.GetPaymentForm(invoice=invoice))
 
         if star_count is not None:
             if star_count < 0:
@@ -83,15 +83,12 @@ class GiftPremiumWithStars:
                 raise ValueError("Have not enough Telegram Stars.")
 
         r = await self.invoke(
-            raw.functions.payments.SendStarsForm(
-                form_id=form.form_id,
-                invoice=invoice
-            )
+            raw.functions.payments.SendStarsForm(form_id=form.form_id, invoice=invoice)
         )
 
         messages = await utils.parse_messages(
             client=self,
-            messages=r.updates if isinstance(r, raw.types.payments.PaymentResult) else r
+            messages=r.updates if isinstance(r, raw.types.payments.PaymentResult) else r,
         )
 
         return messages[0] if messages else None

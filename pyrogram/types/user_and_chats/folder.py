@@ -112,7 +112,7 @@ class Folder(Object):
         include_bots: bool | None = None,
         include_groups: bool | None = None,
         include_channels: bool | None = None,
-        raw: raw.base.DialogFilter | None = None
+        raw: raw.base.DialogFilter | None = None,
     ):
         super().__init__(client)
 
@@ -137,7 +137,9 @@ class Folder(Object):
         self.raw = raw
 
     @staticmethod
-    async def _parse(client: pyrogram.Client, folder: raw.base.DialogFilter, users, chats) -> Folder | None:
+    async def _parse(
+        client: pyrogram.Client, folder: raw.base.DialogFilter, users, chats
+    ) -> Folder | None:
         if not folder:
             return
 
@@ -179,7 +181,7 @@ class Folder(Object):
             include_groups=getattr(folder, "groups", None),
             include_channels=getattr(folder, "broadcasts", None),
             raw=folder,
-            client=client
+            client=client,
         )
 
     async def delete(self) -> bool:
@@ -219,7 +221,7 @@ class Folder(Object):
         include_non_contacts: bool | None = None,
         include_bots: bool | None = None,
         include_groups: bool | None = None,
-        include_channels: bool | None = None
+        include_channels: bool | None = None,
     ) -> bool:
         """Bound method *update_peers* of :obj:`~pyrogram.types.Folder`.
 
@@ -302,7 +304,9 @@ class Folder(Object):
             True on success.
         """
         if name:
-            name, entities = (await utils.parse_text_entities(self, name, parse_mode, entities)).values()
+            name, entities = (
+                await utils.parse_text_entities(self, name, parse_mode, entities)
+            ).values()
             entities = entities or []
 
         return await self._client.edit_folder(
@@ -313,9 +317,15 @@ class Folder(Object):
             animate_custom_emoji=animate_custom_emoji or self.animate_custom_emoji,
             icon=icon or self.icon,
             color=color or self.color,
-            pinned_chats=[i.id for i in self.included_chats or []] if pinned_chats is None else pinned_chats,
-            included_chats=[i.id for i in self.included_chats or []] if included_chats is None else included_chats,
-            excluded_chats=[i.id for i in self.excluded_chats or []] if excluded_chats is None else excluded_chats,
+            pinned_chats=[i.id for i in self.included_chats or []]
+            if pinned_chats is None
+            else pinned_chats,
+            included_chats=[i.id for i in self.included_chats or []]
+            if included_chats is None
+            else included_chats,
+            excluded_chats=[i.id for i in self.excluded_chats or []]
+            if excluded_chats is None
+            else excluded_chats,
             exclude_muted=exclude_muted or self.exclude_muted,
             exclude_read=exclude_read or self.exclude_read,
             exclude_archived=exclude_archived or self.exclude_archived,
@@ -323,7 +333,7 @@ class Folder(Object):
             include_non_contacts=include_non_contacts or self.include_non_contacts,
             include_bots=include_bots or self.include_bots,
             include_groups=include_groups or self.include_groups,
-            include_channels=include_channels or self.include_channels
+            include_channels=include_channels or self.include_channels,
         )
 
     async def include_chat(self, chat_id: int | str) -> bool:
@@ -419,7 +429,7 @@ class Folder(Object):
         """
         return await self.edit(
             included_chats=[i.id for i in self.included_chats or []] + [chat_id],
-            pinned_chats=[i.id for i in self.pinned_chats or []] + [chat_id]
+            pinned_chats=[i.id for i in self.pinned_chats or []] + [chat_id],
         )
 
     async def remove_chat(self, chat_id: int | str) -> bool:
@@ -447,9 +457,8 @@ class Folder(Object):
         return await self.edit(
             pinned_chats=[i.id for i in self.pinned_chats or [] if peer_id != i.id],
             included_chats=[i.id for i in self.included_chats or [] if peer_id != i.id],
-            excluded_chats=[i.id for i in self.excluded_chats or [] if peer_id != i.id]
+            excluded_chats=[i.id for i in self.excluded_chats or [] if peer_id != i.id],
         )
-
 
     async def update_color(self, color: enums.FolderColor) -> bool:
         """Bound method *update_color* of :obj:`~pyrogram.types.Folder`.
@@ -476,17 +485,11 @@ class Folder(Object):
         Returns:
             True on success.
         """
-        return await self.edit(
-            color=color
-        )
+        return await self.edit(color=color)
 
-    async def create_invite_link(self, name: (
-        str
-        | None
-    ) = None, chat_ids: (
-        list[int | str]
-        | None
-    ) = None) -> types.FolderInviteLink:
+    async def create_invite_link(
+        self, name: (str | None) = None, chat_ids: (list[int | str] | None) = None
+    ) -> types.FolderInviteLink:
         """Bound method *create_invite_link* of :obj:`~pyrogram.types.Folder`.
 
         Use as a shortcut for:
@@ -507,7 +510,5 @@ class Folder(Object):
             chat_ids = [i.id for i in self.included_chats or []]
 
         return await self._client.create_folder_invite_link(
-            chat_folder_id=self.id,
-            name=name,
-            chat_ids=chat_ids
+            chat_folder_id=self.id, name=name, chat_ids=chat_ids
         )

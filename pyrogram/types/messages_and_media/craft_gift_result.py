@@ -44,10 +44,7 @@ class CraftGiftResultSuccess(CraftGiftResult):
             The created gift.
     """
 
-    def __init__(
-        self,
-        gift: types.Gift
-    ):
+    def __init__(self, gift: types.Gift):
         super().__init__()
 
         self.gift = gift

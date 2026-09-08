@@ -68,7 +68,7 @@ class DeleteDirectMessagesChatTopicHistory:
                 peer=await self.resolve_peer(topic_id),
                 max_id=max_id,
                 min_date=utils.datetime_to_timestamp(min_date),
-                max_date=utils.datetime_to_timestamp(max_date)
+                max_date=utils.datetime_to_timestamp(max_date),
             )
         )
 

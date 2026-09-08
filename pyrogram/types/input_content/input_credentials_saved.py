@@ -34,11 +34,8 @@ class InputCredentialsSaved(InputCredentials):
         password (``str``):
             Your Two-Step Verification password.
     """
-    def __init__(
-        self,
-        saved_credentials_id: str,
-        password: str
-    ):
+
+    def __init__(self, saved_credentials_id: str, password: str):
         super().__init__()
 
         self.saved_credentials_id = saved_credentials_id
@@ -48,14 +45,12 @@ class InputCredentialsSaved(InputCredentials):
         r = await client.invoke(
             raw.functions.account.GetTmpPassword(
                 password=utils.compute_password_check(
-                    await client.invoke(raw.functions.account.GetPassword()),
-                    self.password
+                    await client.invoke(raw.functions.account.GetPassword()), self.password
                 ),
-                period=60
+                period=60,
             )
         )
 
         return raw.types.InputPaymentCredentialsSaved(
-            id=self.saved_credentials_id,
-            tmp_password=r.tmp_password
+            id=self.saved_credentials_id, tmp_password=r.tmp_password
         )

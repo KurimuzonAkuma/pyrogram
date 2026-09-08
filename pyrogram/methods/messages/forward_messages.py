@@ -43,7 +43,7 @@ class ForwardMessages:
         allow_paid_broadcast: bool | None = None,
         video_start_timestamp: int | None = None,
         reply_parameters: types.ReplyParameters | None = None,
-        paid_message_star_count: int | None = None
+        paid_message_star_count: int | None = None,
     ) -> types.Message | None: ...
 
     @overload
@@ -62,7 +62,7 @@ class ForwardMessages:
         allow_paid_broadcast: bool | None = None,
         video_start_timestamp: int | None = None,
         reply_parameters: types.ReplyParameters | None = None,
-        paid_message_star_count: int | None = None
+        paid_message_star_count: int | None = None,
     ) -> list[types.Message]: ...
 
     async def forward_messages(
@@ -80,7 +80,7 @@ class ForwardMessages:
         allow_paid_broadcast: bool | None = None,
         video_start_timestamp: int | None = None,
         reply_parameters: types.ReplyParameters | None = None,
-        paid_message_star_count: int | None = None
+        paid_message_star_count: int | None = None,
     ) -> types.Message | list[types.Message] | None:
         """Forward messages of any kind.
 
@@ -169,13 +169,9 @@ class ForwardMessages:
                 noforwards=protect_content,
                 allow_paid_floodskip=allow_paid_broadcast,
                 top_msg_id=message_thread_id,
-                reply_to=await utils.get_reply_to(
-                    self,
-                    reply_parameters,
-                    message_thread_id
-                ),
+                reply_to=await utils.get_reply_to(self, reply_parameters, message_thread_id),
                 video_timestamp=video_start_timestamp,
-                allow_paid_stars=paid_message_star_count
+                allow_paid_stars=paid_message_star_count,
             )
         )
 

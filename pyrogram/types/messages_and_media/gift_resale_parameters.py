@@ -36,12 +36,13 @@ class GiftResaleParameters(Object):
         toncoin_only (``bool``, *optional*):
             True, if the gift can be bought only using Toncoins.
     """
+
     def __init__(
         self,
         *,
         star_count: int | None = None,
         toncoin_cent_count: int | None = None,
-        toncoin_only: bool | None = None
+        toncoin_only: bool | None = None,
     ):
         super().__init__()
 
@@ -50,7 +51,9 @@ class GiftResaleParameters(Object):
         self.toncoin_only = toncoin_only
 
     @staticmethod
-    def _parse(resell_amount: list[raw.base.StarsAmount], ton_only: bool) -> GiftResaleParameters | None:
+    def _parse(
+        resell_amount: list[raw.base.StarsAmount], ton_only: bool
+    ) -> GiftResaleParameters | None:
         if not resell_amount:
             return None
 
@@ -64,7 +67,5 @@ class GiftResaleParameters(Object):
                 toncoin_cent_count = currency.amount
 
         return GiftResaleParameters(
-            star_count=star_count,
-            toncoin_cent_count=toncoin_cent_count,
-            toncoin_only=ton_only
+            star_count=star_count, toncoin_cent_count=toncoin_cent_count, toncoin_only=ton_only
         )

@@ -69,8 +69,10 @@ class OnError:
 
                 func.handlers.append(
                     (
-                        pyrogram.handlers.ErrorHandler(func, arguments.exceptions, arguments.filters),
-                        arguments.group
+                        pyrogram.handlers.ErrorHandler(
+                            func, arguments.exceptions, arguments.filters
+                        ),
+                        arguments.group,
                     )
                 )
 

@@ -41,7 +41,7 @@ from pyrogram.errors import (
     Timeout,
     Timeout503,
     UnknownError,
-    UnknownError400
+    UnknownError400,
 )
 from pyrogram.errors.exceptions.all import exceptions
 from tests.unit.errors import raise_it
@@ -50,19 +50,22 @@ from tests.unit.errors import raise_it
 @pytest.mark.parametrize(
     ("code", "message", "error_type", "category"),
     [
-        pytest.param(400, "CHAT_WRITE_FORBIDDEN", ChatWriteForbidden, BadRequest, id="400-write-forbidden"),
-        pytest.param(403, "CHAT_WRITE_FORBIDDEN", ChatWriteForbidden403, Forbidden, id="403-write-forbidden"),
+        pytest.param(
+            400, "CHAT_WRITE_FORBIDDEN", ChatWriteForbidden, BadRequest, id="400-write-forbidden"
+        ),
+        pytest.param(
+            403, "CHAT_WRITE_FORBIDDEN", ChatWriteForbidden403, Forbidden, id="403-write-forbidden"
+        ),
         pytest.param(400, "CHANNEL_PRIVATE", ChannelPrivate, BadRequest, id="400-channel-private"),
-        pytest.param(406, "CHANNEL_PRIVATE", ChannelPrivate406, NotAcceptable, id="406-channel-private"),
+        pytest.param(
+            406, "CHANNEL_PRIVATE", ChannelPrivate406, NotAcceptable, id="406-channel-private"
+        ),
         pytest.param(500, "TIMEOUT", Timeout, InternalServerError, id="500-timeout"),
-        pytest.param(-503, "Timeout", Timeout503, ServiceUnavailable, id="503-timeout")
-    ]
+        pytest.param(-503, "Timeout", Timeout503, ServiceUnavailable, id="503-timeout"),
+    ],
 )
 def test_an_error_under_two_codes_is_caught_by_the_category_of_the_one_it_came_from(
-    code: int,
-    message: str,
-    error_type: type[RPCError],
-    category: type[RPCError]
+    code: int, message: str, error_type: type[RPCError], category: type[RPCError]
 ) -> None:
     with pytest.raises(error_type) as raised:
         raise_it(code, message=message)
@@ -81,13 +84,11 @@ def test_an_error_under_two_codes_is_caught_by_the_category_of_the_one_it_came_f
     [
         pytest.param(403, "CHAT_WRITE_FORBIDDEN", ChatWriteForbidden, id="write-forbidden"),
         pytest.param(406, "CHANNEL_PRIVATE", ChannelPrivate, id="channel-private"),
-        pytest.param(-503, "Timeout", Timeout, id="timeout")
-    ]
+        pytest.param(-503, "Timeout", Timeout, id="timeout"),
+    ],
 )
 def test_the_name_the_two_codes_share_still_catches_both(
-    code: int,
-    message: str,
-    shared_type: type[RPCError]
+    code: int, message: str, shared_type: type[RPCError]
 ) -> None:
     with pytest.raises(shared_type):
         raise_it(code, message=message)
@@ -108,8 +109,7 @@ def test_two_ids_under_one_code_keep_their_own_message() -> None:
 
 
 def test_an_error_named_after_a_hand_written_one_is_still_a_bad_request(
-    tmp_path: Path,
-    monkeypatch: pytest.MonkeyPatch
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     monkeypatch.chdir(tmp_path)
 

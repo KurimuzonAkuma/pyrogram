@@ -24,9 +24,7 @@ from pyrogram import raw
 
 class RefundStarPayment:
     async def refund_star_payment(
-        self: pyrogram.Client,
-        user_id: int | str,
-        telegram_payment_charge_id: str
+        self: pyrogram.Client, user_id: int | str, telegram_payment_charge_id: str
     ) -> bool:
         """Refunds a successful payment in `Telegram Stars <https://t.me/BotNews/90>`_.
 
@@ -46,9 +44,8 @@ class RefundStarPayment:
 
         r = await self.invoke(
             raw.functions.payments.RefundStarsCharge(
-                user_id=await self.resolve_peer(user_id),
-                charge_id=telegram_payment_charge_id
+                user_id=await self.resolve_peer(user_id), charge_id=telegram_payment_charge_id
             )
         )
-        
+
         return bool(r)

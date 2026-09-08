@@ -67,7 +67,9 @@ class SetGiftResalePrice:
         await self.invoke(
             raw.functions.payments.UpdateStarGiftPrice(
                 stargift=await utils.get_input_stargift(self, owned_gift_id),
-                resell_amount=raw.types.StarsAmount(amount=0, nanos=0) if price is None else price.write()
+                resell_amount=raw.types.StarsAmount(amount=0, nanos=0)
+                if price is None
+                else price.write(),
             )
         )
 

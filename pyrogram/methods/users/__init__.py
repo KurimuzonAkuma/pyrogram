@@ -56,6 +56,6 @@ class Users(
     UpdateProfile,
     UpdateStatus,
     GetDefaultEmojiStatuses,
-    SetEmojiStatus
+    SetEmojiStatus,
 ):
     pass

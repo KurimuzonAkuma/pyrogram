@@ -27,9 +27,7 @@ from pyrogram import types
 
 class PinChatStories:
     async def pin_chat_stories(
-        self: pyrogram.Client,
-        chat_id: int | str,
-        stories_ids: int | Iterable[int]
+        self: pyrogram.Client, chat_id: int | str, stories_ids: int | Iterable[int]
     ) -> list[int]:
         """Pin one or more stories in a chat by using stories identifiers.
 
@@ -58,9 +56,7 @@ class PinChatStories:
 
         r = await self.invoke(
             raw.functions.stories.TogglePinned(
-                peer=await self.resolve_peer(chat_id),
-                id=stories_ids,
-                pinned=True
+                peer=await self.resolve_peer(chat_id), id=stories_ids, pinned=True
             )
         )
 

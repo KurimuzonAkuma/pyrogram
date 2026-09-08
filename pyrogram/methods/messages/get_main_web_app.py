@@ -28,7 +28,7 @@ class GetMainWebApp:
         chat_id: int | str,
         bot_user_id: int | str,
         start_parameter: str = "",
-        platform: enums.ClientPlatform | None = None
+        platform: enums.ClientPlatform | None = None,
     ) -> str:
         """Returns information needed to open the main Web App of a bot.
 
@@ -64,7 +64,6 @@ class GetMainWebApp:
                 bot=await self.resolve_peer(bot_user_id),
                 platform=platform.value,
                 start_param=start_parameter,
-
             )
         )
 

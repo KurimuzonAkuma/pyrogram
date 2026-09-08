@@ -31,6 +31,7 @@ class InputInvoice(Object):
     - :obj:`~pyrogram.types.InputInvoiceMessage`
     - :obj:`~pyrogram.types.InputInvoiceName`
     """
+
     def __init__(self):
         super().__init__()
 

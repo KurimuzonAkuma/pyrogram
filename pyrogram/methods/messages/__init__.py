@@ -198,6 +198,6 @@ class Messages(
     TranslateMessageText,
     TranslateText,
     GetCustomEmojiStickers,
-    GetDirectMessagesChatTopicHistory
+    GetDirectMessagesChatTopicHistory,
 ):
     pass

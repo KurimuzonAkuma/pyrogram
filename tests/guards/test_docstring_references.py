@@ -36,9 +36,16 @@ from tests.guards.name_resolution import REPOSITORY_ROOT, hand_written_files, re
 # `:obj:`Message`` and `:py:obj:`Message`` are the same role, the second one naming the
 #  domain the first one inherits.
 #  https://www.sphinx-doc.org/en/master/usage/domains/python.html#cross-referencing-python-objects
-_CROSS_REFERENCE: Final[Pattern[str]] = re.compile(r":(?:py:)?(?:obj|class|meth|func|attr|data|mod|exc):`([^`]+)`")
+_CROSS_REFERENCE: Final[Pattern[str]] = re.compile(
+    r":(?:py:)?(?:obj|class|meth|func|attr|data|mod|exc):`([^`]+)`"
+)
 
-_DOCUMENTED_NODES: Final[tuple[type, ...]] = (ast.Module, ast.ClassDef, ast.FunctionDef, ast.AsyncFunctionDef)
+_DOCUMENTED_NODES: Final[tuple[type, ...]] = (
+    ast.Module,
+    ast.ClassDef,
+    ast.FunctionDef,
+    ast.AsyncFunctionDef,
+)
 
 # A label is free text as often as it is a name, and prose is a suffix of nothing: a label
 #  reading "send a message" over `pyrogram.Client.send_message` is correct Sphinx.
@@ -93,7 +100,7 @@ def label_agrees_with_target(label: str, *, target: str) -> bool:
 
     label_parts = components(label)
 
-    return label_parts == components(target)[-len(label_parts):]
+    return label_parts == components(target)[-len(label_parts) :]
 
 
 def docstrings_of(path: pathlib.Path) -> Iterator[tuple[str, int]]:
@@ -187,7 +194,9 @@ def test_a_label_is_checked_only_when_it_is_written_as_a_path() -> None:
 
 def test_a_reference_carries_the_label_it_was_written_with() -> None:
     """The rule above passes over everything if the label stops being read."""
-    assert list(references_in(":obj:`~pyrogram.types.Message`")) == [(None, "pyrogram.types.Message")]
+    assert list(references_in(":obj:`~pyrogram.types.Message`")) == [
+        (None, "pyrogram.types.Message")
+    ]
     assert list(references_in(":meth:`filters.create() <pyrogram.filters.create>`")) == [
         ("filters.create()", "pyrogram.filters.create")
     ]

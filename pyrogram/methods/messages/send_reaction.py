@@ -30,7 +30,7 @@ class SendReaction:
         emoji: int | str | list[int | str] | None = None,
         story_id: int | None = None,
         big: bool = False,
-        business_connection_id: str | None = None
+        business_connection_id: str | None = None,
     ) -> bool:
         """Send a reaction to a message or story.
 
@@ -82,12 +82,16 @@ class SendReaction:
         reactions: list[raw.types.ReactionCustomEmoji | raw.types.ReactionEmoji] | None
 
         if isinstance(emoji, list):
-            reactions = [
+            reactions = (
+                [
                     raw.types.ReactionCustomEmoji(document_id=i)
                     if isinstance(i, int)
                     else raw.types.ReactionEmoji(emoticon=i)
                     for i in emoji
-            ] if emoji else None
+                ]
+                if emoji
+                else None
+            )
         else:
             if isinstance(emoji, int):
                 reactions = [raw.types.ReactionCustomEmoji(document_id=emoji)]
@@ -105,7 +109,7 @@ class SendReaction:
                 peer=await self.resolve_peer(chat_id),
                 msg_id=message_id,
                 reaction=reactions,
-                big=big
+                big=big,
             )
 
         await self.invoke(rpc, business_connection_id=business_connection_id)

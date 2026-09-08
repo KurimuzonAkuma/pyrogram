@@ -31,6 +31,7 @@ class InputCredentialsGooglePay(InputCredentials):
         data (``str``):
             JSON-encoded data with the credential identifier.
     """
+
     def __init__(
         self,
         data: str,

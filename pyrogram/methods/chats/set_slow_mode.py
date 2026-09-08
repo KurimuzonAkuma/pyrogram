@@ -23,11 +23,7 @@ from pyrogram import raw
 
 
 class SetSlowMode:
-    async def set_slow_mode(
-        self: pyrogram.Client,
-        chat_id: int | str,
-        seconds: int | None
-    ) -> bool:
+    async def set_slow_mode(self: pyrogram.Client, chat_id: int | str, seconds: int | None) -> bool:
         """Set the slow mode interval for a chat.
 
         .. include:: /_includes/usable-by/users.rst
@@ -55,8 +51,7 @@ class SetSlowMode:
 
         await self.invoke(
             raw.functions.channels.ToggleSlowMode(
-                channel=await self.resolve_peer(chat_id),
-                seconds=seconds or 0
+                channel=await self.resolve_peer(chat_id), seconds=seconds or 0
             )
         )
 

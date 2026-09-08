@@ -100,7 +100,7 @@ class ForumTopic(Object):
         is_pinned: bool | None = None,
         is_short: bool | None = None,
         is_hidden: bool | None = None,
-        is_deleted: bool | None = None
+        is_deleted: bool | None = None,
     ):
         super().__init__()
 
@@ -123,7 +123,13 @@ class ForumTopic(Object):
         self.is_deleted = is_deleted
 
     @staticmethod
-    async def _parse(client: pyrogram.Client, forum_topic: raw.types.ForumTopic, messages: dict = {},  users: dict = {}, chats: dict = {}) -> ForumTopic:
+    async def _parse(
+        client: pyrogram.Client,
+        forum_topic: raw.types.ForumTopic,
+        messages: dict = {},
+        users: dict = {},
+        chats: dict = {},
+    ) -> ForumTopic:
         if not forum_topic:
             return None
 
@@ -146,7 +152,9 @@ class ForumTopic(Object):
             id=forum_topic.id,
             title=forum_topic.title,
             date=utils.timestamp_to_datetime(forum_topic.date),
-            icon_color=format(forum_topic.icon_color, "x") if getattr(forum_topic, "icon_color", None) else None,
+            icon_color=format(forum_topic.icon_color, "x")
+            if getattr(forum_topic, "icon_color", None)
+            else None,
             icon_emoji_id=getattr(forum_topic, "icon_emoji_id", None),
             creator=creator,
             top_message=messages.get(getattr(forum_topic, "top_message", None)),

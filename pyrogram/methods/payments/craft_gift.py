@@ -24,10 +24,7 @@ from pyrogram import utils
 
 
 class CraftGift:
-    async def craft_gift(
-        self: pyrogram.Client,
-        owned_gift_ids: list[str]
-    ) -> types.CraftGiftResult:
+    async def craft_gift(self: pyrogram.Client, owned_gift_ids: list[str]) -> types.CraftGiftResult:
         """Crafts a new gift from other gifts that will be permanently lost.
 
         .. include:: /_includes/usable-by/users.rst
@@ -41,7 +38,10 @@ class CraftGift:
         """
         r = await self.invoke(
             raw.functions.payments.CraftStarGift(
-                stargift=[await utils.get_input_stargift(self, owned_gift_id) for owned_gift_id in owned_gift_ids],
+                stargift=[
+                    await utils.get_input_stargift(self, owned_gift_id)
+                    for owned_gift_id in owned_gift_ids
+                ],
             )
         )
 
@@ -59,9 +59,7 @@ class CraftGift:
                     users,
                     chats,
                     business_connection_id=getattr(u, "connection_id", None),
-                    raw_reply_to_message=getattr(u, "reply_to_message", None)
+                    raw_reply_to_message=getattr(u, "reply_to_message", None),
                 )
 
-                return types.CraftGiftResultSuccess(
-                    gift=message.gift
-                )
+                return types.CraftGiftResultSuccess(gift=message.gift)

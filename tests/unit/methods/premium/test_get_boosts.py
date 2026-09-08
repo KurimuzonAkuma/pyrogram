@@ -30,9 +30,7 @@ class FakeClient(GetBoosts):
     def __init__(self, my_boosts: list[raw.types.MyBoost]) -> None:
         self.my_boosts = my_boosts
 
-    async def invoke(
-        self, query: raw.functions.premium.GetMyBoosts
-    ) -> raw.types.premium.MyBoosts:
+    async def invoke(self, query: raw.functions.premium.GetMyBoosts) -> raw.types.premium.MyBoosts:
         return raw.types.premium.MyBoosts(
             my_boosts=self.my_boosts,
             chats=[],

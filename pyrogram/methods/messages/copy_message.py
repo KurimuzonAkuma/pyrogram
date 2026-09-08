@@ -59,7 +59,6 @@ class CopyMessage:
             | None
             | type[object]
         ) = object,
-
         reply_to_chat_id: int | str | None = None,
         reply_to_message_id: int | None = None,
         quote_text: str | None = None,

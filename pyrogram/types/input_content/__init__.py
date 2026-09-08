@@ -117,5 +117,5 @@ __all__ = [
     "InputRichMessage",
     "InputRichMessageContent",
     "InputTextMessageContent",
-    "InputVenueMessageContent"
+    "InputVenueMessageContent",
 ]

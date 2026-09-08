@@ -24,9 +24,7 @@ from pyrogram import raw
 
 class GetChatInviteLinkJoinersCount:
     async def get_chat_invite_link_joiners_count(
-        self: pyrogram.Client,
-        chat_id: int | str,
-        invite_link: str
+        self: pyrogram.Client, chat_id: int | str, invite_link: str
     ) -> int:
         """Get the count of the members who joined the chat with the invite link.
 
@@ -49,7 +47,7 @@ class GetChatInviteLinkJoinersCount:
                 link=invite_link,
                 limit=1,
                 offset_date=0,
-                offset_user=raw.types.InputUserEmpty()
+                offset_user=raw.types.InputUserEmpty(),
             )
         )
 

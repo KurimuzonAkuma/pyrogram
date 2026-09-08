@@ -24,9 +24,7 @@ from pyrogram import raw
 
 class SetChatUsername:
     async def set_chat_username(
-        self: pyrogram.Client,
-        chat_id: int | str,
-        username: str | None
+        self: pyrogram.Client, chat_id: int | str, username: str | None
     ) -> bool:
         """Set a channel or a supergroup username.
 
@@ -58,10 +56,7 @@ class SetChatUsername:
         if isinstance(peer, raw.types.InputPeerChannel):
             return bool(
                 await self.invoke(
-                    raw.functions.channels.UpdateUsername(
-                        channel=peer,
-                        username=username or ""
-                    )
+                    raw.functions.channels.UpdateUsername(channel=peer, username=username or "")
                 )
             )
         else:

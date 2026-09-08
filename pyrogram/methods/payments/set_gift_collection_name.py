@@ -24,10 +24,7 @@ from pyrogram import raw, types
 
 class SetGiftCollectionName:
     async def set_gift_collection_name(
-        self: pyrogram.Client,
-        owner_id: int | str,
-        collection_id: int,
-        name: str
+        self: pyrogram.Client, owner_id: int | str, collection_id: int, name: str
     ) -> types.GiftCollection:
         """Changes name of a gift collection.
 
@@ -54,9 +51,7 @@ class SetGiftCollectionName:
         """
         r = await self.invoke(
             raw.functions.payments.UpdateStarGiftCollection(
-                peer=await self.resolve_peer(owner_id),
-                collection_id=collection_id,
-                title=name
+                peer=await self.resolve_peer(owner_id), collection_id=collection_id, title=name
             )
         )
 

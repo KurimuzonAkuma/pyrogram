@@ -101,4 +101,3 @@ class SwitchInlineQueryChosenChat(Object):
             allow_group_chats=allow_group_chats,
             allow_channel_chats=allow_channel_chats,
         )
-

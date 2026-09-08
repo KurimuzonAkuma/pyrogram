@@ -55,7 +55,8 @@ class KeyboardButtonRequestUsers(Object):
     """
 
     def __init__(
-        self, *,
+        self,
+        *,
         button_id: int,
         user_is_bot: bool | None = None,
         user_is_premium: bool | None = None,

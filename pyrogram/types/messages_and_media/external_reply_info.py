@@ -246,9 +246,7 @@ class ExternalReplyInfo(Object):
                     attributes = {type(i): i for i in doc.attributes}
 
                     file_name = getattr(
-                        attributes.get(
-                            raw.types.DocumentAttributeFilename, None
-                        ), "file_name", None
+                        attributes.get(raw.types.DocumentAttributeFilename, None), "file_name", None
                     )
 
                     if raw.types.DocumentAttributeAnimated in attributes:
@@ -263,17 +261,30 @@ class ExternalReplyInfo(Object):
                         video_attributes = attributes[raw.types.DocumentAttributeVideo]
 
                         if video_attributes.round_message:
-                            video_note = types.VideoNote._parse(client, doc, video_attributes, media.ttl_seconds)
+                            video_note = types.VideoNote._parse(
+                                client, doc, video_attributes, media.ttl_seconds
+                            )
                             media_type = enums.MessageMediaType.VIDEO_NOTE
                         else:
-                            video = types.Video._parse(client, doc, video_attributes, file_name, media.ttl_seconds, media.video_cover, media.video_timestamp, media.alt_documents)
+                            video = types.Video._parse(
+                                client,
+                                doc,
+                                video_attributes,
+                                file_name,
+                                media.ttl_seconds,
+                                media.video_cover,
+                                media.video_timestamp,
+                                media.alt_documents,
+                            )
                             media_type = enums.MessageMediaType.VIDEO
                             has_media_spoiler = media.spoiler
                     elif raw.types.DocumentAttributeAudio in attributes:
                         audio_attributes = attributes[raw.types.DocumentAttributeAudio]
 
                         if audio_attributes.voice:
-                            voice = types.Voice._parse(client, doc, audio_attributes, media.ttl_seconds)
+                            voice = types.Voice._parse(
+                                client, doc, audio_attributes, media.ttl_seconds
+                            )
                             media_type = enums.MessageMediaType.VOICE
                         else:
                             audio = types.Audio._parse(client, doc, audio_attributes, file_name)
@@ -330,5 +341,5 @@ class ExternalReplyInfo(Object):
             location=location,
             poll=poll,
             venue=venue,
-            checklist=checklist
+            checklist=checklist,
         )

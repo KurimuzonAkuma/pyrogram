@@ -187,7 +187,7 @@ class HTML:
 
         return {
             "message": utils.remove_surrogates(parser.text),
-            "entities": sorted(entities, key=lambda e: e.offset) or None
+            "entities": sorted(entities, key=lambda e: e.offset) or None,
         }
 
     @staticmethod
@@ -217,7 +217,7 @@ class HTML:
             elif entity_type == MessageEntityType.BLOCKQUOTE:
                 name = entity_type.name.lower()
                 expandable = getattr(entity, "expandable", False)
-                start_tag = f'<{name}{" expandable" if expandable else ""}>'
+                start_tag = f"<{name}{' expandable' if expandable else ''}>"
                 end_tag = f"</{name}>"
             elif entity_type in (
                 MessageEntityType.CODE,
@@ -288,7 +288,12 @@ class HTML:
             last_offset = entities_offsets[-1][1]
             # no need to sort, but still add entities starting from the end
             for entity, offset in reversed(entities_offsets):
-                text = text[:offset] + entity + html.escape(text[offset:last_offset]) + text[last_offset:]
+                text = (
+                    text[:offset]
+                    + entity
+                    + html.escape(text[offset:last_offset])
+                    + text[last_offset:]
+                )
                 last_offset = offset
 
         return utils.remove_surrogates(text)

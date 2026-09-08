@@ -188,7 +188,9 @@ class Poll(Object, Update):
                     text=await types.FormattedText._parse(client, answer.text),
                     media=await types.MessageContent._parse(
                         client, answer.media, users=users, chats=chats
-                    ) if answer.media else None,
+                    )
+                    if answer.media
+                    else None,
                     voter_count=voter_count,
                     vote_percentage=vote_percentages[i],
                     recent_voters=types.List(
@@ -233,9 +235,8 @@ class Poll(Object, Update):
             explanation=await types.FormattedText._parse(
                 client,
                 raw.types.TextWithEntities(
-                    text=poll_results.solution,
-                    entities=poll_results.solution_entities
-                )
+                    text=poll_results.solution, entities=poll_results.solution_entities
+                ),
             )
             if poll_results.solution
             else None,
@@ -255,7 +256,9 @@ class Poll(Object, Update):
                 media_poll.attached_media,
                 users=users,
                 chats=chats,
-            ) if getattr(media_poll, "attached_media", None) else None,
+            )
+            if getattr(media_poll, "attached_media", None)
+            else None,
             client=client,
         )
 
@@ -284,7 +287,9 @@ class Poll(Object, Update):
 
                 options.append(
                     types.PollOption(
-                        persistent_id=result.option.decode(), voter_count=result.voters, client=client
+                        persistent_id=result.option.decode(),
+                        voter_count=result.voters,
+                        client=client,
                     )
                 )
 

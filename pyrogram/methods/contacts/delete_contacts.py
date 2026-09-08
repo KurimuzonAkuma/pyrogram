@@ -26,20 +26,15 @@ from pyrogram import raw, types
 
 class DeleteContacts:
     @overload
-    async def delete_contacts(
-        self: pyrogram.Client,
-        user_ids: int | str
-    ) -> types.User | None: ...
+    async def delete_contacts(self: pyrogram.Client, user_ids: int | str) -> types.User | None: ...
 
     @overload
     async def delete_contacts(
-        self: pyrogram.Client,
-        user_ids: list[int | str]
+        self: pyrogram.Client, user_ids: list[int | str]
     ) -> list[types.User] | None: ...
 
     async def delete_contacts(
-        self: pyrogram.Client,
-        user_ids: int | str | list[int | str]
+        self: pyrogram.Client, user_ids: int | str | list[int | str]
     ) -> types.User | list[types.User] | None:
         """Delete contacts from your Telegram address book.
 
@@ -67,9 +62,7 @@ class DeleteContacts:
             user_ids = [user_ids]
 
         r = await self.invoke(
-            raw.functions.contacts.DeleteContacts(
-                id=[await self.resolve_peer(i) for i in user_ids]
-            )
+            raw.functions.contacts.DeleteContacts(id=[await self.resolve_peer(i) for i in user_ids])
         )
 
         if not r.updates:

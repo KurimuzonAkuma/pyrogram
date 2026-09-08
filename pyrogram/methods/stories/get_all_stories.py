@@ -62,11 +62,7 @@ class GetAllStories:
         """
 
         r = await self.invoke(
-            raw.functions.stories.GetAllStories(
-                next=next,
-                hidden=hidden,
-                state=state
-            )
+            raw.functions.stories.GetAllStories(next=next, hidden=hidden, state=state)
         )
 
         users = {i.id: i for i in r.users}
@@ -74,10 +70,4 @@ class GetAllStories:
 
         for peer_story in r.peer_stories:
             for story in peer_story.stories:
-                yield await types.Story._parse(
-                    self,
-                    story,
-                    peer_story.peer,
-                    users,
-                    chats
-                )
+                yield await types.Story._parse(self, story, peer_story.peer, users, chats)

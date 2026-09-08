@@ -59,16 +59,16 @@ async def get_chunk(
             limit=limit,
             max_id=max_id,
             min_id=min_id,
-            hash=0
+            hash=0,
         ),
-        sleep_threshold=60
+        sleep_threshold=60,
     )
 
     messages = await utils.parse_messages(client, history, replies=0)
 
     if reverse:
         messages.reverse()
-        
+
     return messages
 
 
@@ -134,7 +134,7 @@ class GetChatHistory:
         """
         if offset_id is not None:
             log.warning(
-                "`offset_id` is deprecated and will be removed in future updates. " \
+                "`offset_id` is deprecated and will be removed in future updates. "
                 "Use `min_id` or `max_id` instead."
             )
 
@@ -161,9 +161,9 @@ class GetChatHistory:
                 from_date=offset_date,
                 max_id=max_id,
                 min_id=min_id,
-                reverse=reverse
+                reverse=reverse,
             )
-            
+
             if not messages:
                 return
 
@@ -172,6 +172,6 @@ class GetChatHistory:
                 yield message
 
                 current += 1
-                
+
                 if current >= total:
                     return

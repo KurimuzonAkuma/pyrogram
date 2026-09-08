@@ -39,10 +39,7 @@ class GetManagedBotToken:
             ``str``: On success, bot token is returned.
         """
         r = await self.invoke(
-            raw.functions.bots.ExportBotToken(
-                bot=await self.resolve_peer(user_id),
-                revoke=False
-            )
+            raw.functions.bots.ExportBotToken(bot=await self.resolve_peer(user_id), revoke=False)
         )
 
         return r.token

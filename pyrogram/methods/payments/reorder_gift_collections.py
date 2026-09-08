@@ -24,9 +24,7 @@ from pyrogram import raw, types
 
 class ReorderGiftCollections:
     async def reorder_gift_collections(
-        self: pyrogram.Client,
-        owner_id: int | str,
-        collection_ids: list[int]
+        self: pyrogram.Client, owner_id: int | str, collection_ids: list[int]
     ) -> types.GiftCollection:
         """Changes order of gift collections.
 
@@ -50,8 +48,7 @@ class ReorderGiftCollections:
         """
         r = await self.invoke(
             raw.functions.payments.ReorderStarGiftCollections(
-                peer=await self.resolve_peer(owner_id),
-                order=collection_ids
+                peer=await self.resolve_peer(owner_id), order=collection_ids
             )
         )
 

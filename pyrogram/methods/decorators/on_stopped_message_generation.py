@@ -50,7 +50,9 @@ class OnStoppedMessageGeneration:
 
         def decorator(func: HandlerType) -> HandlerType:
             if isinstance(self, pyrogram.Client):
-                self.add_handler(pyrogram.handlers.StoppedMessageGenerationHandler(func, filters), group)
+                self.add_handler(
+                    pyrogram.handlers.StoppedMessageGenerationHandler(func, filters), group
+                )
             elif isinstance(self, Filter) or self is None:
                 if not hasattr(func, "handlers"):
                     func.handlers = []
@@ -60,7 +62,7 @@ class OnStoppedMessageGeneration:
                 func.handlers.append(
                     (
                         pyrogram.handlers.StoppedMessageGenerationHandler(func, arguments.filters),
-                        arguments.group
+                        arguments.group,
                     )
                 )
 

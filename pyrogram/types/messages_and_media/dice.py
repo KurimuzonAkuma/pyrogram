@@ -42,8 +42,4 @@ class Dice(Object):
 
     @staticmethod
     def _parse(client, dice: raw.types.MessageMediaDice) -> Dice:
-        return Dice(
-            emoji=dice.emoticon,
-            value=dice.value,
-            client=client
-        )
+        return Dice(emoji=dice.emoticon, value=dice.value, client=client)

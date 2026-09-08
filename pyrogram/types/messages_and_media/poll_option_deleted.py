@@ -43,7 +43,7 @@ class PollOptionDeleted(Object):
         *,
         poll_message: types.Message | None = None,
         option_persistent_id: str,
-        text: types.FormattedText
+        text: types.FormattedText,
     ):
         super().__init__()
 
@@ -65,5 +65,5 @@ class PollOptionDeleted(Object):
         return PollOptionDeleted(
             poll_message=reply_message,
             option_persistent_id=answer.option.decode(),
-            text=await types.FormattedText._parse(client, answer.text)
+            text=await types.FormattedText._parse(client, answer.text),
         )

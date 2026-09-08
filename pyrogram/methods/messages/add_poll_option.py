@@ -59,17 +59,13 @@ class AddPollOption:
 
         """
         if isinstance(option, str):
-            option = types.InputPollOption(
-                text=types.FormattedText(
-                    text=option
-                )
-            )
+            option = types.InputPollOption(text=types.FormattedText(text=option))
 
         r = await self.invoke(
             raw.functions.messages.AddPollAnswer(
                 peer=await self.resolve_peer(chat_id),
                 msg_id=message_id,
-                answer=await option.write(self)
+                answer=await option.write(self),
             )
         )
 

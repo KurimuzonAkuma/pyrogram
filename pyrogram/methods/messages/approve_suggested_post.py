@@ -23,12 +23,13 @@ import pyrogram
 from pyrogram import raw
 from pyrogram import utils
 
-class ApproveSuggestedPost():
+
+class ApproveSuggestedPost:
     async def approve_suggested_post(
         self: pyrogram.Client,
         chat_id: int | str,
         message_id: int,
-        send_date: datetime | None = None
+        send_date: datetime | None = None,
     ) -> bool:
         """Use this method to approve a suggested post in a direct messages chat.
 
@@ -60,7 +61,7 @@ class ApproveSuggestedPost():
                 peer=await self.resolve_peer(chat_id),
                 msg_id=message_id,
                 reject=False,
-                schedule_date=utils.datetime_to_timestamp(send_date)
+                schedule_date=utils.datetime_to_timestamp(send_date),
             )
         )
 

@@ -30,6 +30,7 @@ class UpgradedGiftAttributeIdModel(UpgradedGiftAttributeId):
         sticker_id (``int``):
             Identifier of the sticker representing the model.
     """
+
     def __init__(
         self,
         sticker_id: int,
@@ -39,6 +40,4 @@ class UpgradedGiftAttributeIdModel(UpgradedGiftAttributeId):
         self.sticker_id = sticker_id
 
     def write(self) -> raw.types.StarGiftAttributeIdModel:
-        return raw.types.StarGiftAttributeIdModel(
-            document_id=self.sticker_id
-        )
+        return raw.types.StarGiftAttributeIdModel(document_id=self.sticker_id)

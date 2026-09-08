@@ -56,10 +56,7 @@ class AnimatedChatPhoto(Object):
         self.main_frame_timestamp = main_frame_timestamp
 
     @staticmethod
-    async def _parse(
-        client,
-        photo: raw.types.Photo
-    ):
+    async def _parse(client, photo: raw.types.Photo):
         if not isinstance(photo, raw.types.Photo):
             return None
 

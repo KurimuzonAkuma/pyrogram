@@ -136,7 +136,9 @@ def test_plugin_handlers_ignores_what_is_not_a_pair_list() -> None:
     assert _plugin_handlers(decorated) == decorated.handlers
 
 
-async def test_load_plugins_registers_a_handler_declared_by_keyword(write_plugin: PluginWriter) -> None:
+async def test_load_plugins_registers_a_handler_declared_by_keyword(
+    write_plugin: PluginWriter,
+) -> None:
     client = _plugin_client(write_plugin("keyword_plugins", source=_KEYWORD_PLUGIN_SOURCE))
 
     client.load_plugins()

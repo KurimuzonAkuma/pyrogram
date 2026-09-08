@@ -45,7 +45,7 @@ class ForwardStory:
             | types.ForceReply
             | None
         ) = None,
-        message_effect_id: int | None = None
+        message_effect_id: int | None = None,
     ) -> types.Message | None:
         """Forward story.
 
@@ -112,19 +112,14 @@ class ForwardStory:
             raw.functions.messages.SendMedia(
                 peer=await self.resolve_peer(chat_id),
                 media=raw.types.InputMediaStory(
-                    peer=await self.resolve_peer(from_chat_id),
-                    id=story_id
+                    peer=await self.resolve_peer(from_chat_id), id=story_id
                 ),
                 silent=disable_notification or None,
                 random_id=self.rnd_id(),
                 schedule_date=utils.datetime_to_timestamp(schedule_date),
                 schedule_repeat_period=repeat_period,
                 message="",
-                reply_to=await utils.get_reply_to(
-                    self,
-                    reply_parameters,
-                    message_thread_id
-                ),
+                reply_to=await utils.get_reply_to(self, reply_parameters, message_thread_id),
                 allow_paid_stars=paid_message_star_count,
                 allow_paid_floodskip=allow_paid_broadcast,
                 reply_markup=await reply_markup.write(self) if reply_markup else None,

@@ -54,7 +54,7 @@ class LinkPreviewOptions(Object):
         url: str | None = None,
         prefer_small_media: bool | None = None,
         prefer_large_media: bool | None = None,
-        show_above_text: bool | None = None
+        show_above_text: bool | None = None,
     ):
         super().__init__()
 
@@ -68,9 +68,11 @@ class LinkPreviewOptions(Object):
     def _parse(
         media: raw.types.MessageMediaWebPage,
         url: str | None = None,
-        invert_media: bool | None = None
+        invert_media: bool | None = None,
     ) -> LinkPreviewOptions | None:
-        if isinstance(media, raw.types.MessageMediaWebPage) and not isinstance(media.webpage, raw.types.WebPageNotModified):
+        if isinstance(media, raw.types.MessageMediaWebPage) and not isinstance(
+            media.webpage, raw.types.WebPageNotModified
+        ):
             return LinkPreviewOptions(
                 is_disabled=False,
                 url=media.webpage.url,

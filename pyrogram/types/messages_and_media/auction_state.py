@@ -105,7 +105,9 @@ class AuctionStateActive(AuctionState):
             start_date=utils.timestamp_to_datetime(auction_state.start_date),
             end_date=utils.timestamp_to_datetime(auction_state.end_date),
             min_bid=auction_state.min_bid_amount,
-            bid_levels=types.List(types.AuctionBid._parse(bid_level) for bid_level in auction_state.bid_levels),
+            bid_levels=types.List(
+                types.AuctionBid._parse(bid_level) for bid_level in auction_state.bid_levels
+            ),
             top_bidder_user_ids=auction_state.top_bidders,
             auction_rounds=types.List(
                 types.AuctionRound._parse(auction_round) for auction_round in auction_state.rounds
@@ -160,14 +162,12 @@ class AuctionStateFinished(AuctionState):
         self.fragment_url = fragment_url
 
     @staticmethod
-    async def _parse(
-        auction_state: raw.types.StarGiftAuctionStateFinished
-    ):
+    async def _parse(auction_state: raw.types.StarGiftAuctionStateFinished):
         return AuctionStateFinished(
             start_date=utils.timestamp_to_datetime(auction_state.start_date),
             end_date=utils.timestamp_to_datetime(auction_state.end_date),
             average_price=auction_state.average_price,
             telegram_listed_item_count=auction_state.listed_count,
             fragment_listed_item_count=auction_state.fragment_listed_count,
-            fragment_url=auction_state.fragment_listed_url
+            fragment_url=auction_state.fragment_listed_url,
         )

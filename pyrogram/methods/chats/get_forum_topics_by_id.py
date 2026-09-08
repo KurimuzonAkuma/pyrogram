@@ -31,22 +31,16 @@ log = logging.getLogger(__name__)
 class GetForumTopicsByID:
     @overload
     async def get_forum_topics_by_id(
-        self: pyrogram.Client,
-        chat_id: int | str,
-        topic_ids: int
+        self: pyrogram.Client, chat_id: int | str, topic_ids: int
     ) -> types.ForumTopic: ...
 
     @overload
     async def get_forum_topics_by_id(
-        self: pyrogram.Client,
-        chat_id: int | str,
-        topic_ids: Iterable[int]
+        self: pyrogram.Client, chat_id: int | str, topic_ids: Iterable[int]
     ) -> list[types.ForumTopic]: ...
 
     async def get_forum_topics_by_id(
-        self: pyrogram.Client,
-        chat_id: int | str,
-        topic_ids: int | Iterable[int]
+        self: pyrogram.Client, chat_id: int | str, topic_ids: int | Iterable[int]
     ) -> types.ForumTopic | list[types.ForumTopic]:
         """Get one or more topic from a chat by using topic identifiers.
 
@@ -81,8 +75,7 @@ class GetForumTopicsByID:
 
         r = await self.invoke(
             raw.functions.messages.GetForumTopicsByID(
-                peer=await self.resolve_peer(chat_id),
-                topics=ids
+                peer=await self.resolve_peer(chat_id), topics=ids
             )
         )
 

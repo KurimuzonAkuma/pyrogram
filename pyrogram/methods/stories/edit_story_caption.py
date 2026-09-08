@@ -21,6 +21,7 @@ from __future__ import annotations as _annotations
 import pyrogram
 from pyrogram import enums, raw, types, utils
 
+
 class EditStoryCaption:
     async def edit_story_caption(
         self: pyrogram.Client,
@@ -61,7 +62,9 @@ class EditStoryCaption:
                 await app.edit_story(chat_id, story_id, "new media caption")
         """
 
-        message, entities = (await utils.parse_text_entities(self, caption, parse_mode, caption_entities)).values()
+        message, entities = (
+            await utils.parse_text_entities(self, caption, parse_mode, caption_entities)
+        ).values()
 
         r = await self.invoke(
             raw.functions.stories.EditStory(
@@ -75,9 +78,5 @@ class EditStoryCaption:
         for i in r.updates:
             if isinstance(i, raw.types.UpdateStory):
                 return await types.Story._parse(
-                    self,
-                    i.story,
-                    i.peer,
-                    {i.id: i for i in r.users},
-                    {i.id: i for i in r.chats}
+                    self, i.story, i.peer, {i.id: i for i in r.users}, {i.id: i for i in r.chats}
                 )

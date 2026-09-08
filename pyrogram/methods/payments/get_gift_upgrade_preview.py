@@ -24,8 +24,7 @@ from pyrogram import raw, types
 
 class GetGiftUpgradePreview:
     async def get_gift_upgrade_preview(
-        self: pyrogram.Client,
-        gift_id: int
+        self: pyrogram.Client, gift_id: int
     ) -> types.GiftUpgradePreview:
         """Return examples of possible upgraded gifts for a regular gift.
 
@@ -44,10 +43,6 @@ class GetGiftUpgradePreview:
                 # Get information about upgraded gift preview
                 await client.get_gift_upgrade_preview(5936085638515261992)
         """
-        r = await self.invoke(
-            raw.functions.payments.GetStarGiftUpgradePreview(
-                gift_id=gift_id
-            )
-        )
+        r = await self.invoke(raw.functions.payments.GetStarGiftUpgradePreview(gift_id=gift_id))
 
         return await types.GiftUpgradePreview._parse(self, r)

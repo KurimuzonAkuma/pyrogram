@@ -33,7 +33,7 @@ class SearchGiftsForResale:
         for_stars: bool | None = None,
         attributes: list[types.UpgradedGiftAttributeId] | None = None,
         limit: int = 0,
-        offset: str = ""
+        offset: str = "",
     ) -> AsyncGenerator[types.Gift, None]:
         """Get upgraded gifts that can be bought from other owners.
 
@@ -91,17 +91,15 @@ class SearchGiftsForResale:
                     for_craft=for_crafting,
                     stars_only=for_stars,
                     attributes=[attr.write() for attr in attributes] if attributes else None,
-
                 ),
-                sleep_threshold=60
+                sleep_threshold=60,
             )
 
             users = {i.id: i for i in r.users}
             chats = {i.id: i for i in r.chats}
 
             gifts = [
-                await types.Gift._parse(self, gift, users=users, chats=chats)
-                for gift in r.gifts
+                await types.Gift._parse(self, gift, users=users, chats=chats) for gift in r.gifts
             ]
 
             if not gifts:

@@ -180,6 +180,6 @@ class Chats(
     GetTopChats,
     GetSendAsChats,
     SetSendAsChat,
-    SetChatProtectedContent
+    SetChatProtectedContent,
 ):
     pass

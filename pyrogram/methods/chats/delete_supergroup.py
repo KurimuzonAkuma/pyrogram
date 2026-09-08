@@ -23,10 +23,7 @@ from pyrogram import raw
 
 
 class DeleteSupergroup:
-    async def delete_supergroup(
-        self: pyrogram.Client,
-        chat_id: int | str
-    ) -> bool:
+    async def delete_supergroup(self: pyrogram.Client, chat_id: int | str) -> bool:
         """Delete a supergroup.
 
         .. include:: /_includes/usable-by/users.rst
@@ -44,9 +41,7 @@ class DeleteSupergroup:
                 await app.delete_supergroup(supergroup_id)
         """
         await self.invoke(
-            raw.functions.channels.DeleteChannel(
-                channel=await self.resolve_peer(chat_id)
-            )
+            raw.functions.channels.DeleteChannel(channel=await self.resolve_peer(chat_id))
         )
 
         return True

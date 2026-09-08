@@ -25,9 +25,7 @@ from pyrogram import types
 
 class SetChatPermissions:
     async def set_chat_permissions(
-        self: pyrogram.Client,
-        chat_id: int | str,
-        permissions: types.ChatPermissions | None = None
+        self: pyrogram.Client, chat_id: int | str, permissions: types.ChatPermissions | None = None
     ) -> types.Chat:
         """Set default chat permissions for all members.
 
@@ -68,8 +66,7 @@ class SetChatPermissions:
 
         r = await self.invoke(
             raw.functions.messages.EditChatDefaultBannedRights(
-                peer=await self.resolve_peer(chat_id),
-                banned_rights=permissions.write()
+                peer=await self.resolve_peer(chat_id), banned_rights=permissions.write()
             )
         )
 

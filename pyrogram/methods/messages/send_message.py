@@ -355,9 +355,7 @@ class SendMessage:
                 date=utils.timestamp_to_datetime(r.date),
                 outgoing=r.out,
                 reply_markup=reply_markup,
-                entities=[
-                    await types.MessageEntity._parse(None, entity, {}) for entity in entities
-                ]
+                entities=[await types.MessageEntity._parse(None, entity, {}) for entity in entities]
                 if entities
                 else None,
                 client=self,

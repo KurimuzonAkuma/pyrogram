@@ -25,6 +25,7 @@ from pyrogram import raw, types, utils
 
 log = logging.getLogger(__name__)
 
+
 class SendGame:
     async def send_game(
         self: pyrogram.Client,
@@ -43,7 +44,6 @@ class SendGame:
             | types.ForceReply
             | None
         ) = None,
-
         reply_to_message_id: int | None = None,
         reply_to_chat_id: int | str | None = None,
     ) -> types.Message | None:
@@ -109,8 +109,7 @@ class SendGame:
                 )
 
             reply_parameters = types.ReplyParameters(
-                chat_id=reply_to_chat_id,
-                message_id=reply_to_message_id
+                chat_id=reply_to_chat_id, message_id=reply_to_message_id
             )
 
         r = await self.invoke(
@@ -118,22 +117,17 @@ class SendGame:
                 peer=await self.resolve_peer(chat_id),
                 media=raw.types.InputMediaGame(
                     id=raw.types.InputGameShortName(
-                        bot_id=raw.types.InputUserSelf(),
-                        short_name=game_short_name
+                        bot_id=raw.types.InputUserSelf(), short_name=game_short_name
                     ),
                 ),
                 message="",
                 silent=disable_notification or None,
-                reply_to=await utils.get_reply_to(
-                    self,
-                    reply_parameters,
-                    message_thread_id
-                ),
+                reply_to=await utils.get_reply_to(self, reply_parameters, message_thread_id),
                 random_id=self.rnd_id(),
                 noforwards=protect_content,
                 allow_paid_floodskip=allow_paid_broadcast,
                 reply_markup=await reply_markup.write(self) if reply_markup else None,
-                effect=effect_id
+                effect=effect_id,
             )
         )
 

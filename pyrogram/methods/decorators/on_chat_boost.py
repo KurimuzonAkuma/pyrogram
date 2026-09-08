@@ -61,7 +61,7 @@ class OnChatBoost:
                 func.handlers.append(
                     (
                         pyrogram.handlers.ShippingQueryHandler(func, arguments.filters),
-                        arguments.group
+                        arguments.group,
                     )
                 )
 

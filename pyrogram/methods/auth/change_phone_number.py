@@ -52,9 +52,7 @@ class ChangePhoneNumber:
 
         r = await self.invoke(
             raw.functions.account.ChangePhone(
-                phone_number=phone_number,
-                phone_code_hash=phone_code_hash,
-                phone_code=phone_code
+                phone_number=phone_number, phone_code_hash=phone_code_hash, phone_code=phone_code
             )
         )
 

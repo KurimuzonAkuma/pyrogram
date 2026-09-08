@@ -37,12 +37,8 @@ class RestrictionReason(Object):
         text (``str``):
             Error message to be shown to the user.
     """
-    def __init__(
-        self, *,
-        platform: str,
-        reason: str,
-        text: str
-    ):
+
+    def __init__(self, *, platform: str, reason: str, text: str):
         super().__init__()
 
         self.platform = platform
@@ -50,14 +46,12 @@ class RestrictionReason(Object):
         self.text = text
 
     @staticmethod
-    def _parse(
-        restriction_reason: raw.types.RestrictionReason
-    ) -> RestrictionReason | None:
+    def _parse(restriction_reason: raw.types.RestrictionReason) -> RestrictionReason | None:
         if not restriction_reason:
             return None
 
         return RestrictionReason(
             platform=restriction_reason.platform,
             reason=restriction_reason.reason,
-            text=restriction_reason.text
+            text=restriction_reason.text,
         )

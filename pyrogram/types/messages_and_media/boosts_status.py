@@ -62,7 +62,7 @@ class BoostsStatus(Object):
         my_boost: bool | None = None,
         gift_boosts: int | None = None,
         next_level_boosts: int | None = None,
-        my_boost_slots: list[int] | None = None
+        my_boost_slots: list[int] | None = None,
     ):
         super().__init__()
 

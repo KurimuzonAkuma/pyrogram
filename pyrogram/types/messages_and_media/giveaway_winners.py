@@ -26,7 +26,6 @@ from pyrogram import raw, types, utils, errors
 from ..object import Object
 
 
-
 class GiveawayWinners(Object):
     """This object represents a message about the completion of a giveaway with public winners.
 
@@ -92,7 +91,7 @@ class GiveawayWinners(Object):
         premium_subscription_month_count: int | None = None,
         only_new_members: bool | None = None,
         was_refunded: bool | None = None,
-        prize_description: str | None = None
+        prize_description: str | None = None,
     ):
         super().__init__(client)
 
@@ -113,10 +112,7 @@ class GiveawayWinners(Object):
 
     @staticmethod
     async def _parse(
-        client,
-        giveaway_media: raw.types.MessageMediaGiveawayResults,
-        users: dict,
-        chats: dict
+        client, giveaway_media: raw.types.MessageMediaGiveawayResults, users: dict, chats: dict
     ) -> GiveawayWinners:
         if not isinstance(giveaway_media, raw.types.MessageMediaGiveawayResults):
             return
@@ -127,7 +123,7 @@ class GiveawayWinners(Object):
             giveaway_message = await client.get_messages(
                 chat_id=utils.get_channel_id(giveaway_media.channel_id),
                 message_ids=giveaway_media.launch_msg_id,
-                replies=0
+                replies=0,
             )
         except (errors.ChannelPrivate, errors.ChannelInvalid, errors.MessageIdsEmpty):
             pass
@@ -140,12 +136,15 @@ class GiveawayWinners(Object):
             quantity=giveaway_media.winners_count + giveaway_media.unclaimed_count,
             winner_count=giveaway_media.winners_count,
             unclaimed_prize_count=giveaway_media.unclaimed_count,
-            winners=types.List([await types.User._parse(client, users.get(i)) for i in giveaway_media.winners]) or None,
+            winners=types.List(
+                [await types.User._parse(client, users.get(i)) for i in giveaway_media.winners]
+            )
+            or None,
             additional_chat_count=getattr(giveaway_media, "additional_peers_count", None),
             prize_star_count=giveaway_media.stars,
             premium_subscription_month_count=getattr(giveaway_media, "months", None),
             only_new_members=getattr(giveaway_media, "only_new_subscribers", None),
             was_refunded=getattr(giveaway_media, "refunded", None),
             prize_description=getattr(giveaway_media, "prize_description", None),
-            client=client
+            client=client,
         )

@@ -36,7 +36,7 @@ from pyrogram.errors import (
     PremiumSubActiveUntil,
     PreviousChatImportActiveWaitMin,
     RPCError,
-    StoryLiveAlready
+    StoryLiveAlready,
 )
 from pyrogram.errors.exceptions.all import exceptions
 from tests.unit.errors import RPC_NAME, raise_it
@@ -53,29 +53,17 @@ NAMED_ERRORS: Final[int] = 32
         pytest.param(420, "FLOOD_WAIT_42", FloodWait, "seconds", 42, id="seconds"),
         pytest.param(303, "PHONE_MIGRATE_2", PhoneMigrate, "dc_id", 2, id="dc-id"),
         pytest.param(400, "FILE_PART_3_MISSING", FilePartMissing, "file_part", 3, id="file-part"),
-        pytest.param(
-            400,
-            "FILE_REFERENCE_1_EXPIRED",
-            FileReferenceExpired,
-            "index",
-            1,
-            id="index"
-        ),
+        pytest.param(400, "FILE_REFERENCE_1_EXPIRED", FileReferenceExpired, "index", 1, id="index"),
         pytest.param(
             406,
             "PREVIOUS_CHAT_IMPORT_ACTIVE_WAIT_5MIN",
             PreviousChatImportActiveWaitMin,
             "minutes",
             5,
-            id="minutes"
+            id="minutes",
         ),
         pytest.param(
-            400,
-            "EMAIL_UNCONFIRMED_6",
-            EmailUnconfirmed,
-            "code_length",
-            6,
-            id="code-length"
+            400, "EMAIL_UNCONFIRMED_6", EmailUnconfirmed, "code_length", 6, id="code-length"
         ),
         pytest.param(
             403,
@@ -83,33 +71,22 @@ NAMED_ERRORS: Final[int] = 32
             AllowPaymentRequired,
             "star_count",
             25,
-            id="star-count"
+            id="star-count",
         ),
-        pytest.param(
-            400,
-            "STORY_LIVE_ALREADY_9",
-            StoryLiveAlready,
-            "story_id",
-            9,
-            id="story-id"
-        ),
+        pytest.param(400, "STORY_LIVE_ALREADY_9", StoryLiveAlready, "story_id", 9, id="story-id"),
         pytest.param(
             420,
             "PREMIUM_SUB_ACTIVE_UNTIL_1755561600",
             PremiumSubActiveUntil,
             "until_date",
             1755561600,
-            id="until-date"
+            id="until-date",
         ),
-        pytest.param(500, "AUTH_RESTART_7", AuthRestart, "debug_info", 7, id="debug-info")
-    ]
+        pytest.param(500, "AUTH_RESTART_7", AuthRestart, "debug_info", 7, id="debug-info"),
+    ],
 )
 def test_an_error_says_what_its_value_means(
-    code: int,
-    message: str,
-    error_type: type[RPCError],
-    value_name: str,
-    value: int
+    code: int, message: str, error_type: type[RPCError], value_name: str, value: int
 ) -> None:
     with pytest.raises(error_type) as raised:
         raise_it(code, message=message)

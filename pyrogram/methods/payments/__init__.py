@@ -106,6 +106,6 @@ class Payments(
     ShowGift,
     SuggestBirthday,
     TransferGift,
-    UpgradeGift
+    UpgradeGift,
 ):
     pass

@@ -59,7 +59,7 @@ class OnChatMemberUpdated:
                 func.handlers.append(
                     (
                         pyrogram.handlers.ChatMemberUpdatedHandler(func, arguments.filters),
-                        arguments.group
+                        arguments.group,
                     )
                 )
 

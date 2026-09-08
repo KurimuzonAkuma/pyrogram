@@ -58,10 +58,7 @@ class OnInlineQuery:
                 arguments = unbound_arguments(self, filters=filters, group=group)
 
                 func.handlers.append(
-                    (
-                        pyrogram.handlers.InlineQueryHandler(func, arguments.filters),
-                        arguments.group
-                    )
+                    (pyrogram.handlers.InlineQueryHandler(func, arguments.filters), arguments.group)
                 )
 
             return func

@@ -39,9 +39,7 @@ class MessageGenerationStopped(Object, Update):
             Unique identifier of the message draft which was stopped.
     """
 
-    def __init__(
-        self, *, chat: types.Chat, message_thread_id: int | None = None, draft_id: int
-    ):
+    def __init__(self, *, chat: types.Chat, message_thread_id: int | None = None, draft_id: int):
         super().__init__()
 
         self.chat = chat

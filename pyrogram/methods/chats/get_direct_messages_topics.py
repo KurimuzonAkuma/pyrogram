@@ -29,7 +29,7 @@ class GetDirectMessagesTopics:
         self: pyrogram.Client,
         chat_id: int | str,
         limit: int = 0,
-        exclude_pinned: bool | None = None
+        exclude_pinned: bool | None = None,
     ) -> AsyncGenerator[types.DirectMessagesTopic, None]:
         """Get one or more topic from a direct messages channel chat.
 
@@ -73,7 +73,7 @@ class GetDirectMessagesTopics:
                     limit=limit,
                     hash=0,
                     exclude_pinned=exclude_pinned,
-                    parent_peer=await self.resolve_peer(chat_id)
+                    parent_peer=await self.resolve_peer(chat_id),
                 )
             )
 
@@ -91,7 +91,11 @@ class GetDirectMessagesTopics:
             topics = []
 
             for topic in r.dialogs:
-                topics.append(await types.DirectMessagesTopic._parse(client=self, topic=topic, messages=messages, users=users, chats=chats))
+                topics.append(
+                    await types.DirectMessagesTopic._parse(
+                        client=self, topic=topic, messages=messages, users=users, chats=chats
+                    )
+                )
 
             if not topics:
                 return

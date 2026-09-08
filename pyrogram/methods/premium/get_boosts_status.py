@@ -23,10 +23,7 @@ from pyrogram import raw, types
 
 
 class GetBoostsStatus:
-    async def get_boosts_status(
-        self: pyrogram.Client,
-        chat_id: int | str
-    ) -> types.BoostsStatus:
+    async def get_boosts_status(self: pyrogram.Client, chat_id: int | str) -> types.BoostsStatus:
         """Get boosts status of channel
 
         .. include:: /_includes/usable-by/users.rst

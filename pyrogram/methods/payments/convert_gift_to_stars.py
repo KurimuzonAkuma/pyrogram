@@ -24,9 +24,7 @@ from pyrogram import raw, utils
 
 class ConvertGiftToStars:
     async def convert_gift_to_stars(
-        self: pyrogram.Client,
-        owned_gift_id: str,
-        business_connection_id: str | None = None
+        self: pyrogram.Client, owned_gift_id: str, business_connection_id: str | None = None
     ) -> bool:
         """Convert a given regular gift to Telegram Stars.
 
@@ -57,7 +55,7 @@ class ConvertGiftToStars:
             raw.functions.payments.ConvertStarGift(
                 stargift=await utils.get_input_stargift(self, owned_gift_id)
             ),
-            business_connection_id=business_connection_id
+            business_connection_id=business_connection_id,
         )
 
         return r

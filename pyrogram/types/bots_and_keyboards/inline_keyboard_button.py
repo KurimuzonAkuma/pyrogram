@@ -208,7 +208,9 @@ class InlineKeyboardButton(Object):
             if button_type.peer_types:
                 return InlineKeyboardButton(
                     text=button_text,
-                    switch_inline_query_chosen_chat=types.SwitchInlineQueryChosenChat._parse(button_type),
+                    switch_inline_query_chosen_chat=types.SwitchInlineQueryChosenChat._parse(
+                        button_type
+                    ),
                     style=button_style,
                     icon_custom_emoji_id=icon_custom_emoji_id,
                 )
@@ -311,15 +313,18 @@ class InlineKeyboardButton(Object):
             if self.switch_inline_query_chosen_chat.allow_user_chats:
                 peer_types.append(raw.types.InlineQueryPeerTypePM())
             if self.switch_inline_query_chosen_chat.allow_bot_chats:
-                peer_types.extend((raw.types.InlineQueryPeerTypeBotPM(), raw.types.InlineQueryPeerTypeSameBotPM()))
+                peer_types.extend(
+                    (raw.types.InlineQueryPeerTypeBotPM(), raw.types.InlineQueryPeerTypeSameBotPM())
+                )
             if self.switch_inline_query_chosen_chat.allow_group_chats:
-                peer_types.extend((raw.types.InlineQueryPeerTypeChat(), raw.types.InlineQueryPeerTypeMegagroup()))
+                peer_types.extend(
+                    (raw.types.InlineQueryPeerTypeChat(), raw.types.InlineQueryPeerTypeMegagroup())
+                )
             if self.switch_inline_query_chosen_chat.allow_channel_chats:
                 peer_types.append(raw.types.InlineQueryPeerTypeBroadcast())
 
             button_type = raw.types.InlineButtonTypeSwitchInline(
-                query=self.switch_inline_query_current_chat,
-                peer_types=peer_types
+                query=self.switch_inline_query_current_chat, peer_types=peer_types
             )
 
         if self.switch_inline_query_current_chat is not None:

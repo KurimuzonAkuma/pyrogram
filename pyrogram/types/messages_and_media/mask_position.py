@@ -41,14 +41,8 @@ class MaskPosition(Object):
         scale (``float``):
             Mask scaling coefficient. For example, 2.0 means double size.
     """
-    def __init__(
-        self,
-        *,
-        point: enums.MaskPointType,
-        x_shift: float,
-        y_shift: float,
-        scale: float
-    ):
+
+    def __init__(self, *, point: enums.MaskPointType, x_shift: float, y_shift: float, scale: float):
         super().__init__()
 
         self.point = point
@@ -57,9 +51,7 @@ class MaskPosition(Object):
         self.scale = scale
 
     @staticmethod
-    def _parse(
-        coords: raw.types.MaskCoords
-    ) -> MaskPosition:
+    def _parse(coords: raw.types.MaskCoords) -> MaskPosition:
         if not coords:
             return None
 
@@ -67,5 +59,5 @@ class MaskPosition(Object):
             point=enums.MaskPointType(coords.n),
             x_shift=coords.x,
             y_shift=coords.y,
-            scale=coords.zoom
+            scale=coords.zoom,
         )

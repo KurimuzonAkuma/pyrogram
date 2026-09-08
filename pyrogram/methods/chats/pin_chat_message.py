@@ -74,9 +74,9 @@ class PinChatMessage:
                 peer=await self.resolve_peer(chat_id),
                 id=message_id,
                 silent=disable_notification or None,
-                pm_oneside=not both_sides or None
+                pm_oneside=not both_sides or None,
             ),
-            business_connection_id=business_connection_id
+            business_connection_id=business_connection_id,
         )
 
         messages = await utils.parse_messages(client=self, messages=r)

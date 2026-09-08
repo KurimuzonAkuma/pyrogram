@@ -30,6 +30,7 @@ class UpgradedGiftAttributeIdSymbol(UpgradedGiftAttributeId):
         sticker_id (``int``):
             Identifier of the sticker representing the symbol.
     """
+
     def __init__(
         self,
         sticker_id: int,
@@ -39,6 +40,4 @@ class UpgradedGiftAttributeIdSymbol(UpgradedGiftAttributeId):
         self.sticker_id = sticker_id
 
     def write(self) -> raw.types.StarGiftAttributeIdPattern:
-        return raw.types.StarGiftAttributeIdPattern(
-            document_id=self.sticker_id
-        )
+        return raw.types.StarGiftAttributeIdPattern(document_id=self.sticker_id)

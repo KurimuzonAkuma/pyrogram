@@ -35,6 +35,7 @@ class FailedToAddMember(Object):
         premium_required_to_send_messages (``bool``, *optional*):
             True, if subscription to Telegram Premium is required to send the user chat invite link.
     """
+
     def __init__(
         self,
         *,
@@ -51,5 +52,5 @@ class FailedToAddMember(Object):
         return FailedToAddMember(
             user_id=missing_invite.user_id,
             premium_would_allow_invite=missing_invite.premium_would_allow_invite,
-            premium_required_to_send_messages=missing_invite.premium_required_for_pm
+            premium_required_to_send_messages=missing_invite.premium_required_for_pm,
         )

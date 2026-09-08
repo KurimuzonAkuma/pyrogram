@@ -148,6 +148,7 @@ _DIALED_PROXY_TYPES: Final[dict[ProxyScheme, type[SOCKS4Proxy | SOCKS5Proxy | HT
 
 # The dict form accepted at the public boundary, Client(proxy={...}).
 
+
 class _SOCKS4ProxyDictRequired(TypedDict):
     scheme: Literal["socks4"]
     hostname: str
@@ -351,6 +352,7 @@ def _decode_mtproxy_secret(encoded_secret: str, *, scheme: ProxyScheme) -> _Deco
 # The one place each kind is built, so the dict form and the string form below
 #  cannot validate differently.
 
+
 def _build_web_proxy(*, hostname: str, encoded_secret: str) -> WebProxy:
     decoded = _decode_mtproxy_secret(encoded_secret, scheme=ProxyScheme.WEB)
 
@@ -420,7 +422,9 @@ def _parse_proxy_link(link: str) -> Proxy:
     if web_match:
         query_parameters = parse_qs(web_match.group(1))
         # `host` is the alias the Android fork emits for the same field.
-        hostname = _query_param(query_parameters, name="server") or _query_param(query_parameters, name="host")
+        hostname = _query_param(query_parameters, name="server") or _query_param(
+            query_parameters, name="host"
+        )
         encoded_secret = _query_param(query_parameters, name="secret")
 
         if not hostname or not encoded_secret:

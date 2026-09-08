@@ -56,7 +56,7 @@ class BusinessConnection(Object, Update):
         dc_id: int,
         date: datetime,
         is_enabled: bool | None = None,
-        rights: types.BusinessBotRights | None = None
+        rights: types.BusinessBotRights | None = None,
     ):
         self.id = id
         self.user = user
@@ -68,8 +68,10 @@ class BusinessConnection(Object, Update):
     @staticmethod
     async def _parse(
         client,
-        connection: raw.types.BotBusinessConnection | raw.types.UpdateBotBusinessConnect | None = None,
-        users = {}
+        connection: raw.types.BotBusinessConnection
+        | raw.types.UpdateBotBusinessConnect
+        | None = None,
+        users={},
     ) -> BusinessConnection | None:
         if not connection:
             return None
@@ -83,5 +85,5 @@ class BusinessConnection(Object, Update):
             dc_id=connection.dc_id,
             date=utils.timestamp_to_datetime(connection.date),
             is_enabled=not connection.disabled,
-            rights=types.BusinessBotRights._parse(connection.rights)
+            rights=types.BusinessBotRights._parse(connection.rights),
         )

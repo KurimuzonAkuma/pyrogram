@@ -26,9 +26,7 @@ from pyrogram import raw, types
 
 class GetGiftsForCrafting:
     async def get_gifts_for_crafting(
-        self: pyrogram.Client,
-        regular_gift_id: int,
-        limit: int = 0
+        self: pyrogram.Client, regular_gift_id: int, limit: int = 0
     ) -> AsyncGenerator[types.Gift, None]:
         """Returns upgraded gifts of the current user that can be used to craft another gifts.
 
@@ -54,11 +52,9 @@ class GetGiftsForCrafting:
         while True:
             r = await self.invoke(
                 raw.functions.payments.GetCraftStarGifts(
-                    gift_id=regular_gift_id,
-                    offset=offset,
-                    limit=limit
+                    gift_id=regular_gift_id, offset=offset, limit=limit
                 ),
-                sleep_threshold=60
+                sleep_threshold=60,
             )
 
             users = {i.id: i for i in r.users}

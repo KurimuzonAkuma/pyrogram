@@ -52,9 +52,7 @@ class ViewMessages:
 
         r = await self.invoke(
             raw.functions.messages.GetMessagesViews(
-                peer=await self.resolve_peer(chat_id),
-                id=ids,
-                increment=True
+                peer=await self.resolve_peer(chat_id), id=ids, increment=True
             )
         )
 

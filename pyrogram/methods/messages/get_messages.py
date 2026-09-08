@@ -200,7 +200,10 @@ class GetMessages:
         _type = raw.types.InputMessageReplyTo if reply else raw.types.InputMessageID
 
         if isinstance(message_ids, str):
-            match = re.match(r"^(?:https?://)?(?:www\.)?(?:t(?:elegram)?\.(?:org|me|dog)/(?:c/)?)([\w]+)(?:/\d+)*/(\d+)/?$", message_ids.lower())
+            match = re.match(
+                r"^(?:https?://)?(?:www\.)?(?:t(?:elegram)?\.(?:org|me|dog)/(?:c/)?)([\w]+)(?:/\d+)*/(\d+)/?$",
+                message_ids.lower(),
+            )
 
             if match:
                 try:

@@ -26,10 +26,7 @@ from pyrogram.errors import PeerIdInvalid
 
 
 class ResolvePeer:
-    async def resolve_peer(
-        self: pyrogram.Client,
-        peer_id: int | str
-    ) -> raw.base.InputPeer | None:
+    async def resolve_peer(self: pyrogram.Client, peer_id: int | str) -> raw.base.InputPeer | None:
         """Get the InputPeer of a known peer id. Useful whenever an InputPeer type is required.
 
         .. note::
@@ -76,8 +73,7 @@ class ResolvePeer:
                             raw.functions.users.GetUsers(
                                 id=[
                                     raw.types.InputUser(
-                                        user_id=utils.get_raw_peer_id(peer_id),
-                                        access_hash=0
+                                        user_id=utils.get_raw_peer_id(peer_id), access_hash=0
                                     )
                                 ]
                             )
@@ -85,17 +81,14 @@ class ResolvePeer:
                     )
                 elif peer_type == "chat":
                     await self.invoke(
-                        raw.functions.messages.GetChats(
-                            id=[utils.get_raw_peer_id(peer_id)]
-                        )
+                        raw.functions.messages.GetChats(id=[utils.get_raw_peer_id(peer_id)])
                     )
                 else:
                     await self.invoke(
                         raw.functions.channels.GetChannels(
                             id=[
                                 raw.types.InputChannel(
-                                    channel_id=utils.get_raw_peer_id(peer_id),
-                                    access_hash=0
+                                    channel_id=utils.get_raw_peer_id(peer_id), access_hash=0
                                 )
                             ]
                         )
@@ -106,17 +99,13 @@ class ResolvePeer:
                 except KeyError as e:
                     raise PeerIdInvalid from e
         elif isinstance(peer_id, str):
-            phone = re.sub(r'[+()\s-]', '', peer_id)
+            phone = re.sub(r"[+()\s-]", "", peer_id)
 
             if phone.isdigit():
                 try:
                     return await self.storage.get_peer_by_phone_number(phone)
                 except KeyError:
-                    r = await self.invoke(
-                        raw.functions.contacts.ResolvePhone(
-                            phone=phone
-                        )
-                    )
+                    r = await self.invoke(raw.functions.contacts.ResolvePhone(phone=phone))
 
                     return await self.storage.get_peer_by_id(utils.get_peer_id(r.peer))
             else:
@@ -143,9 +132,7 @@ class ResolvePeer:
                         return await self.storage.get_peer_by_username(username)
                     except KeyError:
                         r = await self.invoke(
-                            raw.functions.contacts.ResolveUsername(
-                                username=username
-                            )
+                            raw.functions.contacts.ResolveUsername(username=username)
                         )
 
                         return await self.storage.get_peer_by_id(utils.get_peer_id(r.peer))

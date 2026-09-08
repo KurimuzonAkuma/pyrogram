@@ -23,9 +23,7 @@ from pyrogram import raw, types, utils
 
 
 class GetFolders:
-    async def get_folders(
-        self: pyrogram.Client
-    ) -> list[types.Folder]:
+    async def get_folders(self: pyrogram.Client) -> list[types.Folder]:
         """Return information about a chat folders.
 
         .. include:: /_includes/usable-by/users.rst
@@ -42,7 +40,8 @@ class GetFolders:
         dialog_filters = await self.invoke(raw.functions.messages.GetDialogFilters())
 
         raw_folders = [
-            folder for folder in dialog_filters.filters
+            folder
+            for folder in dialog_filters.filters
             if isinstance(folder, (raw.types.DialogFilter, raw.types.DialogFilterChatlist))
         ]
 
@@ -52,14 +51,16 @@ class GetFolders:
         raw_peers = {}
 
         for folder in raw_folders:
-            for peer in folder.pinned_peers + folder.include_peers + getattr(folder, "exclude_peers", []):
+            for peer in (
+                folder.pinned_peers + folder.include_peers + getattr(folder, "exclude_peers", [])
+            ):
                 raw_peers[utils.get_raw_peer_id(peer)] = peer
 
         users = {}
         chats = {}
 
         for i in range(0, len(raw_peers), 100):
-            chunk = list(raw_peers.values())[i:i + 100]
+            chunk = list(raw_peers.values())[i : i + 100]
             r = await self.invoke(
                 raw.functions.messages.GetPeerDialogs(
                     peers=[raw.types.InputDialogPeer(peer=peer) for peer in chunk]
@@ -69,8 +70,5 @@ class GetFolders:
             chats.update({i.id: i for i in r.chats})
 
         return types.List(
-            [
-                await types.Folder._parse(self, folder, users, chats)
-                for folder in raw_folders
-            ]
+            [await types.Folder._parse(self, folder, users, chats) for folder in raw_folders]
         )

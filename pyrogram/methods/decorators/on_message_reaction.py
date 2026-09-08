@@ -30,7 +30,7 @@ class OnMessageReaction:
     def on_message_reaction(
         self: OnMessageReaction | Filter | None = None,
         filters: Filter | None = None,
-        group: int = 0
+        group: int = 0,
     ) -> Callable[[HandlerType], HandlerType]:
         """Decorator for handling reaction changes on messages.
 
@@ -59,7 +59,7 @@ class OnMessageReaction:
                 func.handlers.append(
                     (
                         pyrogram.handlers.MessageReactionHandler(func, arguments.filters),
-                        arguments.group
+                        arguments.group,
                     )
                 )
 

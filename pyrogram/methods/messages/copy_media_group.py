@@ -26,6 +26,7 @@ from pyrogram import enums, raw, types, utils
 
 log = logging.getLogger(__name__)
 
+
 class CopyMediaGroup:
     async def copy_media_group(
         self: pyrogram.Client,
@@ -42,7 +43,6 @@ class CopyMediaGroup:
         allow_paid_broadcast: bool | None = None,
         paid_message_star_count: int | None = None,
         reply_parameters: types.ReplyParameters | None = None,
-
         reply_to_message_id: int | None = None,
         reply_to_chat_id: int | str | None = None,
         reply_to_story_id: int | None = None,
@@ -174,7 +174,7 @@ class CopyMediaGroup:
                 quote=quote_text,
                 quote_parse_mode=parse_mode,
                 quote_entities=quote_entities,
-                quote_position=quote_offset
+                quote_position=quote_offset,
             )
 
         media_group = await self.get_media_group(from_chat_id, message_id)
@@ -196,8 +196,7 @@ class CopyMediaGroup:
                 file_id=file_id,
                 has_spoiler=(
                     has_spoilers[i]
-                    if isinstance(has_spoilers, list)
-                    and i < len(has_spoilers)
+                    if isinstance(has_spoilers, list) and i < len(has_spoilers)
                     else (
                         has_spoilers
                         if isinstance(has_spoilers, bool)
@@ -210,10 +209,16 @@ class CopyMediaGroup:
                     media=media,
                     random_id=self.rnd_id(),
                     **await self.parser.parse(
-                        captions[i] if isinstance(captions, list) and i < len(captions) and captions[i] else
-                        captions if isinstance(captions, str) and i == 0 else
-                        message.caption if message.caption and message.caption != "None" and not type(
-                            captions) is str else "")
+                        captions[i]
+                        if isinstance(captions, list) and i < len(captions) and captions[i]
+                        else captions
+                        if isinstance(captions, str) and i == 0
+                        else message.caption
+                        if message.caption
+                        and message.caption != "None"
+                        and not type(captions) is str
+                        else ""
+                    ),
                 )
             )
 
@@ -222,18 +227,14 @@ class CopyMediaGroup:
                 peer=await self.resolve_peer(chat_id),
                 multi_media=multi_media,
                 silent=disable_notification or None,
-                reply_to=await utils.get_reply_to(
-                    self,
-                    reply_parameters,
-                    message_thread_id
-                ),
+                reply_to=await utils.get_reply_to(self, reply_parameters, message_thread_id),
                 schedule_date=utils.datetime_to_timestamp(schedule_date),
                 noforwards=protect_content,
                 invert_media=show_caption_above_media,
                 allow_paid_floodskip=allow_paid_broadcast,
-                allow_paid_stars=paid_message_star_count
+                allow_paid_stars=paid_message_star_count,
             ),
-            sleep_threshold=60
+            sleep_threshold=60,
         )
 
         return await utils.parse_messages(client=self, messages=r)

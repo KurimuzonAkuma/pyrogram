@@ -27,7 +27,7 @@ class UpdateProfile:
         self: pyrogram.Client,
         first_name: str | None = None,
         last_name: str | None = None,
-        bio: str | None = None
+        bio: str | None = None,
     ) -> bool:
         """Update your profile details such as first name, last name and bio.
 
@@ -66,9 +66,7 @@ class UpdateProfile:
         return bool(
             await self.invoke(
                 raw.functions.account.UpdateProfile(
-                    first_name=first_name,
-                    last_name=last_name,
-                    about=bio
+                    first_name=first_name, last_name=last_name, about=bio
                 )
             )
         )

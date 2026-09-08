@@ -89,7 +89,7 @@ class InlineQueryResultVenue(InlineQueryResult):
         input_message_content: types.InputMessageContent | None = None,
         thumb_url: str | None = None,
         thumb_width: int = 0,
-        thumb_height: int = 0
+        thumb_height: int = 0,
     ):
         super().__init__("venue", id, input_message_content, reply_markup)
 
@@ -114,20 +114,21 @@ class InlineQueryResultVenue(InlineQueryResult):
                 await self.input_message_content.write(client, self.reply_markup)
                 if self.input_message_content
                 else raw.types.InputBotInlineMessageMediaVenue(
-                    geo_point=raw.types.InputGeoPoint(
-                        lat=self.latitude,
-                        long=self.longitude
-                    ),
+                    geo_point=raw.types.InputGeoPoint(lat=self.latitude, long=self.longitude),
                     title=self.title,
                     address=self.address,
                     provider=(
-                        "foursquare" if self.foursquare_id or self.foursquare_type
-                        else "google" if self.google_place_id or self.google_place_type
+                        "foursquare"
+                        if self.foursquare_id or self.foursquare_type
+                        else "google"
+                        if self.google_place_id or self.google_place_type
                         else ""
                     ),
                     venue_id=self.foursquare_id or self.google_place_id or "",
                     venue_type=self.foursquare_type or self.google_place_type or "",
-                    reply_markup=await self.reply_markup.write(client) if self.reply_markup else None
+                    reply_markup=await self.reply_markup.write(client)
+                    if self.reply_markup
+                    else None,
                 )
-            )
+            ),
         )

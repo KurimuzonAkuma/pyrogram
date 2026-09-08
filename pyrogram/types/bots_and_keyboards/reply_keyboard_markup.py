@@ -89,7 +89,7 @@ class ReplyKeyboardMarkup(Object):
             one_time_keyboard=kb.single_use,
             selective=kb.selective,
             placeholder=kb.placeholder,
-            force_reply=kb.force_reply
+            force_reply=kb.force_reply,
         )
 
     async def write(self, _: pyrogram.Client):
@@ -108,5 +108,5 @@ class ReplyKeyboardMarkup(Object):
             selective=self.selective or None,
             persistent=self.is_persistent or None,
             placeholder=self.placeholder or None,
-            force_reply=self.force_reply
+            force_reply=self.force_reply,
         )

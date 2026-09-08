@@ -190,7 +190,7 @@ class DownloadMedia:
         in_memory: bool = False,
         block: bool = True,
         progress: Callable | None = None,
-        progress_args: tuple = ()
+        progress_args: tuple = (),
     ) -> str | BinaryIO | list[str] | list[BinaryIO] | None:
         """Download the media from a message.
 
@@ -277,8 +277,18 @@ class DownloadMedia:
                 file_name = file.name
                 file_bytes = bytes(file.getbuffer())
         """
-        available_media = ("audio", "document", "photo", "sticker", "animation", "video", "voice", "video_note",
-                           "new_chat_photo", "paid_media")
+        available_media = (
+            "audio",
+            "document",
+            "photo",
+            "sticker",
+            "animation",
+            "video",
+            "voice",
+            "video_note",
+            "new_chat_photo",
+            "paid_media",
+        )
 
         media = None
 
@@ -322,7 +332,9 @@ class DownloadMedia:
                 raise ValueError("Bots can't see and download stories")
 
             media = getattr(message, message.media.value, None)
-        elif isinstance(message, types.PaidMediaInfo) and not isinstance(message.media[0], types.PaidMediaPreview):
+        elif isinstance(message, types.PaidMediaInfo) and not isinstance(
+            message.media[0], types.PaidMediaPreview
+        ):
             results = []
 
             for item in message.media:
@@ -340,13 +352,13 @@ class DownloadMedia:
 
             return results or None
         elif isinstance(message, (types.StrippedThumbnail, types.PaidMediaPreview)):
-            data = message.data if isinstance(message, types.StrippedThumbnail) else message.thumbnail.data
-
-            thumb = utils.from_inline_bytes(
-                utils.expand_inline_bytes(
-                    data
-                )
+            data = (
+                message.data
+                if isinstance(message, types.StrippedThumbnail)
+                else message.thumbnail.data
             )
+
+            thumb = utils.from_inline_bytes(utils.expand_inline_bytes(data))
 
             if in_memory:
                 return thumb
@@ -412,7 +424,7 @@ class DownloadMedia:
                 FileType(file_id_obj.file_type).name.lower(),
                 (date or datetime.now()).strftime("%Y-%m-%d_%H-%M-%S"),
                 self.rnd_id(),
-                extension
+                extension,
             )
 
         downloader = self.handle_download(

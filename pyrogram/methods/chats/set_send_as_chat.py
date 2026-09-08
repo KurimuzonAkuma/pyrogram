@@ -24,9 +24,7 @@ from pyrogram import raw
 
 class SetSendAsChat:
     async def set_send_as_chat(
-        self: pyrogram.Client,
-        chat_id: int | str,
-        send_as_chat_id: int | str
+        self: pyrogram.Client, chat_id: int | str, send_as_chat_id: int | str
     ) -> bool:
         """Set the default "send_as" chat for a chat.
 
@@ -52,6 +50,6 @@ class SetSendAsChat:
         return await self.invoke(
             raw.functions.messages.SaveDefaultSendAs(
                 peer=await self.resolve_peer(chat_id),
-                send_as=await self.resolve_peer(send_as_chat_id)
+                send_as=await self.resolve_peer(send_as_chat_id),
             )
         )

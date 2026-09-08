@@ -53,7 +53,7 @@ class MyBoost(Object):
         chat: types.Chat,
         date: datetime,
         expire_date: datetime,
-        cooldown_until_date: datetime
+        cooldown_until_date: datetime,
     ):
         super().__init__()
 

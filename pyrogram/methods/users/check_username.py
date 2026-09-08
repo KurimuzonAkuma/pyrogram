@@ -23,11 +23,7 @@ from pyrogram import raw
 
 
 class CheckUsername:
-    async def check_username(
-        self: pyrogram.Client,
-        chat_id: int | str,
-        username: str
-    ) -> bool:
+    async def check_username(self: pyrogram.Client, chat_id: int | str, username: str) -> bool:
         """Check if a username is available.
 
         .. include:: /_includes/usable-by/users.rst
@@ -51,16 +47,9 @@ class CheckUsername:
 
         if isinstance(peer, raw.types.InputPeerChannel):
             r = await self.invoke(
-                raw.functions.channels.CheckUsername(
-                    channel=peer,
-                    username=username
-                )
+                raw.functions.channels.CheckUsername(channel=peer, username=username)
             )
         else:
-            r = await self.invoke(
-                raw.functions.account.CheckUsername(
-                    username=username
-                )
-            )
+            r = await self.invoke(raw.functions.account.CheckUsername(username=username))
 
         return bool(r)

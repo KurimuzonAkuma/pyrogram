@@ -113,5 +113,5 @@ __all__ = [
     "ShippingQuery",
     "SwitchInlineQueryChosenChat",
     "UsersShared",
-    "WebAppInfo"
+    "WebAppInfo",
 ]

@@ -53,7 +53,7 @@ class BusinessRecipients(Object):
         contacts: bool | None = None,
         non_contacts: bool | None = None,
         exclude_selected: bool | None = None,
-        users: list[int] | None = None
+        users: list[int] | None = None,
     ):
         self.existing_chats = existing_chats
         self.new_chats = new_chats
@@ -64,9 +64,7 @@ class BusinessRecipients(Object):
 
     @staticmethod
     async def _parse(
-        client,
-        recipients: raw.types.BusinessRecipients,
-        users: dict | None = None
+        client, recipients: raw.types.BusinessRecipients, users: dict | None = None
     ) -> BusinessRecipients:
         return BusinessRecipients(
             existing_chats=getattr(recipients, "existing_chats", None),
@@ -75,8 +73,11 @@ class BusinessRecipients(Object):
             non_contacts=getattr(recipients, "non_contacts", None),
             exclude_selected=getattr(recipients, "exclude_selected", None),
             users=(
-                types.List([await types.User._parse(client, users[i]) for i in recipients.users or []]) or None
+                types.List(
+                    [await types.User._parse(client, users[i]) for i in recipients.users or []]
+                )
+                or None
                 if users and getattr(recipients, "users", None)
                 else None
-            )
+            ),
         )

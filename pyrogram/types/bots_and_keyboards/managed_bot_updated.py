@@ -59,5 +59,5 @@ class ManagedBotUpdated(Object, Update):
 
         return ManagedBotUpdated(
             user=await types.User._parse(client, users.get(managed_bot_updated.user_id)),
-            bot=await types.User._parse(client, users.get(managed_bot_updated.bot_id))
+            bot=await types.User._parse(client, users.get(managed_bot_updated.bot_id)),
         )

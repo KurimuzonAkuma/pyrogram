@@ -52,10 +52,7 @@ class ViewStories:
         ids = [story_id] if not isinstance(story_id, list) else story_id
 
         r = await self.invoke(
-            raw.functions.stories.IncrementStoryViews(
-                peer=await self.resolve_peer(chat_id),
-                id=ids
-            )
+            raw.functions.stories.IncrementStoryViews(peer=await self.resolve_peer(chat_id), id=ids)
         )
 
         return r

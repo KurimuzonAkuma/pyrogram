@@ -53,7 +53,7 @@ class Thumbnail(Object):
         file_unique_id: str,
         width: int,
         height: int,
-        file_size: int
+        file_size: int,
     ):
         super().__init__(client)
 
@@ -95,16 +95,15 @@ class Thumbnail(Object):
                         thumbnail_source=ThumbnailSource.THUMBNAIL,
                         thumbnail_size=thumb.type,
                         volume_id=0,
-                        local_id=0
+                        local_id=0,
                     ).encode(),
                     file_unique_id=FileUniqueId(
-                        file_unique_type=FileUniqueType.DOCUMENT,
-                        media_id=media.id
+                        file_unique_type=FileUniqueType.DOCUMENT, media_id=media.id
                     ).encode(),
                     width=thumb.w,
                     height=thumb.h,
                     file_size=thumb.size,
-                    client=client
+                    client=client,
                 )
             )
 

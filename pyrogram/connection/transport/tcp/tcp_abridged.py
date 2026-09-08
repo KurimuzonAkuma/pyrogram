@@ -55,10 +55,7 @@ class TCPAbridged(TCP):
         length = len(data) // 4
 
         await super().send(
-            (bytes([length])
-             if length <= 126
-             else b"\x7f" + length.to_bytes(3, "little"))
-            + data
+            (bytes([length]) if length <= 126 else b"\x7f" + length.to_bytes(3, "little")) + data
         )
 
     async def recv(self, length: int = 0) -> bytes | None:

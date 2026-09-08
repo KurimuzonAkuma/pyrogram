@@ -40,7 +40,7 @@ class FoundContacts(Object):
         *,
         client: pyrogram.Client | None = None,
         my_results: list[types.Chat] | None = None,
-        global_results: list[types.Chat] | None = None
+        global_results: list[types.Chat] | None = None,
     ):
         super().__init__(client)
 
@@ -70,5 +70,5 @@ class FoundContacts(Object):
         return FoundContacts(
             my_results=types.List(my_results) or None,
             global_results=types.List(global_results) or None,
-            client=client
+            client=client,
         )

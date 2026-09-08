@@ -38,6 +38,7 @@ class PaymentResult(Object):
         raw (:obj:`~pyrogram.raw.base.payments.PaymentResult`, *optional*):
             The raw result from the Telegram API.
     """
+
     def __init__(
         self,
         *,
@@ -55,12 +56,7 @@ class PaymentResult(Object):
     def _parse(payment_result: raw.base.payments.PaymentResult) -> PaymentResult:
         if isinstance(payment_result, raw.types.payments.PaymentVerificationNeeded):
             return PaymentResult(
-                success=False,
-                verification_url=payment_result.url,
-                raw=payment_result
+                success=False, verification_url=payment_result.url, raw=payment_result
             )
         elif isinstance(payment_result, raw.types.payments.PaymentResult):
-            return PaymentResult(
-                success=True,
-                raw=payment_result
-            )
+            return PaymentResult(success=True, raw=payment_result)

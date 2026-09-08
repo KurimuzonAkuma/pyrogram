@@ -39,7 +39,7 @@ class EditInlineMedia:
         self: pyrogram.Client,
         inline_message_id: str,
         media: types.InputMedia,
-        reply_markup: types.InlineKeyboardMarkup | None = None
+        reply_markup: types.InlineKeyboardMarkup | None = None,
     ) -> bool:
         """Edit inline animation, audio, document, photo or video messages, or to add media to text messages.
 
@@ -102,16 +102,16 @@ class EditInlineMedia:
         if isinstance(media, types.InputMediaPhoto):
             if is_uploaded_file:
                 media = raw.types.InputMediaUploadedPhoto(
-                    file=await self.save_file(media.media),
-                    spoiler=media.has_spoiler
+                    file=await self.save_file(media.media), spoiler=media.has_spoiler
                 )
             elif is_external_url:
                 media = raw.types.InputMediaPhotoExternal(
-                    url=media.media,
-                    spoiler=media.has_spoiler
+                    url=media.media, spoiler=media.has_spoiler
                 )
             else:
-                media = utils.get_input_media_from_file_id(media.media, FileType.PHOTO, has_spoiler=media.has_spoiler)
+                media = utils.get_input_media_from_file_id(
+                    media.media, FileType.PHOTO, has_spoiler=media.has_spoiler
+                )
         elif isinstance(media, types.InputMediaVideo):
             if is_uploaded_file:
                 media = raw.types.InputMediaUploadedDocument(
@@ -120,21 +120,23 @@ class EditInlineMedia:
                     file=await self.save_file(media.media),
                     spoiler=media.has_spoiler,
                     attributes=[
-                                   raw.types.DocumentAttributeVideo(
-                                       supports_streaming=media.supports_streaming or None,
-                                       duration=media.duration,
-                                       w=media.width,
-                                       h=media.height
-                                   )
-                               ] + filename_attribute
+                        raw.types.DocumentAttributeVideo(
+                            supports_streaming=media.supports_streaming or None,
+                            duration=media.duration,
+                            w=media.width,
+                            h=media.height,
+                        )
+                    ]
+                    + filename_attribute,
                 )
             elif is_external_url:
                 media = raw.types.InputMediaDocumentExternal(
-                    url=media.media,
-                    spoiler=media.has_spoiler
+                    url=media.media, spoiler=media.has_spoiler
                 )
             else:
-                media = utils.get_input_media_from_file_id(media.media, FileType.VIDEO, has_spoiler=media.has_spoiler)
+                media = utils.get_input_media_from_file_id(
+                    media.media, FileType.VIDEO, has_spoiler=media.has_spoiler
+                )
         elif isinstance(media, types.InputMediaAudio):
             if is_uploaded_file:
                 media = raw.types.InputMediaUploadedDocument(
@@ -142,17 +144,14 @@ class EditInlineMedia:
                     thumb=await self.save_file(media.thumb),
                     file=await self.save_file(media.media),
                     attributes=[
-                                   raw.types.DocumentAttributeAudio(
-                                       duration=media.duration,
-                                       performer=media.performer,
-                                       title=media.title
-                                   )
-                               ] + filename_attribute
+                        raw.types.DocumentAttributeAudio(
+                            duration=media.duration, performer=media.performer, title=media.title
+                        )
+                    ]
+                    + filename_attribute,
                 )
             elif is_external_url:
-                media = raw.types.InputMediaDocumentExternal(
-                    url=media.media
-                )
+                media = raw.types.InputMediaDocumentExternal(url=media.media)
             else:
                 media = utils.get_input_media_from_file_id(media.media, FileType.AUDIO)
         elif isinstance(media, types.InputMediaAnimation):
@@ -163,23 +162,25 @@ class EditInlineMedia:
                     file=await self.save_file(media.media),
                     spoiler=media.has_spoiler,
                     attributes=[
-                                   raw.types.DocumentAttributeVideo(
-                                       supports_streaming=True,
-                                       duration=media.duration,
-                                       w=media.width,
-                                       h=media.height
-                                   ),
-                                   raw.types.DocumentAttributeAnimated()
-                               ] + filename_attribute,
-                    nosound_video=True
+                        raw.types.DocumentAttributeVideo(
+                            supports_streaming=True,
+                            duration=media.duration,
+                            w=media.width,
+                            h=media.height,
+                        ),
+                        raw.types.DocumentAttributeAnimated(),
+                    ]
+                    + filename_attribute,
+                    nosound_video=True,
                 )
             elif is_external_url:
                 media = raw.types.InputMediaDocumentExternal(
-                    url=media.media,
-                    spoiler=media.has_spoiler
+                    url=media.media, spoiler=media.has_spoiler
                 )
             else:
-                media = utils.get_input_media_from_file_id(media.media, FileType.ANIMATION, has_spoiler=media.has_spoiler)
+                media = utils.get_input_media_from_file_id(
+                    media.media, FileType.ANIMATION, has_spoiler=media.has_spoiler
+                )
         elif isinstance(media, types.InputMediaDocument):
             if is_uploaded_file:
                 media = raw.types.InputMediaUploadedDocument(
@@ -187,12 +188,10 @@ class EditInlineMedia:
                     thumb=await self.save_file(media.thumb),
                     file=await self.save_file(media.media),
                     attributes=filename_attribute,
-                    force_file=True
+                    force_file=True,
                 )
             elif is_external_url:
-                media = raw.types.InputMediaDocumentExternal(
-                    url=media.media
-                )
+                media = raw.types.InputMediaDocumentExternal(url=media.media)
             else:
                 media = utils.get_input_media_from_file_id(media.media, FileType.DOCUMENT)
 
@@ -203,26 +202,27 @@ class EditInlineMedia:
 
         if is_uploaded_file:
             uploaded_media = await self.invoke(
-                raw.functions.messages.UploadMedia(
-                    peer=raw.types.InputPeerSelf(),
-                    media=media
-                )
+                raw.functions.messages.UploadMedia(peer=raw.types.InputPeerSelf(), media=media)
             )
 
-            actual_media = raw.types.InputMediaPhoto(
-                id=raw.types.InputPhoto(
-                    id=uploaded_media.photo.id,
-                    access_hash=uploaded_media.photo.access_hash,
-                    file_reference=uploaded_media.photo.file_reference
-                ),
-                spoiler=getattr(media, "has_spoiler", None)
-            ) if isinstance(uploaded_media, raw.types.MessageMediaPhoto) else raw.types.InputMediaDocument(
-                id=raw.types.InputDocument(
-                    id=uploaded_media.document.id,
-                    access_hash=uploaded_media.document.access_hash,
-                    file_reference=uploaded_media.document.file_reference
-                ),
-                spoiler=getattr(media, "has_spoiler", None)
+            actual_media = (
+                raw.types.InputMediaPhoto(
+                    id=raw.types.InputPhoto(
+                        id=uploaded_media.photo.id,
+                        access_hash=uploaded_media.photo.access_hash,
+                        file_reference=uploaded_media.photo.file_reference,
+                    ),
+                    spoiler=getattr(media, "has_spoiler", None),
+                )
+                if isinstance(uploaded_media, raw.types.MessageMediaPhoto)
+                else raw.types.InputMediaDocument(
+                    id=raw.types.InputDocument(
+                        id=uploaded_media.document.id,
+                        access_hash=uploaded_media.document.access_hash,
+                        file_reference=uploaded_media.document.file_reference,
+                    ),
+                    spoiler=getattr(media, "has_spoiler", None),
+                )
             )
         else:
             actual_media = media
@@ -234,9 +234,11 @@ class EditInlineMedia:
                         id=unpacked,
                         media=actual_media,
                         reply_markup=await reply_markup.write(self) if reply_markup else None,
-                        **await utils.parse_text_entities(self, caption, parse_mode, caption_entities)
+                        **await utils.parse_text_entities(
+                            self, caption, parse_mode, caption_entities
+                        ),
                     ),
-                    sleep_threshold=self.sleep_threshold
+                    sleep_threshold=self.sleep_threshold,
                 )
             except RPCError as e:
                 if i == self.MAX_RETRIES - 1:

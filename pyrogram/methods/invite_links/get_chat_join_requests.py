@@ -27,10 +27,7 @@ from pyrogram import types
 
 class GetChatJoinRequests:
     async def get_chat_join_requests(
-        self: pyrogram.Client,
-        chat_id: int | str,
-        limit: int = 0,
-        query: str = ""
+        self: pyrogram.Client, chat_id: int | str, limit: int = 0, query: str = ""
     ) -> AsyncGenerator[types.ChatJoiner, None]:
         """Get the pending join requests of a chat.
 
@@ -69,7 +66,7 @@ class GetChatJoinRequests:
                     offset_date=offset_date,
                     offset_user=offset_user,
                     requested=True,
-                    q=query
+                    q=query,
                 )
             )
 

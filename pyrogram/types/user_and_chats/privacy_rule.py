@@ -38,10 +38,11 @@ class PrivacyRule(Object):
     """
 
     def __init__(
-        self, *,
+        self,
+        *,
         type: enums.PrivacyRuleType,
         users: list[types.User] | None = None,
-        chats: list[types.Chat] | None = None
+        chats: list[types.Chat] | None = None,
     ):
         super().__init__(None)
 
@@ -53,6 +54,15 @@ class PrivacyRule(Object):
     async def _parse(client, rule: raw.base.PrivacyRule, users: dict, chats: dict) -> PrivacyRule:
         return PrivacyRule(
             type=enums.PrivacyRuleType(type(rule)),
-            users=types.List([await types.User._parse(client, users.get(i)) for i in getattr(rule, "users", [])]) or None,
-            chats=types.List([await types.Chat._parse_chat(client, chats.get(i)) for i in getattr(rule, "chats", [])]) or None
+            users=types.List(
+                [await types.User._parse(client, users.get(i)) for i in getattr(rule, "users", [])]
+            )
+            or None,
+            chats=types.List(
+                [
+                    await types.Chat._parse_chat(client, chats.get(i))
+                    for i in getattr(rule, "chats", [])
+                ]
+            )
+            or None,
         )

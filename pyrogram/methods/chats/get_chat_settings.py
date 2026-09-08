@@ -23,10 +23,7 @@ from pyrogram import raw, types
 
 
 class GetChatSettings:
-    async def get_chat_settings(
-        self: pyrogram.Client,
-        chat_id: int | str
-    ) -> types.ChatSettings:
+    async def get_chat_settings(self: pyrogram.Client, chat_id: int | str) -> types.ChatSettings:
         """Get information about a chat settings.
 
         .. include:: /_includes/usable-by/users.rst
@@ -50,9 +47,7 @@ class GetChatSettings:
                 print(settings)
         """
         r = await self.invoke(
-            raw.functions.messages.GetPeerSettings(
-                peer=await self.resolve_peer(chat_id)
-            )
+            raw.functions.messages.GetPeerSettings(peer=await self.resolve_peer(chat_id))
         )
 
         users = {i.id: i for i in r.users}

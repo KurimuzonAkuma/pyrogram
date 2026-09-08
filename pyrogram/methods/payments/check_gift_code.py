@@ -49,7 +49,10 @@ class CheckGiftCode:
                 # get information about a gift code
                 await app.check_gift_code("t.me/giftcode/abc1234567def")
         """
-        match = re.match(r"^(?:https?://)?(?:www\.)?(?:t(?:elegram)?\.(?:org|me|dog)/(?:giftcode/|\+))([\w-]+)$", link)
+        match = re.match(
+            r"^(?:https?://)?(?:www\.)?(?:t(?:elegram)?\.(?:org|me|dog)/(?:giftcode/|\+))([\w-]+)$",
+            link,
+        )
 
         if match:
             slug = match.group(1)
@@ -58,11 +61,7 @@ class CheckGiftCode:
         else:
             raise ValueError("Invalid gift code link")
 
-        r = await self.invoke(
-            raw.functions.payments.CheckGiftCode(
-                slug=slug
-            )
-        )
+        r = await self.invoke(raw.functions.payments.CheckGiftCode(slug=slug))
 
         users = {i.id: i for i in r.users}
         chats = {i.id: i for i in r.chats}

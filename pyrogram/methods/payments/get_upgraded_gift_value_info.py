@@ -24,8 +24,7 @@ from pyrogram import raw, types
 
 class GetUpgradedGiftValueInfo:
     async def get_upgraded_gift_value_info(
-        self: pyrogram.Client,
-        link: str
+        self: pyrogram.Client, link: str
     ) -> types.UpgradedGiftValueInfo:
         """Returns information about value of an upgraded gift by its name.
 
@@ -57,9 +56,7 @@ class GetUpgradedGiftValueInfo:
             raise ValueError("Invalid gift link")
 
         r = await self.invoke(
-            raw.functions.payments.GetUniqueStarGiftValueInfo(
-                slug=slug.replace(" ", "")
-            )
+            raw.functions.payments.GetUniqueStarGiftValueInfo(slug=slug.replace(" ", ""))
         )
 
         return types.UpgradedGiftValueInfo._parse(r)

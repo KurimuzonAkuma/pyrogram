@@ -60,7 +60,7 @@ class OnManagedBot:
                 func.handlers.append(
                     (
                         pyrogram.handlers.ManagedBotUpdatedHandler(func, arguments.filters),
-                        arguments.group
+                        arguments.group,
                     )
                 )
 

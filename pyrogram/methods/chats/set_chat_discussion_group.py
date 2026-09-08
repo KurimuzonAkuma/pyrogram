@@ -24,9 +24,10 @@ from pyrogram import raw
 
 class SetChatDiscussionGroup:
     async def set_chat_discussion_group(
-        self: pyrogram.Client, *,
+        self: pyrogram.Client,
+        *,
         chat_id: int | str | None = None,
-        discussion_chat_id: int | str | None = None
+        discussion_chat_id: int | str | None = None,
     ) -> bool:
         """Change the discussion group of a channel chat.
 
@@ -79,13 +80,14 @@ class SetChatDiscussionGroup:
             discussion_peer = await self.resolve_peer(discussion_chat_id)
 
             if not isinstance(discussion_peer, raw.types.InputPeerChannel):
-                raise ValueError(f'The discussion_chat_id "{discussion_chat_id}" does not belong to a chat')
+                raise ValueError(
+                    f'The discussion_chat_id "{discussion_chat_id}" does not belong to a chat'
+                )
 
         return bool(
             await self.invoke(
                 raw.functions.channels.SetDiscussionGroup(
-                    broadcast=channel_peer,
-                    group=discussion_peer
+                    broadcast=channel_peer, group=discussion_peer
                 )
             )
         )

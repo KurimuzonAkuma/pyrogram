@@ -66,7 +66,7 @@ class InputMediaPhoto(InputMedia):
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[MessageEntity] | None = None,
-        has_spoiler: bool | None = None
+        has_spoiler: bool | None = None,
     ):
         super().__init__(media, caption, parse_mode, caption_entities)
 
@@ -80,7 +80,7 @@ class InputMediaPhoto(InputMedia):
         progress: Callable | None = None,
         progress_args: tuple = (),
         ttl_seconds: int | None = None,
-        **kwargs
+        **kwargs,
     ) -> raw.base.InputMedia:
         if chat_id is None:
             peer = raw.types.InputPeerSelf()

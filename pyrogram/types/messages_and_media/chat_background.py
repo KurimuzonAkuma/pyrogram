@@ -103,7 +103,7 @@ class ChatBackground(Object):
         intensity: int | None = None,
         rotation_angle: int | None = None,
         emoji: str | None = None,
-        raw: raw.base.WallPaper | None = None
+        raw: raw.base.WallPaper | None = None,
     ):
         super().__init__()
 
@@ -131,7 +131,7 @@ class ChatBackground(Object):
         client: pyrogram.Client,
         background: raw.base.WallPaper,
         is_same: bool | None = None,
-        only_for_self: bool | None = None
+        only_for_self: bool | None = None,
     ) -> ChatBackground | None:
         if not background:
             return None
@@ -163,5 +163,5 @@ class ChatBackground(Object):
             intensity=getattr(settings, "intensity", None),
             rotation_angle=getattr(settings, "rotation", None),
             emoji=getattr(settings, "emoticon", None),
-            raw=background
+            raw=background,
         )

@@ -24,9 +24,7 @@ from pyrogram import raw, types, utils
 
 class ProcessGiftPurchaseOffer:
     async def process_gift_purchase_offer(
-        self: pyrogram.Client,
-        message_id: int,
-        accept: bool
+        self: pyrogram.Client, message_id: int, accept: bool
     ) -> types.Message | None:
         """Handles a pending gift purchase offer.
 
@@ -45,10 +43,7 @@ class ProcessGiftPurchaseOffer:
             server answered with no message, None is returned.
         """
         r = await self.invoke(
-            raw.functions.payments.ResolveStarGiftOffer(
-                offer_msg_id=message_id,
-                decline=not accept
-            )
+            raw.functions.payments.ResolveStarGiftOffer(offer_msg_id=message_id, decline=not accept)
         )
 
         return next(iter(await utils.parse_messages(client=self, messages=r)), None)

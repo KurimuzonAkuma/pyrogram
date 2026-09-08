@@ -91,12 +91,14 @@ def serialize_frame(frame_type: FrameType, *, stream_id: int, payload: bytes) ->
         msg = f"frame: payload too large ({len(payload)} bytes)"
         raise ValueError(msg)
 
-    header = bytes((
-        frame_type & 0xFF,
-        (stream_id >> 16) & 0xFF,
-        (stream_id >> 8) & 0xFF,
-        stream_id & 0xFF,
-    )) + len(payload).to_bytes(4, "big")
+    header = bytes(
+        (
+            frame_type & 0xFF,
+            (stream_id >> 16) & 0xFF,
+            (stream_id >> 8) & 0xFF,
+            stream_id & 0xFF,
+        )
+    ) + len(payload).to_bytes(4, "big")
 
     return header + payload
 
@@ -124,7 +126,7 @@ def parse_frames(wire: bytes) -> ParsedFrames:
             raise FrameParseError(msg)
 
         stream_id = (wire[offset + 1] << 16) | (wire[offset + 2] << 8) | wire[offset + 3]
-        size = int.from_bytes(wire[offset + 4:offset + 8], "big")
+        size = int.from_bytes(wire[offset + 4 : offset + 8], "big")
 
         if size > FRAME_MAX_PAYLOAD:
             msg = f"frame: payload too large ({size} bytes)"
@@ -135,7 +137,7 @@ def parse_frames(wire: bytes) -> ParsedFrames:
         if wire_len - offset < full:
             break
 
-        payload = bytes(wire[offset + FRAME_HEADER_SIZE:offset + full])
+        payload = bytes(wire[offset + FRAME_HEADER_SIZE : offset + full])
         frames.append(Frame(FrameType(type_byte), stream_id, payload))
         offset += full
 
@@ -556,9 +558,13 @@ class WebProxyCarrier:
         #  down the downlink, and nothing would be reading it otherwise.
         self._poll_task = self._loop.create_task(self._poll_loop())
 
-        await self._send_frames([
-            serialize_frame(FrameType.HELLO, stream_id=_CONTROL_STREAM_ID, payload=_HELLO_PAYLOAD),
-        ])
+        await self._send_frames(
+            [
+                serialize_frame(
+                    FrameType.HELLO, stream_id=_CONTROL_STREAM_ID, payload=_HELLO_PAYLOAD
+                ),
+            ]
+        )
 
         try:
             await asyncio.wait_for(self._welcome_event.wait(), timeout=_WELCOME_TIMEOUT)
@@ -571,9 +577,11 @@ class WebProxyCarrier:
         if self._fail_exc is not None:
             raise self._fail_exc
 
-        await self._send_frames([
-            serialize_frame(FrameType.OPEN, stream_id=_STREAM_ID, payload=b""),
-        ])
+        await self._send_frames(
+            [
+                serialize_frame(FrameType.OPEN, stream_id=_STREAM_ID, payload=b""),
+            ]
+        )
 
     async def send(self, data: bytes) -> None:
         if self._fail_exc is not None:
@@ -586,7 +594,7 @@ class WebProxyCarrier:
         offset = 0
 
         while offset < len(data):
-            chunk = data[offset:offset + _UPLINK_FRAME_MAX]
+            chunk = data[offset : offset + _UPLINK_FRAME_MAX]
 
             if self._send_window < len(chunk):
                 # Nothing we are waiting on can arrive until the relay sees what
@@ -743,9 +751,11 @@ class WebProxyCarrier:
         credit = amount.to_bytes(_WINDOW_PAYLOAD_SIZE, "big")
 
         try:
-            await self._send_frames([
-                serialize_frame(FrameType.WINDOW, stream_id=_STREAM_ID, payload=credit),
-            ])
+            await self._send_frames(
+                [
+                    serialize_frame(FrameType.WINDOW, stream_id=_STREAM_ID, payload=credit),
+                ]
+            )
 
         # The carrier has already failed, so there is nothing left to credit.
         except WebCarrierError as e:
@@ -853,13 +863,17 @@ class WebProxyCarrier:
             return
 
         if one_frame.type == FrameType.PING:
-            self._track_task(self._send_frames([
-                serialize_frame(
-                    FrameType.PONG,
-                    stream_id=_CONTROL_STREAM_ID,
-                    payload=one_frame.payload,
-                ),
-            ]))
+            self._track_task(
+                self._send_frames(
+                    [
+                        serialize_frame(
+                            FrameType.PONG,
+                            stream_id=_CONTROL_STREAM_ID,
+                            payload=one_frame.payload,
+                        ),
+                    ]
+                )
+            )
             return
 
         if one_frame.type == FrameType.BYE:
@@ -870,9 +884,11 @@ class WebProxyCarrier:
             self._recv_window_remaining -= len(one_frame.payload)
 
             if self._recv_window_remaining < 0:
-                self._track_task(self._fail(
-                    WebCarrierError("relay sent DATA beyond granted receive credit"),
-                ))
+                self._track_task(
+                    self._fail(
+                        WebCarrierError("relay sent DATA beyond granted receive credit"),
+                    )
+                )
                 return
 
             self._recv_queue.put_nowait(one_frame.payload)

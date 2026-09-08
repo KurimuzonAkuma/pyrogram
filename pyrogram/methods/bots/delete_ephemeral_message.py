@@ -27,7 +27,7 @@ class DeleteEphemeralMessage:
         self: pyrogram.Client,
         chat_id: int | str,
         receiver_user_id: int | str,
-        ephemeral_message_id: int
+        ephemeral_message_id: int,
     ) -> bool:
         """Use this method to delete an ephemeral message.
         Note that it is not guaranteed that the user will receive the message deletion event, especially if they are offline.
@@ -51,6 +51,6 @@ class DeleteEphemeralMessage:
             raw.functions.ephemeral.DeleteMessage(
                 peer=await self.resolve_peer(chat_id),
                 receiver_id=await self.resolve_peer(receiver_user_id),
-                id=ephemeral_message_id
+                id=ephemeral_message_id,
             )
         )

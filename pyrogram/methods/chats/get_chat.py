@@ -26,9 +26,7 @@ from pyrogram import utils
 
 class GetChat:
     async def get_chat(
-        self: pyrogram.Client,
-        chat_id: int | str,
-        force_full: bool = True
+        self: pyrogram.Client, chat_id: int | str, force_full: bool = True
     ) -> types.Chat | None:
         """Get up to date information about a chat.
 
@@ -64,11 +62,7 @@ class GetChat:
         match = self.INVITE_LINK_RE.match(str(chat_id))
 
         if match:
-            r = await self.invoke(
-                raw.functions.messages.CheckChatInvite(
-                    hash=match.group(1)
-                )
-            )
+            r = await self.invoke(raw.functions.messages.CheckChatInvite(hash=match.group(1)))
 
             if isinstance(r, raw.types.ChatInvite):
                 return await types.Chat._parse_preview(self, r)
@@ -104,5 +98,5 @@ class GetChat:
                 self,
                 r.chats[0]
                 if isinstance(r, (raw.types.messages.Chats, raw.types.messages.ChatsSlice))
-                else r[0]
+                else r[0],
             )

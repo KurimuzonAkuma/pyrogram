@@ -52,8 +52,5 @@ class ApplyBoost:
         )
 
         return await types.MyBoost._parse(
-            self,
-            r.my_boosts[0],
-            {i.id: i for i in r.users},
-            {i.id: i for i in r.chats}
+            self, r.my_boosts[0], {i.id: i for i in r.users}, {i.id: i for i in r.chats}
         )

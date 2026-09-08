@@ -54,7 +54,7 @@ class StoryView(Object):
         date: datetime,
         is_blocked: bool | None = None,
         is_blocked_my_stories_from: bool | None = None,
-        reaction: types.Reaction | None = None
+        reaction: types.Reaction | None = None,
     ):
         super().__init__(client)
 
@@ -72,5 +72,5 @@ class StoryView(Object):
             is_blocked=getattr(view, "blocked", None),
             is_blocked_my_stories_from=getattr(view, "blocked_my_stories_from", None),
             reaction=types.Reaction._parse(client, getattr(view, "reaction", None)),
-            client=client
+            client=client,
         )

@@ -34,8 +34,10 @@ class ChatShared(Object):
         chat (:obj:`~pyrogram.types.Chat`):
             Requested chats.
     """
+
     def __init__(
-        self, *,
+        self,
+        *,
         button_id: int,
         chat: types.Chat,
     ):
@@ -48,7 +50,7 @@ class ChatShared(Object):
     async def _parse(
         client: pyrogram.Client,
         action: raw.types.MessageActionRequestedPeer | raw.types.MessageActionRequestedPeerSentMe,
-        chats: dict[int, raw.base.Chat] = {}
+        chats: dict[int, raw.base.Chat] = {},
     ) -> ChatShared | None:
         peer = action.peers[0]
 
@@ -71,11 +73,7 @@ class ChatShared(Object):
             if raw_chat:
                 chat_shared = await types.Chat._parse_chat(client, raw_chat)
             else:
-                chat_shared = types.Chat(
-                    id=peer_id,
-                    type=chat_type,
-                    client=client
-                )
+                chat_shared = types.Chat(id=peer_id, type=chat_type, client=client)
         elif isinstance(action, raw.types.MessageActionRequestedPeerSentMe):
             chat_shared = types.Chat(
                 id=peer_id,
@@ -85,10 +83,7 @@ class ChatShared(Object):
                 title=getattr(peer, "title", None),
                 username=getattr(peer, "username", None),
                 photo=types.Photo._parse(client, getattr(peer, "photo", None)),
-                client=client
+                client=client,
             )
 
-        return ChatShared(
-            button_id=action.button_id,
-            chat=chat_shared
-        )
+        return ChatShared(button_id=action.button_id, chat=chat_shared)

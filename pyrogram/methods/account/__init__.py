@@ -27,6 +27,7 @@ from .set_inactive_session_ttl import SetInactiveSessionTTL
 from .set_privacy import SetPrivacy
 from .set_profile_audio_position import SetProfileAudioPosition
 
+
 class Account(
     AddProfileAudio,
     GetAccountTTL,
@@ -37,6 +38,6 @@ class Account(
     SetGlobalPrivacySettings,
     SetInactiveSessionTTL,
     SetPrivacy,
-    SetProfileAudioPosition
+    SetProfileAudioPosition,
 ):
     pass

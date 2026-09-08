@@ -725,7 +725,9 @@ class User(Object, Update):
             dc_id=getattr(user.photo, "dc_id", None),
             phone_number=user.phone,
             photo=await types.ChatPhoto._parse(client, user.photo, user.id, user.access_hash),
-            restrictions=types.List([types.Restriction._parse(r) for r in user.restriction_reason or []])
+            restrictions=types.List(
+                [types.Restriction._parse(r) for r in user.restriction_reason or []]
+            )
             or None,
             accent_color_id=accent_color_id,
             background_custom_emoji_id=background_custom_emoji_id,
@@ -786,7 +788,9 @@ class User(Object, Update):
         parsed_user.personal_photo = await types.ChatPhoto._parse(
             client, user.personal_photo, users[user.id].id, users[user.id].access_hash
         )
-        parsed_user.photo = await types.ChatPhoto._parse(client, user.profile_photo, users[user.id].id, users[user.id].access_hash)
+        parsed_user.photo = await types.ChatPhoto._parse(
+            client, user.profile_photo, users[user.id].id, users[user.id].access_hash
+        )
         parsed_user.public_photo = await types.ChatPhoto._parse(
             client, user.fallback_photo, users[user.id].id, users[user.id].access_hash
         )

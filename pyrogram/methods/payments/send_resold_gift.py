@@ -77,23 +77,15 @@ class SendResoldGift:
         match = self.UPGRADED_GIFT_RE.match(gift_link)
 
         if not match:
-            raise ValueError(
-                "Invalid gift link provided."
-            )
+            raise ValueError("Invalid gift link provided.")
 
         peer = await self.resolve_peer(new_owner_chat_id)
 
         invoice = raw.types.InputInvoiceStarGiftResale(
-            slug=match.group(1),
-            to_id=peer,
-            ton=isinstance(price, types.GiftResalePriceTon)
+            slug=match.group(1), to_id=peer, ton=isinstance(price, types.GiftResalePriceTon)
         )
 
-        form = await self.invoke(
-            raw.functions.payments.GetPaymentForm(
-                invoice=invoice
-            )
-        )
+        form = await self.invoke(raw.functions.payments.GetPaymentForm(invoice=invoice))
 
         if isinstance(price, types.GiftResalePriceTon):
             amount = price.toncoin_cent_count
@@ -104,20 +96,19 @@ class SendResoldGift:
             raise ValueError("Invalid price specified.")
 
         if form.invoice.prices[0].amount > amount:
-            raise ValueError("Have not enough {}".format(
-                "Toncoins" if isinstance(price, types.GiftResalePriceTon) else "Telegram Stars"
-            ))
+            raise ValueError(
+                "Have not enough {}".format(
+                    "Toncoins" if isinstance(price, types.GiftResalePriceTon) else "Telegram Stars"
+                )
+            )
 
         r = await self.invoke(
-            raw.functions.payments.SendStarsForm(
-                form_id=form.form_id,
-                invoice=invoice
-            )
+            raw.functions.payments.SendStarsForm(form_id=form.form_id, invoice=invoice)
         )
 
         messages = await utils.parse_messages(
             client=self,
-            messages=r.updates if isinstance(r, raw.types.payments.PaymentResult) else r
+            messages=r.updates if isinstance(r, raw.types.payments.PaymentResult) else r,
         )
 
         return messages[0] if messages else None

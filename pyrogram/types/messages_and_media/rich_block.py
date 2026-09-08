@@ -469,9 +469,7 @@ class RichBlockListItem(RichBlock):
         self.type = type
 
     @staticmethod
-    async def _parse(
-        client, list_item: raw.base.PageListItem | raw.base.PageListOrderedItem
-    ):
+    async def _parse(client, list_item: raw.base.PageListItem | raw.base.PageListOrderedItem):
         if isinstance(list_item, raw.types.PageListItemBlocks):
             blocks = types.List(
                 [await types.RichBlock._parse(client, block) for block in list_item.blocks]
@@ -484,11 +482,7 @@ class RichBlockListItem(RichBlock):
 
         elif isinstance(list_item, raw.types.PageListItemText):
             blocks = types.List(
-                [
-                    types.RichBlockParagraph(
-                        text=await types.RichText._parse(client, list_item.text)
-                    )
-                ]
+                [types.RichBlockParagraph(text=await types.RichText._parse(client, list_item.text))]
             )
             label = "•"
             has_checkbox = list_item.checkbox
@@ -512,11 +506,7 @@ class RichBlockListItem(RichBlock):
 
         elif isinstance(list_item, raw.types.PageListOrderedItemText):
             blocks = types.List(
-                [
-                    types.RichBlockParagraph(
-                        text=await types.RichText._parse(client, list_item.text)
-                    )
-                ]
+                [types.RichBlockParagraph(text=await types.RichText._parse(client, list_item.text))]
             )
             has_checkbox = list_item.checkbox
             is_checked = list_item.checked
@@ -972,9 +962,7 @@ class RichBlockVoiceNote(RichBlock):
             Caption of the block.
     """
 
-    def __init__(
-        self, voice_note: types.Voice, caption: types.RichBlockCaption | None = None
-    ):
+    def __init__(self, voice_note: types.Voice, caption: types.RichBlockCaption | None = None):
         super().__init__()
 
         self.voice_note = voice_note

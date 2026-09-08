@@ -85,7 +85,7 @@ class Dialog(Object):
         is_pinned: bool,
         folder_id: int | None = None,
         ttl_period: int | None = None,
-        raw: raw.types.Dialog | None = None
+        raw: raw.types.Dialog | None = None,
     ):
         super().__init__(client)
 
@@ -119,5 +119,5 @@ class Dialog(Object):
             folder_id=getattr(dialog, "folder_id", None),
             ttl_period=getattr(dialog, "ttl_period", None),
             raw=dialog,
-            client=client
+            client=client,
         )

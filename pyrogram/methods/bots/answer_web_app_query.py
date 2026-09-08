@@ -25,9 +25,7 @@ from pyrogram import types
 
 class AnswerWebAppQuery:
     async def answer_web_app_query(
-        self: pyrogram.Client,
-        web_app_query_id: str,
-        result: types.InlineQueryResult
+        self: pyrogram.Client, web_app_query_id: str, result: types.InlineQueryResult
     ) -> types.SentWebAppMessage:
         """Set the result of an interaction with a `Web App <https://core.telegram.org/bots/webapps>`_ and send a
         corresponding message on behalf of the user to the chat from which the query originated.
@@ -47,8 +45,7 @@ class AnswerWebAppQuery:
 
         r = await self.invoke(
             raw.functions.messages.SendWebViewResultMessage(
-                bot_query_id=web_app_query_id,
-                result=await result.write(self)
+                bot_query_id=web_app_query_id, result=await result.write(self)
             )
         )
 

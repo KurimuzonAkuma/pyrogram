@@ -37,11 +37,7 @@ class ChatBoostUpdated(Object, Update):
     """
 
     def __init__(
-        self,
-        *,
-        client: pyrogram.Client | None = None,
-        chat: types.Chat,
-        boost: types.ChatBoost
+        self, *, client: pyrogram.Client | None = None, chat: types.Chat, boost: types.ChatBoost
     ):
         super().__init__(client)
 
@@ -56,7 +52,9 @@ class ChatBoostUpdated(Object, Update):
         chats: dict[int, raw.types.Channel],
     ) -> ChatBoostUpdated:
         return ChatBoostUpdated(
-            chat=await types.Chat._parse_channel_chat(client, chats.get(utils.get_raw_peer_id(update.peer))),
+            chat=await types.Chat._parse_channel_chat(
+                client, chats.get(utils.get_raw_peer_id(update.peer))
+            ),
             boost=await types.ChatBoost._parse(client, update.boost, users),
-            client=client
+            client=client,
         )

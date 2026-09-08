@@ -26,13 +26,14 @@ from pyrogram import raw, types
 
 log = logging.getLogger(__name__)
 
+
 class SetProfilePhoto:
     async def set_profile_photo(
         self: pyrogram.Client,
         photo: types.InputChatPhoto | None = None,
         is_public: bool | None = None,
         *,
-        video: str | BinaryIO | None = None
+        video: str | BinaryIO | None = None,
     ) -> bool:
         """Changes a profile photo for the current user.
 
@@ -92,8 +93,12 @@ class SetProfilePhoto:
                 await self.invoke(
                     raw.functions.photos.UploadProfilePhoto(
                         fallback=is_public,
-                        file=await photo.write(self) if isinstance(photo, types.InputChatPhotoStatic) else None,
-                        video=await photo.write(self) if isinstance(photo, types.InputChatPhotoAnimation) else None,
+                        file=await photo.write(self)
+                        if isinstance(photo, types.InputChatPhotoStatic)
+                        else None,
+                        video=await photo.write(self)
+                        if isinstance(photo, types.InputChatPhotoAnimation)
+                        else None,
                         video_start_ts=getattr(photo, "main_frame_timestamp", None),
                     )
                 )
@@ -147,8 +152,12 @@ class SetBotProfilePhoto:
                 await self.invoke(
                     raw.functions.photos.UploadProfilePhoto(
                         bot=await self.resolve_peer(bot_user_id),
-                        file=await photo.write(self) if isinstance(photo, types.InputChatPhotoStatic) else None,
-                        video=await photo.write(self) if isinstance(photo, types.InputChatPhotoAnimation) else None,
+                        file=await photo.write(self)
+                        if isinstance(photo, types.InputChatPhotoStatic)
+                        else None,
+                        video=await photo.write(self)
+                        if isinstance(photo, types.InputChatPhotoAnimation)
+                        else None,
                         video_start_ts=getattr(photo, "main_frame_timestamp", None),
                     )
                 )

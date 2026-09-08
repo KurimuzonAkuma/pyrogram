@@ -73,11 +73,11 @@ class SearchPosts:
                         offset_rate=offset_date,
                         offset_peer=offset_peer,
                         offset_id=offset_id,
-                        limit=limit
+                        limit=limit,
                     ),
-                    sleep_threshold=60
+                    sleep_threshold=60,
                 ),
-                replies=0
+                replies=0,
             )
 
             if not messages:

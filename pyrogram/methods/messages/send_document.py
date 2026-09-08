@@ -286,8 +286,7 @@ class SendDocument:
                     document, progress=progress, progress_args=progress_args
                 )
                 media = raw.types.InputMediaUploadedDocument(
-                    mime_type=self.guess_mime_type(file_name or document.name)
-                    or "application/zip",
+                    mime_type=self.guess_mime_type(file_name or document.name) or "application/zip",
                     file=file,
                     thumb=thumb,
                     attributes=[

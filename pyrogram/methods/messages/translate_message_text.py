@@ -28,7 +28,7 @@ class TranslateMessageText:
         chat_id: str,
         message_id: int,
         to_language_code: str | None = None,
-        tone: str | None = None
+        tone: str | None = None,
     ) -> types.FormattedText:
         """Extract text or caption of the given message and translates it to the given language.
 
@@ -70,7 +70,7 @@ class TranslateMessageText:
                 to_lang=to_language_code or self.lang_code,
                 peer=await self.resolve_peer(chat_id),
                 id=[message_id],
-                tone=tone
+                tone=tone,
             )
         )
 

@@ -41,11 +41,12 @@ class SentCode(Object):
     """
 
     def __init__(
-        self, *,
+        self,
+        *,
         type: enums.SentCodeType,
         phone_code_hash: str,
         next_type: enums.NextCodeType | None = None,
-        timeout: int | None = None
+        timeout: int | None = None,
     ):
         super().__init__()
 
@@ -59,6 +60,8 @@ class SentCode(Object):
         return SentCode(
             type=enums.SentCodeType(type(sent_code.type)),
             phone_code_hash=sent_code.phone_code_hash,
-            next_type=enums.NextCodeType(type(sent_code.next_type)) if sent_code.next_type else None,
-            timeout=sent_code.timeout
+            next_type=enums.NextCodeType(type(sent_code.next_type))
+            if sent_code.next_type
+            else None,
+            timeout=sent_code.timeout,
         )

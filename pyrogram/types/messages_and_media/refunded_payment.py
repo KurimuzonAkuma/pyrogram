@@ -50,7 +50,7 @@ class RefundedPayment(Object):
         total_amount: str,
         invoice_payload: str,
         telegram_payment_charge_id: str,
-        provider_payment_charge_id: str
+        provider_payment_charge_id: str,
     ):
 
         super().__init__()
@@ -62,9 +62,7 @@ class RefundedPayment(Object):
         self.provider_payment_charge_id = provider_payment_charge_id
 
     @staticmethod
-    def _parse(
-        payment: raw.types.MessageActionPaymentRefunded
-    ) -> RefundedPayment:
+    def _parse(payment: raw.types.MessageActionPaymentRefunded) -> RefundedPayment:
         invoice_payload = None
 
         # Try to decode invoice payload into string. If that fails, fallback to bytes instead of decoding by
@@ -79,5 +77,5 @@ class RefundedPayment(Object):
             total_amount=payment.total_amount,
             invoice_payload=invoice_payload,
             telegram_payment_charge_id=payment.charge.id,
-            provider_payment_charge_id=payment.charge.provider_charge_id
+            provider_payment_charge_id=payment.charge.provider_charge_id,
         )

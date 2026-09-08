@@ -54,7 +54,7 @@ class GetBusinessAccountStarBalance:
             raw.functions.payments.GetStarsStatus(
                 peer=await self.resolve_peer(connection_info.user.id),
             ),
-            business_connection_id=business_connection_id
+            business_connection_id=business_connection_id,
         )
 
         return r.balance.amount

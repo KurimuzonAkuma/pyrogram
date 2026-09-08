@@ -92,6 +92,7 @@ class Sticker(Object):
         raw (:obj:`~pyrogram.raw.types.Document`, *optional*):
             The raw sticker.
     """
+
     def __init__(
         self,
         *,
@@ -113,7 +114,7 @@ class Sticker(Object):
         custom_emoji_id: str | None = None,
         needs_repainting: bool | None = None,
         thumbs: list[types.Thumbnail] | None = None,
-        raw: raw.types.Document | None = None
+        raw: raw.types.Document | None = None,
     ):
         super().__init__()
 
@@ -150,15 +151,16 @@ class Sticker(Object):
             if name is not None:
                 return name
 
-            name = (await invoke(
-                raw.functions.messages.GetStickerSet(
-                    stickerset=raw.types.InputStickerSetID(
-                        id=set_id,
-                        access_hash=set_access_hash
-                    ),
-                    hash=0
+            name = (
+                await invoke(
+                    raw.functions.messages.GetStickerSet(
+                        stickerset=raw.types.InputStickerSetID(
+                            id=set_id, access_hash=set_access_hash
+                        ),
+                        hash=0,
+                    )
                 )
-            )).set.short_name
+            ).set.short_name
 
             Sticker.cache[(set_id, set_access_hash)] = name
 
@@ -200,7 +202,9 @@ class Sticker(Object):
             needs_repainting = sticker_attribute.text_color
 
         image_size_attributes = document_attributes.get(raw.types.DocumentAttributeImageSize, None)
-        file_name = getattr(document_attributes.get(raw.types.DocumentAttributeFilename, None), "file_name", None)
+        file_name = getattr(
+            document_attributes.get(raw.types.DocumentAttributeFilename, None), "file_name", None
+        )
         video_attributes = document_attributes.get(raw.types.DocumentAttributeVideo, None)
 
         if client.fetch_stickers and sticker_attribute:
@@ -230,8 +234,7 @@ class Sticker(Object):
                     file_reference=sticker.file_reference,
                 ).encode(),
                 file_unique_id=FileUniqueId(
-                    file_unique_type=FileUniqueType.DOCUMENT,
-                    media_id=sticker.id
+                    file_unique_type=FileUniqueType.DOCUMENT, media_id=sticker.id
                 ).encode(),
                 type=sticker_type,
                 width=main.w,
@@ -241,7 +244,7 @@ class Sticker(Object):
                 file_size=main.size,
                 file_name=f"Mask{file_name}",
                 mime_type="application/x-tgsticker",
-                raw=main
+                raw=main,
             )
 
         return Sticker(
@@ -250,11 +253,10 @@ class Sticker(Object):
                 dc_id=sticker.dc_id,
                 media_id=sticker.id,
                 access_hash=sticker.access_hash,
-                file_reference=sticker.file_reference
+                file_reference=sticker.file_reference,
             ).encode(),
             file_unique_id=FileUniqueId(
-                file_unique_type=FileUniqueType.DOCUMENT,
-                media_id=sticker.id
+                file_unique_type=FileUniqueType.DOCUMENT, media_id=sticker.id
             ).encode(),
             type=sticker_type,
             width=(
@@ -284,5 +286,5 @@ class Sticker(Object):
             file_name=file_name,
             date=utils.timestamp_to_datetime(sticker.date),
             thumbs=types.Thumbnail._parse(client, sticker),
-            raw=sticker
+            raw=sticker,
         )

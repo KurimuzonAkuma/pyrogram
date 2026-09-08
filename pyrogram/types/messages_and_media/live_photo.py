@@ -55,6 +55,7 @@ class LivePhoto(Object):
         file_size (``int``, *optional*):
             File size.
     """
+
     def __init__(
         self,
         *,
@@ -89,16 +90,15 @@ class LivePhoto(Object):
                 dc_id=video.dc_id,
                 media_id=video.id,
                 access_hash=video.access_hash,
-                file_reference=video.file_reference
+                file_reference=video.file_reference,
             ).encode(),
             file_unique_id=FileUniqueId(
-                file_unique_type=FileUniqueType.DOCUMENT,
-                media_id=video.id
+                file_unique_type=FileUniqueType.DOCUMENT, media_id=video.id
             ).encode(),
             width=getattr(video_attributes, "w", None),
             height=getattr(video_attributes, "h", None),
             duration=video_attributes.duration,
             mime_type=video.mime_type,
             file_size=video.size,
-            client=client
+            client=client,
         )

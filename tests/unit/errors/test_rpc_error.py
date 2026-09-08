@@ -33,7 +33,7 @@ from pyrogram.errors import (
     PhoneMigrate,
     RecaptchaCheck,
     RPCError,
-    UnknownError
+    UnknownError,
 )
 from tests.unit.errors import RPC_NAME, raise_it
 
@@ -49,14 +49,11 @@ def attributes_of(error_type: type[RPCError]) -> dict[str, int | str | None]:
     [
         pytest.param(420, "FLOOD_WAIT_42", FloodWait, 42, id="a-number-in-the-message"),
         pytest.param(303, "PHONE_MIGRATE_2", PhoneMigrate, 2, id="another-number"),
-        pytest.param(400, "PEER_ID_INVALID", PeerIdInvalid, None, id="no-number-at-all")
-    ]
+        pytest.param(400, "PEER_ID_INVALID", PeerIdInvalid, None, id="no-number-at-all"),
+    ],
 )
 def test_a_known_error_takes_its_number_from_the_message(
-    code: int,
-    message: str,
-    error_type: type[RPCError],
-    value: int | None
+    code: int, message: str, error_type: type[RPCError], value: int | None
 ) -> None:
     with pytest.raises(error_type) as raised:
         raise_it(code, message=message)
@@ -91,8 +88,7 @@ def test_the_message_template_is_filled_in_with_the_value() -> None:
 
 
 def test_an_unknown_message_falls_back_to_the_class_of_its_code(
-    tmp_path: Path,
-    monkeypatch: pytest.MonkeyPatch
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     # An unknown error appends to `unknown_errors.txt` in the working directory
     # (`RPCError.__init__`), which is why every unknown case runs somewhere disposable.
@@ -108,8 +104,7 @@ def test_an_unknown_message_falls_back_to_the_class_of_its_code(
 
 
 def test_an_unknown_code_becomes_an_unknown_error(
-    tmp_path: Path,
-    monkeypatch: pytest.MonkeyPatch
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     monkeypatch.chdir(tmp_path)
 
@@ -125,8 +120,7 @@ def test_an_unknown_code_becomes_an_unknown_error(
 
 
 def test_an_unknown_error_is_recorded_in_a_file(
-    tmp_path: Path,
-    monkeypatch: pytest.MonkeyPatch
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     monkeypatch.chdir(tmp_path)
 
@@ -154,12 +148,11 @@ def test_a_known_error_records_nothing(tmp_path: Path, monkeypatch: pytest.Monke
         pytest.param("42", 42, id="digits-become-a-number"),
         pytest.param(42, 42, id="a-number-stays-one"),
         pytest.param("FLOOD_WAIT_X", "FLOOD_WAIT_X", id="text-is-kept"),
-        pytest.param(None, None, id="nothing-stays-nothing")
-    ]
+        pytest.param(None, None, id="nothing-stays-nothing"),
+    ],
 )
 def test_value_keeps_whatever_is_not_a_number(
-    value: int | str | None,
-    expected: int | str | None
+    value: int | str | None, expected: int | str | None
 ) -> None:
     error = FloodWait(value)
 
@@ -179,7 +172,7 @@ def test_value_can_also_hold_the_raw_error_object() -> None:
         pytest.param(
             RPCError,
             {"ID": None, "CODE": None, "NAME": None, "MESSAGE": "{value}"},
-            id="the-base-class-sets-none-of-them"
+            id="the-base-class-sets-none-of-them",
         ),
         pytest.param(
             FloodWait,
@@ -187,15 +180,14 @@ def test_value_can_also_hold_the_raw_error_object() -> None:
                 "ID": "FLOOD_WAIT_X",
                 "CODE": 420,
                 "NAME": "Flood",
-                "MESSAGE": "Please wait {seconds} seconds before repeating the action."
+                "MESSAGE": "Please wait {seconds} seconds before repeating the action.",
             },
-            id="a-generated-subclass-sets-all-of-them"
-        )
-    ]
+            id="a-generated-subclass-sets-all-of-them",
+        ),
+    ],
 )
 def test_an_error_class_declares_what_it_is(
-    error_type: type[RPCError],
-    attributes: dict[str, int | str | None]
+    error_type: type[RPCError], attributes: dict[str, int | str | None]
 ) -> None:
     assert attributes_of(error_type) == attributes
 
@@ -213,7 +205,7 @@ def test_the_base_class_renders_the_value_on_its_own() -> None:
             "signup__6LdcABcDEFghIJKlmnOP",
             "Telegram says: [403 RECAPTCHA_CHECK_X] - The request can't be completed unless "
             "reCAPTCHA verification signup__6LdcABcDEFghIJKlmnOP is performed.",
-            id="the-shape-telegram-sends"
+            id="the-shape-telegram-sends",
         ),
         # The two strings TDLib feeds its own verification tests with:
         # https://github.com/tdlib/td/blob/022d60202e446ad1287b9fb68e687c8a0760788b/td/telegram/net/NetQueryDispatcher.cpp#L73-L82
@@ -230,7 +222,7 @@ def test_the_base_class_renders_the_value_on_its_own() -> None:
             "AB_CD__KEY",
             "Telegram says: [403 RECAPTCHA_CHECK_X] - The request can't be completed unless "
             "reCAPTCHA verification AB_CD__KEY is performed.",
-            id="an-action-with-an-underscore"
+            id="an-action-with-an-underscore",
         ),
         pytest.param(
             "RECAPTCHA_CHECK_signup",
@@ -238,7 +230,7 @@ def test_the_base_class_renders_the_value_on_its_own() -> None:
             "signup",
             "Telegram says: [403 RECAPTCHA_CHECK_X] - The request can't be completed unless "
             "reCAPTCHA verification signup is performed.",
-            id="no-key-at-all"
+            id="no-key-at-all",
         ),
         # The template has nothing to put in its hole, hence the two spaces.
         pytest.param(
@@ -247,7 +239,7 @@ def test_the_base_class_renders_the_value_on_its_own() -> None:
             "",
             "Telegram says: [403 RECAPTCHA_CHECK_X] - The request can't be completed unless "
             "reCAPTCHA verification  is performed.",
-            id="no-parameters-at-all"
+            id="no-parameters-at-all",
         ),
         pytest.param(
             "APNS_VERIFY_CHECK_ABCD",
@@ -255,7 +247,7 @@ def test_the_base_class_renders_the_value_on_its_own() -> None:
             "ABCD",
             "Telegram says: [403 APNS_VERIFY_CHECK_X] - The request can't be completed unless "
             "the APNs verification ABCD is performed.",
-            id="an-apns-nonce"
+            id="an-apns-nonce",
         ),
         pytest.param(
             "INTEGRITY_CHECK_CLASSIC_ABCD",
@@ -263,9 +255,9 @@ def test_the_base_class_renders_the_value_on_its_own() -> None:
             "ABCD",
             "Telegram says: [403 INTEGRITY_CHECK_CLASSIC_X] - The request can't be completed "
             "unless the classic Play Integrity verification ABCD is performed.",
-            id="a-play-integrity-nonce"
-        )
-    ]
+            id="a-play-integrity-nonce",
+        ),
+    ],
 )
 def test_a_verification_error_keeps_its_parameters_whole(
     tmp_path: Path,
@@ -273,7 +265,7 @@ def test_a_verification_error_keeps_its_parameters_whole(
     message: str,
     error_type: type[RPCError],
     value: str,
-    text: str
+    text: str,
 ) -> None:
     # Run somewhere disposable: before the prefixes were split off these raised a bare `Forbidden`
     # and appended to `unknown_errors.txt`, which is what the next test asserts no longer happens.
@@ -292,8 +284,7 @@ def test_a_verification_error_keeps_its_parameters_whole(
 
 
 def test_a_verification_error_is_not_an_unknown_error(
-    tmp_path: Path,
-    monkeypatch: pytest.MonkeyPatch
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     monkeypatch.chdir(tmp_path)
 

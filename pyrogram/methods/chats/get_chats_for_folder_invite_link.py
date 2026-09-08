@@ -24,8 +24,7 @@ from pyrogram import types, enums
 
 class GetChatsForFolderInviteLink:
     async def get_chats_for_folder_invite_link(
-        self: pyrogram.Client,
-        chat_folder_id: int
+        self: pyrogram.Client, chat_folder_id: int
     ) -> list[types.Chat]:
         """Returns chats from a chat folder, suitable for adding to a chat folder invite link.
 
@@ -73,7 +72,11 @@ class GetChatsForFolderInviteLink:
         available_chats = pinned_chats + included_chats
 
         for chat in available_chats:
-            if chat.type in (enums.ChatType.FORUM, enums.ChatType.SUPERGROUP, enums.ChatType.CHANNEL):
+            if chat.type in (
+                enums.ChatType.FORUM,
+                enums.ChatType.SUPERGROUP,
+                enums.ChatType.CHANNEL,
+            ):
                 chats.append(chat)
 
         return chats

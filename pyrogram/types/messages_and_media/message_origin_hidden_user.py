@@ -38,16 +38,14 @@ class MessageOriginHiddenUser(MessageOrigin):
         sender_user_name (``str``):
             Name of the user that sent the message originally.
     """
+
     def __init__(
         self,
         *,
         type: enums.MessageOriginType = enums.MessageOriginType.HIDDEN_USER,
         date: datetime | None = None,
-        sender_user_name: str | None = None
+        sender_user_name: str | None = None,
     ):
-        super().__init__(
-            type=type,
-            date=date
-        )
+        super().__init__(type=type, date=date)
 
         self.sender_user_name = sender_user_name

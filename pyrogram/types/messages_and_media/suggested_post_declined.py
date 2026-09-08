@@ -38,11 +38,13 @@ class SuggestedPostDeclined(Object):
         comment (``str``, *optional*):
             Comment added by administrator of the channel when the post was declined.
     """
+
     def __init__(
-        self, *,
+        self,
+        *,
         suggested_post_message_id: int | None = None,
         suggested_post_message: types.Message | None = None,
-        comment: str | None = None
+        comment: str | None = None,
     ):
         super().__init__()
 
@@ -52,8 +54,7 @@ class SuggestedPostDeclined(Object):
 
     @staticmethod
     async def _parse(
-        client: pyrogram.Client,
-        message: raw.types.MessageService
+        client: pyrogram.Client, message: raw.types.MessageService
     ) -> SuggestedPostDeclined:
         action: raw.types.MessageActionSuggestedPostApproval = message.action
 
@@ -73,8 +74,7 @@ class SuggestedPostDeclined(Object):
             if client.fetch_replies:
                 try:
                     suggested_post_message = await client.get_messages(
-                        chat_id=chat_id,
-                        message_ids=suggested_post_message_id
+                        chat_id=chat_id, message_ids=suggested_post_message_id
                     )
                 except MessageIdsEmpty:
                     pass
@@ -82,5 +82,5 @@ class SuggestedPostDeclined(Object):
         return SuggestedPostDeclined(
             suggested_post_message_id=suggested_post_message_id,
             suggested_post_message=suggested_post_message,
-            comment=action.reject_comment or None
+            comment=action.reject_comment or None,
         )

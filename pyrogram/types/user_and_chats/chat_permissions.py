@@ -27,6 +27,7 @@ from ..object import Object
 
 log = logging.getLogger(__name__)
 
+
 class ChatPermissions(Object):
     """Describes actions that a non-administrator user is allowed to take in a chat.
 
@@ -110,10 +111,8 @@ class ChatPermissions(Object):
         can_invite_users: bool | None = None,
         can_pin_messages: bool | None = None,
         can_manage_topics: bool | None = None,
-
         can_send_media_messages: (
-            bool
-            | None
+            bool | None
         ) = None,  # Audio files, documents, photos, videos, video notes and voice notes. Deprecated
     ):
         super().__init__(None)
@@ -149,19 +148,21 @@ class ChatPermissions(Object):
                 can_send_video_notes=not denied_permissions.send_roundvideos,
                 can_send_voice_notes=not denied_permissions.send_voices,
                 can_send_polls=not denied_permissions.send_polls,
-                can_send_other_messages=any([
-                    not denied_permissions.send_stickers,
-                    not denied_permissions.send_gifs,
-                    not denied_permissions.send_games,
-                    not denied_permissions.send_inline
-                ]),
+                can_send_other_messages=any(
+                    [
+                        not denied_permissions.send_stickers,
+                        not denied_permissions.send_gifs,
+                        not denied_permissions.send_games,
+                        not denied_permissions.send_inline,
+                    ]
+                ),
                 can_add_web_page_previews=not denied_permissions.embed_links,
                 can_react_to_messages=not denied_permissions.send_reactions,
                 can_edit_tag=not denied_permissions.edit_rank,
                 can_change_info=not denied_permissions.change_info,
                 can_invite_users=not denied_permissions.invite_users,
                 can_pin_messages=not denied_permissions.pin_messages,
-                can_manage_topics=not denied_permissions.manage_topics
+                can_manage_topics=not denied_permissions.manage_topics,
             )
 
     def write(self, until_date: datetime = utils.zero_datetime()) -> raw.types.ChatBannedRights:
@@ -205,13 +206,14 @@ class ChatPermissions(Object):
             send_games=not self.can_send_other_messages,
             send_inline=not self.can_send_other_messages,
             embed_links=not self.can_add_web_page_previews,
-            send_reactions=not self.can_react_to_messages if self.can_react_to_messages is not None else not self.can_send_messages,
+            send_reactions=not self.can_react_to_messages
+            if self.can_react_to_messages is not None
+            else not self.can_send_messages,
             edit_rank=not self.can_edit_tag,
             change_info=not self.can_change_info,
             invite_users=not self.can_invite_users,
             pin_messages=not self.can_pin_messages,
             manage_topics=not self.can_manage_topics,
             # send_plain
-
-            send_media=send_media
+            send_media=send_media,
         )

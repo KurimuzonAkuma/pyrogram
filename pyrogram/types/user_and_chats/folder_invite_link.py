@@ -35,12 +35,9 @@ class FolderInviteLink(Object):
         chat_ids (List of ``int``, *optional*):
             Identifiers of chats, included in the link.
     """
+
     def __init__(
-        self,
-        *,
-        invite_link: str,
-        name: str | None = None,
-        chat_ids: list[int] | None = None
+        self, *, invite_link: str, name: str | None = None, chat_ids: list[int] | None = None
     ):
         super().__init__()
 
@@ -53,5 +50,5 @@ class FolderInviteLink(Object):
         return FolderInviteLink(
             invite_link=invite.url,
             name=invite.title,
-            chat_ids=types.List([utils.get_peer_id(peer) for peer in invite.peers])
+            chat_ids=types.List([utils.get_peer_id(peer) for peer in invite.peers]),
         )

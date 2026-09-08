@@ -59,10 +59,7 @@ class DeleteStories:
         ids = list(story_ids) if is_iterable else [story_ids]
 
         r = await self.invoke(
-            raw.functions.stories.DeleteStories(
-                peer=await self.resolve_peer(chat_id),
-                id=ids
-            )
+            raw.functions.stories.DeleteStories(peer=await self.resolve_peer(chat_id), id=ids)
         )
 
         return types.List(r)

@@ -100,7 +100,10 @@ class Community(Object):
                 have_access=bool(community.access_hash),
                 name=community.title,
                 photo=await types.ChatPhoto._parse(
-                    client, community.photo, utils.get_channel_id(community.id), community.access_hash or 0
+                    client,
+                    community.photo,
+                    utils.get_channel_id(community.id),
+                    community.access_hash or 0,
                 ),
                 date=utils.timestamp_to_datetime(community.date),
                 status=types.CommunityMemberStatus._parse(community),

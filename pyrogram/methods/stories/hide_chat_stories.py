@@ -48,8 +48,7 @@ class HideChatStories:
         """
         r = await self.invoke(
             raw.functions.stories.TogglePeerStoriesHidden(
-                peer=await self.resolve_peer(chat_id),
-                hidden=True
+                peer=await self.resolve_peer(chat_id), hidden=True
             )
         )
 

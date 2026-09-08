@@ -63,7 +63,7 @@ class CheckedGiftCode(Object):
         from_chat: types.Chat | None = None,
         winner: types.User | None = None,
         giveaway_message_id: int | None = None,
-        used_date: datetime | None = None
+        used_date: datetime | None = None,
     ):
         super().__init__()
 
@@ -96,5 +96,7 @@ class CheckedGiftCode(Object):
             from_chat=from_chat,
             winner=winner,
             giveaway_message_id=getattr(checked_gift_code, "giveaway_msg_id", None),
-            used_date=utils.timestamp_to_datetime(checked_gift_code.used_date) if getattr(checked_gift_code, "used_date") else None,
+            used_date=utils.timestamp_to_datetime(checked_gift_code.used_date)
+            if getattr(checked_gift_code, "used_date")
+            else None,
         )

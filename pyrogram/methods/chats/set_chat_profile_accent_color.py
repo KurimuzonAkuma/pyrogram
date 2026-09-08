@@ -56,7 +56,8 @@ class SetChatProfileAccentColor:
                 raw.functions.account.UpdateColor(
                     for_profile=True,
                     color=raw.types.PeerColor(
-                        color=profile_accent_color_id, background_emoji_id=profile_background_custom_emoji_id
+                        color=profile_accent_color_id,
+                        background_emoji_id=profile_background_custom_emoji_id,
                     ),
                 )
             )

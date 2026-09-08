@@ -28,9 +28,7 @@ log = logging.getLogger(__name__)
 
 class GetMediaGroup:
     async def get_media_group(
-        self: pyrogram.Client,
-        chat_id: int | str,
-        message_id: int
+        self: pyrogram.Client, chat_id: int | str, message_id: int
     ) -> list[types.Message]:
         """Get the media group a message belongs to.
 
@@ -61,7 +59,7 @@ class GetMediaGroup:
         messages = await self.get_messages(
             chat_id=chat_id,
             message_ids=[msg_id for msg_id in range(message_id - 9, message_id + 10)],
-            replies=0
+            replies=0,
         )
 
         # Get media group id from message with selected message id

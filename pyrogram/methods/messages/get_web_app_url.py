@@ -27,7 +27,7 @@ class GetWebAppUrl:
         self: pyrogram.Client,
         bot_user_id: int | str,
         url: str | None = None,
-        platform: enums.ClientPlatform | None = None
+        platform: enums.ClientPlatform | None = None,
     ) -> str:
         """Returns an HTTPS URL of a Web App to open from the side menu,
         a :obj:`~pyrogram.types.KeyboardButton` button with web app type,
@@ -63,7 +63,7 @@ class GetWebAppUrl:
                 bot=await self.resolve_peer(bot_user_id),
                 platform=platform.value,
                 from_side_menu=True if url is None else None,
-                url=url
+                url=url,
             )
         )
 

@@ -41,7 +41,7 @@ class CreateFolder:
         include_non_contacts: bool | None = None,
         include_bots: bool | None = None,
         include_groups: bool | None = None,
-        include_channels: bool | None = None
+        include_channels: bool | None = None,
     ) -> int:
         """Create new chat folder.
 
@@ -123,7 +123,8 @@ class CreateFolder:
         dialog_filters = await self.invoke(raw.functions.messages.GetDialogFilters())
 
         raw_folders_ids = [
-            folder.id for folder in dialog_filters.filters
+            folder.id
+            for folder in dialog_filters.filters
             if isinstance(folder, (raw.types.DialogFilter, raw.types.DialogFilterChatlist))
         ]
 
@@ -133,7 +134,9 @@ class CreateFolder:
                 folder_id = i
                 break
 
-        name, title_entities = (await utils.parse_text_entities(self, name, parse_mode, entities)).values()
+        name, title_entities = (
+            await utils.parse_text_entities(self, name, parse_mode, entities)
+        ).values()
         title_entities = title_entities or []
 
         pinned_chats = pinned_chats or []
@@ -149,18 +152,9 @@ class CreateFolder:
                         text=name,
                         entities=title_entities,
                     ),
-                    pinned_peers=[
-                        await self.resolve_peer(user_id)
-                        for user_id in pinned_chats
-                    ],
-                    include_peers=[
-                        await self.resolve_peer(user_id)
-                        for user_id in included_chats
-                    ],
-                    exclude_peers=[
-                        await self.resolve_peer(user_id)
-                        for user_id in excluded_chats
-                    ],
+                    pinned_peers=[await self.resolve_peer(user_id) for user_id in pinned_chats],
+                    include_peers=[await self.resolve_peer(user_id) for user_id in included_chats],
+                    exclude_peers=[await self.resolve_peer(user_id) for user_id in excluded_chats],
                     contacts=include_contacts,
                     non_contacts=include_non_contacts,
                     groups=include_groups,
@@ -171,8 +165,8 @@ class CreateFolder:
                     exclude_archived=exclude_archived,
                     title_noanimate=not animate_custom_emoji,
                     emoticon=icon,
-                    color=color.value if color else None
-                )
+                    color=color.value if color else None,
+                ),
             )
         )
 

@@ -39,7 +39,7 @@ class CopyStory:
         privacy: enums.StoriesPrivacyRules | None = None,
         allowed_users: list[int | str] | None = None,
         disallowed_users: list[int | str] | None = None,
-        protect_content: bool | None = None
+        protect_content: bool | None = None,
     ) -> types.Story | None:
         """Copy story.
 
@@ -115,5 +115,5 @@ class CopyStory:
             caption_entities=caption_entities,
             privacy=privacy,
             allowed_users=allowed_users,
-            disallowed_users=disallowed_users
+            disallowed_users=disallowed_users,
         )

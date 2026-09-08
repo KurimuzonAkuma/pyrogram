@@ -39,10 +39,7 @@ class ReplaceManagedBotToken:
             ``str``: On success, new bot token is returned.
         """
         r = await self.invoke(
-            raw.functions.bots.ExportBotToken(
-                bot=await self.resolve_peer(user_id),
-                revoke=True
-            )
+            raw.functions.bots.ExportBotToken(bot=await self.resolve_peer(user_id), revoke=True)
         )
 
         return r.token

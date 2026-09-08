@@ -89,11 +89,7 @@ class Checklist(Object):
         for task in checklist.todo.list:
             checklist_tasks.append(
                 await types.ChecklistTask._parse(
-                    client,
-                    task,
-                    completions.get(task.id),
-                    users,
-                    chats
+                    client, task, completions.get(task.id), users, chats
                 )
             )
 

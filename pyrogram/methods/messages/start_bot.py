@@ -25,9 +25,7 @@ from pyrogram import types
 
 class StartBot:
     async def start_bot(
-        self: pyrogram.Client,
-        chat_id: int | str,
-        param: str = ""
+        self: pyrogram.Client, chat_id: int | str, param: str = ""
     ) -> types.Message | None:
         """Start bot
 
@@ -62,17 +60,12 @@ class StartBot:
 
         r = await self.invoke(
             raw.functions.messages.StartBot(
-                bot=peer,
-                peer=peer,
-                random_id=self.rnd_id(),
-                start_param=param
+                bot=peer, peer=peer, random_id=self.rnd_id(), start_param=param
             )
         )
 
         for i in r.updates:
             if isinstance(i, raw.types.UpdateNewMessage):
                 return await types.Message._parse(
-                    self, i.message,
-                    {i.id: i for i in r.users},
-                    {i.id: i for i in r.chats}
+                    self, i.message, {i.id: i for i in r.users}, {i.id: i for i in r.chats}
                 )

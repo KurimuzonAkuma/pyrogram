@@ -28,7 +28,7 @@ class EditInlineReplyMarkup:
     async def edit_inline_reply_markup(
         self: pyrogram.Client,
         inline_message_id: str,
-        reply_markup: types.InlineKeyboardMarkup | None = None
+        reply_markup: types.InlineKeyboardMarkup | None = None,
     ) -> bool:
         """Edit only the reply markup of inline messages sent via the bot (for inline bots).
 
@@ -66,5 +66,5 @@ class EditInlineReplyMarkup:
                 id=unpacked,
                 reply_markup=await reply_markup.write(self) if reply_markup else None,
             ),
-            sleep_threshold=self.sleep_threshold
+            sleep_threshold=self.sleep_threshold,
         )

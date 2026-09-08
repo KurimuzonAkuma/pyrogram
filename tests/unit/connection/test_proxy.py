@@ -71,7 +71,9 @@ def test_normalize_proxy_is_idempotent_on_a_dataclass() -> None:
 
 
 def test_normalize_proxy_web_dict_form() -> None:
-    web_proxy = normalize_proxy({"scheme": "web", "hostname": "RELAY.Example.COM", "secret": PLAIN_SECRET_HEX})
+    web_proxy = normalize_proxy(
+        {"scheme": "web", "hostname": "RELAY.Example.COM", "secret": PLAIN_SECRET_HEX}
+    )
 
     assert isinstance(web_proxy, WebProxy)
     assert web_proxy.scheme is ProxyScheme.WEB
@@ -80,20 +82,30 @@ def test_normalize_proxy_web_dict_form() -> None:
 
 
 def test_normalize_proxy_web_dict_form_keeps_dd_marker() -> None:
-    web_proxy = normalize_proxy({"scheme": "web", "hostname": "relay.example.com", "secret": DD_SECRET_HEX})
+    web_proxy = normalize_proxy(
+        {"scheme": "web", "hostname": "relay.example.com", "secret": DD_SECRET_HEX}
+    )
 
     assert web_proxy.secret == bytes.fromhex(DD_SECRET_HEX)
 
 
 def test_normalize_proxy_scheme_is_case_insensitive() -> None:
-    web_proxy = normalize_proxy({"scheme": "WEB", "hostname": "relay.example.com", "secret": PLAIN_SECRET_HEX})
+    web_proxy = normalize_proxy(
+        {"scheme": "WEB", "hostname": "relay.example.com", "secret": PLAIN_SECRET_HEX}
+    )
 
     assert isinstance(web_proxy, WebProxy)
 
 
 def test_normalize_proxy_socks5_dict_form() -> None:
     proxy = normalize_proxy(
-        {"scheme": "socks5", "hostname": "1.2.3.4", "port": 1080, "username": "user", "password": "pass"}
+        {
+            "scheme": "socks5",
+            "hostname": "1.2.3.4",
+            "port": 1080,
+            "username": "user",
+            "password": "pass",
+        }
     )
 
     assert proxy == SOCKS5Proxy(hostname="1.2.3.4", port=1080, username="user", password="pass")
@@ -112,7 +124,9 @@ def test_normalize_proxy_http_dict_form() -> None:
 
 
 def test_normalize_proxy_mtproxy_dict_form() -> None:
-    proxy = normalize_proxy({"scheme": "mtproxy", "hostname": "1.2.3.4", "port": 443, "secret": PLAIN_SECRET_HEX})
+    proxy = normalize_proxy(
+        {"scheme": "mtproxy", "hostname": "1.2.3.4", "port": 443, "secret": PLAIN_SECRET_HEX}
+    )
 
     assert isinstance(proxy, MTProxy)
     assert proxy.port == 443
@@ -192,7 +206,9 @@ def test_normalize_proxy_mtproxy_sixteen_byte_secret_is_plain_whatever_its_first
     #  secret in 256 opens with a byte that would otherwise read as one.
     secret_hex = "ee" + PLAIN_SECRET_HEX[:-2]
 
-    proxy = normalize_proxy({"scheme": "mtproxy", "hostname": "1.2.3.4", "port": 443, "secret": secret_hex})
+    proxy = normalize_proxy(
+        {"scheme": "mtproxy", "hostname": "1.2.3.4", "port": 443, "secret": secret_hex}
+    )
 
     assert proxy.secret == bytes.fromhex(secret_hex)
     assert proxy.sni_hostname is None
@@ -212,7 +228,9 @@ def test_normalize_proxy_mtproxy_sixteen_byte_secret_is_plain_whatever_its_first
 )
 def test_normalize_proxy_mtproxy_malformed_secret_raises(secret_hex: str) -> None:
     with pytest.raises(ValueError):
-        normalize_proxy({"scheme": "mtproxy", "hostname": "1.2.3.4", "port": 443, "secret": secret_hex})
+        normalize_proxy(
+            {"scheme": "mtproxy", "hostname": "1.2.3.4", "port": 443, "secret": secret_hex}
+        )
 
 
 @pytest.mark.parametrize("secret_hex", [PLAIN_SECRET_HEX, DD_SECRET_HEX])
@@ -284,7 +302,9 @@ def test_client_proxy_address_reports_an_mtproxy() -> None:
 def test_client_proxy_address_reports_a_web_proxy_on_the_https_port() -> None:
     web_proxy = WebProxy(hostname="relay.example.com", secret=bytes.fromhex(PLAIN_SECRET_HEX))
 
-    assert client_proxy_address(web_proxy) == ProxyAddress(hostname="relay.example.com", port=HTTPS_PORT)
+    assert client_proxy_address(web_proxy) == ProxyAddress(
+        hostname="relay.example.com", port=HTTPS_PORT
+    )
 
 
 @pytest.mark.parametrize(
@@ -296,7 +316,9 @@ def test_client_proxy_address_reports_a_web_proxy_on_the_https_port() -> None:
         HTTPProxy(hostname="1.2.3.4", port=8080),
     ],
 )
-def test_client_proxy_address_reports_nothing_for_a_proxy_telegram_does_not_own(proxy: Proxy | None) -> None:
+def test_client_proxy_address_reports_nothing_for_a_proxy_telegram_does_not_own(
+    proxy: Proxy | None,
+) -> None:
     assert client_proxy_address(proxy) is None
 
 
@@ -329,7 +351,9 @@ def test_normalize_proxy_mtproxy_link_carries_a_dd_secret_whole() -> None:
 def test_normalize_proxy_mtproxy_link_splits_a_base64url_ee_secret() -> None:
     # The form an ee proxy is actually shared in: base64url, no padding.
     ee_secret_hex = "ee" + PLAIN_SECRET_HEX + SNI_DOMAIN.encode("ascii").hex()
-    proxy = normalize_proxy("tg://proxy?server=1.2.3.4&port=443&secret=" + _base64url(ee_secret_hex))
+    proxy = normalize_proxy(
+        "tg://proxy?server=1.2.3.4&port=443&secret=" + _base64url(ee_secret_hex)
+    )
 
     assert proxy == MTProxy(
         hostname="1.2.3.4",
@@ -354,7 +378,9 @@ def test_normalize_proxy_mtproxy_link_missing_a_param_raises(link: str) -> None:
 
 def test_normalize_proxy_webproxy_link_is_not_read_as_an_mtproxy_one() -> None:
     # `/proxy?` is a suffix of `/webproxy?`, so the two patterns can collide.
-    proxy = normalize_proxy("https://t.me/webproxy?server=relay.example.com&secret=" + PLAIN_SECRET_HEX)
+    proxy = normalize_proxy(
+        "https://t.me/webproxy?server=relay.example.com&secret=" + PLAIN_SECRET_HEX
+    )
 
     assert isinstance(proxy, WebProxy)
 
@@ -375,7 +401,9 @@ _ALPHABET_SENSITIVE_SECRET_HEX: Final[str] = "00112233445566778899aabbccddeeff"
     ],
 )
 def test_normalize_proxy_mtproxy_accepts_every_encoding_tdlib_accepts(encoded_secret: str) -> None:
-    proxy = normalize_proxy({"scheme": "mtproxy", "hostname": "1.2.3.4", "port": 443, "secret": encoded_secret})
+    proxy = normalize_proxy(
+        {"scheme": "mtproxy", "hostname": "1.2.3.4", "port": 443, "secret": encoded_secret}
+    )
 
     assert isinstance(proxy, MTProxy)
     assert proxy.secret == bytes.fromhex(_ALPHABET_SENSITIVE_SECRET_HEX)
@@ -383,4 +411,6 @@ def test_normalize_proxy_mtproxy_accepts_every_encoding_tdlib_accepts(encoded_se
 
 def test_normalize_proxy_mtproxy_rejects_a_secret_in_no_known_encoding() -> None:
     with pytest.raises(ValueError):
-        normalize_proxy({"scheme": "mtproxy", "hostname": "1.2.3.4", "port": 443, "secret": "not a secret!"})
+        normalize_proxy(
+            {"scheme": "mtproxy", "hostname": "1.2.3.4", "port": 443, "secret": "not a secret!"}
+        )

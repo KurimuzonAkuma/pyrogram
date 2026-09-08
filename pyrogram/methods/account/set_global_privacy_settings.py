@@ -116,10 +116,6 @@ class SetGlobalPrivacySettings:
         if accepted_gift_types is not None:
             settings.disallowed_gifts = accepted_gift_types.write()
 
-        r = await self.invoke(
-            raw.functions.account.SetGlobalPrivacySettings(
-                settings=settings
-            )
-        )
+        r = await self.invoke(raw.functions.account.SetGlobalPrivacySettings(settings=settings))
 
         return types.GlobalPrivacySettings._parse(r)

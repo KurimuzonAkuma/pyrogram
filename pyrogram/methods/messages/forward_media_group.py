@@ -38,7 +38,7 @@ class ForwardMediaGroup:
         protect_content: bool | None = None,
         allow_paid_broadcast: bool | None = None,
         reply_parameters: types.ReplyParameters | None = None,
-        paid_message_star_count: int | None = None
+        paid_message_star_count: int | None = None,
     ) -> list[types.Message]:
         """Forward a media group by providing one of the message ids.
 
@@ -116,9 +116,9 @@ class ForwardMediaGroup:
                 reply_to=await utils.get_reply_to(
                     client=self,
                     reply_parameters=reply_parameters,
-                    message_thread_id=message_thread_id
+                    message_thread_id=message_thread_id,
                 ),
-                allow_paid_stars=paid_message_star_count
+                allow_paid_stars=paid_message_star_count,
             )
         )
 

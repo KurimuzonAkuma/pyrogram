@@ -25,10 +25,7 @@ from pyrogram import types
 
 class GetGameHighScores:
     async def get_game_high_scores(
-        self: pyrogram.Client,
-        user_id: int | str,
-        chat_id: int | str,
-        message_id: int
+        self: pyrogram.Client, user_id: int | str, chat_id: int | str, message_id: int
     ) -> list[types.GameHighScore]:
         """Get data for high score tables.
 
@@ -63,8 +60,10 @@ class GetGameHighScores:
             raw.functions.messages.GetGameHighScores(
                 peer=await self.resolve_peer(chat_id),
                 id=message_id,
-                user_id=await self.resolve_peer(user_id)
+                user_id=await self.resolve_peer(user_id),
             )
         )
 
-        return types.List([await types.GameHighScore._parse(self, score, r.users) for score in r.scores])
+        return types.List(
+            [await types.GameHighScore._parse(self, score, r.users) for score in r.scores]
+        )

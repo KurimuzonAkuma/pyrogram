@@ -24,9 +24,7 @@ from pyrogram import enums, raw
 
 class SetMainProfileTab:
     async def set_main_profile_tab(
-        self: pyrogram.Client,
-        chat_id: int | str,
-        main_profile_tab: enums.ProfileTab
+        self: pyrogram.Client, chat_id: int | str, main_profile_tab: enums.ProfileTab
     ) -> bool:
         """Changes the main profile tab of the user or channel.
 
@@ -62,10 +60,7 @@ class SetMainProfileTab:
             )
         else:
             r = await self.invoke(
-                raw.functions.channels.SetMainProfileTab(
-                    channel=peer,
-                    tab=main_profile_tab.value()
-                )
+                raw.functions.channels.SetMainProfileTab(channel=peer, tab=main_profile_tab.value())
             )
 
         return r

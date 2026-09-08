@@ -37,10 +37,9 @@ class SuggestedPostParameters(Object):
             If specified, then the date must be between 300 second and 2678400 seconds (30 days) in the future.
             If the field is omitted, then the post can be published at any time within 30 days at the sole discretion of the user who approves it.
     """
+
     def __init__(
-        self, *,
-        price: types.SuggestedPostPrice | None = None,
-        send_date: datetime | None = None
+        self, *, price: types.SuggestedPostPrice | None = None, send_date: datetime | None = None
     ):
         super().__init__()
 
@@ -50,5 +49,5 @@ class SuggestedPostParameters(Object):
     def write(self) -> raw.types.SuggestedPost:
         return raw.types.SuggestedPost(
             price=self.price.write() if self.price else None,
-            schedule_date=utils.datetime_to_timestamp(self.send_date)
+            schedule_date=utils.datetime_to_timestamp(self.send_date),
         )

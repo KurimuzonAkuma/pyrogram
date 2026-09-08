@@ -56,17 +56,12 @@ class InputChecklistTask(Object):
         self.parse_mode = parse_mode
         self.entities = entities
 
-    async def write(
-        self, client: pyrogram.Client
-    ) -> raw.types.TodoItem:
-        task_title, task_entities = (await utils.parse_text_entities(
-            client, self.text, self.parse_mode, self.entities
-        )).values()
+    async def write(self, client: pyrogram.Client) -> raw.types.TodoItem:
+        task_title, task_entities = (
+            await utils.parse_text_entities(client, self.text, self.parse_mode, self.entities)
+        ).values()
 
         return raw.types.TodoItem(
             id=self.id,
-            title=raw.types.TextWithEntities(
-                text=task_title,
-                entities=task_entities or []
-            )
+            title=raw.types.TextWithEntities(text=task_title, entities=task_entities or []),
         )

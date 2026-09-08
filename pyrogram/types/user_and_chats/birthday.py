@@ -36,34 +36,19 @@ class Birthday(Object):
             Birthday year.
     """
 
-    def __init__(
-        self,
-        *,
-        day: int,
-        month: int,
-        year: int | None = None
-
-    ):
+    def __init__(self, *, day: int, month: int, year: int | None = None):
         self.day = day
         self.month = month
         self.year = year
 
     @staticmethod
-    def _parse(
-        birthday: raw.types.Birthday | None = None
-    ) -> Birthday | None:
+    def _parse(birthday: raw.types.Birthday | None = None) -> Birthday | None:
         if not birthday:
             return
 
         return Birthday(
-            day=birthday.day,
-            month=birthday.month,
-            year=getattr(birthday, "year", None)
+            day=birthday.day, month=birthday.month, year=getattr(birthday, "year", None)
         )
 
     def write(self):
-        return raw.types.Birthday(
-            day=self.day,
-            month=self.month,
-            year=self.year
-        )
+        return raw.types.Birthday(day=self.day, month=self.month, year=self.year)

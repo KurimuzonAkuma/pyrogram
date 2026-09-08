@@ -60,7 +60,7 @@ class OnEditedMessage:
                 func.handlers.append(
                     (
                         pyrogram.handlers.EditedMessageHandler(func, arguments.filters),
-                        arguments.group
+                        arguments.group,
                     )
                 )
 

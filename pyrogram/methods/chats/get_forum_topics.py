@@ -26,9 +26,7 @@ from pyrogram import raw, types, utils
 
 class GetForumTopics:
     async def get_forum_topics(
-        self: pyrogram.Client,
-        chat_id: int | str,
-        limit: int = 0
+        self: pyrogram.Client, chat_id: int | str, limit: int = 0
     ) -> AsyncGenerator[types.ForumTopic, None]:
         """Get one or more topic from a chat.
 
@@ -67,7 +65,7 @@ class GetForumTopics:
                     offset_date=offset_date,
                     offset_id=offset_id,
                     offset_topic=offset_topic,
-                    limit=limit
+                    limit=limit,
                 )
             )
 

@@ -38,11 +38,14 @@ class GetAvailableGifts:
 
                 await app.get_available_gifts()
         """
-        r = await self.invoke(
-            raw.functions.payments.GetStarGifts(hash=0)
-        )
+        r = await self.invoke(raw.functions.payments.GetStarGifts(hash=0))
 
         users = {i.id: i for i in r.users}
         chats = {i.id: i for i in r.chats}
 
-        return types.List([await types.Gift._parse_regular(self, gift, users=users, chats=chats) for gift in r.gifts])
+        return types.List(
+            [
+                await types.Gift._parse_regular(self, gift, users=users, chats=chats)
+                for gift in r.gifts
+            ]
+        )

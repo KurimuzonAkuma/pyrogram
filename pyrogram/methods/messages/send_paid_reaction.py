@@ -64,14 +64,18 @@ class SendPaidReaction:
         if privacy:
             is_queryable = privacy in [enums.PaidReactionPrivacy.CHAT]
 
-            privacy = privacy.value(peer=await self.resolve_peer(send_as)) if is_queryable else privacy.value()
+            privacy = (
+                privacy.value(peer=await self.resolve_peer(send_as))
+                if is_queryable
+                else privacy.value()
+            )
 
         rpc = raw.functions.messages.SendPaidReaction(
             peer=await self.resolve_peer(chat_id),
             msg_id=message_id,
             count=amount,
             random_id=self.rnd_id(),
-            private=privacy
+            private=privacy,
         )
 
         await self.invoke(rpc)

@@ -40,7 +40,7 @@ def monoforum_chat():
         monoforum=True,
         access_hash=0,
         usernames=[],
-        restriction_reason=[]
+        restriction_reason=[],
     )
 
 
@@ -53,17 +53,14 @@ def message(*, saved_peer_id=None):
         date=DATE,
         message="hi",
         entities=[],
-        restriction_reason=[]
+        restriction_reason=[],
     )
 
 
 @pytest.mark.asyncio
 async def test_a_direct_message_without_a_topic_parses():
     parsed = await types.Message._parse(
-        client(),
-        message(),
-        users={},
-        chats={CHANNEL_ID: monoforum_chat()}
+        client(), message(), users={}, chats={CHANNEL_ID: monoforum_chat()}
     )
 
     assert parsed.chat.type == enums.ChatType.DIRECT
@@ -77,7 +74,7 @@ async def test_a_direct_message_with_a_topic_keeps_its_id():
         client(),
         message(saved_peer_id=raw.types.PeerUser(user_id=USER_ID)),
         users={},
-        chats={CHANNEL_ID: monoforum_chat()}
+        chats={CHANNEL_ID: monoforum_chat()},
     )
 
     assert parsed.direct_messages_topic_id == USER_ID

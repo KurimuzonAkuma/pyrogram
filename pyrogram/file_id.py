@@ -115,6 +115,7 @@ def rle_decode(s: bytes) -> bytes:
 
 class FileType(IntEnum):
     """Known file types"""
+
     THUMBNAIL = 0
     CHAT_PHOTO = 1  # ProfilePhoto
     PHOTO = 2
@@ -141,6 +142,7 @@ class ThumbnailSource(IntEnum):
     TDLib mints the file ids, so its ``PhotoSizeSource`` is the authority on the values:
     https://github.com/tdlib/td/blob/master/td/telegram/PhotoSizeSource.h
     """
+
     LEGACY = 0
     THUMBNAIL = 1
     CHAT_PHOTO_SMALL = 2  # DialogPhotoSmall
@@ -167,8 +169,13 @@ NO_VOLUME_AND_LOCAL_ID_MINOR: Final[int] = 32
 
 
 # Photo-like file ids are longer and contain extra info, the rest are all documents
-PHOTO_TYPES = {FileType.THUMBNAIL, FileType.CHAT_PHOTO, FileType.PHOTO, FileType.WALLPAPER,
-               FileType.ENCRYPTED_THUMBNAIL}
+PHOTO_TYPES = {
+    FileType.THUMBNAIL,
+    FileType.CHAT_PHOTO,
+    FileType.PHOTO,
+    FileType.WALLPAPER,
+    FileType.ENCRYPTED_THUMBNAIL,
+}
 DOCUMENT_TYPES = set(FileType) - PHOTO_TYPES
 
 # Since the file type values are small enough to fit them in few bits, Telegram thought it would be a good idea to
@@ -183,6 +190,7 @@ class PhotoTail:
 
     Which of them are filled is decided by the source; the rest keep the default `FileId` gives them.
     """
+
     volume_id: int | None = None
     local_id: int | None = None
     secret: int | None = None
@@ -201,7 +209,7 @@ def read_photo_tail(buffer: BytesIO, *, thumbnail_source: ThumbnailSource) -> Ph
     https://github.com/tdlib/td/blob/master/td/telegram/PhotoSizeSource.hpp
     """
     if thumbnail_source == ThumbnailSource.LEGACY:
-        secret, = struct.unpack("<q", buffer.read(8))
+        (secret,) = struct.unpack("<q", buffer.read(8))
 
         return PhotoTail(secret=secret)
 
@@ -216,7 +224,9 @@ def read_photo_tail(buffer: BytesIO, *, thumbnail_source: ThumbnailSource) -> Ph
     if thumbnail_source == ThumbnailSource.THUMBNAIL:
         thumbnail_file_type, thumbnail_size = struct.unpack("<ii", buffer.read(8))
 
-        return PhotoTail(thumbnail_file_type=thumbnail_file_type, thumbnail_size=chr(thumbnail_size))
+        return PhotoTail(
+            thumbnail_file_type=thumbnail_file_type, thumbnail_size=chr(thumbnail_size)
+        )
 
     if thumbnail_source in (ThumbnailSource.CHAT_PHOTO_SMALL, ThumbnailSource.CHAT_PHOTO_BIG):
         chat_id, chat_access_hash = struct.unpack("<qq", buffer.read(16))
@@ -226,7 +236,9 @@ def read_photo_tail(buffer: BytesIO, *, thumbnail_source: ThumbnailSource) -> Ph
     if thumbnail_source == ThumbnailSource.STICKER_SET_THUMBNAIL:
         sticker_set_id, sticker_set_access_hash = struct.unpack("<qq", buffer.read(16))
 
-        return PhotoTail(sticker_set_id=sticker_set_id, sticker_set_access_hash=sticker_set_access_hash)
+        return PhotoTail(
+            sticker_set_id=sticker_set_id, sticker_set_access_hash=sticker_set_access_hash
+        )
 
     # `secret` sits between the other two, where `inputPhotoLegacyFileLocation` lists them as
     #  `volume_id local_id secret`. The file id follows `FullLegacy::store`, not the schema.
@@ -235,33 +247,40 @@ def read_photo_tail(buffer: BytesIO, *, thumbnail_source: ThumbnailSource) -> Ph
 
         return PhotoTail(volume_id=volume_id, secret=secret, local_id=local_id)
 
-    if thumbnail_source in (ThumbnailSource.CHAT_PHOTO_SMALL_LEGACY, ThumbnailSource.CHAT_PHOTO_BIG_LEGACY):
+    if thumbnail_source in (
+        ThumbnailSource.CHAT_PHOTO_SMALL_LEGACY,
+        ThumbnailSource.CHAT_PHOTO_BIG_LEGACY,
+    ):
         chat_id, chat_access_hash, volume_id, local_id = struct.unpack("<qqqi", buffer.read(28))
 
         return PhotoTail(
             chat_id=chat_id,
             chat_access_hash=chat_access_hash,
             volume_id=volume_id,
-            local_id=local_id
+            local_id=local_id,
         )
 
     if thumbnail_source == ThumbnailSource.STICKER_SET_THUMBNAIL_LEGACY:
-        sticker_set_id, sticker_set_access_hash, volume_id, local_id = struct.unpack("<qqqi", buffer.read(28))
+        sticker_set_id, sticker_set_access_hash, volume_id, local_id = struct.unpack(
+            "<qqqi", buffer.read(28)
+        )
 
         return PhotoTail(
             sticker_set_id=sticker_set_id,
             sticker_set_access_hash=sticker_set_access_hash,
             volume_id=volume_id,
-            local_id=local_id
+            local_id=local_id,
         )
 
     if thumbnail_source == ThumbnailSource.STICKER_SET_THUMBNAIL_VERSION:
-        sticker_set_id, sticker_set_access_hash, sticker_set_version = struct.unpack("<qqi", buffer.read(20))
+        sticker_set_id, sticker_set_access_hash, sticker_set_version = struct.unpack(
+            "<qqi", buffer.read(20)
+        )
 
         return PhotoTail(
             sticker_set_id=sticker_set_id,
             sticker_set_access_hash=sticker_set_access_hash,
-            sticker_set_version=sticker_set_version
+            sticker_set_version=sticker_set_version,
         )
 
     msg = f"No layout for thumbnail_source: {thumbnail_source!r}"
@@ -276,7 +295,10 @@ def write_photo_tail(file_id: FileId) -> bytes:
     if file_id.thumbnail_source == ThumbnailSource.THUMBNAIL:
         return struct.pack("<ii", file_id.thumbnail_file_type, ord(file_id.thumbnail_size))
 
-    if file_id.thumbnail_source in (ThumbnailSource.CHAT_PHOTO_SMALL, ThumbnailSource.CHAT_PHOTO_BIG):
+    if file_id.thumbnail_source in (
+        ThumbnailSource.CHAT_PHOTO_SMALL,
+        ThumbnailSource.CHAT_PHOTO_BIG,
+    ):
         return struct.pack("<qq", file_id.chat_id, file_id.chat_access_hash)
 
     if file_id.thumbnail_source == ThumbnailSource.STICKER_SET_THUMBNAIL:
@@ -285,8 +307,13 @@ def write_photo_tail(file_id: FileId) -> bytes:
     if file_id.thumbnail_source == ThumbnailSource.FULL_LEGACY:
         return struct.pack("<qqi", file_id.volume_id, file_id.secret, file_id.local_id)
 
-    if file_id.thumbnail_source in (ThumbnailSource.CHAT_PHOTO_SMALL_LEGACY, ThumbnailSource.CHAT_PHOTO_BIG_LEGACY):
-        return struct.pack("<qqqi", file_id.chat_id, file_id.chat_access_hash, file_id.volume_id, file_id.local_id)
+    if file_id.thumbnail_source in (
+        ThumbnailSource.CHAT_PHOTO_SMALL_LEGACY,
+        ThumbnailSource.CHAT_PHOTO_BIG_LEGACY,
+    ):
+        return struct.pack(
+            "<qqqi", file_id.chat_id, file_id.chat_access_hash, file_id.volume_id, file_id.local_id
+        )
 
     if file_id.thumbnail_source == ThumbnailSource.STICKER_SET_THUMBNAIL_LEGACY:
         return struct.pack(
@@ -294,7 +321,7 @@ def write_photo_tail(file_id: FileId) -> bytes:
             file_id.sticker_set_id,
             file_id.sticker_set_access_hash,
             file_id.volume_id,
-            file_id.local_id
+            file_id.local_id,
         )
 
     if file_id.thumbnail_source == ThumbnailSource.STICKER_SET_THUMBNAIL_VERSION:
@@ -302,7 +329,7 @@ def write_photo_tail(file_id: FileId) -> bytes:
             "<qqi",
             file_id.sticker_set_id,
             file_id.sticker_set_access_hash,
-            file_id.sticker_set_version
+            file_id.sticker_set_version,
         )
 
     msg = f"No layout for thumbnail_source: {file_id.thumbnail_source!r}"
@@ -314,7 +341,8 @@ class FileId:
     MINOR = 30
 
     def __init__(
-        self, *,
+        self,
+        *,
         major: int = MAJOR,
         minor: int = MINOR,
         file_type: FileType,
@@ -333,7 +361,7 @@ class FileId:
         chat_access_hash: int | None = None,
         sticker_set_id: int | None = None,
         sticker_set_access_hash: int | None = None,
-        sticker_set_version: int | None = None
+        sticker_set_version: int | None = None,
     ):
         self.major = major
         self.minor = minor
@@ -390,7 +418,7 @@ class FileId:
 
         if has_web_location:
             url = String.read(buffer)
-            access_hash, = struct.unpack("<q", buffer.read(8))
+            (access_hash,) = struct.unpack("<q", buffer.read(8))
 
             return FileId(
                 major=major,
@@ -398,7 +426,7 @@ class FileId:
                 file_type=file_type,
                 dc_id=dc_id,
                 url=url,
-                access_hash=access_hash
+                access_hash=access_hash,
             )
 
         file_reference = Bytes.read(buffer) if has_file_reference else b""
@@ -408,18 +436,20 @@ class FileId:
             has_volume_and_local_id = minor < NO_VOLUME_AND_LOCAL_ID_MINOR
             volume_id = struct.unpack("<q", buffer.read(8))[0] if has_volume_and_local_id else None
 
-            thumbnail_source, = (0,) if major < 4 else struct.unpack("<i", buffer.read(4))
+            (thumbnail_source,) = (0,) if major < 4 else struct.unpack("<i", buffer.read(4))
 
             try:
                 thumbnail_source = ThumbnailSource(thumbnail_source)
             except ValueError:
-                raise ValueError(f"Unknown thumbnail_source {thumbnail_source} of file_id {file_id}")
+                raise ValueError(
+                    f"Unknown thumbnail_source {thumbnail_source} of file_id {file_id}"
+                )
 
             tail = read_photo_tail(buffer, thumbnail_source=thumbnail_source)
 
             # Before minor 32 every source shared one layout, with `local_id` last.
             if has_volume_and_local_id:
-                local_id, = struct.unpack("<i", buffer.read(4))
+                (local_id,) = struct.unpack("<i", buffer.read(4))
                 tail = replace(tail, volume_id=volume_id, local_id=local_id)
 
             return FileId(
@@ -440,7 +470,7 @@ class FileId:
                 chat_access_hash=tail.chat_access_hash,
                 sticker_set_id=tail.sticker_set_id,
                 sticker_set_access_hash=tail.sticker_set_access_hash,
-                sticker_set_version=tail.sticker_set_version
+                sticker_set_version=tail.sticker_set_version,
             )
 
         if file_type in DOCUMENT_TYPES:
@@ -451,7 +481,7 @@ class FileId:
                 dc_id=dc_id,
                 file_reference=file_reference,
                 media_id=media_id,
-                access_hash=access_hash
+                access_hash=access_hash,
             )
 
     def encode(self, *, major: int | None = None, minor: int | None = None):
@@ -504,6 +534,7 @@ class FileId:
 
 class FileUniqueType(IntEnum):
     """Known file unique types"""
+
     WEB = 0
     PHOTO = 1
     DOCUMENT = 2
@@ -514,12 +545,13 @@ class FileUniqueType(IntEnum):
 
 class FileUniqueId:
     def __init__(
-        self, *,
+        self,
+        *,
         file_unique_type: FileUniqueType,
         url: str | None = None,
         media_id: int | None = None,
         volume_id: int | None = None,
-        local_id: int | None = None
+        local_id: int | None = None,
     ):
         self.file_unique_type = file_unique_type
         self.url = url
@@ -530,40 +562,36 @@ class FileUniqueId:
     @staticmethod
     def decode(file_unique_id: str):
         buffer = BytesIO(rle_decode(b64_decode(file_unique_id)))
-        file_unique_type, = struct.unpack("<i", buffer.read(4))
+        (file_unique_type,) = struct.unpack("<i", buffer.read(4))
 
         try:
             file_unique_type = FileUniqueType(file_unique_type)
         except ValueError:
-            raise ValueError(f"Unknown file_unique_type {file_unique_type} of file_unique_id {file_unique_id}")
+            raise ValueError(
+                f"Unknown file_unique_type {file_unique_type} of file_unique_id {file_unique_id}"
+            )
 
         if file_unique_type == FileUniqueType.WEB:
             url = String.read(buffer)
 
-            return FileUniqueId(
-                file_unique_type=file_unique_type,
-                url=url
-            )
+            return FileUniqueId(file_unique_type=file_unique_type, url=url)
 
         if file_unique_type == FileUniqueType.PHOTO:
             volume_id, local_id = struct.unpack("<qi", buffer.read())
 
             return FileUniqueId(
-                file_unique_type=file_unique_type,
-                volume_id=volume_id,
-                local_id=local_id
+                file_unique_type=file_unique_type, volume_id=volume_id, local_id=local_id
             )
 
         if file_unique_type == FileUniqueType.DOCUMENT:
-            media_id, = struct.unpack("<q", buffer.read())
+            (media_id,) = struct.unpack("<q", buffer.read())
 
-            return FileUniqueId(
-                file_unique_type=file_unique_type,
-                media_id=media_id
-            )
+            return FileUniqueId(file_unique_type=file_unique_type, media_id=media_id)
 
         # TODO: Missing decoder for SECURE, ENCRYPTED and TEMP
-        raise ValueError(f"Unknown decoder for file_unique_type {file_unique_type} of file_unique_id {file_unique_id}")
+        raise ValueError(
+            f"Unknown decoder for file_unique_type {file_unique_type} of file_unique_id {file_unique_id}"
+        )
 
     def encode(self):
         if self.file_unique_type == FileUniqueType.WEB:

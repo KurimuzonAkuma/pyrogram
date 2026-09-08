@@ -53,7 +53,5 @@ class BusinessMessageHandler(Handler):
             The received message.
     """
 
-    def __init__(
-        self, callback: Callable[[pyrogram.Client, types.Message], Any], filters=None
-    ):
+    def __init__(self, callback: Callable[[pyrogram.Client, types.Message], Any], filters=None):
         super().__init__(callback, filters)

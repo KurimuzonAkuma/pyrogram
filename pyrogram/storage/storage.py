@@ -101,9 +101,7 @@ class Storage(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def get_update_states(
-        self, ids: int | Iterable[int] | None = None
-    ) -> list[UpdateState]:
+    async def get_update_states(self, ids: int | Iterable[int] | None = None) -> list[UpdateState]:
         """Get the update state of the current session.
 
         Parameters:

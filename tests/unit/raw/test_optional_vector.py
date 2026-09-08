@@ -39,38 +39,38 @@ CASES = [
         lambda photos: raw.types.InputRichMessage(blocks=[BLOCK], photos=photos),
         [PHOTO],
         lambda message: message.photos,
-        id="Vector<InputPhoto>"
+        id="Vector<InputPhoto>",
     ),
     pytest.param(
         lambda usernames: raw.types.User(id=1, usernames=usernames),
         [USERNAME],
         lambda user: user.usernames,
-        id="Vector<Username>-in-flags2"
+        id="Vector<Username>-in-flags2",
     ),
     pytest.param(
         lambda slots: raw.functions.premium.ApplyBoost(peer=raw.types.InputPeerSelf(), slots=slots),
         [1, 2],
         lambda request: request.slots,
-        id="Vector<int>-in-a-function"
+        id="Vector<int>-in-a-function",
     ),
     pytest.param(
         lambda users: raw.types.BusinessRecipients(users=users),
         [10, 20],
         lambda recipients: recipients.users,
-        id="Vector<long>"
+        id="Vector<long>",
     ),
     pytest.param(
         lambda prefixes: raw.types.help.CountryCode(country_code="US", prefixes=prefixes),
         ["7", "8"],
         lambda country: country.prefixes,
-        id="Vector<string>"
+        id="Vector<string>",
     ),
     pytest.param(
         lambda logout_tokens: raw.types.CodeSettings(logout_tokens=logout_tokens),
         [b"\x01\x02"],
         lambda settings: settings.logout_tokens,
-        id="Vector<bytes>"
-    )
+        id="Vector<bytes>",
+    ),
 ]
 
 
@@ -90,7 +90,7 @@ def test_a_vector_with_items_is_still_written(build, items, read):
 @pytest.mark.parametrize(
     "value",
     [lambda items: None, lambda items: [], lambda items: items],
-    ids=["never-passed", "empty", "filled"]
+    ids=["never-passed", "empty", "filled"],
 )
 @pytest.mark.parametrize(("build", "items", "read"), CASES)
 def test_a_round_trip_is_byte_for_byte(build, items, read, value):

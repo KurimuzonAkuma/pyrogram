@@ -109,11 +109,11 @@ class SearchGlobal:
                         broadcasts_only=channels_only,
                         groups_only=groups_only,
                         users_only=users_only,
-                        limit=limit
+                        limit=limit,
                     ),
-                    sleep_threshold=60
+                    sleep_threshold=60,
                 ),
-                replies=0
+                replies=0,
             )
 
             if not messages:

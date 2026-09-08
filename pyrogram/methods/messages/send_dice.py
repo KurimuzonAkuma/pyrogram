@@ -26,6 +26,7 @@ from pyrogram import enums, raw, types, utils
 
 log = logging.getLogger(__name__)
 
+
 class SendDice:
     async def send_dice(
         self: pyrogram.Client,
@@ -49,7 +50,6 @@ class SendDice:
             | types.ForceReply
             | None
         ) = None,
-
         reply_to_message_id: int | None = None,
         reply_to_chat_id: int | str | None = None,
         reply_to_story_id: int | None = None,
@@ -188,7 +188,7 @@ class SendDice:
                 quote=quote_text,
                 quote_parse_mode=parse_mode,
                 quote_entities=quote_entities,
-                quote_position=quote_offset
+                quote_position=quote_offset,
             )
 
         r = await self.invoke(
@@ -197,10 +197,7 @@ class SendDice:
                 media=raw.types.InputMediaDice(emoticon=emoji),
                 silent=disable_notification or None,
                 reply_to=await utils.get_reply_to(
-                    self,
-                    reply_parameters,
-                    message_thread_id,
-                    direct_messages_topic_id
+                    self, reply_parameters, message_thread_id, direct_messages_topic_id
                 ),
                 random_id=self.rnd_id(),
                 schedule_date=utils.datetime_to_timestamp(schedule_date),
@@ -210,9 +207,11 @@ class SendDice:
                 reply_markup=await reply_markup.write(self) if reply_markup else None,
                 message="",
                 effect=effect_id,
-                suggested_post=suggested_post_parameters.write() if suggested_post_parameters else None,
+                suggested_post=suggested_post_parameters.write()
+                if suggested_post_parameters
+                else None,
             ),
-            business_connection_id=business_connection_id
+            business_connection_id=business_connection_id,
         )
 
         messages = await utils.parse_messages(client=self, messages=r)

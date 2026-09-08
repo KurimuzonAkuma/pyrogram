@@ -52,7 +52,7 @@ class InlineQueryResult(Object):
         type: str,
         id: str,
         input_message_content: types.InputMessageContent,
-        reply_markup: types.InlineKeyboardMarkup
+        reply_markup: types.InlineKeyboardMarkup,
     ):
         super().__init__()
 

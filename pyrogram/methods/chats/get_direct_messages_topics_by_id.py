@@ -31,22 +31,16 @@ log = logging.getLogger(__name__)
 class GetDirectMessagesTopicsByID:
     @overload
     async def get_direct_messages_topics_by_id(
-        self: pyrogram.Client,
-        chat_id: int | str,
-        topic_ids: int
+        self: pyrogram.Client, chat_id: int | str, topic_ids: int
     ) -> types.DirectMessagesTopic | None: ...
 
     @overload
     async def get_direct_messages_topics_by_id(
-        self: pyrogram.Client,
-        chat_id: int | str,
-        topic_ids: Iterable[int]
+        self: pyrogram.Client, chat_id: int | str, topic_ids: Iterable[int]
     ) -> list[types.DirectMessagesTopic]: ...
 
     async def get_direct_messages_topics_by_id(
-        self: pyrogram.Client,
-        chat_id: int | str,
-        topic_ids: int | Iterable[int]
+        self: pyrogram.Client, chat_id: int | str, topic_ids: int | Iterable[int]
     ) -> types.DirectMessagesTopic | list[types.DirectMessagesTopic] | None:
         """Get one or more direct message topic from a chat by using topic identifiers.
 
@@ -80,7 +74,7 @@ class GetDirectMessagesTopicsByID:
         r = await self.invoke(
             raw.functions.messages.GetSavedDialogsByID(
                 ids=[await self.resolve_peer(i) for i in ids],
-                parent_peer=await self.resolve_peer(chat_id)
+                parent_peer=await self.resolve_peer(chat_id),
             )
         )
 
@@ -90,7 +84,11 @@ class GetDirectMessagesTopicsByID:
         topics = types.List()
 
         for i in r.dialogs:
-            topics.append(await types.DirectMessagesTopic._parse(client=self, topic=i, users=users, chats=chats))
+            topics.append(
+                await types.DirectMessagesTopic._parse(
+                    client=self, topic=i, users=users, chats=chats
+                )
+            )
 
         # A topic exists only once its peer has written to the chat, and asking for a peer
         #  without one answers with an empty `dialogs` vector rather than an error:

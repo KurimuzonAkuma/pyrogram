@@ -119,7 +119,7 @@ class ChatSettings(Object):
         registration_date: str | None = None,
         phone_number_country_code: str | None = None,
         last_name_change_date: datetime | None = None,
-        last_photo_change_date: datetime | None = None
+        last_photo_change_date: datetime | None = None,
     ):
         super().__init__()
 
@@ -164,12 +164,20 @@ class ChatSettings(Object):
             request_chat_broadcast=getattr(chat_settings, "request_chat_broadcast", None),
             geo_distance=getattr(chat_settings, "geo_distance", None),
             request_chat_title=getattr(chat_settings, "request_chat_title", None),
-            request_chat_date=utils.timestamp_to_datetime(getattr(chat_settings, "request_chat_date", None)),
-            business_bot=await types.User._parse(client, users.get(getattr(chat_settings, "business_bot_id", None))),
+            request_chat_date=utils.timestamp_to_datetime(
+                getattr(chat_settings, "request_chat_date", None)
+            ),
+            business_bot=await types.User._parse(
+                client, users.get(getattr(chat_settings, "business_bot_id", None))
+            ),
             business_bot_manage_url=getattr(chat_settings, "business_bot_manage_url", None),
             charge_paid_message_stars=getattr(chat_settings, "charge_paid_message_stars", None),
             registration_date=getattr(chat_settings, "registration_month", None),
             phone_number_country_code=getattr(chat_settings, "phone_country", None),
-            last_name_change_date=utils.timestamp_to_datetime(getattr(chat_settings, "name_change_date", None)),
-            last_photo_change_date=utils.timestamp_to_datetime(getattr(chat_settings, "photo_change_date", None)),
+            last_name_change_date=utils.timestamp_to_datetime(
+                getattr(chat_settings, "name_change_date", None)
+            ),
+            last_photo_change_date=utils.timestamp_to_datetime(
+                getattr(chat_settings, "photo_change_date", None)
+            ),
         )

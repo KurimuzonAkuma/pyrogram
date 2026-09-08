@@ -26,7 +26,7 @@ class SetEmojiStatus:
     async def set_emoji_status(
         self: pyrogram.Client,
         chat_id: int | str | None = None,
-        emoji_status: types.EmojiStatus | None = None
+        emoji_status: types.EmojiStatus | None = None,
     ) -> bool:
         """Set the emoji status.
 
@@ -72,19 +72,15 @@ class SetEmojiStatus:
                 raw.functions.channels.UpdateEmojiStatus(
                     channel=peer,
                     emoji_status=(
-                        emoji_status.write()
-                        if emoji_status
-                        else raw.types.EmojiStatusEmpty()
-                    )
+                        emoji_status.write() if emoji_status else raw.types.EmojiStatusEmpty()
+                    ),
                 )
             )
         else:
             await self.invoke(
                 raw.functions.account.UpdateEmojiStatus(
                     emoji_status=(
-                        emoji_status.write()
-                        if emoji_status
-                        else raw.types.EmojiStatusEmpty()
+                        emoji_status.write() if emoji_status else raw.types.EmojiStatusEmpty()
                     )
                 )
             )

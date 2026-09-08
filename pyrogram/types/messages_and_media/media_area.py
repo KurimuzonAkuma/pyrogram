@@ -122,7 +122,7 @@ class MediaArea(Object):
         emoji: str | None = None,
         temperature: float | None = None,
         color: int | None = None,
-        gift: types.Gift | None = None
+        gift: types.Gift | None = None,
     ):
         super().__init__(client)
 
@@ -149,9 +149,7 @@ class MediaArea(Object):
 
     @staticmethod
     async def _parse(
-        client: pyrogram.Client,
-        area: raw.base.MediaArea,
-        chats: dict[int, raw.base.Chat]
+        client: pyrogram.Client, area: raw.base.MediaArea, chats: dict[int, raw.base.Chat]
     ) -> MediaArea:
         sender_chat = None
         message_id = None
@@ -213,7 +211,7 @@ class MediaArea(Object):
             temperature=temperature,
             color=color,
             gift=gift,
-            client=client
+            client=client,
         )
 
     async def write(
@@ -233,14 +231,14 @@ class MediaArea(Object):
             w=self.width,
             h=self.height,
             rotation=self.rotation,
-            radius=self.radius
+            radius=self.radius,
         )
 
         if self.type == enums.MediaAreaType.POST:
             return raw.types.InputMediaAreaChannelPost(
                 coordinates=coordinates,
                 channel=await client.resolve_peer(self.sender_chat.id),
-                msg_id=self.message_id
+                msg_id=self.message_id,
             )
         elif self.type == enums.MediaAreaType.LOCATION:
             return raw.types.MediaAreaGeoPoint(
@@ -248,8 +246,8 @@ class MediaArea(Object):
                 geo=raw.types.InputGeoPoint(
                     lat=self.location.latitude,
                     long=self.location.longitude,
-                    accuracy_radius=self.location.accuracy_radius
-                )
+                    accuracy_radius=self.location.accuracy_radius,
+                ),
             )
         elif self.type == enums.MediaAreaType.REACTION:
             if self.reaction.custom_emoji_id:
@@ -257,30 +255,22 @@ class MediaArea(Object):
                     document_id=int(self.reaction.custom_emoji_id)
                 )
             else:
-                reaction = raw.types.ReactionEmoji(
-                    emoticon=self.reaction.emoji
-                )
+                reaction = raw.types.ReactionEmoji(emoticon=self.reaction.emoji)
 
             return raw.types.MediaAreaSuggestedReaction(
                 coordinates=coordinates,
                 reaction=reaction,
                 dark=self.is_dark,
-                flipped=self.is_flipped
+                flipped=self.is_flipped,
             )
         elif self.type == enums.MediaAreaType.URL:
-            return raw.types.MediaAreaUrl(
-                coordinates=coordinates,
-                url=self.url
-            )
+            return raw.types.MediaAreaUrl(coordinates=coordinates, url=self.url)
         elif self.type == enums.MediaAreaType.WEATHER:
             return raw.types.MediaAreaWeather(
                 coordinates=coordinates,
                 emoji=self.emoji,
                 temperature_c=self.temperature,
-                color=self.color
+                color=self.color,
             )
         elif self.type == enums.MediaAreaType.GIFT:
-            return raw.types.MediaAreaStarGift(
-                coordinates=coordinates,
-                slug=self.gift.name
-            )
+            return raw.types.MediaAreaStarGift(coordinates=coordinates, slug=self.gift.name)

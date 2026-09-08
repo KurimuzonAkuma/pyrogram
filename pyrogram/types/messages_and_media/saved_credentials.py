@@ -33,12 +33,8 @@ class SavedCredentials(Object):
         title (``str``):
             Title of the saved credentials.
     """
-    def __init__(
-        self,
-        *,
-        id: str,
-        title: str
-    ):
+
+    def __init__(self, *, id: str, title: str):
         super().__init__()
 
         self.id = id
@@ -46,7 +42,4 @@ class SavedCredentials(Object):
 
     @staticmethod
     def _parse(credential: raw.base.PaymentSavedCredentials) -> SavedCredentials:
-        return SavedCredentials(
-            id=credential.id,
-            title=credential.title
-        )
+        return SavedCredentials(id=credential.id, title=credential.title)

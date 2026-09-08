@@ -47,15 +47,9 @@ class BotCommand(Object):
 
     def write(self) -> raw.types.BotCommand:
         return raw.types.BotCommand(
-            command=self.command,
-            description=self.description,
-            ephemeral=self.is_ephemeral
+            command=self.command, description=self.description, ephemeral=self.is_ephemeral
         )
 
     @staticmethod
     def read(c: raw.types.BotCommand) -> BotCommand:
-        return BotCommand(
-            command=c.command,
-            description=c.description,
-            is_ephemeral=c.ephemeral
-        )
+        return BotCommand(command=c.command, description=c.description, is_ephemeral=c.ephemeral)

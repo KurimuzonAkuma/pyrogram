@@ -35,19 +35,17 @@ class PurchasedPaidMedia(Object, Update):
             Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
     """
 
-    def __init__(
-        self,
-        from_user: types.User,
-        payload: str
-    ):
+    def __init__(self, from_user: types.User, payload: str):
         super().__init__()
 
         self.from_user = from_user
         self.payload = payload
 
     @staticmethod
-    async def _parse(client, purchased_media: raw.types.UpdateBotPurchasedPaidMedia, users) -> PurchasedPaidMedia:
+    async def _parse(
+        client, purchased_media: raw.types.UpdateBotPurchasedPaidMedia, users
+    ) -> PurchasedPaidMedia:
         return PurchasedPaidMedia(
             from_user=await types.User._parse(client, users.get(purchased_media.user_id)),
-            payload=purchased_media.payload
+            payload=purchased_media.payload,
         )

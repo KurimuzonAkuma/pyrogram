@@ -27,22 +27,21 @@ try:
 
     log.info("Using TgCrypto")
 
-
     def ige256_encrypt(data: bytes, key: bytes, iv: bytes) -> bytes:
         return tgcrypto.ige256_encrypt(data, key, iv)
-
 
     def ige256_decrypt(data: bytes, key: bytes, iv: bytes) -> bytes:
         return tgcrypto.ige256_decrypt(data, key, iv)
 
-
-    def ctr256_encrypt(data: bytes, key: bytes, iv: bytearray, state: bytearray | None = None) -> bytes:
+    def ctr256_encrypt(
+        data: bytes, key: bytes, iv: bytearray, state: bytearray | None = None
+    ) -> bytes:
         return tgcrypto.ctr256_encrypt(data, key, iv, state or bytearray(1))
 
-
-    def ctr256_decrypt(data: bytes, key: bytes, iv: bytearray, state: bytearray | None = None) -> bytes:
+    def ctr256_decrypt(
+        data: bytes, key: bytes, iv: bytearray, state: bytearray | None = None
+    ) -> bytes:
         return tgcrypto.ctr256_decrypt(data, key, iv, state or bytearray(1))
-
 
     def xor(a: bytes, b: bytes) -> bytes:
         return int.to_bytes(
@@ -59,22 +58,21 @@ except ImportError:
         "More info: https://docs.pyrogram.org/topics/speedups"
     )
 
-
     def ige256_encrypt(data: bytes, key: bytes, iv: bytes) -> bytes:
         return ige(data, key, iv, True)
-
 
     def ige256_decrypt(data: bytes, key: bytes, iv: bytes) -> bytes:
         return ige(data, key, iv, False)
 
-
-    def ctr256_encrypt(data: bytes, key: bytes, iv: bytearray, state: bytearray | None = None) -> bytes:
+    def ctr256_encrypt(
+        data: bytes, key: bytes, iv: bytearray, state: bytearray | None = None
+    ) -> bytes:
         return ctr(data, key, iv, state or bytearray(1))
 
-
-    def ctr256_decrypt(data: bytes, key: bytes, iv: bytearray, state: bytearray | None = None) -> bytes:
+    def ctr256_decrypt(
+        data: bytes, key: bytes, iv: bytearray, state: bytearray | None = None
+    ) -> bytes:
         return ctr(data, key, iv, state or bytearray(1))
-
 
     def xor(a: bytes, b: bytes) -> bytes:
         return int.to_bytes(
@@ -83,14 +81,13 @@ except ImportError:
             "big",
         )
 
-
     def ige(data: bytes, key: bytes, iv: bytes, encrypt: bool) -> bytes:
         cipher = pyaes.AES(key)
 
         iv_1 = iv[:16]
         iv_2 = iv[16:]
 
-        data = [data[i: i + 16] for i in range(0, len(data), 16)]
+        data = [data[i : i + 16] for i in range(0, len(data), 16)]
 
         if encrypt:
             for i, chunk in enumerate(data):
@@ -102,7 +99,6 @@ except ImportError:
                 iv_1 = chunk
 
         return b"".join(data)
-
 
     def ctr(data: bytes, key: bytes, iv: bytearray, state: bytearray) -> bytes:
         cipher = pyaes.AES(key)

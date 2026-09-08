@@ -29,7 +29,8 @@ log = logging.getLogger(__name__)
 
 class Start:
     async def start(
-        self: pyrogram.Client, *,
+        self: pyrogram.Client,
+        *,
         use_qr: bool = False,
         except_ids: list[int] = [],
     ) -> pyrogram.Client:
@@ -83,9 +84,12 @@ class Start:
                 if use_qr:
                     try:
                         import qrcode  # ty: ignore[unresolved-import] - optional, not a project dependency
+
                         await self.authorize_qr(except_ids=except_ids)
                     except ImportError:
-                        log.warning("qrcode package not found, falling back to authorization prompt")
+                        log.warning(
+                            "qrcode package not found, falling back to authorization prompt"
+                        )
                         await self.authorize()
                 else:
                     await self.authorize()

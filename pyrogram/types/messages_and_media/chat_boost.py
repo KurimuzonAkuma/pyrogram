@@ -76,7 +76,7 @@ class ChatBoost(Object):
         is_unclaimed: bool | None = None,
         giveaway_message_id: int | None = None,
         used_gift_slug: str | None = None,
-        stars: int | None = None
+        stars: int | None = None,
     ):
         super().__init__()
 
@@ -105,5 +105,5 @@ class ChatBoost(Object):
             is_unclaimed=getattr(boost, "unclaimed", None),
             giveaway_message_id=getattr(boost, "giveaway_msg_id", None),
             used_gift_slug=getattr(boost, "used_gift_slug", None),
-            stars=getattr(boost, "stars", None)
+            stars=getattr(boost, "stars", None),
         )

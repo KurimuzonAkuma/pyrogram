@@ -67,11 +67,7 @@ class GetPinnedStories:
 
         while True:
             r = await self.invoke(
-                raw.functions.stories.GetPinnedStories(
-                    peer=peer,
-                    offset_id=offset_id,
-                    limit=limit
-                )
+                raw.functions.stories.GetPinnedStories(peer=peer, offset_id=offset_id, limit=limit)
             )
 
             if not r.stories:
@@ -90,13 +86,7 @@ class GetPinnedStories:
             offset_id = last.id
 
             for story in r.stories:
-                yield await types.Story._parse(
-                    self,
-                    story,
-                    peer,
-                    users,
-                    chats
-                )
+                yield await types.Story._parse(self, story, peer, users, chats)
 
                 current += 1
 

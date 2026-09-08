@@ -29,10 +29,7 @@ class KeyboardButtonPollType(Object):
             If True, the requested poll will be sent as quiz.
     """
 
-    def __init__(
-        self, *,
-        is_quiz: bool | None = None
-    ):
+    def __init__(self, *, is_quiz: bool | None = None):
         super().__init__()
 
         self.is_quiz = is_quiz

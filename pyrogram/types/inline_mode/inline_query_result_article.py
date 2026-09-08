@@ -68,7 +68,7 @@ class InlineQueryResultArticle(InlineQueryResult):
         reply_markup: types.InlineKeyboardMarkup | None = None,
         thumb_url: str | None = None,
         thumb_width: int = 0,
-        thumb_height: int = 0
+        thumb_height: int = 0,
     ):
         super().__init__("article", id, input_message_content, reply_markup)
 
@@ -92,10 +92,9 @@ class InlineQueryResultArticle(InlineQueryResult):
                 size=0,
                 mime_type="image/jpeg",
                 attributes=[
-                    raw.types.DocumentAttributeImageSize(
-                        w=self.thumb_width,
-                        h=self.thumb_height
-                    )
-                ]
-            ) if self.thumb_url else None
+                    raw.types.DocumentAttributeImageSize(w=self.thumb_width, h=self.thumb_height)
+                ],
+            )
+            if self.thumb_url
+            else None,
         )

@@ -67,7 +67,7 @@ class DirectMessagesTopic(Object):
         last_read_inbox_message_id: int | None = None,
         last_read_outbox_message_id: int | None = None,
         unread_reactions_count: int | None = None,
-        last_message: types.Message | None = None
+        last_message: types.Message | None = None,
     ):
         super().__init__()
 
@@ -87,7 +87,7 @@ class DirectMessagesTopic(Object):
         topic: raw.types.MonoForumDialog,
         messages: dict = {},
         users: dict[int, raw.base.User] = {},
-        chats: dict[int, raw.base.Chat] = {}
+        chats: dict[int, raw.base.Chat] = {},
     ) -> DirectMessagesTopic:
         if not topic:
             return None
@@ -101,5 +101,5 @@ class DirectMessagesTopic(Object):
             last_read_inbox_message_id=topic.read_inbox_max_id,
             last_read_outbox_message_id=topic.read_outbox_max_id,
             unread_reactions_count=topic.unread_reactions_count,
-            last_message=messages.get(topic.top_message)
+            last_message=messages.get(topic.top_message),
         )

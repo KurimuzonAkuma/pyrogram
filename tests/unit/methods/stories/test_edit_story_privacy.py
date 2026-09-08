@@ -47,9 +47,7 @@ async def test_selected_users_without_allowed_users_does_not_crash() -> None:
     client = FakeClient()
 
     with pytest.raises(_InvokeCalled) as exc_info:
-        await client.edit_story_privacy(
-            7, 1, privacy=enums.StoriesPrivacyRules.SELECTED_USERS
-        )
+        await client.edit_story_privacy(7, 1, privacy=enums.StoriesPrivacyRules.SELECTED_USERS)
 
     assert exc_info.value.query.privacy_rules == []
 

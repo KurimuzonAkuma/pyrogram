@@ -114,7 +114,7 @@ class InputInvoiceMessageContent(InputMessageContent):
         need_shipping_address: bool | None = None,
         send_phone_number_to_provider: bool | None = None,
         send_email_to_provider: bool | None = None,
-        is_flexible: bool | None = None
+        is_flexible: bool | None = None,
     ):
         super().__init__()
 
@@ -148,12 +148,11 @@ class InputInvoiceMessageContent(InputMessageContent):
                 mime_type="image/jpg",
                 size=self.photo_size,
                 attributes=[
-                    raw.types.DocumentAttributeImageSize(
-                        w=self.photo_width,
-                        h=self.photo_height
-                    )
-                ]
-            ) if self.photo_url else None,
+                    raw.types.DocumentAttributeImageSize(w=self.photo_width, h=self.photo_height)
+                ],
+            )
+            if self.photo_url
+            else None,
             invoice=raw.types.Invoice(
                 currency=self.currency,
                 prices=[i.write() for i in self.prices],
@@ -166,12 +165,12 @@ class InputInvoiceMessageContent(InputMessageContent):
                 phone_to_provider=self.send_phone_number_to_provider,
                 email_to_provider=self.send_email_to_provider,
                 max_tip_amount=self.max_tip_amount,
-                suggested_tip_amounts=self.suggested_tip_amounts
+                suggested_tip_amounts=self.suggested_tip_amounts,
             ),
             payload=self.payload.encode() if isinstance(self.payload, str) else self.payload,
             provider=self.provider_token,
             provider_data=raw.types.DataJSON(
                 data=self.provider_data if self.provider_data else "{}"
             ),
-            reply_markup=await reply_markup.write(client) if reply_markup else None
+            reply_markup=await reply_markup.write(client) if reply_markup else None,
         )

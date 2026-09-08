@@ -59,7 +59,7 @@ class OnChatJoinRequest:
                 func.handlers.append(
                     (
                         pyrogram.handlers.ChatJoinRequestHandler(func, arguments.filters),
-                        arguments.group
+                        arguments.group,
                     )
                 )
 

@@ -40,11 +40,12 @@ class PhoneCallEnded(Object):
     """
 
     def __init__(
-        self, *,
+        self,
+        *,
         id: int,
         is_video: bool,
         reason: enums.PhoneCallDiscardReason,
-        duration: int | None = None
+        duration: int | None = None,
     ):
         super().__init__()
 
@@ -59,5 +60,5 @@ class PhoneCallEnded(Object):
             id=action.call_id,
             is_video=action.video,
             reason=enums.PhoneCallDiscardReason(type(action.reason)),
-            duration=getattr(action, "duration", None)
+            duration=getattr(action, "duration", None),
         )

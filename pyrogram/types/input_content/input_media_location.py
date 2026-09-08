@@ -69,9 +69,7 @@ class InputMediaLocation(InputMedia):
         self.heading = heading
         self.proximity_alert_radius = proximity_alert_radius
 
-    async def write(
-        self, **kwargs
-    ) -> raw.types.InputMediaGeoPoint | raw.types.InputMediaGeoLive:
+    async def write(self, **kwargs) -> raw.types.InputMediaGeoPoint | raw.types.InputMediaGeoLive:
         if self.live_period is not None:
             return raw.types.InputMediaGeoLive(
                 geo_point=raw.types.InputGeoPoint(

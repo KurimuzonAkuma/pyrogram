@@ -34,7 +34,7 @@ class GetStoryViews:
         contacts_only: bool | None = None,
         reactions_first: bool | None = None,
         forwards_first: bool | None = None,
-        query: str | None = None
+        query: str | None = None,
     ) -> AsyncGenerator[types.StoryView, None]:
         """Obtain the list of users that have viewed a specific story we posted.
 
@@ -93,17 +93,14 @@ class GetStoryViews:
                     just_contacts=contacts_only,
                     reactions_first=reactions_first,
                     forwards_first=forwards_first,
-                    q=query
+                    q=query,
                 )
             )
 
             users = {i.id: i for i in r.users}
             chats = {i.id: i for i in r.chats}
 
-            views = [
-                await types.StoryView._parse(self, i, users)
-                for i in r.views
-            ]
+            views = [await types.StoryView._parse(self, i, users) for i in r.views]
 
             if not views:
                 return

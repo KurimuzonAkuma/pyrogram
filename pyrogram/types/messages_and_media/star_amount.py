@@ -35,11 +35,7 @@ class StarAmount(Object):
             From -999999999 to 999999999.
     """
 
-    def __init__(
-        self, *,
-        star_count: int | None = None,
-        nanostar_count: int | None = None
-    ):
+    def __init__(self, *, star_count: int | None = None, nanostar_count: int | None = None):
         super().__init__()
 
         self.star_count = star_count
@@ -50,7 +46,4 @@ class StarAmount(Object):
         if not isinstance(action, raw.types.StarsAmount):
             return None
 
-        return StarAmount(
-            star_count=action.amount,
-            nanostar_count=action.nanos
-        )
+        return StarAmount(star_count=action.amount, nanostar_count=action.nanos)

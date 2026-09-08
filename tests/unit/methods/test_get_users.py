@@ -42,10 +42,7 @@ def a_user(user_id: int) -> raw.types.User:
     #  gives an absent vector back as `[]`. `User._parse()` iterates both without guarding, so a
     #  hand-built `raw.types.User` has to spell out what the wire implies.
     return raw.types.User(
-        id=user_id,
-        first_name=f"User {user_id}",
-        usernames=[],
-        restriction_reason=[]
+        id=user_id, first_name=f"User {user_id}", usernames=[], restriction_reason=[]
     )
 
 

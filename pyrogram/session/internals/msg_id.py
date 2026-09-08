@@ -32,7 +32,7 @@ class MsgId:
         base_msg_id = int(now * (2**32)) & ~0b11
 
         if base_msg_id <= cls._last_msg_id:
-           base_msg_id = cls._last_msg_id + 4
+            base_msg_id = cls._last_msg_id + 4
 
         cls._last_msg_id = base_msg_id
 

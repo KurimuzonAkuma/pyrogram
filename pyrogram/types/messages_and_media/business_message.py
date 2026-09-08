@@ -68,7 +68,6 @@ class BusinessMessage(Object):
         schedule: enums.BusinessSchedule | None = None,
         start_date: datetime | None = None,
         end_date: datetime | None = None,
-
     ):
         self.shortcut_id = shortcut_id
         self.is_greeting = is_greeting
@@ -84,7 +83,7 @@ class BusinessMessage(Object):
     async def _parse(
         client,
         message: raw.types.BusinessGreetingMessage | raw.types.BusinessAwayMessage | None = None,
-        users: dict | None = None
+        users: dict | None = None,
     ) -> BusinessMessage | None:
         if not message:
             return None
@@ -102,6 +101,10 @@ class BusinessMessage(Object):
             offline_only=getattr(message, "offline_only", None),
             recipients=await types.BusinessRecipients._parse(client, message.recipients, users),
             schedule=schedule,
-            start_date=utils.timestamp_to_datetime(message.schedule.start_date) if schedule == enums.BusinessSchedule.CUSTOM else None,
-            end_date=utils.timestamp_to_datetime(message.schedule.end_date) if schedule == enums.BusinessSchedule.CUSTOM else None
+            start_date=utils.timestamp_to_datetime(message.schedule.start_date)
+            if schedule == enums.BusinessSchedule.CUSTOM
+            else None,
+            end_date=utils.timestamp_to_datetime(message.schedule.end_date)
+            if schedule == enums.BusinessSchedule.CUSTOM
+            else None,
         )

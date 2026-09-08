@@ -24,11 +24,7 @@ from pyrogram.handlers.handler import Handler
 
 
 class AddHandler:
-    def add_handler(
-        self: pyrogram.Client,
-        handler: Handler,
-        group: int = 0
-    ) -> tuple[Handler, int]:
+    def add_handler(self: pyrogram.Client, handler: Handler, group: int = 0) -> tuple[Handler, int]:
         """Register an update handler.
 
         You can register multiple handlers, but at most one handler within a group will be used for a single update.

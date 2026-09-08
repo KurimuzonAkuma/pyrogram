@@ -35,6 +35,7 @@ class InputCredentialsNew(InputCredentials):
             True, if the credential identifier can be saved on the server side.
             Defaults to False.
     """
+
     def __init__(
         self,
         data: str,
@@ -47,6 +48,5 @@ class InputCredentialsNew(InputCredentials):
 
     async def write(self, client: pyrogram.Client):
         return raw.types.InputPaymentCredentials(
-            data=raw.types.DataJSON(data=self.data),
-            save=self.allow_save
+            data=raw.types.DataJSON(data=self.data), save=self.allow_save
         )

@@ -29,7 +29,7 @@ class RequestCallbackAnswer:
         message_id: int,
         callback_data: str | bytes,
         password: str | None = None,
-        timeout: int = 10
+        timeout: int = 10,
     ) -> raw.base.messages.BotCallbackAnswer:
         """Request a callback answer from bots.
         This is the equivalent of clicking an inline button containing callback data.
@@ -74,9 +74,7 @@ class RequestCallbackAnswer:
         data = bytes(callback_data, "utf-8") if isinstance(callback_data, str) else callback_data
 
         if password:
-            r = await self.invoke(
-                raw.functions.account.GetPassword()
-            )
+            r = await self.invoke(raw.functions.account.GetPassword())
             password = utils.compute_password_check(r, password)
 
         return await self.invoke(
@@ -84,8 +82,8 @@ class RequestCallbackAnswer:
                 peer=await self.resolve_peer(chat_id),
                 msg_id=message_id,
                 data=data,
-                password=password
+                password=password,
             ),
             retries=1,
-            timeout=timeout
+            timeout=timeout,
         )

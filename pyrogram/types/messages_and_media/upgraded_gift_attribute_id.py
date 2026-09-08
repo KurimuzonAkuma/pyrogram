@@ -39,21 +39,13 @@ class UpgradedGiftAttributeId(Object):
         super().__init__()
 
     @staticmethod
-    def _parse(
-        attribute_id: raw.base.StarGiftAttributeId
-    ) -> UpgradedGiftAttributeId | None:
+    def _parse(attribute_id: raw.base.StarGiftAttributeId) -> UpgradedGiftAttributeId | None:
         if not attribute_id:
             return None
 
         if isinstance(attribute_id, raw.types.StarGiftAttributeIdModel):
-            return types.UpgradedfGiftAttributeIdModel(
-                sticker_id=attribute_id.document_id
-            )
+            return types.UpgradedfGiftAttributeIdModel(sticker_id=attribute_id.document_id)
         elif isinstance(attribute_id, raw.types.StarGiftAttributeIdPattern):
-            return types.UpgradedfGiftAttributeIdSymbol(
-                sticker_id=attribute_id.document_id
-            )
+            return types.UpgradedfGiftAttributeIdSymbol(sticker_id=attribute_id.document_id)
         elif isinstance(attribute_id, raw.types.StarGiftAttributeIdBackdrop):
-            return types.UpgradedfGiftAttributeIdBackdrop(
-                backdrop_id=attribute_id.backdrop_id
-            )
+            return types.UpgradedfGiftAttributeIdBackdrop(backdrop_id=attribute_id.backdrop_id)

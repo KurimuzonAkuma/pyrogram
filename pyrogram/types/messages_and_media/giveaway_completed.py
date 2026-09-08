@@ -24,7 +24,6 @@ from pyrogram import raw, types, errors
 from ..object import Object
 
 
-
 class GiveawayCompleted(Object):
     """This object represents a service message about the completion of a giveaway without public winners.
 
@@ -54,7 +53,7 @@ class GiveawayCompleted(Object):
         unclaimed_prize_count: int | None = None,
         giveaway_message_id: int | None = None,
         giveaway_message: types.Message | None = None,
-        is_star_giveaway: bool | None = None
+        is_star_giveaway: bool | None = None,
     ):
         super().__init__(client)
 
@@ -64,13 +63,12 @@ class GiveawayCompleted(Object):
         self.giveaway_message = giveaway_message
         self.is_star_giveaway = is_star_giveaway
 
-
     @staticmethod
     async def _parse(
         client,
         giveaway_results: raw.types.MessageActionGiveawayResults,
         chat: types.Chat | None = None,
-        message_id: int | None = None
+        message_id: int | None = None,
     ) -> GiveawayCompleted:
         if not isinstance(giveaway_results, raw.types.MessageActionGiveawayResults):
             return
@@ -80,9 +78,7 @@ class GiveawayCompleted(Object):
         if chat and message_id:
             try:
                 giveaway_message = await client.get_messages(
-                    chat_id=chat.id,
-                    message_ids=message_id,
-                    replies=0
+                    chat_id=chat.id, message_ids=message_id, replies=0
                 )
             except (errors.ChannelPrivate, errors.ChannelInvalid):
                 pass

@@ -32,7 +32,8 @@ class SentWebAppMessage(Object):
     """
 
     def __init__(
-        self, *,
+        self,
+        *,
         inline_message_id: str,
     ):
         super().__init__()

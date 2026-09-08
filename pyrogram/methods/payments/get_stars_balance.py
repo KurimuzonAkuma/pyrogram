@@ -54,11 +54,7 @@ class GetStarsBalance:
             peer = await self.resolve_peer(chat_id)
 
         r = await self.invoke(
-            raw.functions.payments.GetStarsTransactions(
-                peer=peer,
-                offset="",
-                limit=0
-            )
+            raw.functions.payments.GetStarsTransactions(peer=peer, offset="", limit=0)
         )
 
         return r.balance.amount + r.balance.nanos / 1e9

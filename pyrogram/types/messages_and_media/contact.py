@@ -51,7 +51,7 @@ class Contact(Object):
         first_name: str,
         last_name: str | None = None,
         user_id: int | None = None,
-        vcard: str | None = None
+        vcard: str | None = None,
     ):
         super().__init__(client)
 
@@ -69,5 +69,5 @@ class Contact(Object):
             last_name=contact.last_name or None,
             vcard=contact.vcard or None,
             user_id=contact.user_id or None,
-            client=client
+            client=client,
         )

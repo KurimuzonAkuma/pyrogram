@@ -109,7 +109,7 @@ class ActiveSession(Object):
         is_current: bool | None = None,
         is_password_pending: bool | None = None,
         is_unconfirmed: bool | None = None,
-        is_official_application: bool | None = None
+        is_official_application: bool | None = None,
     ):
         super().__init__()
 
@@ -154,7 +154,7 @@ class ActiveSession(Object):
             is_current=getattr(session, "current", None),
             is_password_pending=getattr(session, "password_pending", None),
             is_unconfirmed=getattr(session, "unconfirmed", None),
-            is_official_application=getattr(session, "official_app", None)
+            is_official_application=getattr(session, "official_app", None),
         )
 
     async def reset(self) -> bool:

@@ -45,7 +45,10 @@ class GetGiftAuctionState:
         if isinstance(auction_id, int):
             auction = raw.types.InputStarGiftAuction(gift_id=auction_id)
         else:
-            match = re.match(r"^(?:https?://)?(?:www\.)?(?:t(?:elegram)?\.(?:org|me|dog)/(?:auction/))([\w-]+)$", auction_id)
+            match = re.match(
+                r"^(?:https?://)?(?:www\.)?(?:t(?:elegram)?\.(?:org|me|dog)/(?:auction/))([\w-]+)$",
+                auction_id,
+            )
 
             if match:
                 slug = match.group(1)
@@ -54,12 +57,10 @@ class GetGiftAuctionState:
             else:
                 raise ValueError("Invalid auction link")
 
-            auction=raw.types.InputStarGiftAuctionSlug(slug=slug)
+            auction = raw.types.InputStarGiftAuctionSlug(slug=slug)
 
         r = await self.invoke(
-            raw.functions.payments.GetStarGiftAuctionState(
-                auction=auction, version=0
-            )
+            raw.functions.payments.GetStarGiftAuctionState(auction=auction, version=0)
         )
 
         return await types.GiftAuctionState._parse(self, r)

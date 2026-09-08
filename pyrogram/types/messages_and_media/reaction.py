@@ -52,7 +52,7 @@ class Reaction(Object):
         custom_emoji_id: str | None = None,
         count: int | None = None,
         chosen_order: int | None = None,
-        is_paid: bool | None = None
+        is_paid: bool | None = None,
     ):
         super().__init__(client)
 
@@ -63,33 +63,18 @@ class Reaction(Object):
         self.is_paid = is_paid
 
     @staticmethod
-    def _parse(
-        client: pyrogram.Client,
-        reaction: raw.base.Reaction
-    ) -> Reaction:
+    def _parse(client: pyrogram.Client, reaction: raw.base.Reaction) -> Reaction:
         if isinstance(reaction, raw.types.ReactionEmoji):
-            return Reaction(
-                client=client,
-                emoji=reaction.emoticon
-            )
+            return Reaction(client=client, emoji=reaction.emoticon)
 
         if isinstance(reaction, raw.types.ReactionCustomEmoji):
-            return Reaction(
-                client=client,
-                custom_emoji_id=str(reaction.document_id)
-            )
+            return Reaction(client=client, custom_emoji_id=str(reaction.document_id))
 
         if isinstance(reaction, raw.types.ReactionPaid):
-            return Reaction(
-                client=client,
-                is_paid=True
-            )
+            return Reaction(client=client, is_paid=True)
 
     @staticmethod
-    def _parse_count(
-        client: pyrogram.Client,
-        reaction_count: raw.base.ReactionCount
-    ) -> Reaction:
+    def _parse_count(client: pyrogram.Client, reaction_count: raw.base.ReactionCount) -> Reaction:
         reaction = Reaction._parse(client, reaction_count.reaction)
         reaction.count = reaction_count.count
         reaction.chosen_order = reaction_count.chosen_order

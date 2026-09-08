@@ -73,24 +73,26 @@ class SendGift:
                 # Send gift
                 await app.send_gift(chat_id=chat_id, gift_id=123)
         """
-        text, entities = (await utils.parse_text_entities(self, text, parse_mode, entities)).values()
+        text, entities = (
+            await utils.parse_text_entities(self, text, parse_mode, entities)
+        ).values()
 
         invoice = raw.types.InputInvoiceStarGift(
             peer=await self.resolve_peer(chat_id),
             gift_id=gift_id,
             hide_name=is_private,
             include_upgrade=pay_for_upgrade,
-            message=raw.types.TextWithEntities(text=text, entities=entities or []) if text else None
+            message=raw.types.TextWithEntities(text=text, entities=entities or [])
+            if text
+            else None,
         )
 
         r = await self.invoke(
             raw.functions.payments.SendStarsForm(
-                form_id=(await self.invoke(
-                    raw.functions.payments.GetPaymentForm(
-                        invoice=invoice
-                    )
-                )).form_id,
-                invoice=invoice
+                form_id=(
+                    await self.invoke(raw.functions.payments.GetPaymentForm(invoice=invoice))
+                ).form_id,
+                invoice=invoice,
             )
         )
 

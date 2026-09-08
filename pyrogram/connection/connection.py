@@ -71,7 +71,7 @@ class Connection:
         media: bool = False,
         protocol_factory: type[TCP] = TCPAbridged,
         crypto_executor_workers: int = 1,
-        loop: asyncio.AbstractEventLoop | None = None
+        loop: asyncio.AbstractEventLoop | None = None,
     ) -> None:
         self.dc_id = dc_id
         self.server_address = server_address
@@ -118,11 +118,13 @@ class Connection:
                 await self.protocol.close()
                 await asyncio.sleep(1)
             else:
-                log.info("Connected! %s DC%s%s - IPv%s",
-                         "Test" if self.test_mode else "Production",
-                         self.dc_id,
-                         " (media)" if self.media else "",
-                         "6" if self.ipv6 else "4")
+                log.info(
+                    "Connected! %s DC%s%s - IPv%s",
+                    "Test" if self.test_mode else "Production",
+                    self.dc_id,
+                    " (media)" if self.media else "",
+                    "6" if self.ipv6 else "4",
+                )
                 break
         else:
             log.warning("Connection failed! Trying again...")

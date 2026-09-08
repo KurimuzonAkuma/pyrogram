@@ -43,7 +43,9 @@ class InputPrivacyRuleAllowChats(InputPrivacyRule):
         self.chat_ids = chat_ids
 
     async def write(self, client: pyrogram.Client):
-        chats = list(self.chat_ids) if not isinstance(self.chat_ids, (int, str)) else [self.chat_ids]
+        chats = (
+            list(self.chat_ids) if not isinstance(self.chat_ids, (int, str)) else [self.chat_ids]
+        )
         chats = await asyncio.gather(*[client.resolve_peer(i) for i in chats])
 
         return raw.types.InputPrivacyValueAllowChatParticipants(

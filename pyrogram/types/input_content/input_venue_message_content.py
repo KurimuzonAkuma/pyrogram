@@ -61,7 +61,7 @@ class InputVenueMessageContent(InputMessageContent):
         foursquare_id: str | None = None,
         foursquare_type: str | None = None,
         google_place_id: str | None = None,
-        google_place_type: str | None = None
+        google_place_type: str | None = None,
     ):
         super().__init__()
 
@@ -76,14 +76,11 @@ class InputVenueMessageContent(InputMessageContent):
 
     async def write(self, client: pyrogram.Client, reply_markup):
         return raw.types.InputBotInlineMessageMediaVenue(
-            geo_point=raw.types.InputGeoPoint(
-                lat=self.latitude,
-                long=self.longitude
-            ),
+            geo_point=raw.types.InputGeoPoint(lat=self.latitude, long=self.longitude),
             title=self.title,
             address=self.address,
             provider="",
             venue_id=self.foursquare_id,
             venue_type=self.foursquare_type,
-            reply_markup=await reply_markup.write(client) if reply_markup else None
+            reply_markup=await reply_markup.write(client) if reply_markup else None,
         )

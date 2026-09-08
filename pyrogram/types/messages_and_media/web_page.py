@@ -41,7 +41,7 @@ class WebPage(Object):
         type (``str``, *optional*):
             Type of webpage preview.
             One of the following:
-            
+
             - video
             - gif
             - photo
@@ -156,7 +156,7 @@ class WebPage(Object):
         safe: bool | None = None,
         duration: int | None = None,
         author: str | None = None,
-        raw: raw.types.MessageMediaWebPage | None = None
+        raw: raw.types.MessageMediaWebPage | None = None,
     ):
         super().__init__(client)
 
@@ -186,10 +186,7 @@ class WebPage(Object):
         self.raw = raw
 
     @staticmethod
-    def _parse(
-        client,
-        media: raw.types.MessageMediaWebPage
-    ) -> WebPage | None:
+    def _parse(client, media: raw.types.MessageMediaWebPage) -> WebPage | None:
         if not media:
             return None
 
@@ -214,9 +211,7 @@ class WebPage(Object):
                 attributes = {type(i): i for i in doc.attributes}
 
                 file_name = getattr(
-                    attributes.get(
-                        raw.types.DocumentAttributeFilename, None
-                    ), "file_name", None
+                    attributes.get(raw.types.DocumentAttributeFilename, None), "file_name", None
                 )
 
                 if raw.types.DocumentAttributeAudio in attributes:
@@ -258,5 +253,5 @@ class WebPage(Object):
             safe=media.safe,
             duration=getattr(webpage, "duration", None),
             author=getattr(webpage, "author", None),
-            raw=media
+            raw=media,
         )

@@ -44,8 +44,7 @@ class RemoveProfileAudio:
         """
         r = await self.invoke(
             raw.functions.account.SaveMusic(
-                id=(utils.get_input_media_from_file_id(file_id, FileType.AUDIO)).id,
-                unsave=True
+                id=(utils.get_input_media_from_file_id(file_id, FileType.AUDIO)).id, unsave=True
             )
         )
 

@@ -26,7 +26,8 @@ from pyrogram.methods.utilities.idle import idle
 
 class Run:
     def run(
-        self: pyrogram.Client, *,
+        self: pyrogram.Client,
+        *,
         use_qr: bool = False,
         except_ids: list[int] = [],
     ):

@@ -24,8 +24,7 @@ from pyrogram import raw, types
 
 class GetPaymentForm:
     async def get_payment_form(
-        self: pyrogram.Client,
-        input_invoice: types.InputInvoice
+        self: pyrogram.Client, input_invoice: types.InputInvoice
     ) -> types.PaymentForm:
         """Get an invoice payment form.
 
@@ -60,9 +59,7 @@ class GetPaymentForm:
                 )
         """
         r = await self.invoke(
-            raw.functions.payments.GetPaymentForm(
-                invoice=await input_invoice.write(self)
-            )
+            raw.functions.payments.GetPaymentForm(invoice=await input_invoice.write(self))
         )
 
         return await types.PaymentForm._parse(self, r)

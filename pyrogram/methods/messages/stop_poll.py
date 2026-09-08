@@ -28,7 +28,7 @@ class StopPoll:
         self: pyrogram.Client,
         chat_id: int | str,
         message_id: int,
-        reply_markup: types.InlineKeyboardMarkup | None = None
+        reply_markup: types.InlineKeyboardMarkup | None = None,
     ) -> types.Poll:
         """Stop a poll which was sent by you.
 
@@ -71,7 +71,7 @@ class StopPoll:
                         closed=True,
                     ),
                 ),
-                reply_markup=await reply_markup.write(self) if reply_markup else None
+                reply_markup=await reply_markup.write(self) if reply_markup else None,
             )
         )
 

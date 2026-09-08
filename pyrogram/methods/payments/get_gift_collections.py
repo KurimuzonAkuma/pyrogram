@@ -24,8 +24,7 @@ from pyrogram import raw, types
 
 class GetGiftCollections:
     async def get_gift_collections(
-        self: pyrogram.Client,
-        owner_id: int | str
+        self: pyrogram.Client, owner_id: int | str
     ) -> list[types.GiftCollection]:
         """Returns collections of gifts owned by the given user or chat.
 
@@ -41,14 +40,10 @@ class GetGiftCollections:
         """
         r = await self.invoke(
             raw.functions.payments.GetStarGiftCollections(
-                peer=await self.resolve_peer(owner_id),
-                hash=0
+                peer=await self.resolve_peer(owner_id), hash=0
             )
         )
 
         return types.List(
-            [
-                await types.GiftCollection._parse(self, collection)
-                for collection in r.collections
-            ]
+            [await types.GiftCollection._parse(self, collection) for collection in r.collections]
         )

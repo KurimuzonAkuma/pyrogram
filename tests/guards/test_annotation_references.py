@@ -49,7 +49,9 @@ class Annotation:
     line: int
 
     def __str__(self) -> str:
-        return "{}:{}: {}".format(self.path.relative_to(REPOSITORY_ROOT), self.line, ".".join(self.name))
+        return "{}:{}: {}".format(
+            self.path.relative_to(REPOSITORY_ROOT), self.line, ".".join(self.name)
+        )
 
 
 def module_name_of(path: pathlib.Path) -> str:
@@ -102,7 +104,6 @@ def dotted_name(node: ast.expr) -> tuple[str, ...] | None:
     parts.append(node.id)
 
     return tuple(reversed(parts))
-
 
 
 def names_in(node: ast.expr, *, line: int) -> Iterator[tuple[tuple[str, ...], int]]:
@@ -174,7 +175,9 @@ def type_checking_imports(tree: ast.Module, *, package: str) -> dict[str, Any]:
                     bindings[alias.asname or root] = importlib.import_module(root)
 
             elif isinstance(statement, ast.ImportFrom):
-                source = importlib.import_module("." * statement.level + (statement.module or ""), package)
+                source = importlib.import_module(
+                    "." * statement.level + (statement.module or ""), package
+                )
 
                 for alias in statement.names:
                     bindings[alias.asname or alias.name] = getattr(source, alias.name)
@@ -220,12 +223,16 @@ def test_every_name_in_an_annotation_resolves_where_it_is_written() -> None:
     """A dead name in an annotation is what an IDE offers the caller as the type to pass."""
     dead = sorted(str(one) for one in dead_annotations())
 
-    assert not dead, "{} annotations name something that does not exist:\n{}".format(len(dead), "\n".join(dead))
+    assert not dead, "{} annotations name something that does not exist:\n{}".format(
+        len(dead), "\n".join(dead)
+    )
 
 
 def test_the_sweep_reads_the_annotations_it_claims_to() -> None:
     """A walk that stopped descending would leave the test above passing over nothing."""
-    read: list[Annotation] = [annotation for path in hand_written_files() for annotation, _ in annotations_in(path)]
+    read: list[Annotation] = [
+        annotation for path in hand_written_files() for annotation, _ in annotations_in(path)
+    ]
     names: set[tuple[str, ...]] = {one.name for one in read}
 
     assert len(read) > 5000
@@ -252,6 +259,7 @@ def test_a_string_annotation_is_read_as_the_expression_it_holds() -> None:
 
 def test_a_literal_holds_values_rather_than_names() -> None:
     """Without this, every string a `Literal` lists would be read as a type that is missing."""
+
     def names(source: str) -> list[tuple[str, ...]]:
         return [name for name, _ in names_in(ast.parse(source, mode="eval").body, line=1)]
 

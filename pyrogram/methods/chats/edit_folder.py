@@ -42,7 +42,7 @@ class EditFolder:
         include_non_contacts: bool | None = None,
         include_bots: bool | None = None,
         include_groups: bool | None = None,
-        include_channels: bool | None = None
+        include_channels: bool | None = None,
     ) -> bool:
         """Update chat folder.
 
@@ -127,7 +127,8 @@ class EditFolder:
         dialog_filters = await self.invoke(raw.functions.messages.GetDialogFilters())
 
         raw_folders = [
-            folder for folder in dialog_filters.filters
+            folder
+            for folder in dialog_filters.filters
             if isinstance(folder, (raw.types.DialogFilter, raw.types.DialogFilterChatlist))
         ]
 
@@ -140,7 +141,9 @@ class EditFolder:
         if not is_folder_exists:
             raise ValueError(f"Folder with id {folder_id} not found")
 
-        name, title_entities = (await utils.parse_text_entities(self, name, parse_mode, entities)).values()
+        name, title_entities = (
+            await utils.parse_text_entities(self, name, parse_mode, entities)
+        ).values()
         title_entities = title_entities or []
 
         pinned_chats = pinned_chats or []
@@ -156,18 +159,9 @@ class EditFolder:
                         text=name,
                         entities=title_entities,
                     ),
-                    pinned_peers=[
-                        await self.resolve_peer(peer)
-                        for peer in pinned_chats
-                    ],
-                    include_peers=[
-                        await self.resolve_peer(peer)
-                        for peer in included_chats
-                    ],
-                    exclude_peers=[
-                        await self.resolve_peer(peer)
-                        for peer in excluded_chats
-                    ],
+                    pinned_peers=[await self.resolve_peer(peer) for peer in pinned_chats],
+                    include_peers=[await self.resolve_peer(peer) for peer in included_chats],
+                    exclude_peers=[await self.resolve_peer(peer) for peer in excluded_chats],
                     contacts=include_contacts,
                     non_contacts=include_non_contacts,
                     groups=include_groups,
@@ -178,8 +172,8 @@ class EditFolder:
                     exclude_archived=exclude_archived,
                     title_noanimate=not animate_custom_emoji,
                     emoticon=icon,
-                    color=color.value if color else None
-                )
+                    color=color.value if color else None,
+                ),
             )
         )
 

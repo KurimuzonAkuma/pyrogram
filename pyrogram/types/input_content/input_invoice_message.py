@@ -34,6 +34,7 @@ class InputInvoiceMessage(InputInvoice):
         message_id (``int``):
             Unique message identifier.
     """
+
     def __init__(
         self,
         chat_id: int | str,
@@ -46,6 +47,5 @@ class InputInvoiceMessage(InputInvoice):
 
     async def write(self, client: pyrogram.Client):
         return raw.types.InputInvoiceMessage(
-            peer=await client.resolve_peer(self.chat_id),
-            msg_id=self.message_id
+            peer=await client.resolve_peer(self.chat_id), msg_id=self.message_id
         )

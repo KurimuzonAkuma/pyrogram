@@ -60,7 +60,7 @@ class OnGuestMessage:
                 func.handlers.append(
                     (
                         pyrogram.handlers.GuestMessageHandler(func, arguments.filters),
-                        arguments.group
+                        arguments.group,
                     )
                 )
 

@@ -73,7 +73,7 @@ class InputMediaDocument(InputMedia):
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[MessageEntity] | None = None,
-        file_name: str | None = None
+        file_name: str | None = None,
     ):
         super().__init__(media, caption, parse_mode, caption_entities)
 
@@ -87,7 +87,7 @@ class InputMediaDocument(InputMedia):
         chat_id: int | str | None = None,
         progress: Callable | None = None,
         progress_args: tuple = (),
-        **kwargs
+        **kwargs,
     ) -> raw.base.InputMedia:
         if chat_id is None:
             peer = raw.types.InputPeerSelf()

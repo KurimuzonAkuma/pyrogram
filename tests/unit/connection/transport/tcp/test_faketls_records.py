@@ -68,7 +68,9 @@ def _record_payloads(wire: bytes) -> list[bytes]:
     while offset < len(wire):
         assert wire[offset : offset + len(APPLICATION_DATA_PREFIX)] == APPLICATION_DATA_PREFIX
 
-        length = int.from_bytes(wire[offset + len(APPLICATION_DATA_PREFIX) : offset + RECORD_HEADER_SIZE], "big")
+        length = int.from_bytes(
+            wire[offset + len(APPLICATION_DATA_PREFIX) : offset + RECORD_HEADER_SIZE], "big"
+        )
         payloads.append(wire[offset + RECORD_HEADER_SIZE : offset + RECORD_HEADER_SIZE + length])
         offset += RECORD_HEADER_SIZE + length
 

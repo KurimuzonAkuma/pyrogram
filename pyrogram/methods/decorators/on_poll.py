@@ -58,10 +58,7 @@ class OnPoll:
                 arguments = unbound_arguments(self, filters=filters, group=group)
 
                 func.handlers.append(
-                    (
-                        pyrogram.handlers.PollHandler(func, arguments.filters),
-                        arguments.group
-                    )
+                    (pyrogram.handlers.PollHandler(func, arguments.filters), arguments.group)
                 )
 
             return func

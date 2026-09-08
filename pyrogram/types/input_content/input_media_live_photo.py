@@ -79,7 +79,6 @@ class InputMediaLivePhoto(InputMedia):
         caption_entities: list[MessageEntity] | None = None,
         show_caption_above_media: bool | None = None,
         has_spoiler: bool | None = None,
-
     ):
         super().__init__(media, caption, parse_mode, caption_entities)
 
@@ -97,7 +96,7 @@ class InputMediaLivePhoto(InputMedia):
         height: int = 0,
         progress: Callable | None = None,
         progress_args: tuple = (),
-        **kwargs
+        **kwargs,
     ) -> raw.base.InputMedia:
         if chat_id is None:
             peer = raw.types.InputPeerSelf()
@@ -153,7 +152,7 @@ class InputMediaLivePhoto(InputMedia):
                     id=uploaded_media.document.id,
                     access_hash=uploaded_media.document.access_hash,
                     file_reference=uploaded_media.document.file_reference,
-                )
+                ),
             )
 
         return utils.get_input_media_from_file_id(

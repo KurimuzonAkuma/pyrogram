@@ -58,10 +58,7 @@ class OnRawUpdate:
                 arguments = unbound_arguments(self, filters=filters, group=group)
 
                 func.handlers.append(
-                    (
-                        pyrogram.handlers.RawUpdateHandler(func, arguments.filters),
-                        arguments.group
-                    )
+                    (pyrogram.handlers.RawUpdateHandler(func, arguments.filters), arguments.group)
                 )
 
             return func

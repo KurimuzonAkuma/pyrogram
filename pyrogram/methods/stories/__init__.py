@@ -38,6 +38,7 @@ from .show_chat_stories import ShowChatStories
 from .unpin_chat_stories import UnpinChatStories
 from .view_stories import ViewStories
 
+
 class Stories(
     CanPostStories,
     CopyStory,

@@ -56,7 +56,7 @@ class SetProfileAudioPosition:
                 id=(utils.get_input_media_from_file_id(file_id, FileType.AUDIO)).id,
                 after_id=(utils.get_input_media_from_file_id(after_file_id, FileType.AUDIO)).id
                 if after_file_id
-                else None
+                else None,
             )
         )
 

@@ -18,6 +18,7 @@
 
 from __future__ import annotations as _annotations
 
+
 class FakeClient:
     def __init__(self):
         self.me = User("username")

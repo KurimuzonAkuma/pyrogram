@@ -36,7 +36,14 @@ SNI_DOMAIN: Final[str] = "www.example.com"
 #  protocol spec, so client and relay agree on the derivation byte for byte.
 #  https://github.com/telegramdesktop/tproxy-server/blob/52a5feb7fac38f68da5afef9cedd9b3bfc8473ca/PROTOCOL.md#L28-L31
 BRIDGE_CAPABILITY_VECTORS: Final[tuple[tuple[str, str, str], ...]] = (
-    ("proxy.example.com", "000102030405060708090a0b0c0d0e0f", "MHLEY5PmW1GWqJkSrlmJpvJUiLhBH_QKy6yKg8a0JPk"),
-    ("proxy.example.com", "dd000102030405060708090a0b0c0d0e0f", "IpJrt3e7sKtzPyoXy6w-Zj6GGEvsvclN66JzQEfPYLA"),
+    (
+        "proxy.example.com",
+        "000102030405060708090a0b0c0d0e0f",
+        "MHLEY5PmW1GWqJkSrlmJpvJUiLhBH_QKy6yKg8a0JPk",
+    ),
+    (
+        "proxy.example.com",
+        "dd000102030405060708090a0b0c0d0e0f",
+        "IpJrt3e7sKtzPyoXy6w-Zj6GGEvsvclN66JzQEfPYLA",
+    ),
 )
-

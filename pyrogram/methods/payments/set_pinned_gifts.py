@@ -60,7 +60,10 @@ class SetPinnedGifts:
         r = await self.invoke(
             raw.functions.payments.ToggleStarGiftsPinnedToTop(
                 peer=await self.resolve_peer(owner_id),
-                stargift=[await utils.get_input_stargift(self, owned_gift_id) for owned_gift_id in owned_gift_ids],
+                stargift=[
+                    await utils.get_input_stargift(self, owned_gift_id)
+                    for owned_gift_id in owned_gift_ids
+                ],
             )
         )
 

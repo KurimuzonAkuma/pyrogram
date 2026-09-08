@@ -23,10 +23,7 @@ from pyrogram import raw
 
 
 class ToggleFolderTags:
-    async def toggle_folder_tags(
-        self: pyrogram.Client,
-        are_tags_enabled: bool
-    ) -> bool:
+    async def toggle_folder_tags(self: pyrogram.Client, are_tags_enabled: bool) -> bool:
         """Toggles whether chat folder tags are enabled.
 
         .. include:: /_includes/usable-by/users.rst
@@ -45,9 +42,7 @@ class ToggleFolderTags:
                 await app.toggle_folder_tags(True)
         """
         r = await self.invoke(
-            raw.functions.messages.ToggleDialogFilterTags(
-                enabled=are_tags_enabled
-            )
+            raw.functions.messages.ToggleDialogFilterTags(enabled=are_tags_enabled)
         )
 
         return r

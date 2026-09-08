@@ -208,7 +208,11 @@ def _client_hello_ops() -> tuple[_Op, ...]:
                         b"\x04\x01\x05\x03\x08\x05\x05\x01\x08\x06\x06\x01"
                     ),
                 ),
-                (_string(b"\x00\x10\x00\x0e\x00\x0c\x02\x68\x32\x08\x68\x74\x74\x70\x2f\x31\x2e\x31"),),
+                (
+                    _string(
+                        b"\x00\x10\x00\x0e\x00\x0c\x02\x68\x32\x08\x68\x74\x74\x70\x2f\x31\x2e\x31"
+                    ),
+                ),
                 (_string(b"\x00\x12\x00\x00"),),
                 (_string(b"\x00\x17\x00\x00"),),
                 (_string(b"\x00\x1b\x00\x03\x02\x00\x02"),),
@@ -280,7 +284,9 @@ def _curve25519_double_x(x: int) -> int:
     denominator = _curve25519_y_squared(x) * 4 % _CURVE25519_PRIME
     numerator = pow(x * x - 1, 2, _CURVE25519_PRIME)
 
-    return numerator * pow(denominator, _CURVE25519_PRIME - 2, _CURVE25519_PRIME) % _CURVE25519_PRIME
+    return (
+        numerator * pow(denominator, _CURVE25519_PRIME - 2, _CURVE25519_PRIME) % _CURVE25519_PRIME
+    )
 
 
 def _generate_curve25519_key() -> bytes:
@@ -412,7 +418,8 @@ class _HelloWriter:
         #  shuffled - so no scope ever spans two of them.
         #  https://github.com/tdlib/td/blob/d1085f9cebc5a62379991ae1652673954f229c1f/td/mtproto/TlsInit.cpp#L467-L489
         rendered = [
-            bytes(_HelloWriter(grease=self._grease, domain=self._domain).render(part)) for part in parts
+            bytes(_HelloWriter(grease=self._grease, domain=self._domain).render(part))
+            for part in parts
         ]
 
         for part in _shuffled(rendered):
@@ -440,7 +447,9 @@ class FakeTlsHello(NamedTuple):
 
 def build_client_hello(*, domain: str, secret: bytes, unix_time: int) -> FakeTlsHello:
     """The greeting for `domain`, authenticated with the proxy's 16-byte secret."""
-    hello = _HelloWriter(grease=_generate_grease(), domain=domain.encode("ascii")).render(_client_hello_ops())
+    hello = _HelloWriter(grease=_generate_grease(), domain=domain.encode("ascii")).render(
+        _client_hello_ops()
+    )
 
     # The digest covers the greeting with its random field still zeroed; the last
     #  four bytes then carry the clock, so a proxy can reject a replayed greeting.

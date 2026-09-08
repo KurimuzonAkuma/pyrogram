@@ -29,7 +29,7 @@ class CreateSupergroup:
         description: str = "",
         is_forum: bool | None = None,
         message_auto_delete_time: int | None = None,
-        for_import: bool | None = None
+        for_import: bool | None = None,
     ) -> types.Chat:
         """Create a new supergroup.
 

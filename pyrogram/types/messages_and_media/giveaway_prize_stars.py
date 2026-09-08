@@ -53,6 +53,7 @@ class GiveawayPrizeStars(Object):
         sticker (:obj:`~pyrogram.types.Sticker`):
             A sticker to be shown in the message.
     """
+
     def __init__(
         self,
         *,
@@ -62,7 +63,7 @@ class GiveawayPrizeStars(Object):
         giveaway_message_id: int,
         giveaway_message: types.Message | None = None,
         is_unclaimed: bool | None = None,
-        sticker: types.Sticker | None = None
+        sticker: types.Sticker | None = None,
     ):
         super().__init__()
 
@@ -82,8 +83,7 @@ class GiveawayPrizeStars(Object):
     ) -> GiveawayPrizeStars:
         raw_stickers = await client.invoke(
             raw.functions.messages.GetStickerSet(
-                stickerset=raw.types.InputStickerSetPremiumGifts(),
-                hash=0
+                stickerset=raw.types.InputStickerSetPremiumGifts(), hash=0
             )
         )
 
@@ -93,7 +93,7 @@ class GiveawayPrizeStars(Object):
             parsed_message = await client.get_messages(
                 chat_id=utils.get_peer_id(action.boost_peer),
                 message_ids=action.giveaway_msg_id,
-                replies=0
+                replies=0,
             )
         except (MessageIdsEmpty, ChannelPrivate):
             pass
@@ -101,20 +101,19 @@ class GiveawayPrizeStars(Object):
         return GiveawayPrizeStars(
             star_count=action.stars,
             transaction_id=action.transaction_id,
-            boosted_chat=await types.Chat._parse_chat(client, chats.get(utils.get_raw_peer_id(action.boost_peer))),
+            boosted_chat=await types.Chat._parse_chat(
+                client, chats.get(utils.get_raw_peer_id(action.boost_peer))
+            ),
             giveaway_message_id=action.giveaway_msg_id,
             giveaway_message=parsed_message,
             sticker=random.choice(
                 types.List(
                     [
                         await types.Sticker._parse(
-                            client,
-                            doc,
-                            {
-                                type(i): i for i in doc.attributes
-                            }
-                        ) for doc in raw_stickers.documents
+                            client, doc, {type(i): i for i in doc.attributes}
+                        )
+                        for doc in raw_stickers.documents
                     ]
                 )
-            )
+            ),
         )

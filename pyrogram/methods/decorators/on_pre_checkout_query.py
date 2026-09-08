@@ -60,7 +60,7 @@ class OnPreCheckoutQuery:
                 func.handlers.append(
                     (
                         pyrogram.handlers.PreCheckoutQueryHandler(func, arguments.filters),
-                        arguments.group
+                        arguments.group,
                     )
                 )
 

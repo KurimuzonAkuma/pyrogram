@@ -48,7 +48,7 @@ class ShippingQuery(Object, Update):
         id: str,
         from_user: types.User,
         invoice_payload: str,
-        shipping_address: types.ShippingAddress | None = None
+        shipping_address: types.ShippingAddress | None = None,
     ):
         super().__init__(client)
 
@@ -59,9 +59,7 @@ class ShippingQuery(Object, Update):
 
     @staticmethod
     async def _parse(
-        client: pyrogram.Client,
-        shipping_query: raw.types.UpdateBotShippingQuery,
-        users: dict
+        client: pyrogram.Client, shipping_query: raw.types.UpdateBotShippingQuery, users: dict
     ) -> ShippingQuery:
         # Try to decode shipping query payload into string. If that fails, fallback to bytes instead of decoding by
         # ignoring/replacing errors, this way, button clicks will still work.
@@ -75,14 +73,14 @@ class ShippingQuery(Object, Update):
             from_user=await types.User._parse(client, users[shipping_query.user_id]),
             invoice_payload=payload,
             shipping_address=types.ShippingAddress._parse(shipping_query.shipping_address),
-            client=client
+            client=client,
         )
 
     async def answer(
         self,
         ok: bool,
         shipping_options: list[types.ShippingOption] | None = None,
-        error_message: str | None = None
+        error_message: str | None = None,
     ) -> bool:
         """Bound method *answer* of :obj:`~pyrogram.types.ShippingQuery`.
 
@@ -117,5 +115,5 @@ class ShippingQuery(Object, Update):
             shipping_query_id=self.id,
             ok=ok,
             shipping_options=shipping_options,
-            error_message=error_message
+            error_message=error_message,
         )

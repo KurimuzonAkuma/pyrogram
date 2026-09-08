@@ -52,7 +52,5 @@ class InlineQueryHandler(Handler):
             The received inline query.
     """
 
-    def __init__(
-        self, callback: Callable[[pyrogram.Client, types.InlineQuery], Any], filters=None
-    ):
+    def __init__(self, callback: Callable[[pyrogram.Client, types.InlineQuery], Any], filters=None):
         super().__init__(callback, filters)

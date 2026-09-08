@@ -50,7 +50,9 @@ class OnEditedBusinessMessage:
 
         def decorator(func: HandlerType) -> HandlerType:
             if isinstance(self, pyrogram.Client):
-                self.add_handler(pyrogram.handlers.EditedBusinessMessageHandler(func, filters), group)
+                self.add_handler(
+                    pyrogram.handlers.EditedBusinessMessageHandler(func, filters), group
+                )
             elif isinstance(self, Filter) or self is None:
                 if not hasattr(func, "handlers"):
                     func.handlers = []
@@ -60,7 +62,7 @@ class OnEditedBusinessMessage:
                 func.handlers.append(
                     (
                         pyrogram.handlers.EditedBusinessMessageHandler(func, arguments.filters),
-                        arguments.group
+                        arguments.group,
                     )
                 )
 

@@ -60,9 +60,7 @@ class DeletePollOption:
         """
         r = await self.invoke(
             raw.functions.messages.DeletePollAnswer(
-                peer=await self.resolve_peer(chat_id),
-                msg_id=message_id,
-                option=option.encode()
+                peer=await self.resolve_peer(chat_id), msg_id=message_id, option=option.encode()
             )
         )
 

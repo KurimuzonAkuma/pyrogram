@@ -38,10 +38,24 @@ from .inline_query_result_voice import InlineQueryResultVoice
 from .inline_query_result_cached_audio import InlineQueryResultCachedAudio
 
 __all__ = [
-    "InlineQuery", "InlineQueryResult", "InlineQueryResultArticle", "InlineQueryResultPhoto",
-    "InlineQueryResultAnimation", "InlineQueryResultAudio", "InlineQueryResultVideo", "ChosenInlineResult",
-    "InlineQueryResultContact", "InlineQueryResultDocument", "InlineQueryResultVoice", "InlineQueryResultLocation",
-    "InlineQueryResultVenue", "InlineQueryResultCachedPhoto", "InlineQueryResultCachedAnimation",
-    "InlineQueryResultCachedSticker", "InlineQueryResultCachedDocument", "InlineQueryResultCachedVideo",
-    "InlineQueryResultCachedVoice", "InlineQueryResultCachedAudio"
+    "InlineQuery",
+    "InlineQueryResult",
+    "InlineQueryResultArticle",
+    "InlineQueryResultPhoto",
+    "InlineQueryResultAnimation",
+    "InlineQueryResultAudio",
+    "InlineQueryResultVideo",
+    "ChosenInlineResult",
+    "InlineQueryResultContact",
+    "InlineQueryResultDocument",
+    "InlineQueryResultVoice",
+    "InlineQueryResultLocation",
+    "InlineQueryResultVenue",
+    "InlineQueryResultCachedPhoto",
+    "InlineQueryResultCachedAnimation",
+    "InlineQueryResultCachedSticker",
+    "InlineQueryResultCachedDocument",
+    "InlineQueryResultCachedVideo",
+    "InlineQueryResultCachedVoice",
+    "InlineQueryResultCachedAudio",
 ]

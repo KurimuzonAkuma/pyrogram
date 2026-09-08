@@ -72,9 +72,11 @@ class EditMessageChecklist:
                     )
                 )
         """
-        title, entities = (await utils.parse_text_entities(
-            self, checklist.title, checklist.parse_mode, checklist.entities
-        )).values()
+        title, entities = (
+            await utils.parse_text_entities(
+                self, checklist.title, checklist.parse_mode, checklist.entities
+            )
+        ).values()
 
         r = await self.invoke(
             raw.functions.messages.EditMessage(
@@ -82,25 +84,20 @@ class EditMessageChecklist:
                 id=message_id,
                 media=raw.types.InputMediaTodo(
                     todo=raw.types.TodoList(
-                        title=raw.types.TextWithEntities(
-                            text=title,
-                            entities=entities or []
-                        ),
+                        title=raw.types.TextWithEntities(text=title, entities=entities or []),
                         list=[await task.write(self) for task in checklist.tasks],
                         others_can_append=checklist.others_can_add_tasks,
-                        others_can_complete=checklist.others_can_mark_tasks_as_done
+                        others_can_complete=checklist.others_can_mark_tasks_as_done,
                     )
                 ),
                 reply_markup=await reply_markup.write(self) if reply_markup else None,
-                entities=entities
+                entities=entities,
             ),
-            business_connection_id=business_connection_id
+            business_connection_id=business_connection_id,
         )
 
         for i in r.updates:
             if isinstance(i, (raw.types.UpdateEditMessage, raw.types.UpdateEditChannelMessage)):
                 return await types.Message._parse(
-                    self, i.message,
-                    {i.id: i for i in r.users},
-                    {i.id: i for i in r.chats}
+                    self, i.message, {i.id: i for i in r.users}, {i.id: i for i in r.chats}
                 )

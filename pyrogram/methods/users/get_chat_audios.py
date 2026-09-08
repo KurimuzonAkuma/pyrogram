@@ -62,12 +62,7 @@ class GetChatAudios:
 
         while True:
             r = await self.invoke(
-                raw.functions.users.GetSavedMusic(
-                    id=peer_id,
-                    offset=offset,
-                    limit=limit,
-                    hash=0
-                )
+                raw.functions.users.GetSavedMusic(id=peer_id, offset=offset, limit=limit, hash=0)
             )
 
             audios = []

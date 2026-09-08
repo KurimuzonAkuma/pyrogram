@@ -128,7 +128,9 @@ def test_a_parameter_that_admits_none_defaults_to_none() -> None:
 
 
 def test_every_exemption_names_a_parameter_that_is_still_there() -> None:
-    found = {(relative, name) for relative, _, name in optional_parameters_that_do_not_default_to_none()}
+    found = {
+        (relative, name) for relative, _, name in optional_parameters_that_do_not_default_to_none()
+    }
 
     assert sorted(set(_EXEMPTIONS) - found) == []
 

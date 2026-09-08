@@ -23,9 +23,7 @@ from pyrogram import raw, types, errors
 
 
 class JoinChat:
-    async def join_chat(
-        self: pyrogram.Client, chat_id: int | str
-    ) -> types.ChatJoinResult:
+    async def join_chat(self: pyrogram.Client, chat_id: int | str) -> types.ChatJoinResult:
         """Adds the current user as a new member to a chat. Private and secret chats can't be joined using this method.
 
         .. include:: /_includes/usable-by/users.rst

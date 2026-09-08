@@ -44,12 +44,13 @@ class UserRating(Object):
     """
 
     def __init__(
-        self, *,
+        self,
+        *,
         level: int,
         is_maximum_level_reached: bool,
         rating: int,
         current_level_rating: int,
-        next_level_rating: int | None = None
+        next_level_rating: int | None = None,
     ):
         super().__init__(None)
 
@@ -69,5 +70,5 @@ class UserRating(Object):
             is_maximum_level_reached=rating.next_level_stars == 0 and rating.level > 0,
             rating=rating.stars,
             current_level_rating=rating.current_level_stars,
-            next_level_rating=rating.next_level_stars
+            next_level_rating=rating.next_level_stars,
         )

@@ -143,17 +143,29 @@ class PaymentForm(Object):
                 need_password=form.password_missing,
                 native_provider=form.native_provider,
                 # native_params,
-                additional_payment_options=types.List([types.PaymentOption._parse(option) for option in getattr(form, "additional_methods", [])]) or None,
+                additional_payment_options=types.List(
+                    [
+                        types.PaymentOption._parse(option)
+                        for option in getattr(form, "additional_methods", [])
+                    ]
+                )
+                or None,
                 # saved_info,
-                saved_credentials=types.List([types.SavedCredentials._parse(credential) for credential in getattr(form, "saved_credentials", [])]) or None,
-                raw=form
+                saved_credentials=types.List(
+                    [
+                        types.SavedCredentials._parse(credential)
+                        for credential in getattr(form, "saved_credentials", [])
+                    ]
+                )
+                or None,
+                raw=form,
             )
         elif isinstance(form, raw.types.payments.PaymentFormStarGift):
             return PaymentForm(
                 id=form.form_id,
                 type=enums.PaymentFormType.STAR_SUBSCRIPTION,
                 invoice=types.Invoice._parse(client, form.invoice),
-                raw=form
+                raw=form,
             )
         elif isinstance(form, raw.types.payments.PaymentFormStars):
             return PaymentForm(
@@ -165,5 +177,5 @@ class PaymentForm(Object):
                 seller_bot_user_id=form.bot_id,
                 seller_bot=await types.User._parse(client, users.get(form.bot_id)),
                 invoice=types.Invoice._parse(client, form.invoice),
-                raw=form
+                raw=form,
             )

@@ -26,9 +26,7 @@ from pyrogram import types, raw
 
 class GetCallMembers:
     async def get_call_members(
-        self: pyrogram.Client,
-        chat_id: int | str,
-        limit: int = 0
+        self: pyrogram.Client, chat_id: int | str, limit: int = 0
     ) -> AsyncGenerator[types.GroupCallMember, None]:
         """Get the members list of a chat call.
 
@@ -75,13 +73,9 @@ class GetCallMembers:
         while True:
             r = await self.invoke(
                 raw.functions.phone.GetGroupParticipants(
-                    call=full_chat.call,
-                    ids=[],
-                    sources=[],
-                    offset=offset,
-                    limit=limit
+                    call=full_chat.call, ids=[], sources=[], offset=offset, limit=limit
                 ),
-                sleep_threshold=60
+                sleep_threshold=60,
             )
 
             users = {u.id: u for u in r.users}

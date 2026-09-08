@@ -24,9 +24,7 @@ from pyrogram import raw, types
 
 class GetSendAsChats:
     async def get_send_as_chats(
-        self: pyrogram.Client,
-        chat_id: int | str,
-        for_paid_reactions: bool | None = None
+        self: pyrogram.Client, chat_id: int | str, for_paid_reactions: bool | None = None
     ) -> list[types.Chat]:
         """Get the list of "send_as" chats available.
 
@@ -50,8 +48,7 @@ class GetSendAsChats:
         """
         r = await self.invoke(
             raw.functions.channels.GetSendAs(
-                peer=await self.resolve_peer(chat_id),
-                for_paid_reactions=for_paid_reactions
+                peer=await self.resolve_peer(chat_id), for_paid_reactions=for_paid_reactions
             )
         )
 

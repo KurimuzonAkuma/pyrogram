@@ -50,7 +50,7 @@ class ApproveChatJoinRequest:
             raw.functions.messages.HideChatJoinRequest(
                 peer=await self.resolve_peer(chat_id),
                 user_id=await self.resolve_peer(user_id),
-                approved=True
+                approved=True,
             )
         )
 

@@ -69,7 +69,8 @@ class KeyboardButtonRequestChat(Object):
     """
 
     def __init__(
-        self, *,
+        self,
+        *,
         button_id: int,
         chat_is_channel: bool,
         chat_is_forum: bool | None = None,

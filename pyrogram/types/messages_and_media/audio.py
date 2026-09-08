@@ -76,7 +76,7 @@ class Audio(Object):
         mime_type: str | None = None,
         file_size: int | None = None,
         date: datetime | None = None,
-        thumbs: list[types.Thumbnail] | None = None
+        thumbs: list[types.Thumbnail] | None = None,
     ):
         super().__init__(client)
 
@@ -96,7 +96,7 @@ class Audio(Object):
         client,
         audio: raw.types.Document,
         audio_attributes: raw.types.DocumentAttributeAudio,
-        file_name: str
+        file_name: str,
     ) -> Audio:
         return Audio(
             file_id=FileId(
@@ -104,11 +104,10 @@ class Audio(Object):
                 dc_id=audio.dc_id,
                 media_id=audio.id,
                 access_hash=audio.access_hash,
-                file_reference=audio.file_reference
+                file_reference=audio.file_reference,
             ).encode(),
             file_unique_id=FileUniqueId(
-                file_unique_type=FileUniqueType.DOCUMENT,
-                media_id=audio.id
+                file_unique_type=FileUniqueType.DOCUMENT, media_id=audio.id
             ).encode(),
             duration=audio_attributes.duration,
             performer=audio_attributes.performer,
@@ -118,5 +117,5 @@ class Audio(Object):
             file_name=file_name,
             date=utils.timestamp_to_datetime(audio.date),
             thumbs=types.Thumbnail._parse(client, audio),
-            client=client
+            client=client,
         )

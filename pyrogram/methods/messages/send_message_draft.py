@@ -32,7 +32,7 @@ class SendMessageDraft:
         parse_mode: enums.ParseMode | None = None,
         entities: list[types.MessageEntity] | None = None,
         can_stop: bool | None = None,
-        keep_on_stop: bool | None = None
+        keep_on_stop: bool | None = None,
     ) -> bool:
         """Use this method to stream a partial message to a user while the message is being generated.
 

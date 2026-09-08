@@ -63,12 +63,8 @@ async def test_every_admin_is_parsed() -> None:
     #  `TypeError: 'async_generator' object is not iterable`, so the method never returned.
     client = FakeClient(
         [
-            raw.types.ChatAdminWithInvites(
-                admin_id=7, invites_count=3, revoked_invites_count=1
-            ),
-            raw.types.ChatAdminWithInvites(
-                admin_id=8, invites_count=0, revoked_invites_count=0
-            ),
+            raw.types.ChatAdminWithInvites(admin_id=7, invites_count=3, revoked_invites_count=1),
+            raw.types.ChatAdminWithInvites(admin_id=8, invites_count=0, revoked_invites_count=0),
         ]
     )
 

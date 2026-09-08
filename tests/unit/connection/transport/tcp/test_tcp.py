@@ -273,7 +273,11 @@ async def _start_fake_tls_stub(
             greeting = head + await reader.readexactly(int.from_bytes(head[3:5], "big"))
             hello.set_result(greeting)
 
-            writer.write(_server_hello(greeting[_RANDOM_OFFSET : _RANDOM_OFFSET + _RANDOM_SIZE], secret=secret))
+            writer.write(
+                _server_hello(
+                    greeting[_RANDOM_OFFSET : _RANDOM_OFFSET + _RANDOM_SIZE], secret=secret
+                )
+            )
             await writer.drain()
 
             if not expects_packet:
@@ -319,7 +323,9 @@ def _fake_tls_mtproxy(port: int, *, secret: bytes) -> MTProxy:
 async def test_connect_via_mtproxy_greets_a_fake_tls_proxy_with_a_signed_client_hello() -> None:
     secret = bytes.fromhex(PLAIN_SECRET_HEX)
     stub = await _start_fake_tls_stub(secret=secret)
-    transport = TCPIntermediatePadded(proxy=_fake_tls_mtproxy(stub.port, secret=secret), dc_id=_DC_ID)
+    transport = TCPIntermediatePadded(
+        proxy=_fake_tls_mtproxy(stub.port, secret=secret), dc_id=_DC_ID
+    )
 
     try:
         await transport.connect(_UNREACHABLE_DC_ADDRESS)
@@ -337,8 +343,12 @@ async def test_connect_via_mtproxy_greets_a_fake_tls_proxy_with_a_signed_client_
         greeting[:_RANDOM_OFFSET] + bytes(_RANDOM_SIZE) + greeting[_RANDOM_OFFSET + _RANDOM_SIZE :]
     )
     digest = bytearray(hmac.new(secret, zeroed, hashlib.sha256).digest())
-    stamped = greeting[_RANDOM_OFFSET + _RANDOM_SIZE - _TIMESTAMP_SIZE : _RANDOM_OFFSET + _RANDOM_SIZE]
-    stamp = int.from_bytes(bytes(digest[-_TIMESTAMP_SIZE:]), "little") ^ int.from_bytes(stamped, "little")
+    stamped = greeting[
+        _RANDOM_OFFSET + _RANDOM_SIZE - _TIMESTAMP_SIZE : _RANDOM_OFFSET + _RANDOM_SIZE
+    ]
+    stamp = int.from_bytes(bytes(digest[-_TIMESTAMP_SIZE:]), "little") ^ int.from_bytes(
+        stamped, "little"
+    )
 
     assert greeting[_RANDOM_OFFSET : _RANDOM_OFFSET + _RANDOM_SIZE - _TIMESTAMP_SIZE] == bytes(
         digest[:-_TIMESTAMP_SIZE]
@@ -356,7 +366,9 @@ async def test_connect_via_mtproxy_wraps_the_handshake_in_application_records() 
     secret = bytes.fromhex(PLAIN_SECRET_HEX)
 
     stub = await _start_fake_tls_stub(secret=secret, expects_packet=True)
-    transport = TCPIntermediatePadded(proxy=_fake_tls_mtproxy(stub.port, secret=secret), dc_id=_DC_ID)
+    transport = TCPIntermediatePadded(
+        proxy=_fake_tls_mtproxy(stub.port, secret=secret), dc_id=_DC_ID
+    )
 
     try:
         await transport.connect(_UNREACHABLE_DC_ADDRESS)
@@ -405,7 +417,9 @@ async def test_connect_via_mtproxy_reads_a_reply_split_across_several_records() 
         reply=len(reply).to_bytes(_LENGTH_PREFIX_SIZE, "little", signed=True) + reply,
         reply_record_size=3,
     )
-    transport = TCPIntermediatePadded(proxy=_fake_tls_mtproxy(stub.port, secret=secret), dc_id=_DC_ID)
+    transport = TCPIntermediatePadded(
+        proxy=_fake_tls_mtproxy(stub.port, secret=secret), dc_id=_DC_ID
+    )
 
     try:
         await transport.connect(_UNREACHABLE_DC_ADDRESS)
@@ -449,7 +463,9 @@ async def test_connect_via_mtproxy_rejects_a_fake_tls_reply_that_is_not_a_server
 
     server = await asyncio.start_server(serve, host="127.0.0.1", port=0)
     transport = TCPIntermediatePadded(
-        proxy=_fake_tls_mtproxy(server.sockets[0].getsockname()[1], secret=bytes.fromhex(PLAIN_SECRET_HEX)),
+        proxy=_fake_tls_mtproxy(
+            server.sockets[0].getsockname()[1], secret=bytes.fromhex(PLAIN_SECRET_HEX)
+        ),
         dc_id=_DC_ID,
     )
 

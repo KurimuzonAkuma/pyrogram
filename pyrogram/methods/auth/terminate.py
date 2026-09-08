@@ -27,10 +27,7 @@ log = logging.getLogger(__name__)
 
 
 class Terminate:
-    async def terminate(
-        self: pyrogram.Client,
-        clear_handlers: bool = True
-    ):
+    async def terminate(self: pyrogram.Client, clear_handlers: bool = True):
         """Terminate the client by shutting down workers.
 
         This method does the opposite of :meth:`~pyrogram.Client.initialize`.

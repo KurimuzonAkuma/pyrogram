@@ -140,7 +140,9 @@ class CreateInvoiceLink:
                         attributes=[
                             raw.types.DocumentAttributeImageSize(w=photo_width, h=photo_height)
                         ],
-                    ) if photo_url else None,
+                    )
+                    if photo_url
+                    else None,
                     invoice=raw.types.Invoice(
                         currency=currency,
                         prices=[i.write() for i in prices],

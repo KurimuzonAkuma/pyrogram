@@ -60,15 +60,11 @@ class InputRichMessage(Object):
     def write(self) -> raw.base.InputRichMessage:
         if self.html:
             input_rich_message = raw.types.InputRichMessageHTML(
-                html=self.html,
-                rtl=self.is_rtl,
-                noautolink=self.skip_entity_detection
+                html=self.html, rtl=self.is_rtl, noautolink=self.skip_entity_detection
             )
         elif self.markdown:
             input_rich_message = raw.types.InputRichMessageMarkdown(
-                markdown=self.markdown,
-                rtl=self.is_rtl,
-                noautolink=self.skip_entity_detection
+                markdown=self.markdown, rtl=self.is_rtl, noautolink=self.skip_entity_detection
             )
         else:
             raise ValueError("You must provide either markdown or html in the rich message")

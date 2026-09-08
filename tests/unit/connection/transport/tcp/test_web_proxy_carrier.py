@@ -136,7 +136,9 @@ def test_large_legal_batch_is_not_rejected() -> None:
     # §7.1: the relay may legally batch up to 2 MiB of small frames into one
     #  response. A frame-count cap would make that batch a parse error even
     #  though every frame in it is well-formed.
-    wire = b"".join(serialize_frame(FrameType.PING, stream_id=0, payload=b"") for _ in range(20_000))
+    wire = b"".join(
+        serialize_frame(FrameType.PING, stream_id=0, payload=b"") for _ in range(20_000)
+    )
 
     parsed = parse_frames(wire)
 
@@ -201,7 +203,9 @@ async def test_read_body_chunked() -> None:
     #  them as an empty body silently dropped every response above a few KiB.
     connection = _connection_reading(b"5\r\nhello\r\n6\r\n mtprx\r\n0\r\n\r\n")
 
-    body = await connection._read_body(HTTPStatus.OK, response_headers={"transfer-encoding": "chunked"})
+    body = await connection._read_body(
+        HTTPStatus.OK, response_headers={"transfer-encoding": "chunked"}
+    )
 
     assert body == b"hello mtprx"
 
@@ -210,7 +214,9 @@ async def test_read_body_chunked_ignores_extensions_and_trailers() -> None:
     raw = b"5;name=value\r\nhello\r\n0\r\nx-checksum: 1\r\n\r\n"
     connection = _connection_reading(raw)
 
-    body = await connection._read_body(HTTPStatus.OK, response_headers={"transfer-encoding": "CHUNKED"})
+    body = await connection._read_body(
+        HTTPStatus.OK, response_headers={"transfer-encoding": "CHUNKED"}
+    )
 
     assert body == b"hello"
 
@@ -241,14 +247,18 @@ async def test_read_body_rejects_a_malformed_chunk_size() -> None:
     connection = _connection_reading(b"zz\r\n")
 
     with pytest.raises(ConnectionError, match="malformed chunk size"):
-        await connection._read_body(HTTPStatus.OK, response_headers={"transfer-encoding": "chunked"})
+        await connection._read_body(
+            HTTPStatus.OK, response_headers={"transfer-encoding": "chunked"}
+        )
 
 
 async def test_read_body_rejects_a_truncated_chunked_body() -> None:
     connection = _connection_reading(b"5\r\nhello\r\n")
 
     with pytest.raises(ConnectionError, match="closed inside a chunked body"):
-        await connection._read_body(HTTPStatus.OK, response_headers={"transfer-encoding": "chunked"})
+        await connection._read_body(
+            HTTPStatus.OK, response_headers={"transfer-encoding": "chunked"}
+        )
 
 
 class _UplinkRecorder:
@@ -279,7 +289,9 @@ def _carrier() -> WebProxyCarrier:
 
 
 def _window_grant(amount: int) -> Frame:
-    wire = serialize_frame(FrameType.WINDOW, stream_id=_STREAM_ID, payload=amount.to_bytes(4, "big"))
+    wire = serialize_frame(
+        FrameType.WINDOW, stream_id=_STREAM_ID, payload=amount.to_bytes(4, "big")
+    )
     parsed = parse_frames(wire)
 
     return parsed.frames[0]
@@ -347,7 +359,9 @@ async def test_send_never_puts_more_on_the_wire_than_the_credit_granted() -> Non
     assert recorder.bytes_sent == len(payload)
 
 
-async def test_send_fails_the_carrier_when_credit_never_arrives(monkeypatch: pytest.MonkeyPatch) -> None:
+async def test_send_fails_the_carrier_when_credit_never_arrives(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     monkeypatch.setattr(web_proxy_carrier, "_CREDIT_WAIT_TIMEOUT", 0.05)
     carrier = _carrier()
     _UplinkRecorder(carrier)
@@ -480,7 +494,9 @@ async def test_a_failed_background_task_nothing_recorded_is_reported_at_error(
     ]
 
 
-async def test_a_cancelled_background_task_is_not_reported(caplog: pytest.LogCaptureFixture) -> None:
+async def test_a_cancelled_background_task_is_not_reported(
+    caplog: pytest.LogCaptureFixture,
+) -> None:
     carrier = _carrier()
 
     async def _waits() -> None:

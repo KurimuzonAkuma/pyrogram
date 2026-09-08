@@ -87,7 +87,7 @@ class InputMediaAudio(InputMedia):
         duration: int = 0,
         performer: str = "",
         title: str = "",
-        file_name: str | None = None
+        file_name: str | None = None,
     ):
         super().__init__(media, caption, parse_mode, caption_entities)
 
@@ -105,7 +105,7 @@ class InputMediaAudio(InputMedia):
         progress: Callable | None = None,
         progress_args: tuple = (),
         ttl_seconds: int | None = None,
-        **kwargs
+        **kwargs,
     ) -> raw.base.InputMedia:
         if chat_id is None:
             peer = raw.types.InputPeerSelf()
@@ -157,4 +157,6 @@ class InputMediaAudio(InputMedia):
                 ttl_seconds=ttl_seconds,
             )
 
-        return utils.get_input_media_from_file_id(self.media, FileType.AUDIO, ttl_seconds=ttl_seconds)
+        return utils.get_input_media_from_file_id(
+            self.media, FileType.AUDIO, ttl_seconds=ttl_seconds
+        )

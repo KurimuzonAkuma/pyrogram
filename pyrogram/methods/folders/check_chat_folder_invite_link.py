@@ -49,10 +49,6 @@ class CheckChatFolderInviteLink:
         else:
             raise ValueError("Invalid folder invite link")
 
-        r = await self.invoke(
-            raw.functions.chatlists.CheckChatlistInvite(
-                slug=slug
-            )
-        )
+        r = await self.invoke(raw.functions.chatlists.CheckChatlistInvite(slug=slug))
 
         return await types.ChatFolderInviteLinkInfo._parse(self, r)

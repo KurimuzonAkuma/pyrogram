@@ -25,9 +25,7 @@ from pyrogram import types
 
 class SearchContacts:
     async def search_contacts(
-        self: pyrogram.Client,
-        query: str,
-        limit: int = 0
+        self: pyrogram.Client, query: str, limit: int = 0
     ) -> types.FoundContacts:
         """Returns users or channels found by name substring and auxiliary data.
 
@@ -51,11 +49,6 @@ class SearchContacts:
         total = limit or (1 << 31) - 1
         limit = min(100, total)
 
-        r = await self.invoke(
-            raw.functions.contacts.Search(
-                q=query,
-                limit=limit
-            )
-        )
+        r = await self.invoke(raw.functions.contacts.Search(q=query, limit=limit))
 
         return await types.FoundContacts._parse(self, r)

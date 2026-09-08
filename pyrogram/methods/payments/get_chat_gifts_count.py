@@ -27,10 +27,7 @@ log = logging.getLogger(__name__)
 
 
 class GetChatGiftsCount:
-    async def get_chat_gifts_count(
-        self: pyrogram.Client,
-        chat_id: int | str
-    ) -> int:
+    async def get_chat_gifts_count(self: pyrogram.Client, chat_id: int | str) -> int:
         """Get the total count of owned gifts of specified chat.
 
         .. include:: /_includes/usable-by/users.rst
@@ -52,11 +49,7 @@ class GetChatGiftsCount:
         peer = await self.resolve_peer(chat_id)
 
         r = await self.invoke(
-            raw.functions.payments.GetSavedStarGifts(
-                peer=peer,
-                offset="",
-                limit=1
-            )
+            raw.functions.payments.GetSavedStarGifts(peer=peer, offset="", limit=1)
         )
 
         return r.count

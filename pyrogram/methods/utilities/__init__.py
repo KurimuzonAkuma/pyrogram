@@ -27,13 +27,6 @@ from .stop_transmission import StopTransmission
 
 
 class Utilities(
-    AddHandler,
-    ExportSessionString,
-    RemoveHandler,
-    Restart,
-    Run,
-    Start,
-    Stop,
-    StopTransmission
+    AddHandler, ExportSessionString, RemoveHandler, Restart, Run, Start, Stop, StopTransmission
 ):
     pass

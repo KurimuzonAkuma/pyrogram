@@ -26,6 +26,7 @@ import pyrogram
 from pyrogram import raw, types, utils, StopTransmission
 from pyrogram.errors import FilePartMissing
 
+
 class EditStoryMedia:
     async def edit_story_media(
         self: pyrogram.Client,
@@ -40,7 +41,7 @@ class EditStoryMedia:
         supports_streaming: bool = True,
         file_name: str | None = None,
         progress: Callable | None = None,
-        progress_args: tuple = ()
+        progress_args: tuple = (),
     ) -> types.Story | None:
         """Edit story media.
 
@@ -107,7 +108,9 @@ class EditStoryMedia:
             if isinstance(media, str):
                 if os.path.isfile(media):
                     thumb = await self.save_file(thumb)
-                    file = await self.save_file(media, progress=progress, progress_args=progress_args)
+                    file = await self.save_file(
+                        media, progress=progress, progress_args=progress_args
+                    )
                     mime_type = self.guess_mime_type(file.name)
                     if mime_type == "video/mp4":
                         media = raw.types.InputMediaUploadedDocument(
@@ -120,8 +123,10 @@ class EditStoryMedia:
                                     w=width,
                                     h=height,
                                 ),
-                                raw.types.DocumentAttributeFilename(file_name=file_name or os.path.basename(media))
-                            ]
+                                raw.types.DocumentAttributeFilename(
+                                    file_name=file_name or os.path.basename(media)
+                                ),
+                            ],
                         )
                     else:
                         media = raw.types.InputMediaUploadedPhoto(
@@ -145,8 +150,8 @@ class EditStoryMedia:
                                 w=width,
                                 h=height,
                             ),
-                            raw.types.DocumentAttributeFilename(file_name=file_name or media.name)
-                        ]
+                            raw.types.DocumentAttributeFilename(file_name=file_name or media.name),
+                        ],
                     )
                 else:
                     media = raw.types.InputMediaUploadedPhoto(
@@ -160,7 +165,8 @@ class EditStoryMedia:
                             peer=await self.resolve_peer(chat_id),
                             id=story_id,
                             media=media,
-                            media_areas=[await area.write(self) for area in (media_areas or [])] or None,
+                            media_areas=[await area.write(self) for area in (media_areas or [])]
+                            or None,
                         )
                     )
                 except FilePartMissing as e:
@@ -173,7 +179,7 @@ class EditStoryMedia:
                                 i.story,
                                 i.peer,
                                 {i.id: i for i in r.users},
-                                {i.id: i for i in r.chats}
+                                {i.id: i for i in r.chats},
                             )
         except StopTransmission:
             return None

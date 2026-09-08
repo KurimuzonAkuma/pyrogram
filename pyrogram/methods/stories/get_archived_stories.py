@@ -26,10 +26,7 @@ from pyrogram import raw, types
 
 class GetArchivedStories:
     async def get_archived_stories(
-        self: pyrogram.Client,
-        chat_id: int | str,
-        limit: int = 0,
-        offset_id: int = 0
+        self: pyrogram.Client, chat_id: int | str, limit: int = 0, offset_id: int = 0
     ) -> AsyncGenerator[types.Story, None]:
         """Get all archived stories from a chat by using chat identifier.
 
@@ -65,11 +62,7 @@ class GetArchivedStories:
         while True:
             peer = await self.resolve_peer(chat_id)
             r = await self.invoke(
-                raw.functions.stories.GetStoriesArchive(
-                    peer=peer,
-                    offset_id=offset_id,
-                    limit=limit
-                )
+                raw.functions.stories.GetStoriesArchive(peer=peer, offset_id=offset_id, limit=limit)
             )
 
             if not r.stories:
@@ -82,13 +75,7 @@ class GetArchivedStories:
             chats = {i.id: i for i in r.chats}
 
             for story in r.stories:
-                yield await types.Story._parse(
-                    self,
-                    story,
-                    peer,
-                    users,
-                    chats
-                )
+                yield await types.Story._parse(self, story, peer, users, chats)
 
                 current += 1
 

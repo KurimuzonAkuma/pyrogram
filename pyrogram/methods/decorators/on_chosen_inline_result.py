@@ -60,7 +60,7 @@ class OnChosenInlineResult:
                 func.handlers.append(
                     (
                         pyrogram.handlers.ChosenInlineResultHandler(func, arguments.filters),
-                        arguments.group
+                        arguments.group,
                     )
                 )
 

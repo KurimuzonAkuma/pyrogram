@@ -56,10 +56,7 @@ class OnUserStatus:
                 arguments = unbound_arguments(self, filters=filters, group=group)
 
                 func.handlers.append(
-                    (
-                        pyrogram.handlers.UserStatusHandler(func, arguments.filters),
-                        arguments.group
-                    )
+                    (pyrogram.handlers.UserStatusHandler(func, arguments.filters), arguments.group)
                 )
 
             return func

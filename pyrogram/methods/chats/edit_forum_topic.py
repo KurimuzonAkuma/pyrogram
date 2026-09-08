@@ -30,7 +30,7 @@ class EditForumTopic:
         title: str | None = None,
         icon_emoji_id: int | None = None,
         closed: bool | None = None,
-        hidden: bool | None = None
+        hidden: bool | None = None,
     ) -> bool:
         """Edit a forum topic.
 
@@ -70,7 +70,7 @@ class EditForumTopic:
                 title=title,
                 icon_emoji_id=icon_emoji_id,
                 closed=closed,
-                hidden=hidden
+                hidden=hidden,
             )
         )
 

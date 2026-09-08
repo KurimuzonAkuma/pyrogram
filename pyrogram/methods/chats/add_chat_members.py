@@ -27,7 +27,7 @@ class AddChatMembers:
         self: pyrogram.Client,
         chat_id: int | str,
         user_ids: int | str | list[int | str],
-        forward_limit: int = 100
+        forward_limit: int = 100,
     ) -> list[types.FailedToAddMember]:
         """Add new chat members to a group, supergroup or channel.
         This method can't be used to join a chat. Members can't be added to a channel if it has more than 200 members.
@@ -76,7 +76,7 @@ class AddChatMembers:
                     raw.functions.messages.AddChatUser(
                         chat_id=peer.chat_id,
                         user_id=await self.resolve_peer(user_id),
-                        fwd_limit=forward_limit
+                        fwd_limit=forward_limit,
                     )
                 )
 
@@ -84,11 +84,7 @@ class AddChatMembers:
         else:
             r = await self.invoke(
                 raw.functions.channels.InviteToChannel(
-                    channel=peer,
-                    users=[
-                        await self.resolve_peer(user_id)
-                        for user_id in user_ids
-                    ]
+                    channel=peer, users=[await self.resolve_peer(user_id) for user_id in user_ids]
                 )
             )
 

@@ -60,7 +60,7 @@ class OnCallbackQuery:
                 func.handlers.append(
                     (
                         pyrogram.handlers.CallbackQueryHandler(func, arguments.filters),
-                        arguments.group
+                        arguments.group,
                     )
                 )
 

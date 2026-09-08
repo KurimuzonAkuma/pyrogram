@@ -66,7 +66,7 @@ class InlineQuery(Object, Update):
         offset: str,
         chat_type: enums.ChatType,
         location: types.Location | None = None,
-        matches: list[Match] | None = None
+        matches: list[Match] | None = None,
     ):
         super().__init__(client)
 
@@ -79,7 +79,9 @@ class InlineQuery(Object, Update):
         self.matches = matches
 
     @staticmethod
-    async def _parse(client, inline_query: raw.types.UpdateBotInlineQuery, users: dict) -> InlineQuery:
+    async def _parse(
+        client, inline_query: raw.types.UpdateBotInlineQuery, users: dict
+    ) -> InlineQuery:
         peer_type = inline_query.peer_type
         chat_type = None
 
@@ -101,7 +103,7 @@ class InlineQuery(Object, Update):
             offset=inline_query.offset,
             chat_type=chat_type,
             location=types.Location._parse(inline_query.geo),
-            client=client
+            client=client,
         )
 
     async def answer(
@@ -112,7 +114,7 @@ class InlineQuery(Object, Update):
         is_personal: bool = False,
         next_offset: str = "",
         switch_pm_text: str = "",
-        switch_pm_parameter: str = ""
+        switch_pm_parameter: str = "",
     ):
         """Bound method *answer* of :obj:`~pyrogram.types.InlineQuery`.
 
@@ -175,5 +177,5 @@ class InlineQuery(Object, Update):
             is_personal=is_personal,
             next_offset=next_offset,
             switch_pm_text=switch_pm_text,
-            switch_pm_parameter=switch_pm_parameter
+            switch_pm_parameter=switch_pm_parameter,
         )

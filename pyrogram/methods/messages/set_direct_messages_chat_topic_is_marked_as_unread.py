@@ -26,10 +26,7 @@ from pyrogram import raw
 
 class SetDirectMessagesChatTopicIsMarkedAsUnread:
     async def set_direct_messages_chat_topic_is_marked_as_unread(
-        self: pyrogram.Client,
-        chat_id: int | str,
-        topic_id: int,
-        is_marked_as_unread: bool = True
+        self: pyrogram.Client, chat_id: int | str, topic_id: int, is_marked_as_unread: bool = True
     ) -> int:
         """Change the marked as unread state of the topic in a channel direct messages chat administered by the current user.
 
@@ -60,7 +57,7 @@ class SetDirectMessagesChatTopicIsMarkedAsUnread:
             raw.functions.messages.MarkDialogUnread(
                 parent_peer=await self.resolve_peer(chat_id),
                 peer=await self.resolve_peer(topic_id),
-                unread=is_marked_as_unread
+                unread=is_marked_as_unread,
             )
         )
 

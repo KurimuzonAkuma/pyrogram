@@ -40,8 +40,7 @@ class ChatJoinResult(Object):
 
     @staticmethod
     async def _parse(
-        client: pyrogram.Client,
-        result: raw.base.messages.ChatInviteJoinResult
+        client: pyrogram.Client, result: raw.base.messages.ChatInviteJoinResult
     ) -> ChatJoinResult:
         if isinstance(result, raw.types.messages.ChatInviteJoinResultOk):
             return ChatJoinResultSuccess(
@@ -53,7 +52,7 @@ class ChatJoinResult(Object):
             return ChatJoinResultGuardBotApprovalRequired(
                 bot=await types.User._parse(client, users[result.bot_id]),
                 url=result.webview.url,
-                query_id=str(result.webview.query_id) if result.webview.query_id else None
+                query_id=str(result.webview.query_id) if result.webview.query_id else None,
             )
 
 
@@ -73,6 +72,7 @@ class ChatJoinResultSuccess(ChatJoinResult):
         super().__init__()
 
         self.chat = chat
+
 
 class ChatJoinResultRequestSent(ChatJoinResult):
     """The join request was sent and have to be approved by administrators of the chat."""
@@ -97,18 +97,13 @@ class ChatJoinResultGuardBotApprovalRequired(ChatJoinResult):
             Unique identifier of the join request.
     """
 
-    def __init__(
-        self,
-        *,
-        bot: types.User,
-        url: str,
-        query_id: str
-    ):
+    def __init__(self, *, bot: types.User, url: str, query_id: str):
         super().__init__()
 
         self.bot = bot
         self.url = url
         self.query_id = query_id
+
 
 class ChatJoinResultDeclined(Object):
     """The join was declined by the guard bot."""

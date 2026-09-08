@@ -39,7 +39,7 @@ class GetChatGifts:
         exclude_hosted: bool | None = None,
         sort_by_price: bool | None = None,
         limit: int = 0,
-        offset: str = ""
+        offset: str = "",
     ) -> AsyncGenerator[types.Gift, None]:
         """Get all gifts owned by specified chat.
 
@@ -115,12 +115,14 @@ class GetChatGifts:
                     exclude_unique=exclude_upgraded,
                     exclude_upgradable=exclude_upgradable,
                     exclude_unupgradable=exclude_non_upgradable,
-                    peer_color_available=not exclude_without_colors if exclude_without_colors is not None else None,
+                    peer_color_available=not exclude_without_colors
+                    if exclude_without_colors is not None
+                    else None,
                     exclude_hosted=exclude_hosted,
                     sort_by_value=sort_by_price,
-                    collection_id=collection_id
+                    collection_id=collection_id,
                 ),
-                sleep_threshold=60
+                sleep_threshold=60,
             )
 
             users = {i.id: i for i in r.users}

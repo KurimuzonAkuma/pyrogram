@@ -125,7 +125,9 @@ def _mtproxy_link_parameters() -> _LinkParams:
 _MTPROXY_LINK_PARAMETERS: Final[_LinkParams] = _mtproxy_link_parameters()
 
 
-@pytest.fixture(scope="session", params=_MTPROXY_LINK_PARAMETERS.links, ids=_MTPROXY_LINK_PARAMETERS.ids)
+@pytest.fixture(
+    scope="session", params=_MTPROXY_LINK_PARAMETERS.links, ids=_MTPROXY_LINK_PARAMETERS.ids
+)
 def mtproxy_proxy(request: pytest.FixtureRequest) -> MTProxy:
     link = request.param
 
@@ -223,7 +225,9 @@ def unauthorized_mtproxy_client(mtproxy_proxy: MTProxy) -> Client:
 
 
 @pytest.fixture()
-async def mtproxy_client(session_copy: Path, mtproxy_proxy: MTProxy) -> AsyncGenerator[Client, None]:
+async def mtproxy_client(
+    session_copy: Path, mtproxy_proxy: MTProxy
+) -> AsyncGenerator[Client, None]:
     async with _started_client(session_copy, proxy=mtproxy_proxy) as client:
         yield client
 
@@ -247,7 +251,7 @@ def _build_req_pq_multi() -> _ReqPqMulti:
     nonce = os.urandom(16)
     body = struct.pack("<I", 0xBE7E8EF1) + nonce  # req_pq_multi
 
-    message_id = int(time.time() * 2 ** 32)
+    message_id = int(time.time() * 2**32)
     message_id -= message_id % 4  # low bits must be clear for a client message
 
     packet = _RESPONSE_HEADER.pack(0, message_id, len(body)) + body
@@ -264,11 +268,13 @@ async def round_trip_req_pq_multi(transport: TCP) -> None:
     response = await asyncio.wait_for(transport.recv(), timeout=15.0)
     assert response is not None, "no response from the real DC through the proxy"
 
-    auth_key_id, _message_id, length = _RESPONSE_HEADER.unpack(response[:_RESPONSE_HEADER.size])
+    auth_key_id, _message_id, length = _RESPONSE_HEADER.unpack(response[: _RESPONSE_HEADER.size])
     assert auth_key_id == 0, "expected an unencrypted resPQ, got an encrypted-looking reply"
 
-    body = response[_RESPONSE_HEADER.size:_RESPONSE_HEADER.size + length]
+    body = response[_RESPONSE_HEADER.size : _RESPONSE_HEADER.size + length]
     constructor = struct.unpack("<I", body[:4])[0]
-    assert constructor == _RES_PQ, "expected resPQ (0x{:x}), got 0x{:x}".format(_RES_PQ, constructor)
+    assert constructor == _RES_PQ, "expected resPQ (0x{:x}), got 0x{:x}".format(
+        _RES_PQ, constructor
+    )
 
     assert body[4:20] == query.nonce, "resPQ echoed a different nonce than the one we sent"

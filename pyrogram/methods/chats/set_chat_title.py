@@ -59,9 +59,7 @@ class SetChatTitle:
                 raw.functions.messages.EditChatTitle(chat_id=peer.chat_id, title=title)
             )
         elif isinstance(peer, raw.types.InputPeerChannel):
-            r = await self.invoke(
-                raw.functions.channels.EditTitle(channel=peer, title=title)
-            )
+            r = await self.invoke(raw.functions.channels.EditTitle(channel=peer, title=title))
         else:
             raise ValueError(f'The chat_id "{chat_id}" belongs to a user')
 

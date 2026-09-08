@@ -142,6 +142,7 @@ class Story(Object, Update):
         raw (:obj:`~pyrogram.raw.types.StoryItem`, *optional*):
             The raw story object, as received from the Telegram API.
     """
+
     # TODO: Refactor
     def __init__(
         self,
@@ -180,7 +181,7 @@ class Story(Object, Update):
         skipped: bool | None = None,
         deleted: bool | None = None,
         media_areas: list[types.MediaArea] | None = None,
-        raw: raw.types.StoryItem | None = None
+        raw: raw.types.StoryItem | None = None,
     ):
         super().__init__(client)
 
@@ -232,14 +233,18 @@ class Story(Object, Update):
                 peer_id = client.me.id
                 users.update({peer_id: client.me.raw})
             else:
-                r = await client.invoke(raw.functions.users.GetUsers(id=[raw.types.InputPeerSelf()]))
+                r = await client.invoke(
+                    raw.functions.users.GetUsers(id=[raw.types.InputPeerSelf()])
+                )
                 peer_id = r[0].id
                 users.update({r[0].id: r[0]})
         elif hasattr(peer, "user_id"):
             peer_id = peer.user_id
 
             if peer_id not in users:
-                r = await client.invoke(raw.functions.users.GetUsers(id=[raw.types.InputPeerSelf(), peer]))
+                r = await client.invoke(
+                    raw.functions.users.GetUsers(id=[raw.types.InputPeerSelf(), peer])
+                )
                 users.update({i.id: i for i in r})
         elif hasattr(peer, "channel_id"):
             peer_id = peer.channel_id
@@ -251,17 +256,29 @@ class Story(Object, Update):
             raise ValueError(f"Invalid peer type: {type(peer)}")
 
         from_user = await types.User._parse(client, users.get(peer_id, None))
-        sender_chat = await types.Chat._parse_channel_chat(client, chats[peer_id]) if not from_user else None
-        chat = sender_chat if not from_user else await types.Chat._parse_user_chat(client, users.get(peer_id, None))
+        sender_chat = (
+            await types.Chat._parse_channel_chat(client, chats[peer_id]) if not from_user else None
+        )
+        chat = (
+            sender_chat
+            if not from_user
+            else await types.Chat._parse_user_chat(client, users.get(peer_id, None))
+        )
 
         if isinstance(story, raw.types.StoryItemDeleted):
-            return Story(client=client, id=story.id, deleted=True, from_user=from_user, sender_chat=sender_chat, chat=chat)
+            return Story(
+                client=client,
+                id=story.id,
+                deleted=True,
+                from_user=from_user,
+                sender_chat=sender_chat,
+                chat=chat,
+            )
         if client.fetch_stories and isinstance(story, raw.types.StoryItemSkipped):
             try:
                 r = await client.invoke(
                     raw.functions.stories.GetStoriesByID(
-                        peer=await client.resolve_peer(chat.id),
-                        id=[story.id]
+                        peer=await client.resolve_peer(chat.id), id=[story.id]
                     )
                 )
 
@@ -271,18 +288,30 @@ class Story(Object, Update):
                 if r.stories:
                     story = r.stories[0]
             except (ChannelPrivate, ChannelInvalid):
-                return Story(client=client, id=story.id, skipped=True, from_user=from_user, sender_chat=sender_chat, chat=chat)
+                return Story(
+                    client=client,
+                    id=story.id,
+                    skipped=True,
+                    from_user=from_user,
+                    sender_chat=sender_chat,
+                    chat=chat,
+                )
         if isinstance(story, raw.types.MessageMediaStory):
             if client.me and client.me.is_bot:
-                return Story(client=client, id=story.id, from_user=from_user, sender_chat=sender_chat, chat=chat)
+                return Story(
+                    client=client,
+                    id=story.id,
+                    from_user=from_user,
+                    sender_chat=sender_chat,
+                    chat=chat,
+                )
 
             if not getattr(story, "story", None):
                 if client.fetch_stories:
                     try:
                         r = await client.invoke(
                             raw.functions.stories.GetStoriesByID(
-                                peer=await client.resolve_peer(chat.id),
-                                id=[story.id]
+                                peer=await client.resolve_peer(chat.id), id=[story.id]
                             )
                         )
 
@@ -300,8 +329,7 @@ class Story(Object, Update):
             try:
                 r = await client.invoke(
                     raw.functions.stories.GetStoriesByID(
-                        peer=await client.resolve_peer(chat.id),
-                        id=[story.id]
+                        peer=await client.resolve_peer(chat.id), id=[story.id]
                     )
                 )
 
@@ -314,7 +342,14 @@ class Story(Object, Update):
                 pass
 
         if not getattr(story, "media", None):
-            return Story(client=client, id=story.id, deleted=True, from_user=from_user, sender_chat=sender_chat, chat=chat)
+            return Story(
+                client=client,
+                id=story.id,
+                deleted=True,
+                from_user=from_user,
+                sender_chat=sender_chat,
+                chat=chat,
+            )
 
         photo = None
         video = None
@@ -341,13 +376,15 @@ class Story(Object, Update):
             if fwd_peer_id > 0:
                 forward_from = await types.User._parse(client, users[fwd_raw_peer_id])
             else:
-                forward_from_chat = await types.Chat._parse_channel_chat(client, chats[fwd_raw_peer_id])
+                forward_from_chat = await types.Chat._parse_channel_chat(
+                    client, chats[fwd_raw_peer_id]
+                )
                 forward_from_story_id = forward_header.story_id
 
         if story.views:
-            views=getattr(story.views, "views_count", None)
-            forwards=getattr(story.views, "forwards_count", None)
-            reactions=[
+            views = getattr(story.views, "views_count", None)
+            forwards = getattr(story.views, "forwards_count", None)
+            reactions = [
                 types.Reaction._parse_count(client, reaction)
                 for reaction in getattr(story.views, "reactions", [])
             ] or None
@@ -367,7 +404,12 @@ class Story(Object, Update):
                 doc = media.document
                 attributes = {type(i): i for i in doc.attributes}
                 video_attributes = attributes.get(raw.types.DocumentAttributeVideo, None)
-                video = types.Video._parse(client, doc, video_attributes, alternative_videos=getattr(story.media, "alt_documents", []))
+                video = types.Video._parse(
+                    client,
+                    doc,
+                    video_attributes,
+                    alternative_videos=getattr(story.media, "alt_documents", []),
+                )
                 media_type = enums.MessageMediaType.VIDEO
             else:
                 media_type = enums.MessageMediaType.UNSUPPORTED
@@ -384,15 +426,42 @@ class Story(Object, Update):
             privacy = privacy_map.get(type(priv), None)
 
             if isinstance(priv, raw.types.PrivacyValueAllowUsers):
-                allowed_users = types.List([await types.User._parse(client, users.get(user_id, None)) for user_id in priv.users])
+                allowed_users = types.List(
+                    [
+                        await types.User._parse(client, users.get(user_id, None))
+                        for user_id in priv.users
+                    ]
+                )
             elif isinstance(priv, raw.types.PrivacyValueAllowChatParticipants):
-                allowed_users = types.List([await types.Chat._parse_chat_chat(client, chats.get(chat_id, None)) for chat_id in priv.chats])
+                allowed_users = types.List(
+                    [
+                        await types.Chat._parse_chat_chat(client, chats.get(chat_id, None))
+                        for chat_id in priv.chats
+                    ]
+                )
             elif isinstance(priv, raw.types.PrivacyValueDisallowUsers):
-                disallowed_users = types.List([await types.User._parse(client, users.get(user_id, None)) for user_id in priv.users])
+                disallowed_users = types.List(
+                    [
+                        await types.User._parse(client, users.get(user_id, None))
+                        for user_id in priv.users
+                    ]
+                )
             elif isinstance(priv, raw.types.PrivacyValueDisallowChatParticipants):
-                disallowed_users = types.List([await types.Chat._parse_chat_chat(client, chats.get(chat_id, None)) for chat_id in priv.chats])
+                disallowed_users = types.List(
+                    [
+                        await types.Chat._parse_chat_chat(client, chats.get(chat_id, None))
+                        for chat_id in priv.chats
+                    ]
+                )
 
-        entities = [e for e in [await types.MessageEntity._parse(client, entity, {}) for entity in story.entities or []] if e]
+        entities = [
+            e
+            for e in [
+                await types.MessageEntity._parse(client, entity, {})
+                for entity in story.entities or []
+            ]
+            if e
+        ]
 
         return Story(
             id=story.id,
@@ -430,9 +499,10 @@ class Story(Object, Update):
                     await types.MediaArea._parse(client, area, chats)
                     for area in getattr(story, "media_areas", [])
                 ]
-            ) or None,
+            )
+            or None,
             raw=story,
-            client=client
+            client=client,
         )
 
     @property
@@ -460,7 +530,6 @@ class Story(Object, Update):
             | types.ForceReply
             | None
         ) = None,
-
         disable_web_page_preview: bool | None = None,
     ) -> types.Message | None:
         """Bound method *reply_text* of :obj:`~pyrogram.types.Story`.
@@ -525,10 +594,7 @@ class Story(Object, Update):
         """
         return await self._client.send_message(
             chat_id=self.chat.id,
-            reply_parameters=types.ReplyParameters(
-                chat_id=self.chat.id,
-                story_id=self.id
-            ),
+            reply_parameters=types.ReplyParameters(chat_id=self.chat.id, story_id=self.id),
             text=text,
             parse_mode=parse_mode,
             entities=entities,
@@ -539,7 +605,6 @@ class Story(Object, Update):
             protect_content=protect_content,
             paid_message_star_count=paid_message_star_count,
             reply_markup=reply_markup,
-
             disable_web_page_preview=disable_web_page_preview,
         )
 
@@ -569,7 +634,7 @@ class Story(Object, Update):
             | None
         ) = None,
         progress: Callable | None = None,
-        progress_args: tuple = ()
+        progress_args: tuple = (),
     ) -> types.Message | None:
         """Bound method *reply_animation* :obj:`~pyrogram.types.Story`.
 
@@ -678,10 +743,7 @@ class Story(Object, Update):
         """
         return await self._client.send_animation(
             chat_id=self.chat.id,
-            reply_parameters=types.ReplyParameters(
-                chat_id=self.chat.id,
-                story_id=self.id
-            ),
+            reply_parameters=types.ReplyParameters(chat_id=self.chat.id, story_id=self.id),
             animation=animation,
             caption=caption,
             parse_mode=parse_mode,
@@ -698,7 +760,7 @@ class Story(Object, Update):
             paid_message_star_count=paid_message_star_count,
             reply_markup=reply_markup,
             progress=progress,
-            progress_args=progress_args
+            progress_args=progress_args,
         )
 
     async def reply_audio(
@@ -724,7 +786,7 @@ class Story(Object, Update):
             | None
         ) = None,
         progress: Callable | None = None,
-        progress_args: tuple = ()
+        progress_args: tuple = (),
     ) -> types.Message | None:
         """Bound method *reply_audio* of :obj:`~pyrogram.types.Story`.
 
@@ -830,10 +892,7 @@ class Story(Object, Update):
         """
         return await self._client.send_audio(
             chat_id=self.chat.id,
-            reply_parameters=types.ReplyParameters(
-                chat_id=self.chat.id,
-                story_id=self.id
-            ),
+            reply_parameters=types.ReplyParameters(chat_id=self.chat.id, story_id=self.id),
             audio=audio,
             caption=caption,
             parse_mode=parse_mode,
@@ -849,7 +908,7 @@ class Story(Object, Update):
             paid_message_star_count=paid_message_star_count,
             reply_markup=reply_markup,
             progress=progress,
-            progress_args=progress_args
+            progress_args=progress_args,
         )
 
     async def reply_cached_media(
@@ -866,7 +925,7 @@ class Story(Object, Update):
             | types.ReplyKeyboardRemove
             | types.ForceReply
             | None
-        ) = None
+        ) = None,
     ) -> types.Message | None:
         """Bound method *reply_cached_media* of :obj:`~pyrogram.types.Story`.
 
@@ -923,22 +982,24 @@ class Story(Object, Update):
         """
         return await self._client.send_cached_media(
             chat_id=self.chat.id,
-            reply_parameters=types.ReplyParameters(
-                chat_id=self.chat.id,
-                story_id=self.id
-            ),
+            reply_parameters=types.ReplyParameters(chat_id=self.chat.id, story_id=self.id),
             file_id=file_id,
             caption=caption,
             parse_mode=parse_mode,
             caption_entities=caption_entities,
             disable_notification=disable_notification,
             paid_message_star_count=paid_message_star_count,
-            reply_markup=reply_markup
+            reply_markup=reply_markup,
         )
 
     async def reply_media_group(
         self,
-        media: list[types.InputMediaPhoto | types.InputMediaVideo | types.InputMediaAudio | types.InputMediaDocument],
+        media: list[
+            types.InputMediaPhoto
+            | types.InputMediaVideo
+            | types.InputMediaAudio
+            | types.InputMediaDocument
+        ],
         paid_message_star_count: int | None = None,
         disable_notification: bool | None = None,
     ) -> list[types.Message]:
@@ -983,10 +1044,7 @@ class Story(Object, Update):
         """
         return await self._client.send_media_group(
             chat_id=self.chat.id,
-            reply_parameters=types.ReplyParameters(
-                chat_id=self.chat.id,
-                story_id=self.id
-            ),
+            reply_parameters=types.ReplyParameters(chat_id=self.chat.id, story_id=self.id),
             media=media,
             disable_notification=disable_notification,
             paid_message_star_count=paid_message_star_count,
@@ -1013,7 +1071,7 @@ class Story(Object, Update):
             | None
         ) = None,
         progress: Callable | None = None,
-        progress_args: tuple = ()
+        progress_args: tuple = (),
     ) -> types.Message | None:
         """Bound method *reply_photo* of :obj:`~pyrogram.types.Story`.
 
@@ -1112,10 +1170,7 @@ class Story(Object, Update):
         """
         return await self._client.send_photo(
             chat_id=self.chat.id,
-            reply_parameters=types.ReplyParameters(
-                chat_id=self.chat.id,
-                story_id=self.id
-            ),
+            reply_parameters=types.ReplyParameters(chat_id=self.chat.id, story_id=self.id),
             photo=photo,
             caption=caption,
             parse_mode=parse_mode,
@@ -1129,7 +1184,7 @@ class Story(Object, Update):
             paid_message_star_count=paid_message_star_count,
             reply_markup=reply_markup,
             progress=progress,
-            progress_args=progress_args
+            progress_args=progress_args,
         )
 
     async def reply_sticker(
@@ -1147,7 +1202,7 @@ class Story(Object, Update):
             | None
         ) = None,
         progress: Callable | None = None,
-        progress_args: tuple = ()
+        progress_args: tuple = (),
     ) -> types.Message | None:
         """Bound method *reply_sticker* of :obj:`~pyrogram.types.Story`.
 
@@ -1224,10 +1279,7 @@ class Story(Object, Update):
         """
         return await self._client.send_sticker(
             chat_id=self.chat.id,
-            reply_parameters=types.ReplyParameters(
-                chat_id=self.chat.id,
-                story_id=self.id
-            ),
+            reply_parameters=types.ReplyParameters(chat_id=self.chat.id, story_id=self.id),
             sticker=sticker,
             disable_notification=disable_notification,
             paid_message_star_count=paid_message_star_count,
@@ -1235,7 +1287,7 @@ class Story(Object, Update):
             schedule_date=schedule_date,
             repeat_period=repeat_period,
             progress=progress,
-            progress_args=progress_args
+            progress_args=progress_args,
         )
 
     async def reply_video(
@@ -1268,7 +1320,7 @@ class Story(Object, Update):
             | None
         ) = None,
         progress: Callable | None = None,
-        progress_args: tuple = ()
+        progress_args: tuple = (),
     ) -> types.Message | None:
         """Bound method *reply_video* of :obj:`~pyrogram.types.Story`.
 
@@ -1403,10 +1455,7 @@ class Story(Object, Update):
         """
         return await self._client.send_video(
             chat_id=self.chat.id,
-            reply_parameters=types.ReplyParameters(
-                chat_id=self.chat.id,
-                story_id=self.id
-            ),
+            reply_parameters=types.ReplyParameters(chat_id=self.chat.id, story_id=self.id),
             video=video,
             caption=caption,
             parse_mode=parse_mode,
@@ -1429,7 +1478,7 @@ class Story(Object, Update):
             paid_message_star_count=paid_message_star_count,
             reply_markup=reply_markup,
             progress=progress,
-            progress_args=progress_args
+            progress_args=progress_args,
         )
 
     async def reply_video_note(
@@ -1451,7 +1500,7 @@ class Story(Object, Update):
             | None
         ) = None,
         progress: Callable | None = None,
-        progress_args: tuple = ()
+        progress_args: tuple = (),
     ) -> types.Message | None:
         """Bound method *reply_video_note* of :obj:`~pyrogram.types.Story`.
 
@@ -1544,10 +1593,7 @@ class Story(Object, Update):
         """
         return await self._client.send_video_note(
             chat_id=self.chat.id,
-            reply_parameters=types.ReplyParameters(
-                chat_id=self.chat.id,
-                story_id=self.id
-            ),
+            reply_parameters=types.ReplyParameters(chat_id=self.chat.id, story_id=self.id),
             video_note=video_note,
             duration=duration,
             length=length,
@@ -1559,7 +1605,7 @@ class Story(Object, Update):
             paid_message_star_count=paid_message_star_count,
             reply_markup=reply_markup,
             progress=progress,
-            progress_args=progress_args
+            progress_args=progress_args,
         )
 
     async def reply_voice(
@@ -1582,7 +1628,7 @@ class Story(Object, Update):
             | None
         ) = None,
         progress: Callable | None = None,
-        progress_args: tuple = ()
+        progress_args: tuple = (),
     ) -> types.Message | None:
         """Bound method *reply_voice* of :obj:`~pyrogram.types.Story`.
 
@@ -1676,10 +1722,7 @@ class Story(Object, Update):
         """
         return await self._client.send_voice(
             chat_id=self.chat.id,
-            reply_parameters=types.ReplyParameters(
-                chat_id=self.chat.id,
-                story_id=self.id
-            ),
+            reply_parameters=types.ReplyParameters(chat_id=self.chat.id, story_id=self.id),
             voice=voice,
             caption=caption,
             parse_mode=parse_mode,
@@ -1692,7 +1735,7 @@ class Story(Object, Update):
             paid_message_star_count=paid_message_star_count,
             reply_markup=reply_markup,
             progress=progress,
-            progress_args=progress_args
+            progress_args=progress_args,
         )
 
     async def copy(
@@ -1706,7 +1749,7 @@ class Story(Object, Update):
         privacy: enums.StoriesPrivacyRules | None = None,
         allowed_users: list[int] | None = None,
         disallowed_users: list[int] | None = None,
-        protect_content: bool | None = None
+        protect_content: bool | None = None,
     ) -> types.Story | None:
         """Bound method *copy* of :obj:`~pyrogram.types.Story`.
 
@@ -1792,7 +1835,7 @@ class Story(Object, Update):
             caption_entities=caption_entities,
             privacy=privacy,
             allowed_users=allowed_users,
-            disallowed_users=disallowed_users
+            disallowed_users=disallowed_users,
         )
 
     async def delete(self) -> list[int]:
@@ -1856,16 +1899,14 @@ class Story(Object, Update):
             RPCError: In case of a Telegram RPC error.
         """
         return await self._client.edit_story_media(
-            chat_id=self.chat.id,
-            story_id=self.id,
-            media=media
+            chat_id=self.chat.id, story_id=self.id, media=media
         )
 
     async def edit_caption(
         self,
         caption: str,
         parse_mode: enums.ParseMode | None = None,
-        caption_entities: list[types.MessageEntity] | None = None
+        caption_entities: list[types.MessageEntity] | None = None,
     ) -> types.Story:
         """Bound method *edit_caption* of :obj:`~pyrogram.types.Story`.
 
@@ -1905,7 +1946,7 @@ class Story(Object, Update):
             story_id=self.id,
             caption=caption,
             parse_mode=parse_mode,
-            caption_entities=caption_entities
+            caption_entities=caption_entities,
         )
 
     async def edit_privacy(
@@ -1988,11 +2029,7 @@ class Story(Object, Update):
         Raises:
             RPCError: In case of a Telegram RPC error.
         """
-        return await self._client.send_reaction(
-            chat_id=self.chat.id,
-            story_id=self.id,
-            emoji=emoji
-        )
+        return await self._client.send_reaction(chat_id=self.chat.id, story_id=self.id, emoji=emoji)
 
     async def forward(
         self,
@@ -2067,7 +2104,7 @@ class Story(Object, Update):
         in_memory: bool = False,
         block: bool = True,
         progress: Callable | None = None,
-        progress_args: tuple = ()
+        progress_args: tuple = (),
     ) -> str | BinaryIO | None:
         """Bound method *download* of :obj:`~pyrogram.types.Story`.
 
@@ -2159,10 +2196,7 @@ class Story(Object, Update):
         Returns:
             List of ``int``: On success, a list of read stories is returned.
         """
-        return await self._client.read_chat_stories(
-            chat_id=self.chat.id,
-            max_id=self.id
-        )
+        return await self._client.read_chat_stories(chat_id=self.chat.id, max_id=self.id)
 
     async def view(self) -> bool:
         """Bound method *view* of :obj:`~pyrogram.types.Story`.
@@ -2184,7 +2218,4 @@ class Story(Object, Update):
         Returns:
             True on success, False otherwise.
         """
-        return await self._client.view_stories(
-            chat_id=self.chat.id,
-            story_id=self.id
-        )
+        return await self._client.view_stories(chat_id=self.chat.id, story_id=self.id)

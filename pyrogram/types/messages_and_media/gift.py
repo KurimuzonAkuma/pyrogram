@@ -278,6 +278,7 @@ class Gift(Object):
         owned_gift_id (``str``, *property*):
             Unique identifier of the gift.
     """
+
     # TODO: background, colors
 
     def __init__(
@@ -362,7 +363,7 @@ class Gift(Object):
         was_converted: bool | None = None,
         was_upgraded: bool | None = None,
         was_refunded: bool | None = None,
-        raw: raw.base.StarGift | raw.base.SavedStarGift | None
+        raw: raw.base.StarGift | raw.base.SavedStarGift | None,
     ):
         super().__init__(client)
 
@@ -457,7 +458,7 @@ class Gift(Object):
         ),
         receiver: raw.base.User | raw.base.Chat | None = None,
         users: dict[int, raw.base.User] = {},
-        chats: dict[int, raw.base.Chat] = {}
+        chats: dict[int, raw.base.Chat] = {},
     ):
         if isinstance(gift, raw.types.StarGift):
             return await Gift._parse_regular(client, gift, receiver, users, chats)
@@ -465,7 +466,9 @@ class Gift(Object):
             return await Gift._parse_upgraded(client, gift, receiver, users, chats)
         elif isinstance(gift, raw.types.SavedStarGift):
             return await Gift._parse_received(client, gift, receiver, users, chats)
-        elif isinstance(gift, (raw.types.MessageActionStarGift, raw.types.MessageActionStarGiftUnique)):
+        elif isinstance(
+            gift, (raw.types.MessageActionStarGift, raw.types.MessageActionStarGiftUnique)
+        ):
             return await Gift._parse_action(client, gift, receiver, users, chats)
 
     @staticmethod
@@ -474,7 +477,7 @@ class Gift(Object):
         star_gift: raw.types.StarGift,
         receiver: raw.base.User | raw.base.Chat | None = None,
         users: dict[int, raw.base.User] = {},
-        chats: dict[int, raw.base.Chat] = {}
+        chats: dict[int, raw.base.Chat] = {},
     ) -> Gift:
         if not isinstance(star_gift, raw.types.StarGift):
             return
@@ -495,8 +498,12 @@ class Gift(Object):
             upgrade_star_count=star_gift.upgrade_stars,
             title=star_gift.title,
             available_resale_count=star_gift.availability_resale,
-            user_limits=types.GiftPurchaseLimit._parse(star_gift.per_user_total, star_gift.per_user_remains),
-            overall_limits=types.GiftPurchaseLimit._parse(star_gift.availability_total, star_gift.availability_remains),
+            user_limits=types.GiftPurchaseLimit._parse(
+                star_gift.per_user_total, star_gift.per_user_remains
+            ),
+            overall_limits=types.GiftPurchaseLimit._parse(
+                star_gift.availability_total, star_gift.availability_remains
+            ),
             is_auction=star_gift.auction,
             is_limited=star_gift.limited,
             is_sold_out=star_gift.sold_out,
@@ -507,12 +514,14 @@ class Gift(Object):
             first_sale_date=utils.timestamp_to_datetime(star_gift.first_sale_date),
             last_sale_date=utils.timestamp_to_datetime(star_gift.last_sale_date),
             locked_until_date=utils.timestamp_to_datetime(star_gift.locked_until_date),
-            publisher_chat=await types.Chat._parse_chat(client, chats.get(utils.get_raw_peer_id(star_gift.released_by))),
+            publisher_chat=await types.Chat._parse_chat(
+                client, chats.get(utils.get_raw_peer_id(star_gift.released_by))
+            ),
             auction_info=types.GiftAuction._parse(star_gift),
             unique_gift_variant_count=star_gift.upgrade_variants,
             minimum_resell_star_count=star_gift.resell_min_stars,
             raw=star_gift,
-            client=client
+            client=client,
         )
 
     @staticmethod
@@ -521,7 +530,7 @@ class Gift(Object):
         star_gift: raw.types.StarGiftUnique,
         receiver: raw.base.User | raw.base.Chat | None = None,
         users: dict[int, raw.base.User] = {},
-        chats: dict[int, raw.base.Chat] = {}
+        chats: dict[int, raw.base.Chat] = {},
     ) -> Gift:
         if not isinstance(star_gift, raw.types.StarGiftUnique):
             return
@@ -542,7 +551,9 @@ class Gift(Object):
             elif isinstance(attr, raw.types.StarGiftAttributeBackdrop):
                 backdrop = await types.GiftAttribute._parse(client, attr, users, chats)
             elif isinstance(attr, raw.types.StarGiftAttributeOriginalDetails):
-                original_details = await types.UpgradedGiftOriginalDetails._parse(client, attr, users, chats)
+                original_details = await types.UpgradedGiftOriginalDetails._parse(
+                    client, attr, users, chats
+                )
 
         # TODO?
         # peer_color
@@ -552,7 +563,9 @@ class Gift(Object):
             type=enums.GiftType.UPGRADED,
             can_send_purchase_offer=star_gift.offer_min_stars is not None,
             gift_address=star_gift.gift_address,
-            host=await types.Chat._parse_chat(client, users.get(raw_host_id) or chats.get(raw_host_id)),
+            host=await types.Chat._parse_chat(
+                client, users.get(raw_host_id) or chats.get(raw_host_id)
+            ),
             is_burned=star_gift.burned,
             is_crafted=star_gift.crafted,
             is_premium=star_gift.require_premium,
@@ -566,20 +579,28 @@ class Gift(Object):
             name=star_gift.slug,
             unique_gift_number=star_gift.num,
             original_details=original_details,
-            owner=await types.Chat._parse_chat(client, users.get(raw_owner_id) or chats.get(raw_owner_id)),
+            owner=await types.Chat._parse_chat(
+                client, users.get(raw_owner_id) or chats.get(raw_owner_id)
+            ),
             owner_address=star_gift.owner_address,
             owner_name=star_gift.owner_name,
-            publisher_chat=await types.Chat._parse_chat(client, chats.get(utils.get_raw_peer_id(star_gift.released_by))),
+            publisher_chat=await types.Chat._parse_chat(
+                client, chats.get(utils.get_raw_peer_id(star_gift.released_by))
+            ),
             regular_gift_id=star_gift.gift_id,
-            resale_parameters=types.GiftResaleParameters._parse(star_gift.resell_amount, star_gift.resale_ton_only),
+            resale_parameters=types.GiftResaleParameters._parse(
+                star_gift.resell_amount, star_gift.resale_ton_only
+            ),
             total_upgraded_count=star_gift.availability_issued,
-            used_theme_chat_id=utils.get_peer_id(star_gift.theme_peer) if star_gift.theme_peer else None,
+            used_theme_chat_id=utils.get_peer_id(star_gift.theme_peer)
+            if star_gift.theme_peer
+            else None,
             craft_probability_per_mille=star_gift.craft_chance_permille,
             value_amount=star_gift.value_amount,
             value_currency=star_gift.value_currency,
             value_usd_amount=star_gift.value_usd_amount,
             raw=star_gift,
-            client=client
+            client=client,
         )
 
     @staticmethod
@@ -588,15 +609,19 @@ class Gift(Object):
         saved_gift: raw.types.SavedStarGift,
         receiver: raw.base.User | raw.base.Chat | None = None,
         users: dict[int, raw.base.User] = {},
-        chats: dict[int, raw.base.Chat] = {}
+        chats: dict[int, raw.base.Chat] = {},
     ) -> Gift:
         if not isinstance(saved_gift, raw.types.SavedStarGift):
             return
 
         if isinstance(saved_gift.gift, raw.types.StarGift):
-            parsed_gift = await Gift._parse_regular(client, saved_gift.gift, users=users, chats=chats)
+            parsed_gift = await Gift._parse_regular(
+                client, saved_gift.gift, users=users, chats=chats
+            )
         elif isinstance(saved_gift.gift, raw.types.StarGiftUnique):
-            parsed_gift = await Gift._parse_upgraded(client, saved_gift.gift, users=users, chats=chats)
+            parsed_gift = await Gift._parse_upgraded(
+                client, saved_gift.gift, users=users, chats=chats
+            )
 
         raw_from_id = utils.get_raw_peer_id(saved_gift.from_id)
 
@@ -606,25 +631,53 @@ class Gift(Object):
             parsed_gift.received_gift_id = str(saved_gift.saved_id)
 
         parsed_gift.date = utils.timestamp_to_datetime(saved_gift.date) or parsed_gift.date
-        parsed_gift.receiver = await types.Chat._parse_chat(client, receiver) or parsed_gift.receiver
+        parsed_gift.receiver = (
+            await types.Chat._parse_chat(client, receiver) or parsed_gift.receiver
+        )
         parsed_gift.is_name_hidden = saved_gift.name_hidden or parsed_gift.is_name_hidden
         parsed_gift.is_saved = not saved_gift.unsaved or parsed_gift.is_saved
         parsed_gift.was_refunded = saved_gift.refunded or parsed_gift.was_refunded
         parsed_gift.can_be_upgraded = saved_gift.can_upgrade or parsed_gift.can_be_upgraded
         parsed_gift.is_pinned = saved_gift.pinned_to_top or parsed_gift.is_pinned
-        parsed_gift.is_upgrade_separate = saved_gift.upgrade_separate or parsed_gift.is_upgrade_separate
-        parsed_gift.sender = await types.Chat._parse_chat(client, users.get(raw_from_id) or chats.get(raw_from_id)) or parsed_gift.sender
-        parsed_gift.text = await types.FormattedText._parse(client, saved_gift.message) or parsed_gift.text
+        parsed_gift.is_upgrade_separate = (
+            saved_gift.upgrade_separate or parsed_gift.is_upgrade_separate
+        )
+        parsed_gift.sender = (
+            await types.Chat._parse_chat(client, users.get(raw_from_id) or chats.get(raw_from_id))
+            or parsed_gift.sender
+        )
+        parsed_gift.text = (
+            await types.FormattedText._parse(client, saved_gift.message) or parsed_gift.text
+        )
         parsed_gift.convert_star_count = saved_gift.convert_stars or parsed_gift.convert_star_count
         parsed_gift.upgrade_star_count = saved_gift.upgrade_stars or parsed_gift.upgrade_star_count
-        parsed_gift.export_date = utils.timestamp_to_datetime(saved_gift.can_export_at) or parsed_gift.export_date
-        parsed_gift.transfer_star_count = saved_gift.transfer_stars or parsed_gift.transfer_star_count
-        parsed_gift.next_transfer_date = utils.timestamp_to_datetime(saved_gift.can_transfer_at) or parsed_gift.next_transfer_date
-        parsed_gift.next_resale_date = utils.timestamp_to_datetime(saved_gift.can_resell_at) or parsed_gift.next_resale_date
-        parsed_gift.craft_date = utils.timestamp_to_datetime(saved_gift.can_craft_at) or parsed_gift.craft_date
-        parsed_gift.collection_ids = list(saved_gift.collection_id) if saved_gift.collection_id else parsed_gift.collection_ids
-        parsed_gift.prepaid_upgrade_hash = saved_gift.prepaid_upgrade_hash or parsed_gift.prepaid_upgrade_hash
-        parsed_gift.drop_original_details_star_count = saved_gift.drop_original_details_stars or parsed_gift.drop_original_details_star_count
+        parsed_gift.export_date = (
+            utils.timestamp_to_datetime(saved_gift.can_export_at) or parsed_gift.export_date
+        )
+        parsed_gift.transfer_star_count = (
+            saved_gift.transfer_stars or parsed_gift.transfer_star_count
+        )
+        parsed_gift.next_transfer_date = (
+            utils.timestamp_to_datetime(saved_gift.can_transfer_at)
+            or parsed_gift.next_transfer_date
+        )
+        parsed_gift.next_resale_date = (
+            utils.timestamp_to_datetime(saved_gift.can_resell_at) or parsed_gift.next_resale_date
+        )
+        parsed_gift.craft_date = (
+            utils.timestamp_to_datetime(saved_gift.can_craft_at) or parsed_gift.craft_date
+        )
+        parsed_gift.collection_ids = (
+            list(saved_gift.collection_id)
+            if saved_gift.collection_id
+            else parsed_gift.collection_ids
+        )
+        parsed_gift.prepaid_upgrade_hash = (
+            saved_gift.prepaid_upgrade_hash or parsed_gift.prepaid_upgrade_hash
+        )
+        parsed_gift.drop_original_details_star_count = (
+            saved_gift.drop_original_details_stars or parsed_gift.drop_original_details_star_count
+        )
         parsed_gift.unique_gift_number = saved_gift.gift_num or parsed_gift.unique_gift_number
         parsed_gift.raw = saved_gift
 
@@ -636,7 +689,7 @@ class Gift(Object):
         action_gift: raw.types.MessageActionStarGift | raw.types.MessageActionStarGiftUnique,
         receiver: raw.base.User | raw.base.Chat | None = None,
         users: dict[int, raw.base.User] = {},
-        chats: dict[int, raw.base.Chat] = {}
+        chats: dict[int, raw.base.Chat] = {},
     ) -> Gift:
         # TODO: fix receiver
         if isinstance(action_gift, raw.types.MessageActionStarGift):
@@ -648,7 +701,9 @@ class Gift(Object):
             raw_sender_id = utils.get_raw_peer_id(action_gift.from_id)
             raw_receiver_id = utils.get_raw_peer_id(action_gift.peer)
 
-            parsed_gift = await Gift._parse_regular(client, action_gift.gift, users=users, chats=chats)
+            parsed_gift = await Gift._parse_regular(
+                client, action_gift.gift, users=users, chats=chats
+            )
 
             if action_gift.saved_id:
                 parsed_gift.received_gift_id = str(action_gift.saved_id)
@@ -660,13 +715,33 @@ class Gift(Object):
             parsed_gift.was_upgraded = action_gift.upgraded or parsed_gift.was_upgraded
             parsed_gift.was_refunded = action_gift.refunded or parsed_gift.was_refunded
             parsed_gift.can_be_upgraded = action_gift.can_upgrade or parsed_gift.can_be_upgraded
-            parsed_gift.is_upgrade_separate = action_gift.upgrade_separate or parsed_gift.is_upgrade_separate
-            parsed_gift.text = await types.FormattedText._parse(client, action_gift.message) or parsed_gift.text
-            parsed_gift.convert_star_count = action_gift.convert_stars or parsed_gift.convert_star_count
-            parsed_gift.upgrade_star_count = action_gift.upgrade_stars or parsed_gift.upgrade_star_count
-            parsed_gift.sender = await types.Chat._parse_chat(client, users.get(raw_sender_id) or chats.get(raw_sender_id)) or parsed_gift.sender
-            parsed_gift.receiver = await types.Chat._parse_chat(client, users.get(raw_receiver_id) or chats.get(raw_receiver_id)) or parsed_gift.receiver
-            parsed_gift.prepaid_upgrade_hash = action_gift.prepaid_upgrade_hash or parsed_gift.prepaid_upgrade_hash
+            parsed_gift.is_upgrade_separate = (
+                action_gift.upgrade_separate or parsed_gift.is_upgrade_separate
+            )
+            parsed_gift.text = (
+                await types.FormattedText._parse(client, action_gift.message) or parsed_gift.text
+            )
+            parsed_gift.convert_star_count = (
+                action_gift.convert_stars or parsed_gift.convert_star_count
+            )
+            parsed_gift.upgrade_star_count = (
+                action_gift.upgrade_stars or parsed_gift.upgrade_star_count
+            )
+            parsed_gift.sender = (
+                await types.Chat._parse_chat(
+                    client, users.get(raw_sender_id) or chats.get(raw_sender_id)
+                )
+                or parsed_gift.sender
+            )
+            parsed_gift.receiver = (
+                await types.Chat._parse_chat(
+                    client, users.get(raw_receiver_id) or chats.get(raw_receiver_id)
+                )
+                or parsed_gift.receiver
+            )
+            parsed_gift.prepaid_upgrade_hash = (
+                action_gift.prepaid_upgrade_hash or parsed_gift.prepaid_upgrade_hash
+            )
             parsed_gift.unique_gift_number = action_gift.gift_num or parsed_gift.unique_gift_number
             parsed_gift.raw = action_gift
 
@@ -677,7 +752,9 @@ class Gift(Object):
             raw_sender_id = utils.get_raw_peer_id(action_gift.from_id)
             raw_receiver_id = utils.get_raw_peer_id(action_gift.peer)
 
-            parsed_gift = await Gift._parse_upgraded(client, action_gift.gift, users=users, chats=chats)
+            parsed_gift = await Gift._parse_upgraded(
+                client, action_gift.gift, users=users, chats=chats
+            )
 
             if action_gift.from_offer:
                 parsed_gift.origin = enums.UpgradedGiftOrigin.OFFER
@@ -707,14 +784,39 @@ class Gift(Object):
             parsed_gift.was_upgraded = action_gift.upgrade or parsed_gift.was_upgraded
             parsed_gift.is_saved = action_gift.saved or parsed_gift.is_saved
             parsed_gift.was_refunded = action_gift.refunded or parsed_gift.was_refunded
-            parsed_gift.export_date = utils.timestamp_to_datetime(action_gift.can_export_at) or parsed_gift.export_date
-            parsed_gift.transfer_star_count = action_gift.transfer_stars or parsed_gift.transfer_star_count
-            parsed_gift.sender = await types.Chat._parse_chat(client, users.get(raw_sender_id) or chats.get(raw_sender_id)) or parsed_gift.sender
-            parsed_gift.receiver = await types.Chat._parse_chat(client, users.get(raw_receiver_id) or chats.get(raw_receiver_id)) or parsed_gift.receiver
-            parsed_gift.next_transfer_date = utils.timestamp_to_datetime(action_gift.can_transfer_at) or parsed_gift.next_transfer_date
-            parsed_gift.next_resale_date = utils.timestamp_to_datetime(action_gift.can_resell_at) or parsed_gift.next_resale_date
-            parsed_gift.craft_date = utils.timestamp_to_datetime(action_gift.can_craft_at) or parsed_gift.craft_date
-            parsed_gift.drop_original_details_star_count = action_gift.drop_original_details_stars or parsed_gift.drop_original_details_star_count
+            parsed_gift.export_date = (
+                utils.timestamp_to_datetime(action_gift.can_export_at) or parsed_gift.export_date
+            )
+            parsed_gift.transfer_star_count = (
+                action_gift.transfer_stars or parsed_gift.transfer_star_count
+            )
+            parsed_gift.sender = (
+                await types.Chat._parse_chat(
+                    client, users.get(raw_sender_id) or chats.get(raw_sender_id)
+                )
+                or parsed_gift.sender
+            )
+            parsed_gift.receiver = (
+                await types.Chat._parse_chat(
+                    client, users.get(raw_receiver_id) or chats.get(raw_receiver_id)
+                )
+                or parsed_gift.receiver
+            )
+            parsed_gift.next_transfer_date = (
+                utils.timestamp_to_datetime(action_gift.can_transfer_at)
+                or parsed_gift.next_transfer_date
+            )
+            parsed_gift.next_resale_date = (
+                utils.timestamp_to_datetime(action_gift.can_resell_at)
+                or parsed_gift.next_resale_date
+            )
+            parsed_gift.craft_date = (
+                utils.timestamp_to_datetime(action_gift.can_craft_at) or parsed_gift.craft_date
+            )
+            parsed_gift.drop_original_details_star_count = (
+                action_gift.drop_original_details_stars
+                or parsed_gift.drop_original_details_star_count
+            )
             parsed_gift.raw = action_gift
 
             return parsed_gift
@@ -755,9 +857,7 @@ class Gift(Object):
         Returns:
             ``bool``: On success, True is returned.
         """
-        return await self._client.show_gift(
-            owned_gift_id=self.owned_gift_id
-        )
+        return await self._client.show_gift(owned_gift_id=self.owned_gift_id)
 
     async def hide(self) -> bool:
         """Bound method *hide* of :obj:`~pyrogram.types.Gift`.
@@ -778,9 +878,7 @@ class Gift(Object):
         Returns:
             ``bool``: On success, True is returned.
         """
-        return await self._client.hide_gift(
-            owned_gift_id=self.owned_gift_id
-        )
+        return await self._client.hide_gift(owned_gift_id=self.owned_gift_id)
 
     async def convert(self) -> bool:
         """Bound method *convert* of :obj:`~pyrogram.types.Gift`.
@@ -805,20 +903,11 @@ class Gift(Object):
         Returns:
             ``bool``: On success, True is returned.
         """
-        return await self._client.convert_gift_to_stars(
-            owned_gift_id=self.owned_gift_id
-        )
+        return await self._client.convert_gift_to_stars(owned_gift_id=self.owned_gift_id)
 
-    async def upgrade(self, keep_original_details: (
-        bool
-        | None
-    ) = None, star_count: (
-        int
-        | None
-    ) = None) -> (
-        types.Message
-        | None
-    ):
+    async def upgrade(
+        self, keep_original_details: (bool | None) = None, star_count: (int | None) = None
+    ) -> types.Message | None:
         """Bound method *upgrade* of :obj:`~pyrogram.types.Gift`.
 
         .. note::
@@ -845,7 +934,7 @@ class Gift(Object):
         return await self._client.upgrade_gift(
             owned_gift_id=self.owned_gift_id,
             keep_original_details=keep_original_details,
-            star_count=star_count
+            star_count=star_count,
         )
 
     async def transfer(self, to_chat_id: int | str) -> types.Message | None:
@@ -877,8 +966,7 @@ class Gift(Object):
             raise ValueError("Only upgraded gifts can be transferred.")
 
         return await self._client.transfer_gift(
-            owned_gift_id=self.owned_gift_id or self.link,
-            new_owner_chat_id=to_chat_id
+            owned_gift_id=self.owned_gift_id or self.link, new_owner_chat_id=to_chat_id
         )
 
     async def wear(self) -> bool:
@@ -902,23 +990,13 @@ class Gift(Object):
         Returns:
             ``bool``: On success, True is returned.
         """
-        return await self._client.set_emoji_status(
-            emoji_status=types.EmojiStatus(
-                gift_id=self.id
-            )
-        )
+        return await self._client.set_emoji_status(emoji_status=types.EmojiStatus(gift_id=self.id))
 
-    async def buy(self, new_owner_chat_id: (
-        int
-        | str
-        | None
-    ) = None, price: (
-        types.GiftResalePrice
-        | None
-    ) = None) -> (
-        types.Message
-        | None
-    ):
+    async def buy(
+        self,
+        new_owner_chat_id: (int | str | None) = None,
+        price: (types.GiftResalePrice | None) = None,
+    ) -> types.Message | None:
         """Bound method *buy* of :obj:`~pyrogram.types.Gift`.
 
         .. note::
@@ -945,14 +1023,14 @@ class Gift(Object):
 
         if price is None:
             if self.resale_parameters.toncoin_only:
-                price = types.GiftResalePriceTon(toncoin_cent_count=self.resale_parameters.toncoin_cent_count)
+                price = types.GiftResalePriceTon(
+                    toncoin_cent_count=self.resale_parameters.toncoin_cent_count
+                )
             else:
                 price = types.GiftResalePriceStar(star_count=self.resale_parameters.star_count)
 
         return await self._client.send_resold_gift(
-            gift_link=self.link,
-            new_owner_chat_id=new_owner_chat_id,
-            price=price
+            gift_link=self.link, new_owner_chat_id=new_owner_chat_id, price=price
         )
 
     async def send(
@@ -996,7 +1074,7 @@ class Gift(Object):
             parse_mode=parse_mode,
             entities=entities,
             is_private=is_private,
-            pay_for_upgrade=pay_for_upgrade
+            pay_for_upgrade=pay_for_upgrade,
         )
 
     async def get_auction_state(self) -> types.GiftAuctionState:
@@ -1024,7 +1102,7 @@ class Gift(Object):
         self,
         price: types.GiftResalePrice,
         duration: int,
-        paid_message_star_count: int | None = None
+        paid_message_star_count: int | None = None,
     ) -> types.Message | None:
         """Shortcut for method :obj:`~pyrogram.Client.send_gift_purchase_offer` will automatically fill method attributes:
 
@@ -1058,5 +1136,5 @@ class Gift(Object):
             gift_name=self.name,
             price=price,
             duration=duration,
-            paid_message_star_count=paid_message_star_count
+            paid_message_star_count=paid_message_star_count,
         )

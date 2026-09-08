@@ -50,7 +50,7 @@ class InlineQueryResultCachedSticker(InlineQueryResult):
         sticker_file_id: str,
         id: str | None = None,
         reply_markup: types.InlineKeyboardMarkup | None = None,
-        input_message_content: types.InputMessageContent | None = None
+        input_message_content: types.InputMessageContent | None = None,
     ):
         super().__init__("sticker", id, input_message_content, reply_markup)
 
@@ -73,8 +73,10 @@ class InlineQueryResultCachedSticker(InlineQueryResult):
                 await self.input_message_content.write(client, self.reply_markup)
                 if self.input_message_content
                 else raw.types.InputBotInlineMessageMediaAuto(
-                    reply_markup=await self.reply_markup.write(client) if self.reply_markup else None,
+                    reply_markup=await self.reply_markup.write(client)
+                    if self.reply_markup
+                    else None,
                     message="",
                 )
-            )
+            ),
         )

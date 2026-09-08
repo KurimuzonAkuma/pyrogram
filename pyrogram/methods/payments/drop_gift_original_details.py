@@ -53,11 +53,7 @@ class DropGiftOriginalDetails:
             stargift=await utils.get_input_stargift(self, owned_gift_id)
         )
 
-        form = await self.invoke(
-            raw.functions.payments.GetPaymentForm(
-                invoice=invoice
-            )
-        )
+        form = await self.invoke(raw.functions.payments.GetPaymentForm(invoice=invoice))
 
         if star_count is not None:
             if star_count < 0:
@@ -67,10 +63,7 @@ class DropGiftOriginalDetails:
                 raise ValueError("Have not enough Telegram Stars.")
 
         await self.invoke(
-            raw.functions.payments.SendStarsForm(
-                form_id=form.form_id,
-                invoice=invoice
-            )
+            raw.functions.payments.SendStarsForm(form_id=form.form_id, invoice=invoice)
         )
 
         return True

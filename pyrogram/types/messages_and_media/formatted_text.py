@@ -74,7 +74,9 @@ class FormattedText(Object):
 
     async def write(self, client: pyrogram.Client) -> raw.types.TextWithEntities:
         message, entities = (
-            await utils.parse_text_entities(client, self.text, self.parse_mode or client.parse_mode, self.entities)
+            await utils.parse_text_entities(
+                client, self.text, self.parse_mode or client.parse_mode, self.entities
+            )
         ).values()
 
         return raw.types.TextWithEntities(text=message, entities=entities or [])

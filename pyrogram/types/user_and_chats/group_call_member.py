@@ -93,7 +93,7 @@ class GroupCallMember(Object):
         is_video_joined: bool | None = None,
         is_hand_raised: bool | None = None,
         is_video_enabled: bool | None = None,
-        is_screen_sharing_enabled: bool | None = None
+        is_screen_sharing_enabled: bool | None = None,
     ):
         super().__init__(client)
 
@@ -118,7 +118,7 @@ class GroupCallMember(Object):
         client: pyrogram.Client,
         member: raw.types.GroupCallParticipant,
         users: dict[int, raw.base.User],
-        chats: dict[int, raw.base.Chat]
+        chats: dict[int, raw.base.Chat],
     ) -> GroupCallMember:
         peer = member.peer
         peer_id = utils.get_raw_peer_id(peer)
@@ -146,5 +146,5 @@ class GroupCallMember(Object):
             is_hand_raised=bool(getattr(member, "raise_hand_rating", None)),
             is_video_enabled=bool(getattr(member, "video", None)),
             is_screen_sharing_enabled=bool(getattr(member, "presentation", None)),
-            client=client
+            client=client,
         )

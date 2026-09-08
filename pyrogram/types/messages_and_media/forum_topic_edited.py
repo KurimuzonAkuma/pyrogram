@@ -44,12 +44,13 @@ class ForumTopicEdited(Object):
     """
 
     def __init__(
-        self, *,
+        self,
+        *,
         title: str | None = None,
         icon_color: int | None = None,
         custom_emoji_id: str | None = None,
         is_closed: bool | None = None,
-        is_hidden: bool | None = None
+        is_hidden: bool | None = None,
     ):
         super().__init__()
 
@@ -68,5 +69,5 @@ class ForumTopicEdited(Object):
             icon_color=getattr(action, "icon_color", None),
             custom_emoji_id=str(custom_emoji_id) if custom_emoji_id else None,
             is_closed=getattr(action, "closed", None),
-            is_hidden=getattr(action, "hidden", None)
+            is_hidden=getattr(action, "hidden", None),
         )

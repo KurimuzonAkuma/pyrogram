@@ -66,8 +66,11 @@ def async_to_sync(obj, name):
         else:
             if inspect.iscoroutine(coroutine):
                 if loop.is_running():
+
                     async def coro_wrapper():
-                        return await asyncio.wrap_future(asyncio.run_coroutine_threadsafe(coroutine, main_loop))
+                        return await asyncio.wrap_future(
+                            asyncio.run_coroutine_threadsafe(coroutine, main_loop)
+                        )
 
                     return coro_wrapper()
                 else:

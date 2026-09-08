@@ -25,9 +25,7 @@ from pyrogram import errors
 
 class ToggleJoinToSend:
     async def toggle_join_to_send(
-        self: pyrogram.Client,
-        chat_id: int | str,
-        enabled: bool = False
+        self: pyrogram.Client, chat_id: int | str, enabled: bool = False
     ) -> bool:
         """Enable or disable guest users' ability to send messages in a supergroup.
 
@@ -55,8 +53,7 @@ class ToggleJoinToSend:
         try:
             r = await self.invoke(
                 raw.functions.channels.ToggleJoinToSend(
-                    channel=await self.resolve_peer(chat_id),
-                    enabled=enabled
+                    channel=await self.resolve_peer(chat_id), enabled=enabled
                 )
             )
 

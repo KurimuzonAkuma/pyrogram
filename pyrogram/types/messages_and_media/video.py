@@ -80,6 +80,7 @@ class Video(Object):
         alternative_videos (List of :obj:`~pyrogram.types.Video`, *optional*):
             Alternative qualities of the video in MPEG4 format, encoded with H.264 codec.
     """
+
     def __init__(
         self,
         *,
@@ -99,7 +100,7 @@ class Video(Object):
         thumbs: list[types.Thumbnail] | None = None,
         video_cover: types.Photo | None = None,
         video_start_timestamp: int | None = None,
-        alternative_videos: list[types.Video] | None = None
+        alternative_videos: list[types.Video] | None = None,
     ):
         super().__init__(client)
 
@@ -127,9 +128,9 @@ class Video(Object):
         video_attributes: raw.types.DocumentAttributeVideo,
         file_name: str | None = None,
         ttl_seconds: int | None = None,
-        video_cover = None,
+        video_cover=None,
         video_start_timestamp: int | None = None,
-        alternative_videos: list[raw.types.Document] = []
+        alternative_videos: list[raw.types.Document] = [],
     ) -> Video:
         _alt_videos = types.List()
 
@@ -151,11 +152,10 @@ class Video(Object):
                 dc_id=video.dc_id,
                 media_id=video.id,
                 access_hash=video.access_hash,
-                file_reference=video.file_reference
+                file_reference=video.file_reference,
             ).encode(),
             file_unique_id=FileUniqueId(
-                file_unique_type=FileUniqueType.DOCUMENT,
-                media_id=video.id
+                file_unique_type=FileUniqueType.DOCUMENT, media_id=video.id
             ).encode(),
             width=getattr(video_attributes, "w", None),
             height=getattr(video_attributes, "h", None),
@@ -171,5 +171,5 @@ class Video(Object):
             video_cover=types.Photo._parse(client, video_cover),
             video_start_timestamp=video_start_timestamp,
             alternative_videos=_alt_videos or None,
-            client=client
+            client=client,
         )

@@ -81,7 +81,10 @@ class GetStories:
         ids = None if story_ids is None else list(story_ids) if is_iterable else [story_ids]
 
         if isinstance(story_ids, str):
-            match = re.match(r"^(?:https?://)?(?:www\.)?(?:t(?:elegram)?\.(?:org|me|dog)/)([\w]+)/s/(\d+)/?$", story_ids.lower())
+            match = re.match(
+                r"^(?:https?://)?(?:www\.)?(?:t(?:elegram)?\.(?:org|me|dog)/)([\w]+)/s/(\d+)/?$",
+                story_ids.lower(),
+            )
 
             if match:
                 chat_id = match.group(1)
@@ -96,12 +99,7 @@ class GetStories:
                 raise ValueError("Invalid story_ids.")
 
         peer = await self.resolve_peer(chat_id)
-        r = await self.invoke(
-            raw.functions.stories.GetStoriesByID(
-                peer=peer,
-                id=ids
-            )
-        )
+        r = await self.invoke(raw.functions.stories.GetStoriesByID(peer=peer, id=ids))
 
         stories = types.List()
 
@@ -109,14 +107,6 @@ class GetStories:
         chats = {i.id: i for i in r.chats}
 
         for story in r.stories:
-            stories.append(
-                await types.Story._parse(
-                    self,
-                    story,
-                    peer,
-                    users,
-                    chats
-                )
-            )
+            stories.append(await types.Story._parse(self, story, peer, users, chats))
 
         return stories if is_iterable else stories[0] if stories else None

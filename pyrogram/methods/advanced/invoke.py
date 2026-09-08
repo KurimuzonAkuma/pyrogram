@@ -28,7 +28,7 @@ from pyrogram.session import Session
 
 log = logging.getLogger(__name__)
 
-ReturnType = TypeVar('ReturnType')
+ReturnType = TypeVar("ReturnType")
 
 
 class Invoke:
@@ -40,7 +40,7 @@ class Invoke:
         sleep_threshold: float | None = None,
         retry_delay: float = Session.RETRY_DELAY,
         recaptcha_token: str | None = None,
-        business_connection_id: str | None = None
+        business_connection_id: str | None = None,
     ) -> ReturnType:
         """Invoke raw Telegram functions.
 
@@ -91,8 +91,7 @@ class Invoke:
 
         if business_connection_id:
             query = raw.functions.InvokeWithBusinessConnection(
-                connection_id=business_connection_id,
-                query=query
+                connection_id=business_connection_id, query=query
             )
 
             session = await self.get_session(business_connection_id=business_connection_id)
@@ -107,11 +106,13 @@ class Invoke:
             query = raw.functions.InvokeWithTakeout(takeout_id=self.takeout_id, query=query)
 
         r = await session.invoke(
-            query=query, retries=retries, timeout=timeout,
+            query=query,
+            retries=retries,
+            timeout=timeout,
             sleep_threshold=(
                 sleep_threshold if sleep_threshold is not None else self.sleep_threshold
             ),
-            retry_delay=retry_delay
+            retry_delay=retry_delay,
         )
 
         await self.fetch_peers(getattr(r, "users", []))

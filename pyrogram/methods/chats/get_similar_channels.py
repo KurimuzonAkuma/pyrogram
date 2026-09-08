@@ -25,8 +25,7 @@ from pyrogram import types
 
 class GetSimilarChannels:
     async def get_similar_channels(
-        self: pyrogram.Client,
-        chat_id: int | str
+        self: pyrogram.Client, chat_id: int | str
     ) -> list[types.Chat] | None:
         """Get similar channels.
 
@@ -49,12 +48,11 @@ class GetSimilarChannels:
         chat = await self.resolve_peer(chat_id)
 
         if isinstance(chat, raw.types.InputPeerChannel):
-            r = await self.invoke(
-                raw.functions.channels.GetChannelRecommendations(
-                    channel=chat
-                )
-            )
+            r = await self.invoke(raw.functions.channels.GetChannelRecommendations(channel=chat))
 
-            return types.List([await types.Chat._parse_channel_chat(self, chat) for chat in r.chats]) or None
+            return (
+                types.List([await types.Chat._parse_channel_chat(self, chat) for chat in r.chats])
+                or None
+            )
         else:
             raise ValueError(f'The chat_id "{chat_id}" belongs to a user or chat')

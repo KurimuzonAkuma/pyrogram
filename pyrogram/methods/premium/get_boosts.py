@@ -40,9 +40,7 @@ class GetBoosts:
                 # get boosts list
                 await app.get_boosts()
         """
-        r = await self.invoke(
-            raw.functions.premium.GetMyBoosts()
-        )
+        r = await self.invoke(raw.functions.premium.GetMyBoosts())
 
         users = {i.id: i for i in r.users}
         chats = {i.id: i for i in r.chats}

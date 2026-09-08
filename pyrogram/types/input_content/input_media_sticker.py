@@ -63,7 +63,7 @@ class InputMediaSticker(InputMedia):
         chat_id: int | str | None = None,
         progress: Callable | None = None,
         progress_args: tuple = (),
-        **kwargs
+        **kwargs,
     ) -> raw.base.InputMedia:
         if chat_id is None:
             peer = raw.types.InputPeerSelf()

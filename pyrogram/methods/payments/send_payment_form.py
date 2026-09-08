@@ -27,7 +27,7 @@ class SendPaymentForm:
         self: pyrogram.Client,
         payment_form_id: int,
         input_invoice: types.InputInvoice,
-        credentials: types.InputCredentials | None = None
+        credentials: types.InputCredentials | None = None,
     ) -> types.PaymentResult:
         """Send a filled-out payment form to the bot for final verification.
 
@@ -91,7 +91,7 @@ class SendPaymentForm:
                 raw.functions.payments.SendPaymentForm(
                     form_id=payment_form_id,
                     invoice=await input_invoice.write(self),
-                    credentials=await credentials.write(self)
+                    credentials=await credentials.write(self),
                 )
             )
 

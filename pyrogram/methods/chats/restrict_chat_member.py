@@ -31,7 +31,7 @@ class RestrictChatMember:
         chat_id: int | str,
         user_id: int | str,
         permissions: types.ChatPermissions,
-        until_date: datetime = utils.zero_datetime()
+        until_date: datetime = utils.zero_datetime(),
     ) -> types.Chat:
         """Restrict a user in a supergroup.
 
@@ -79,7 +79,7 @@ class RestrictChatMember:
             raw.functions.channels.EditBanned(
                 channel=await self.resolve_peer(chat_id),
                 participant=await self.resolve_peer(user_id),
-                banned_rights=permissions.write(until_date)
+                banned_rights=permissions.write(until_date),
             )
         )
 

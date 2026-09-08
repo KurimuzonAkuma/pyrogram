@@ -60,7 +60,7 @@ class OnBusinessMessage:
                 func.handlers.append(
                     (
                         pyrogram.handlers.BusinessMessageHandler(func, arguments.filters),
-                        arguments.group
+                        arguments.group,
                     )
                 )
 

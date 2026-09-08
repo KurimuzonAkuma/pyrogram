@@ -74,7 +74,7 @@ class SummarizeMessage:
                 peer=await self.resolve_peer(chat_id),
                 id=message_id,
                 to_lang=translate_to_language_code or self.lang_code,
-                tone=tone
+                tone=tone,
             )
         )
 

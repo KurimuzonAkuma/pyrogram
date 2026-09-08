@@ -31,12 +31,8 @@ class GiftPurchaseLimit(Object):
         remaining_count (``int``, *optional*):
             Number of remaining times the gift can be purchased.
     """
-    def __init__(
-        self,
-        *,
-        total_count: int | None = None,
-        remaining_count: int | None = None
-    ):
+
+    def __init__(self, *, total_count: int | None = None, remaining_count: int | None = None):
         super().__init__()
 
         self.total_count = total_count
@@ -47,7 +43,4 @@ class GiftPurchaseLimit(Object):
         if total is None or total <= 0:
             return None
 
-        return GiftPurchaseLimit(
-            total_count=total,
-            remaining_count=remains
-        )
+        return GiftPurchaseLimit(total_count=total, remaining_count=remains)

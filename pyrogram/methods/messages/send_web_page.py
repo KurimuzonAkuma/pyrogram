@@ -26,6 +26,7 @@ from pyrogram import enums, types
 
 log = logging.getLogger(__name__)
 
+
 class SendWebPage:
     async def send_web_page(
         self: pyrogram.Client,
@@ -56,7 +57,6 @@ class SendWebPage:
             | types.ForceReply
             | None
         ) = None,
-
         reply_to_message_id: int | None = None,
         reply_to_chat_id: int | str | None = None,
         reply_to_story_id: int | None = None,
@@ -166,7 +166,9 @@ class SendWebPage:
                 ))
 
         """
-        log.warning("`send_web_page` is deprecated and will be removed in future updates. Use `send_message` instead.")
+        log.warning(
+            "`send_web_page` is deprecated and will be removed in future updates. Use `send_message` instead."
+        )
 
         if any(
             (

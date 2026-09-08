@@ -26,9 +26,7 @@ from pyrogram import raw
 
 class DeleteBusinessMessages:
     async def delete_business_messages(
-        self: pyrogram.Client,
-        business_connection_id: str,
-        message_ids: int | Iterable[int]
+        self: pyrogram.Client, business_connection_id: str, message_ids: int | Iterable[int]
     ) -> int:
         """Delete messages on behalf of a business account.
 
@@ -62,11 +60,8 @@ class DeleteBusinessMessages:
         message_ids = list(message_ids) if not isinstance(message_ids, int) else [message_ids]
 
         r = await self.invoke(
-            raw.functions.messages.DeleteMessages(
-                id=message_ids,
-                revoke=True
-            ),
-            business_connection_id=business_connection_id
+            raw.functions.messages.DeleteMessages(id=message_ids, revoke=True),
+            business_connection_id=business_connection_id,
         )
 
         return r.pts_count

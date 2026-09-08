@@ -96,20 +96,31 @@ def camel(s: str):
     return "".join([i[0].upper() + i[1:] for i in s.split("_")])
 
 
+def vector_element(vector: str) -> str:
+    """The `X` of a `Vector<X>`"""
+    return vector.split("<")[1][:-1]
+
+
+def qualified_name(qualtype: str) -> str:
+    """`namespace.Name` for a namespaced type, `Name` for a bare one"""
+    namespace, name = qualtype.split(".") if "." in qualtype else ("", qualtype)
+
+    return ".".join([namespace, name]).strip(".")
+
+
 # noinspection PyShadowingBuiltins, PyShadowingNames
 def get_return_type_hint(qualtype: str) -> str:
     """Get return type hint for generic TLObject"""
+    if qualtype.startswith("Vector"):
+        element = qualified_name(vector_element(qualtype))
+        hint = f"list[raw.base.{element}]"
+    else:
+        hint = f"raw.base.{qualified_name(qualtype)}"
+
     # This goes in `class X(TLObject[...])`, a base-class subscript, not an annotation, so
     #  the future import does not defer it: unquoted, `raw` is `TYPE_CHECKING`-only and it
     #  raises `NameError: name 'raw' is not defined` at import time.
-    if qualtype.startswith("Vector"):
-        # Extract inner type from Vector<Type>
-        inner = qualtype.split("<")[1][:-1]
-        ns, name = inner.split(".") if "." in inner else ("", inner)
-        return f'"list[raw.base.{".".join([ns, name]).strip(".")}]"'
-    else:
-        ns, name = qualtype.split(".") if "." in qualtype else ("", qualtype)
-        return f'"raw.base.{".".join([ns, name]).strip(".")}"'
+    return f'"{hint}"'
 
 
 # noinspection PyShadowingBuiltins, PyShadowingNames
@@ -140,14 +151,13 @@ def get_type_hint(type: str) -> str:
     if re.match("^vector", type, re.I):
         is_core = True
 
-        sub_type = type.split("<")[1][:-1]
-        type = f"list[{get_type_hint(sub_type)}]"
+        element = get_type_hint(vector_element(type))
+        type = f"list[{element}]"
 
     if is_core:
         return f"{type} | None = None" if is_flag else type
 
-    ns, name = type.split(".") if "." in type else ("", type)
-    qualname = "raw.base." + ".".join([ns, name]).strip(".")
+    qualname = f"raw.base.{qualified_name(type)}"
 
     return f"{qualname} | None = None" if is_flag else qualname
 

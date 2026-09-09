@@ -207,6 +207,7 @@ select = [
     "F",      # Pyflakes: unused imports and locals, wildcard imports, f-strings with no field.
     "ICN",    # flake8-import-conventions: an import that does not follow its usual alias.
     "INT",    # flake8-gettext: a gettext call built from an f-string/concatenation.
+    "ISC",    # flake8-implicit-str-concat — explicit `+` between adjacent string literals.
     "LOG",    # flake8-logging: stdlib `logging` misuse, e.g. constructing a `Logger` directly.
     "PGH",    # pygrep-hooks: a blanket `# noqa`/`# type: ignore` with no code, or `eval()`.
     "PLE",    # Pylint Error: real bugs (bad `super()` call, `yield` outside a function, ...).

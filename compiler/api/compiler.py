@@ -482,13 +482,13 @@ def start(format: bool = False):
                 if function_docs.get("can_use_without_auth"):
                     docstring += (
                         "\n\n    .. note::\n\n        "
-                        + "This method can be used by not yet logged in connections."
+                        "This method can be used by not yet logged in connections."
                     )
 
                 if function_docs.get("can_use_business_connection"):
                     docstring += (
                         "\n\n    .. note::\n\n        "
-                        + "This method can be invoked over a `business connection » <https://corefork.telegram.org/api/bots/connected-business-bots>`__"
+                        "This method can be invoked over a `business connection » <https://corefork.telegram.org/api/bots/connected-business-bots>`__"
                     )
             else:
                 docstring += "Telegram API function."

@@ -693,7 +693,8 @@ class Client(Methods):
         return signed_up
 
     async def authorize_qr(self, except_ids: list[int] = []) -> User:
-        from qrcode import QRCode  # ty: ignore[unresolved-import] - optional, not a project dependency
+        # Deferred: qrcode is an optional dependency, not importable at module load time.
+        from qrcode import QRCode  # noqa: PLC0415 # ty: ignore[unresolved-import]
 
         qr_login = QRLogin(self, except_ids)
         await qr_login.recreate()

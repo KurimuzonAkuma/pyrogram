@@ -108,7 +108,7 @@ def documented_by(handler: type[handlers.Handler]) -> set[str]:
     if _OTHER_PARAMETERS not in documentation:
         return set()
 
-    return set(_DOCUMENTED_TYPE.findall(documentation.split(_OTHER_PARAMETERS)[-1]))
+    return set(_DOCUMENTED_TYPE.findall(documentation.rsplit(_OTHER_PARAMETERS, maxsplit=1)[-1]))
 
 
 def handlers_with_an_update() -> list[tuple[str, str]]:

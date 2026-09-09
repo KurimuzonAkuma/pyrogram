@@ -28,8 +28,10 @@ class CustomHook(BuildHookInterface):
         if self.target_name not in ["wheel", "install"]:
             return
 
-        from compiler.api.compiler import start as compile_api
-        from compiler.errors.compiler import start as compile_errors
+        # Deferred: `compiler` only becomes importable once `sys.path` is patched above,
+        #  and only wheel/install builds need it at all.
+        from compiler.api.compiler import start as compile_api  # noqa: PLC0415
+        from compiler.errors.compiler import start as compile_errors  # noqa: PLC0415
 
         compile_api(format=False)
         compile_errors()

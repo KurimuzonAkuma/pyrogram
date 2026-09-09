@@ -83,6 +83,8 @@ class Start:
         try:
             if not is_authorized:
                 if use_qr:
+                    # `qrcode` is an optional extra, not a dependency.
+                    #  https://docs.kurigram.icu/start/auth
                     if importlib.util.find_spec("qrcode") is not None:
                         await self.authorize_qr(except_ids=except_ids)
                     else:

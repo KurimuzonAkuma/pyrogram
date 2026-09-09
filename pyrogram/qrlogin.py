@@ -103,7 +103,7 @@ class QRLogin:
 
             return user
 
-        raise TypeError("Unexpected login token response: {}".format(r))
+        raise TypeError(f"Unexpected login token response: {r}")
 
     @property
     def url(self) -> str:

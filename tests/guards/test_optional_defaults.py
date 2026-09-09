@@ -119,7 +119,7 @@ def optional_parameters_that_do_not_default_to_none() -> list[tuple[str, int, st
 
 def test_a_parameter_that_admits_none_defaults_to_none() -> None:
     offenders = [
-        "{}:{}: {}".format(relative, line, name)
+        f"{relative}:{line}: {name}"
         for relative, line, name in optional_parameters_that_do_not_default_to_none()
         if (relative, name) not in _EXEMPTIONS
     ]

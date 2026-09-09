@@ -114,7 +114,7 @@ def _mtproxy_link_parameters() -> _LinkParams:
         proxy = normalize_proxy(link)
         parameters.links.append(link)
         # The link carries the secret, so the id names the address alone.
-        parameters.ids.append("{}:{}".format(proxy.hostname, proxy.port))
+        parameters.ids.append(f"{proxy.hostname}:{proxy.port}")
 
     return parameters
 
@@ -137,7 +137,7 @@ def mtproxy_proxy(request: pytest.FixtureRequest) -> MTProxy:
     proxy = normalize_proxy(link)
 
     if not isinstance(proxy, MTProxy):
-        pytest.skip("MTPROXY_TEST_LINKS carries a {}, not an MTProxy".format(type(proxy).__name__))
+        pytest.skip(f"MTPROXY_TEST_LINKS carries a {type(proxy).__name__}, not an MTProxy")
 
     return proxy
 
@@ -161,7 +161,7 @@ def session_path() -> Path:
     path = Path(os.environ["SESSION_PATH"]).expanduser()
 
     if not path.is_file():
-        pytest.skip("SESSION_PATH points at {}, which is not a file".format(path))
+        pytest.skip(f"SESSION_PATH points at {path}, which is not a file")
 
     return path
 
@@ -273,8 +273,6 @@ async def round_trip_req_pq_multi(transport: TCP) -> None:
 
     body = response[_RESPONSE_HEADER.size : _RESPONSE_HEADER.size + length]
     constructor = struct.unpack("<I", body[:4])[0]
-    assert constructor == _RES_PQ, "expected resPQ (0x{:x}), got 0x{:x}".format(
-        _RES_PQ, constructor
-    )
+    assert constructor == _RES_PQ, f"expected resPQ (0x{_RES_PQ:x}), got 0x{constructor:x}"
 
     assert body[4:20] == query.nonce, "resPQ echoed a different nonce than the one we sent"

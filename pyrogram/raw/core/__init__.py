@@ -30,3 +30,25 @@ from .primitives.string import String
 from .primitives.vector import Vector
 from .base_type_meta import BaseTypeMeta
 from .tl_object import TLObject
+
+__all__ = [
+    "FutureSalt",
+    "FutureSalts",
+    "GzipPacked",
+    "List",
+    "Message",
+    "MsgContainer",
+    "Bool",
+    "BoolFalse",
+    "BoolTrue",
+    "Bytes",
+    "Double",
+    "Int",
+    "Long",
+    "Int128",
+    "Int256",
+    "String",
+    "Vector",
+    "BaseTypeMeta",
+    "TLObject",
+]

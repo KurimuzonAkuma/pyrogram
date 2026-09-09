@@ -18,8 +18,6 @@
 
 from __future__ import annotations as _annotations
 
-import re
-
 import pyrogram
 from pyrogram import raw, types, utils
 

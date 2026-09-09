@@ -18,6 +18,7 @@
 
 from __future__ import annotations as _annotations
 
+import importlib.util
 import logging
 
 import pyrogram
@@ -82,11 +83,9 @@ class Start:
         try:
             if not is_authorized:
                 if use_qr:
-                    try:
-                        import qrcode  # ty: ignore[unresolved-import] - optional, not a project dependency
-
+                    if importlib.util.find_spec("qrcode") is not None:
                         await self.authorize_qr(except_ids=except_ids)
-                    except ImportError:
+                    else:
                         log.warning(
                             "qrcode package not found, falling back to authorization prompt"
                         )

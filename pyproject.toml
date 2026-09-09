@@ -203,9 +203,7 @@ quote-style = "double"
 #  trailing commas and docstring section formatting.
 select = [
     "E9",     # Syntax errors and files that cannot be read.
-    "F632",   # `is` used against a literal.
-    "F821",   # Undefined name.
-    "F822",   # Undefined name in `__all__`.
+    "F",      # Pyflakes — unused imports/locals, wildcard imports, f-strings without placeholders.
     "RUF013", # Implicit `Optional`, e.g. `def method(chat_id: int = None)`.
     "UP006",  # `List[str]` where `list[str]` is meant.
     "UP007",  # `Union[int, str]` where `int | str` is meant.

@@ -29,7 +29,7 @@ import inspect
 import re
 import sys
 import typing
-from typing import Any, Final
+from typing import Final
 from re import Pattern
 from collections.abc import Iterator
 

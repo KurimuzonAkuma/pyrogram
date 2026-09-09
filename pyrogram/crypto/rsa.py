@@ -18,9 +18,13 @@
 
 from __future__ import annotations as _annotations
 
-from collections import namedtuple
+from typing import NamedTuple
 
-PublicKey = namedtuple("PublicKey", ["m", "e"])
+
+class PublicKey(NamedTuple):
+    m: int
+    e: int
+
 
 # To get modulus and exponent:
 #

@@ -206,6 +206,7 @@ select = [
     "F632",   # `is` used against a literal.
     "F821",   # Undefined name.
     "F822",   # Undefined name in `__all__`.
+    "PYI",    # Stub-file conventions ruff also enforces in regular `.py` files.
     "RUF013", # Implicit `Optional`, e.g. `def method(chat_id: int = None)`.
     "UP006",  # `List[str]` where `list[str]` is meant.
     "UP007",  # `Union[int, str]` where `int | str` is meant.

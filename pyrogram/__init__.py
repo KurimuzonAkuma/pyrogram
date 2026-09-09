@@ -38,6 +38,9 @@ from .client import Client
 from .sync import idle, compose
 
 __all__ = [
+    "StopTransmission",
+    "StopPropagation",
+    "ContinuePropagation",
     "raw",
     "types",
     "filters",

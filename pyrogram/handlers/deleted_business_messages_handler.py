@@ -68,5 +68,4 @@ class DeletedBusinessMessagesHandler(Handler):
         for message in messages:
             if await super().check(client, message):
                 return True
-        else:
-            return False
+        return False

@@ -840,7 +840,7 @@ class RichBlockMap(RichBlock):
             Location of the center of the map.
 
         zoom (``int``):
-            Map zoom level, 13-20.
+            Map zoom level.
 
         width (``int``):
             Expected width of the map.
@@ -974,9 +974,6 @@ class RichBlockVoiceNote(RichBlock):
     Parameters:
         voice_note (:obj:`~pyrogram.types.Voice`):
             The voice note.
-
-        has_spoiler (``bool``, *optional*):
-            True, if the media preview is covered by a spoiler animation.
 
         caption (:obj:`~pyrogram.types.RichBlockCaption`, *optional*):
             Caption of the block.

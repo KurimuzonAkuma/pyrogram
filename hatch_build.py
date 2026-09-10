@@ -28,8 +28,8 @@ class CustomHook(BuildHookInterface):
         if self.target_name not in ["wheel", "install"]:
             return
 
-        # Deferred: `compiler` only becomes importable once `sys.path` is patched above,
-        #  and only wheel/install builds need it at all.
+        # `hatch_build.py` is imported for every build target, and only wheel and install
+        #  builds reach this line, so the compilers are imported here rather than at the top.
         from compiler.api.compiler import start as compile_api  # noqa: PLC0415
         from compiler.errors.compiler import start as compile_errors  # noqa: PLC0415
 

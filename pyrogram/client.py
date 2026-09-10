@@ -693,7 +693,8 @@ class Client(Methods):
         return signed_up
 
     async def authorize_qr(self, except_ids: list[int] = []) -> User:
-        # Deferred: qrcode is an optional dependency, not importable at module load time.
+        # `qrcode` is an optional extra, so importing it at module level would break
+        #  `import pyrogram` for everyone who did not install it.
         from qrcode import QRCode  # noqa: PLC0415 # ty: ignore[unresolved-import]
 
         qr_login = QRLogin(self, except_ids)

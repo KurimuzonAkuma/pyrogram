@@ -20,10 +20,12 @@ from __future__ import annotations as _annotations
 
 import re
 from pathlib import Path, PurePosixPath
+from typing import BinaryIO, Protocol
+from collections.abc import Callable
 
 import pytest
 
-from pyrogram import types
+from pyrogram import raw, types
 
 # `write()` only ever touches `client` through `client.resolve_peer(chat_id)`, and that
 #  call is skipped whenever `chat_id` stays at its default `None` (see e.g.
@@ -31,19 +33,64 @@ from pyrogram import types
 #  `client`, so passing `None` for it - already how tests/unit/types/input_content/
 #  test_input_rich_message.py exercises `write()` - keeps these tests mock-free.
 _MEDIA_FACTORIES = [
-    types.InputMediaPhoto,
-    types.InputMediaAnimation,
-    types.InputMediaAudio,
-    types.InputMediaDocument,
-    types.InputMediaSticker,
-    types.InputMediaVoiceNote,
-    types.InputMediaVideo,
-    lambda media: types.InputMediaLivePhoto(media, photo="file_id_placeholder"),
+    pytest.param(types.InputMediaPhoto, id="photo"),
+    pytest.param(types.InputMediaAnimation, id="animation"),
+    pytest.param(types.InputMediaAudio, id="audio"),
+    pytest.param(types.InputMediaDocument, id="document"),
+    pytest.param(types.InputMediaSticker, id="sticker"),
+    pytest.param(types.InputMediaVoiceNote, id="voice-note"),
+    pytest.param(types.InputMediaVideo, id="video"),
+    pytest.param(
+        lambda media: types.InputMediaLivePhoto(media, photo="file_id_placeholder"),
+        id="live-photo",
+    ),
 ]
 
 
+class _MediaFactory(Protocol):
+    def __call__(self, media: Path, /) -> types.InputMedia: ...
+
+
+class _UploadReached(Exception):
+    """Stops `write()` as soon as it hands the media over to be uploaded."""
+
+
+class _RecordingClient:
+    """Records what `write()` passes to `save_file`, then stops the upload.
+
+    `guess_mime_type` answers None so every caller falls back to its own default; these
+    tests are about which branch `write()` takes, not about mime detection.
+    """
+
+    def __init__(self) -> None:
+        self.saved: list[str | Path | BinaryIO] = []
+
+    def guess_mime_type(self, filename: str | Path | BinaryIO) -> str | None:
+        return None
+
+    # Python resolves this attribute before it evaluates the query being passed to it,
+    #  so it has to exist even though `save_file` raises while that query is still
+    #  being built.
+    async def invoke(self, query: raw.core.TLObject) -> raw.core.TLObject:
+        raise AssertionError("`save_file` was expected to stop the upload first")
+
+    async def save_file(
+        self,
+        path: str | Path | BinaryIO,
+        *,
+        progress: Callable | None = None,
+        progress_args: tuple = (),
+    ) -> raw.base.InputFile:
+        self.saved.append(path)
+
+        raise _UploadReached
+
+
 @pytest.mark.parametrize("factory", _MEDIA_FACTORIES)
-async def test_write_raises_for_a_media_path_that_does_not_exist(tmp_path: Path, factory) -> None:
+async def test_write_raises_for_a_media_path_that_does_not_exist(
+    tmp_path: Path,
+    factory: _MediaFactory,
+) -> None:
     missing = tmp_path / "missing.jpg"
 
     with pytest.raises(FileNotFoundError, match=re.escape(str(missing))):
@@ -99,3 +146,18 @@ async def test_live_photo_write_rejects_a_local_photo_next_to_a_remote_media(
 
     with pytest.raises(ValueError, match="both be local files or both be file_ids"):
         await media.write(client=None)
+
+
+@pytest.mark.parametrize("factory", _MEDIA_FACTORIES)
+async def test_write_uploads_a_media_path_that_exists(
+    tmp_path: Path,
+    factory: _MediaFactory,
+) -> None:
+    existing = tmp_path / "media.bin"
+    existing.write_bytes(b"payload")
+    client = _RecordingClient()
+
+    with pytest.raises(_UploadReached):
+        await factory(existing).write(client=client)
+
+    assert client.saved == [existing]

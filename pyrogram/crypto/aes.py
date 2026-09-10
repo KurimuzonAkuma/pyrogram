@@ -107,7 +107,7 @@ except ImportError:
         chunk = cipher.encrypt(iv)
 
         for i in range(0, len(data), 16):
-            for j in range(0, min(len(data) - i, 16)):
+            for j in range(min(len(data) - i, 16)):
                 out[i + j] ^= chunk[state[0]]
 
                 state[0] += 1

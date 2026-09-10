@@ -89,7 +89,7 @@ class EditInlineMedia:
         is_bytes_io = isinstance(media.media, io.BytesIO)
         is_uploaded_file = is_bytes_io or os.path.isfile(media.media)
 
-        if isinstance(media.media, Path) and not is_uploaded_file:
+        if isinstance(media.media, os.PathLike) and not is_uploaded_file:
             raise FileNotFoundError(f"No such file or directory: {media.media}")
 
         is_external_url = not is_uploaded_file and re.match("^https?://", media.media)

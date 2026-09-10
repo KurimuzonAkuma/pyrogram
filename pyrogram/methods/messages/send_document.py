@@ -263,7 +263,7 @@ class SendDocument:
         file = None
 
         try:
-            if isinstance(document, (str, Path)):
+            if isinstance(document, (str, os.PathLike)):
                 if os.path.isfile(document):
                     thumb = await self.save_file(thumb)
                     file = await self.save_file(

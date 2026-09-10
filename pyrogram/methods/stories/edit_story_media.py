@@ -109,7 +109,7 @@ class EditStoryMedia:
                 await app.edit_story_media(chat_id, story_id, "new_video.mp4")
         """
         try:
-            if isinstance(media, (str, Path)):
+            if isinstance(media, (str, os.PathLike)):
                 if os.path.isfile(media):
                     thumb = await self.save_file(thumb)
                     file = await self.save_file(

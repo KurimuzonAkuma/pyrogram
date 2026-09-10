@@ -267,7 +267,7 @@ class SendPhoto:
         file = None
 
         try:
-            if isinstance(photo, (str, Path)):
+            if isinstance(photo, (str, os.PathLike)):
                 if os.path.isfile(photo):
                     file = await self.save_file(
                         photo, progress=progress, progress_args=progress_args

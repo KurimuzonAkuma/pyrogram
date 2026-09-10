@@ -244,7 +244,7 @@ class SendSticker:
         file = None
 
         try:
-            if isinstance(sticker, (str, Path)):
+            if isinstance(sticker, (str, os.PathLike)):
                 if os.path.isfile(sticker):
                     file = await self.save_file(
                         sticker, progress=progress, progress_args=progress_args

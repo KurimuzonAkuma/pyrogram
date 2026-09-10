@@ -286,7 +286,7 @@ class SendAnimation:
         file = None
 
         try:
-            if isinstance(animation, (str, Path)):
+            if isinstance(animation, (str, os.PathLike)):
                 if os.path.isfile(animation):
                     thumb = await self.save_file(thumb)
                     file = await self.save_file(

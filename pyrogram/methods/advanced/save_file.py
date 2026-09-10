@@ -158,7 +158,7 @@ class SaveFile:
 
             part_size = 512 * 1024
 
-            if isinstance(path, (str, PurePath)):
+            if isinstance(path, (str, os.PathLike)):
                 fp = open(path, "rb")
             elif isinstance(path, io.IOBase):
                 fp = path
@@ -253,7 +253,7 @@ class SaveFile:
 
                 await asyncio.gather(*workers)
 
-                if isinstance(path, (str, PurePath)):
+                if isinstance(path, (str, os.PathLike)):
                     fp.close()
 
             # Outside the `finally` on purpose: a worker only reports a failed part once it has been

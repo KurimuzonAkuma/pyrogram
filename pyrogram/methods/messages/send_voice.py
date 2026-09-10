@@ -258,7 +258,7 @@ class SendVoice:
         file = None
 
         try:
-            if isinstance(voice, (str, Path)):
+            if isinstance(voice, (str, os.PathLike)):
                 if os.path.isfile(voice):
                     mime_type = self.guess_mime_type(voice) or "audio/ogg"
                     if mime_type == "audio/mpeg":

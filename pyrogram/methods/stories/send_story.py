@@ -162,7 +162,7 @@ class SendStory:
         ).values()
 
         try:
-            if isinstance(media, (str, Path)):
+            if isinstance(media, (str, os.PathLike)):
                 if os.path.isfile(media):
                     thumb = await self.save_file(thumb)
                     file = await self.save_file(

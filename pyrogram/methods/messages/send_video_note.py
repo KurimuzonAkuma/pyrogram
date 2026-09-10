@@ -263,7 +263,7 @@ class SendVideoNote:
         file = None
 
         try:
-            if isinstance(video_note, (str, Path)):
+            if isinstance(video_note, (str, os.PathLike)):
                 if os.path.isfile(video_note):
                     # Notify user why the sent video is not video note
                     file_size = os.path.getsize(video_note)

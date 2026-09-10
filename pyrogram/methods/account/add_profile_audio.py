@@ -79,7 +79,7 @@ class AddProfileAudio:
         file = None
 
         try:
-            if isinstance(audio, (str, Path)):
+            if isinstance(audio, (str, os.PathLike)):
                 if os.path.isfile(audio):
                     mime_type = self.guess_mime_type(audio) or "audio/mpeg"
                     if mime_type == "audio/ogg":

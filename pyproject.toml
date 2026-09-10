@@ -50,7 +50,7 @@ dependencies = [
     "python-socks[asyncio]>=2.4.0",
 ]
 license = "LGPL-3.0-or-later"
-license-files = ["COPYING", "COPYING.lesser"]
+license-files = ["COPYING", "COPYING.lesser", "NOTICE"]
 keywords = [
     "telegram",
     "chat",
@@ -159,12 +159,22 @@ path = "pyrogram/__init__.py"
 [tool.hatch.metadata]
 allow-direct-references = true
 
+# An allowlist, because the exclude list it replaces could only name what had already leaked:
+#  `hatchling` reads the root `.gitignore` and never a nested one, so a local-only directory
+#  whose ignore rule lives inside itself was packed whole.
+#  https://github.com/pypa/hatch/blob/558061c5ecbe7e9b10d81965d4cdc8df05832228/backend/src/hatchling/builders/config.py#L754
+#  `pyproject.toml`, `hatch_build.py`, `README.md`, the `license-files` above and `.gitignore`
+#  land in the archive whatever this list says, so they are not repeated here.
+#  https://github.com/pypa/hatch/blob/558061c5ecbe7e9b10d81965d4cdc8df05832228/backend/src/hatchling/builders/sdist.py#L330
 [tool.hatch.build.targets.sdist]
-exclude = [
-    ".github/",
-    "docs/",
-    "tests/",
-    ".gitignore",
+include = [
+    "/pyrogram",
+    # The generated modules are git-ignored and therefore absent from the archive; a build
+    #  from the archive writes them, and it needs the sources and templates to do it.
+    "/compiler",
+    # Shipped so whoever repackages the archive can check the build: a bare `pytest` finds
+    #  them through `testpaths` above and needs nothing else out of the tree.
+    "/tests",
 ]
 
 [tool.hatch.build.targets.wheel]

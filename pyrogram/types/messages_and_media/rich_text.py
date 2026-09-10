@@ -865,7 +865,7 @@ class RichTextReferenceLink(RichText):
         self.reference_name = reference_name
 
     async def write(self, client: pyrogram.Client) -> raw.base.RichText:
-        # A reference link is a `textUrl` whose URL is the reference name prefixed with `#`.
+        # A reference link uses the same `textUrl` encoding as `RichTextAnchorLink`.
         return raw.types.TextUrl(
             text=await RichText._write(client, self.text),
             url=f"#{self.reference_name}",

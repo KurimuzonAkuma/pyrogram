@@ -76,7 +76,7 @@ async def _get_input_document(
     if isinstance(input_media, raw.types.InputMediaDocument):
         return input_media.id
 
-    # An external document has no id yet: the server assigns one when it fetches the URL.
+    # External documents take the same upload round-trip as photos: see `_get_input_photo`.
     if chat_id is None:
         peer = raw.types.InputPeerSelf()
     else:

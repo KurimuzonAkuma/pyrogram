@@ -70,6 +70,7 @@ class InputMediaLivePhoto(InputMedia):
 
     Raises:
         FileNotFoundError: In case a local ``pathlib.Path`` doesn't point to an existing file.
+        ValueError: In case ``media`` and ``photo`` are not both local files or both file_ids.
     """
 
     def __init__(
@@ -161,8 +162,16 @@ class InputMediaLivePhoto(InputMedia):
         if isinstance(self.media, os.PathLike):
             raise FileNotFoundError(f"No such file or directory: {self.media}")
 
+        # Only reachable while `media` is not a local file, so an existing `photo` cannot be
+        #  uploaded either: the call below addresses both of them by file_id.
         if isinstance(self.photo, os.PathLike):
-            raise FileNotFoundError(f"No such file or directory: {self.photo}")
+            if not Path(self.photo).is_file():
+                raise FileNotFoundError(f"No such file or directory: {self.photo}")
+
+            raise ValueError(
+                "`media` and `photo` must both be local files or both be file_ids, "
+                f"but `photo` is a local file while `media` is not: {self.media}"
+            )
 
         return utils.get_input_media_from_file_id(
             self.photo,

@@ -203,8 +203,7 @@ quote-style = "double"
 #  trailing commas and docstring section formatting.
 select = [
     "B",      # flake8-bugbear: mutable/call-based argument defaults, bare `except: raise`,
-              #  unused loop variables, `zip()` without `strict=`. See `ignore` below for
-              #  the one bugbear code left disabled tree-wide.
+              #  unused loop variables, `zip()` without `strict=`.
     "C4",     # flake8-comprehensions: a comprehension a plain builtin call already expresses.
     "E9",     # Syntax errors and files that cannot be read.
     "EXE",    # flake8-executable: a shebang without the matching executable bit, or vice versa.
@@ -228,13 +227,6 @@ select = [
     "W",      # pycodestyle warnings: an invalid escape sequence, and whitespace the
               #  formatter already normalizes.
     "YTT",    # flake8-2020: a `sys.version_info` comparison that breaks on Python 10 and later.
-]
-
-ignore = [
-    # `B009` autofixes `getattr(obj, "x")` to `obj.x`. On the generated `raw.*`/`base.*`
-    #  MTProto types, the `getattr()` call is a deliberate signal that the attribute isn't
-    #  guaranteed on every constructor a declared type can hold, so keep the call form.
-    "B009",
 ]
 
 [tool.ty.src]

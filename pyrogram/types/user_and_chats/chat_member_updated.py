@@ -82,7 +82,11 @@ class ChatMemberUpdated(Object, Update):
         users: dict[int, raw.types.User],
         chats: dict[int, raw.types.Chat],
     ) -> ChatMemberUpdated:
-        chat_id = getattr(update, "chat_id", None) or getattr(update, "channel_id")
+        chat_id = (
+            update.chat_id
+            if isinstance(update, raw.types.UpdateChatParticipant)
+            else update.channel_id
+        )
 
         old_chat_member = None
         new_chat_member = None

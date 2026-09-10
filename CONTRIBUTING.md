@@ -148,6 +148,14 @@ A few conventions that have come up repeatedly in code review but aren't enforce
   The redundant alias silences `F401` by looking like a typing convention, and a reader has to
   know that convention to see it is deliberate at all. Where the module has an `__all__`,
   listing the name there is better still: nothing is suppressed and the export is declared.
+- **A module's `__all__` covers everything the module defines.** `ruff` holds one half of this:
+  `F401` fails on a name imported and neither used nor listed, `F822` on a listed name that
+  resolves to nothing. Neither looks at a class or function the module defines itself, so a
+  barrel that grows one beside its imports drops it from the public API and nothing says so.
+  `tests/guards/test_public_exports.py` fails on that, on a repeated entry, and on an `__all__`
+  built by concatenation or comprehension, which reads as a declaration while leaving the other
+  two checks nothing to read. Declaring one is not required: the aggregator `__init__.py` files
+  under `pyrogram/methods/` collect mixins for `Client` rather than exporting an API.
 - **Every `# ty: ignore[rule]` carries a reason** after a single `-`, as in
   `# ty: ignore[unresolved-import] - optional, not a project dependency`. Only the `[rule]`
   bracket is `ty`'s own syntax; the reason is ours, so nobody has to reconstruct why the

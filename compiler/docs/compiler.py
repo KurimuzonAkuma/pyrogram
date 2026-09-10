@@ -1037,12 +1037,37 @@ def pyrogram_api():
             InputMediaLivePhoto
             InputMediaVideo
             InputMediaSticker
+            InputMediaVoiceNote
             InputMessageContent
             InputPhoneContact
             InputPollOption
             InputPollMedia
             InputPollOptionMedia
+            InputRichBlock
+            InputRichBlockAnchor
+            InputRichBlockAnimation
+            InputRichBlockAudio
+            InputRichBlockBlockQuotation
+            InputRichBlockCollage
+            InputRichBlockDetails
+            InputRichBlockDivider
+            InputRichBlockFooter
+            InputRichBlockList
+            InputRichBlockListItem
+            InputRichBlockMap
+            InputRichBlockMathematicalExpression
+            InputRichBlockParagraph
+            InputRichBlockPhoto
+            InputRichBlockPreformatted
+            InputRichBlockPullQuotation
+            InputRichBlockSectionHeading
+            InputRichBlockSlideshow
+            InputRichBlockTable
+            InputRichBlockThinking
+            InputRichBlockVideo
+            InputRichBlockVoiceNote
             InputRichMessage
+            InputRichMessageMedia
             InputPrivacyRule
             InputPrivacyRuleAllowAll
             InputPrivacyRuleAllowBots

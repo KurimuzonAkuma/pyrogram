@@ -355,6 +355,12 @@ class RichBlockCaption(RichBlock):
                 credit=await types.RichText._parse(client, caption.credit),
             )
 
+    async def write(self, client: pyrogram.Client) -> raw.types.PageCaption:
+        return raw.types.PageCaption(
+            text=await types.RichText._write(client, self.text),
+            credit=await types.RichText._write(client, self.credit),
+        )
+
 
 class RichBlockTableCell(RichBlock):
     """Cell in a table.
@@ -421,6 +427,20 @@ class RichBlockTableCell(RichBlock):
             rowspan=max(table_cell.rowspan or 1, 1),
             align=align,
             valign=valign,
+        )
+
+    async def write(self, client: pyrogram.Client) -> raw.types.PageTableCell:
+        text = await types.RichText._write(client, self.text) if self.text is not None else None
+
+        return raw.types.PageTableCell(
+            header=self.is_header,
+            align_center=self.align == "center",
+            align_right=self.align == "right",
+            valign_middle=self.valign == "middle",
+            valign_bottom=self.valign == "bottom",
+            text=text,
+            colspan=self.colspan,
+            rowspan=self.rowspan,
         )
 
 
@@ -744,8 +764,8 @@ class RichBlockTable(RichBlock):
         is_striped (``bool``, *optional*):
             True, if the table is striped.
 
-        caption (:obj:`~pyrogram.types.RichBlockCaption`, *optional*):
-            Caption of the block.
+        caption (:obj:`~pyrogram.types.RichText`, *optional*):
+            Caption of the table.
     """
 
     def __init__(
@@ -753,7 +773,7 @@ class RichBlockTable(RichBlock):
         cells: list[list[types.RichBlockTableCell]],
         is_bordered: bool | None = None,
         is_striped: bool | None = None,
-        caption: types.RichBlockCaption | None = None,
+        caption: types.RichText | None = None,
     ):
         super().__init__()
 
@@ -820,7 +840,7 @@ class RichBlockMap(RichBlock):
             Location of the center of the map.
 
         zoom (``int``):
-            Map zoom level, 13-20.
+            Map zoom level.
 
         width (``int``):
             Expected width of the map.
@@ -954,9 +974,6 @@ class RichBlockVoiceNote(RichBlock):
     Parameters:
         voice_note (:obj:`~pyrogram.types.Voice`):
             The voice note.
-
-        has_spoiler (``bool``, *optional*):
-            True, if the media preview is covered by a spoiler animation.
 
         caption (:obj:`~pyrogram.types.RichBlockCaption`, *optional*):
             Caption of the block.

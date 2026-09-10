@@ -96,7 +96,10 @@ class SendRichMessageDraft:
                 peer=await self.resolve_peer(chat_id),
                 action=raw.types.InputSendMessageRichMessageDraftAction(
                     random_id=draft_id,
-                    rich_message=rich_message.write(),
+                    rich_message=await rich_message.write(
+                        client=self,
+                        chat_id=chat_id,
+                    ),
                     can_stop=can_stop,
                     keep_on_stop=keep_on_stop,
                 ),

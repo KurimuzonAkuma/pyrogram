@@ -46,6 +46,8 @@ log = logging.getLogger(__name__)
 
 
 class Str(str):
+    __slots__ = ("entities",)
+
     def __init__(self, *args):
         super().__init__()
 

@@ -50,6 +50,7 @@ class Run:
 
         Raises:
             ConnectionError: In case you try to run an already started client.
+            ImportError: In case ``use_qr`` is True and the ``qrcode`` extra is not installed.
 
         Example:
             .. code-block:: python

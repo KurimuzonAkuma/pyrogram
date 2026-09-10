@@ -1433,15 +1433,23 @@ class Client(Methods):
                             )
 
                             # https://core.telegram.org/cdn#verifying-files
-                            def _check_all_hashes():
-                                for i, h in enumerate(hashes):  # noqa: B023 - awaited before reassigned
-                                    cdn_chunk = decrypted_chunk[h.limit * i : h.limit * (i + 1)]  # noqa: B023
+                            def _check_all_hashes(
+                                hashes: list[raw.base.FileHash],
+                                decrypted_chunk: bytes,
+                            ) -> None:
+                                for i, h in enumerate(hashes):
+                                    cdn_chunk = decrypted_chunk[h.limit * i : h.limit * (i + 1)]
                                     CDNFileHashMismatch.check(
                                         h.hash == sha256(cdn_chunk).digest(),
                                         "h.hash == sha256(cdn_chunk).digest()",
                                     )
 
-                            await self.loop.run_in_executor(self.executor, _check_all_hashes)
+                            await self.loop.run_in_executor(
+                                self.executor,
+                                _check_all_hashes,
+                                hashes,
+                                decrypted_chunk,
+                            )
 
                             yield decrypted_chunk
 

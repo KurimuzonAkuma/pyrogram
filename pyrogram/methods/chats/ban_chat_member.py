@@ -29,7 +29,7 @@ class BanChatMember:
         self: pyrogram.Client,
         chat_id: int | str,
         user_id: int | str,
-        until_date: datetime = utils.zero_datetime(),
+        until_date: datetime | None = None,
         revoke_messages: bool | None = None,
         revoke_reactions: bool | None = None,
     ) -> types.Message | bool:
@@ -74,6 +74,8 @@ class BanChatMember:
                 # Ban chat member and automatically unban after 24h
                 await app.ban_chat_member(chat_id, user_id, datetime.now() + timedelta(days=1))
         """
+        until_date = until_date or utils.zero_datetime()
+
         chat_peer = await self.resolve_peer(chat_id)
         user_peer = await self.resolve_peer(user_id)
 

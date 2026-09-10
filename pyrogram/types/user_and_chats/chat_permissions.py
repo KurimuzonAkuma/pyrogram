@@ -165,7 +165,9 @@ class ChatPermissions(Object):
                 can_manage_topics=not denied_permissions.manage_topics,
             )
 
-    def write(self, until_date: datetime = utils.zero_datetime()) -> raw.types.ChatBannedRights:
+    def write(self, until_date: datetime | None = None) -> raw.types.ChatBannedRights:
+        until_date = until_date or utils.zero_datetime()
+
         send_messages = not self.can_send_messages
         send_audios = not self.can_send_audios
         send_docs = not self.can_send_documents

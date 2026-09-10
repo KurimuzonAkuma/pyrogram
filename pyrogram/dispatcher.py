@@ -362,7 +362,7 @@ class Dispatcher:
                 log.exception(e)
 
         if not self.client.no_updates:
-            for i in range(self.client.workers):
+            for _ in range(self.client.workers):
                 self.locks_list.append(asyncio.Lock())
 
                 self.handler_worker_tasks.append(
@@ -382,7 +382,7 @@ class Dispatcher:
                 log.exception(e)
 
         if not self.client.no_updates:
-            for i in range(self.client.workers):
+            for _ in range(self.client.workers):
                 self.updates_queue.put_nowait(None)
 
             for i in self.handler_worker_tasks:

@@ -356,7 +356,7 @@ class Poll(Object, Update):
             options[key]["count"] += 1
 
         sorted_options = []
-        for key, opt in options.items():
+        for opt in options.values():
             pos = opt["pos"]
             vc = voter_counts[pos]
             g = gap[pos]

@@ -91,6 +91,7 @@ from .input_rich_block import (
 )
 from .input_rich_message import InputRichMessage
 from .input_rich_message_content import InputRichMessageContent
+from .input_rich_message_media import InputRichMessageMedia
 from .input_text_message_content import InputTextMessageContent
 from .input_venue_message_content import InputVenueMessageContent
 
@@ -166,6 +167,7 @@ __all__ = [
     "InputRichBlockVoiceNote",
     "InputRichMessage",
     "InputRichMessageContent",
+    "InputRichMessageMedia",
     "InputTextMessageContent",
     "InputVenueMessageContent",
 ]

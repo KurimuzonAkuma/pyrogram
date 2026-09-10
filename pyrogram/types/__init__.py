@@ -170,6 +170,7 @@ from .input_content import (
     InputRichBlockVoiceNote,
     InputRichMessage,
     InputRichMessageContent,
+    InputRichMessageMedia,
     InputTextMessageContent,
     InputVenueMessageContent,
 )
@@ -591,6 +592,7 @@ __all__ = [
     "InputRichBlockVoiceNote",
     "InputRichMessage",
     "InputRichMessageContent",
+    "InputRichMessageMedia",
     "InputTextMessageContent",
     "InputVenueMessageContent",
     "List",

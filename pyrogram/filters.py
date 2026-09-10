@@ -1217,7 +1217,7 @@ def command(
     command_re = re.compile(r"([\"'])(.*?)(?<!\\)\1|(\S+)")
 
     async def func(flt, client: pyrogram.Client, message: Message):
-        username = client.me.username or ""
+        escaped_username = re.escape(client.me.username or "")
         text = message.text or message.caption
         message.command = None
 
@@ -1231,15 +1231,17 @@ def command(
             without_prefix = text[len(prefix) :]
 
             for cmd in flt.commands:
+                escaped_command = re.escape(cmd)
+
                 if not re.match(
-                    rf"^(?:{cmd}(?:@?{username})?)(?:\s|$)",
+                    rf"^(?:{escaped_command}(?:@?{escaped_username})?)(?:\s|$)",
                     without_prefix,
                     flags=re.IGNORECASE if not flt.case_sensitive else 0,
                 ):
                     continue
 
                 without_command = re.sub(
-                    rf"{cmd}(?:@?{username})?\s?",
+                    rf"{escaped_command}(?:@?{escaped_username})?\s?",
                     "",
                     without_prefix,
                     count=1,

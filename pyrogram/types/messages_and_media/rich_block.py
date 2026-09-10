@@ -355,6 +355,12 @@ class RichBlockCaption(RichBlock):
                 credit=await types.RichText._parse(client, caption.credit),
             )
 
+    async def write(self, client: pyrogram.Client) -> raw.types.PageCaption:
+        return raw.types.PageCaption(
+            text=await types.RichText._write(client, self.text),
+            credit=await types.RichText._write(client, self.credit),
+        )
+
 
 class RichBlockTableCell(RichBlock):
     """Cell in a table.
@@ -421,6 +427,20 @@ class RichBlockTableCell(RichBlock):
             rowspan=max(table_cell.rowspan or 1, 1),
             align=align,
             valign=valign,
+        )
+
+    async def write(self, client: pyrogram.Client) -> raw.types.PageTableCell:
+        text = await types.RichText._write(client, self.text) if self.text is not None else None
+
+        return raw.types.PageTableCell(
+            header=self.is_header,
+            align_center=self.align == "center",
+            align_right=self.align == "right",
+            valign_middle=self.valign == "middle",
+            valign_bottom=self.valign == "bottom",
+            text=text,
+            colspan=self.colspan,
+            rowspan=self.rowspan,
         )
 
 

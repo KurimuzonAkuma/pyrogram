@@ -146,7 +146,7 @@ class CallbackQuery(Object, Update):
             try:
                 data = data.decode()
             except (UnicodeDecodeError, AttributeError):
-                data = data
+                pass
 
         return CallbackQuery(
             id=str(callback_query.query_id),

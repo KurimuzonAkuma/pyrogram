@@ -352,7 +352,7 @@ def start(format: bool = False):
     # import json
     # print(json.dumps(namespaces_to_types, indent=2))
 
-    for qualtype in types_to_constructors:
+    for qualtype, qualtype_constructors in types_to_constructors.items():
         typespace, type = qualtype.split(".") if "." in qualtype else ("", qualtype)
         dir_path = DESTINATION_PATH / "base" / typespace
 
@@ -363,7 +363,7 @@ def start(format: bool = False):
 
         os.makedirs(dir_path, exist_ok=True)
 
-        constructors = sorted(types_to_constructors[qualtype])
+        constructors = sorted(qualtype_constructors)
         constr_count = len(constructors)
         items = "\n            ".join([f"{c}" for c in constructors])
 

@@ -695,7 +695,12 @@ class Client(Methods):
     async def authorize_qr(self, except_ids: list[int] = []) -> User:
         # `qrcode` is an optional extra, so importing it at module level would break
         #  `import pyrogram` for everyone who did not install it.
-        from qrcode import QRCode  # noqa: PLC0415 # ty: ignore[unresolved-import]
+        try:
+            from qrcode import QRCode  # noqa: PLC0415 # ty: ignore[unresolved-import]
+        except ImportError as er:
+            raise ImportError(
+                "`qrcode` is not installed, run `pip install 'kurigram[qrcode]'`"
+            ) from er
 
         qr_login = QRLogin(self, except_ids)
         await qr_login.recreate()

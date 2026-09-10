@@ -133,6 +133,7 @@ class Video(Object):
         alternative_videos: list[raw.types.Document] | None = None,
     ) -> Video:
         alternative_videos = alternative_videos or []
+
         _alt_videos = types.List()
 
         for alt_doc in alternative_videos:

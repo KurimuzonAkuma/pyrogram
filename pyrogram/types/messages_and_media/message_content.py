@@ -158,6 +158,7 @@ class MessageContent(Object):
     ) -> MessageContent:
         users = users or {}
         chats = chats or {}
+
         photo = None
         location = None
         contact = None

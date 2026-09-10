@@ -53,6 +53,7 @@ class UsersShared(Object):
         users: dict[int, raw.base.User] | None = None,
     ) -> UsersShared:
         users = users or {}
+
         requested_users = types.List()
 
         for peer in action.peers:

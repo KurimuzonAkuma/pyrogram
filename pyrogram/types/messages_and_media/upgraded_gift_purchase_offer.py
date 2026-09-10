@@ -67,6 +67,7 @@ class UpgradedGiftPurchaseOffer(Object):
     ) -> UpgradedGiftPurchaseOffer:
         users = users or {}
         chats = chats or {}
+
         price = None
 
         if isinstance(action.price, raw.types.StarsTonAmount):
@@ -128,6 +129,7 @@ class UpgradedGiftPurchaseOfferRejected(Object):
     ) -> UpgradedGiftPurchaseOfferRejected:
         users = users or {}
         chats = chats or {}
+
         price = None
 
         if isinstance(action.price, raw.types.StarsTonAmount):

@@ -127,7 +127,7 @@ def test_every_handler_is_handed_an_update() -> None:
     `stop_propagation()` at all.
     """
     not_updates = sorted(
-        "{}: {}".format(name, handed)
+        f"{name}: {handed}"
         for name, handed in handlers_with_an_update()
         if not issubclass(getattr(types, handed), Update)
     )

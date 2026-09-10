@@ -59,9 +59,9 @@ class Reference(NamedTuple):
     label: str | None = None
 
     def __str__(self) -> str:
-        body = self.target if self.label is None else "{} <{}>".format(self.label, self.target)
+        body = self.target if self.label is None else f"{self.label} <{self.target}>"
 
-        return "{}:{}: {}".format(self.path.relative_to(REPOSITORY_ROOT), self.line, body)
+        return f"{self.path.relative_to(REPOSITORY_ROOT)}:{self.line}: {body}"
 
 
 def components(dotted: str) -> list[str]:

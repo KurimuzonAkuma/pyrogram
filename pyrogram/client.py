@@ -629,7 +629,7 @@ class Client(Methods):
                 print(e.MESSAGE)
 
                 while True:
-                    print("Password hint: {}".format(await self.get_password_hint()))
+                    print(f"Password hint: {await self.get_password_hint()}")
 
                     if not self.password:
                         self.password = await ainput(
@@ -732,7 +732,7 @@ class Client(Methods):
                 print(e.MESSAGE)
 
                 while True:
-                    print("Password hint: {}".format(await self.get_password_hint()))
+                    print(f"Password hint: {await self.get_password_hint()}")
 
                     if not self.password:
                         self.password = await ainput(
@@ -1095,13 +1095,12 @@ class Client(Methods):
                                     self.add_handler(handler, group)
 
                                     log.info(
-                                        '[{}] [LOAD] {}("{}") in group {} from "{}"'.format(
-                                            self.name,
-                                            type(handler).__name__,
-                                            name,
-                                            group,
-                                            module_path,
-                                        )
+                                        '[%s] [LOAD] %s("%s") in group %s from "%s"',
+                                        self.name,
+                                        type(handler).__name__,
+                                        name,
+                                        group,
+                                        module_path,
                                     )
 
                                     count += 1
@@ -1147,13 +1146,12 @@ class Client(Methods):
                                     self.add_handler(handler, group)
 
                                     log.info(
-                                        '[{}] [LOAD] {}("{}") in group {} from "{}"'.format(
-                                            self.name,
-                                            type(handler).__name__,
-                                            name,
-                                            group,
-                                            module_path,
-                                        )
+                                        '[%s] [LOAD] %s("%s") in group %s from "%s"',
+                                        self.name,
+                                        type(handler).__name__,
+                                        name,
+                                        group,
+                                        module_path,
                                     )
 
                                     count += 1
@@ -1170,9 +1168,10 @@ class Client(Methods):
                                     )
                         elif warn_non_existent_functions:
                             log.warning(
-                                '[{}] [LOAD] Ignoring non-existent function "{}" from "{}"'.format(
-                                    self.name, name, module_path
-                                )
+                                '[%s] [LOAD] Ignoring non-existent function "%s" from "%s"',
+                                self.name,
+                                name,
+                                module_path,
                             )
 
             if exclude:
@@ -1208,13 +1207,12 @@ class Client(Methods):
                                     self.remove_handler(handler, group)
 
                                     log.info(
-                                        '[{}] [UNLOAD] {}("{}") from group {} in "{}"'.format(
-                                            self.name,
-                                            type(handler).__name__,
-                                            name,
-                                            group,
-                                            module_path,
-                                        )
+                                        '[%s] [UNLOAD] %s("%s") from group %s in "%s"',
+                                        self.name,
+                                        type(handler).__name__,
+                                        name,
+                                        group,
+                                        module_path,
                                     )
 
                                     count -= 1
@@ -1231,9 +1229,10 @@ class Client(Methods):
                                     )
                         elif warn_non_existent_functions:
                             log.warning(
-                                '[{}] [UNLOAD] Ignoring non-existent function "{}" from "{}"'.format(
-                                    self.name, name, module_path
-                                )
+                                '[%s] [UNLOAD] Ignoring non-existent function "%s" from "%s"',
+                                self.name,
+                                name,
+                                module_path,
                             )
 
             if count > 0:

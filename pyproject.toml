@@ -213,11 +213,7 @@ select = [
     "RSE",    # flake8-raise: a parenthesized exception with no arguments, e.g. `raise Exc()`.
     "RUF013", # Implicit `Optional`, e.g. `def method(chat_id: int = None)`.
     "T10",    # flake8-debugger: a leftover `breakpoint()`/`pdb.set_trace()`.
-    "UP006",  # `List[str]` where `list[str]` is meant.
-    "UP007",  # `Union[int, str]` where `int | str` is meant.
-    "UP035",  # An import of a `typing` alias the builtins replaced.
-    "UP037",  # Quotes around an annotation that does not need deferring.
-    "UP045",  # `Optional[int]` where `int | None` is meant.
+    "UP",     # pyupgrade: outdated typing syntax, and `.format()` calls an f-string replaces.
     "W",      # pycodestyle warnings: an invalid escape sequence, and whitespace the
               #  formatter already normalizes.
     "YTT",    # flake8-2020: a `sys.version_info` comparison that breaks on Python 10 and later.

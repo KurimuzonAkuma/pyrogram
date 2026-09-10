@@ -624,6 +624,7 @@ STORY_SEND_FLOOD_MONTHLY_X	You've hit the monthly story limit as specified by th
 STORY_SEND_FLOOD_WEEKLY_X	You've hit the weekly story limit as specified by the [`stories_sent_weekly_limit_*` client configuration parameters](https://core.telegram.org/api/config#stories-sent-weekly-limit-default): wait {seconds} seconds before posting a new story.
 SUBSCRIPTION_EXPORT_MISSING	You cannot send a [bot subscription invoice](https://core.telegram.org/api/subscriptions#bot-subscriptions) directly, you may only create invoice links using [payments.exportInvoice](https://core.telegram.org/method/payments.exportInvoice).
 SUBSCRIPTION_ID_INVALID	The specified subscription_id is invalid.
+SUBSCRIPTION_NOT_MODIFIED	The subscription was not modified.
 SUBSCRIPTION_PERIOD_INVALID	The specified subscription_pricing.period is invalid.
 SUGGESTED_POST_AMOUNT_INVALID	The specified price for the suggested post is invalid.
 SUGGESTED_POST_PEER_INVALID	You cannot send suggested posts to non-[monoforum](https://core.telegram.org/api/monoforum) peers.

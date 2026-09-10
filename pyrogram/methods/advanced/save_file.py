@@ -57,7 +57,7 @@ class SaveFile:
     @overload
     async def save_file(
         self: pyrogram.Client,
-        path: str | BinaryIO,
+        path: str | PurePath | BinaryIO,
         file_id: int,
         file_part: int = 0,
         progress: Callable | None = None,
@@ -67,7 +67,7 @@ class SaveFile:
     @overload
     async def save_file(
         self: pyrogram.Client,
-        path: str | BinaryIO,
+        path: str | PurePath | BinaryIO,
         file_id: None = None,
         file_part: int = 0,
         progress: Callable | None = None,
@@ -76,7 +76,7 @@ class SaveFile:
 
     async def save_file(
         self: pyrogram.Client,
-        path: str | BinaryIO | None,
+        path: str | PurePath | BinaryIO | None,
         file_id: int | None = None,
         file_part: int = 0,
         progress: Callable | None = None,
@@ -94,7 +94,7 @@ class SaveFile:
         .. include:: /_includes/usable-by/users-bots.rst
 
         Parameters:
-            path (``str`` | ``BinaryIO``):
+            path (``str`` | ``pathlib.PurePath`` | ``BinaryIO``):
                 The path of the file you want to upload that exists on your local machine or a binary file-like object
                 with its attribute ".name" set for in-memory uploads.
 

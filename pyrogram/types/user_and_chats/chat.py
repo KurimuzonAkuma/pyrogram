@@ -20,6 +20,7 @@ from __future__ import annotations as _annotations
 
 import logging
 from datetime import datetime
+from pathlib import Path
 from typing import BinaryIO
 from collections.abc import AsyncGenerator
 
@@ -1599,8 +1600,8 @@ class Chat(Object):
     async def set_photo(
         self,
         *,
-        photo: str | BinaryIO | None = None,
-        video: str | BinaryIO | None = None,
+        photo: str | Path | BinaryIO | None = None,
+        video: str | Path | BinaryIO | None = None,
         video_start_ts: float | None = None,
     ) -> types.Message | None:
         """Bound method *set_photo* of :obj:`~pyrogram.types.Chat`.
@@ -1631,12 +1632,12 @@ class Chat(Object):
                 await chat.set_photo(video=video.file_id)
 
         Parameters:
-            photo (``str`` | ``BinaryIO``, *optional*):
+            photo (``str`` | ``pathlib.Path`` | ``BinaryIO``, *optional*):
                 New chat photo. You can pass a :obj:`~pyrogram.types.Photo` file_id, a file path to upload a new photo
                 from your local machine or a binary file-like object with its attribute
                 ".name" set for in-memory uploads.
 
-            video (``str`` | ``BinaryIO``, *optional*):
+            video (``str`` | ``pathlib.Path`` | ``BinaryIO``, *optional*):
                 New chat video. You can pass a :obj:`~pyrogram.types.Video` file_id, a file path to upload a new video
                 from your local machine or a binary file-like object with its attribute
                 ".name" set for in-memory uploads.

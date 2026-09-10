@@ -434,7 +434,16 @@ class Session:
 
             msg_id = None
 
-            if isinstance(msg.body, (raw.types.BadMsgNotification, raw.types.BadServerSalt)):
+            if isinstance(msg.body, raw.types.BadServerSalt):
+                msg_id = msg.body.bad_msg_id
+
+                # Taken here rather than in `send()`, which only ever sees an answer
+                #  somebody awaited. `ping_worker` sends with `wait_response=False`, so a
+                #  salt offered in reply to a ping was dropped and an idle media session
+                #  kept a retired one until every request on it timed out.
+                #  https://core.telegram.org/mtproto/service_messages_about_messages#notice-of-ignored-error-message
+                self.salt = msg.body.new_server_salt
+            elif isinstance(msg.body, raw.types.BadMsgNotification):
                 msg_id = msg.body.bad_msg_id
             elif isinstance(msg.body, (FutureSalts, raw.types.RpcResult)):
                 msg_id = msg.body.req_msg_id
@@ -577,8 +586,8 @@ class Session:
                     "%s: %s", BadMsgNotification.__name__, BadMsgNotification(result.error_code)
                 )
 
+            # `handle_packet` has already taken the new salt, so this only re-sends.
             if isinstance(result, raw.types.BadServerSalt):
-                self.salt = result.new_server_salt
                 return await self.send(data, wait_response, timeout)
 
             return result

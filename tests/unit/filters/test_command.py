@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
 import pytest
 
 from pyrogram import filters
@@ -146,3 +148,41 @@ async def test_no_text():
 
     m = Message()
     assert not await f(c, m)
+
+
+@pytest.mark.asyncio
+async def test_metacharacter_matches_only_its_own_literal() -> None:
+    command_filter = filters.command("buy.now")
+
+    message = Message("/buy.now")
+    assert await command_filter(c, message)
+
+    message = Message("/buyXnow")
+    assert not await command_filter(c, message)
+
+
+@pytest.mark.asyncio
+async def test_repeated_metacharacter_matches_its_own_command() -> None:
+    command_filter = filters.command("c++")
+
+    message = Message("/c++ a b")
+    assert await command_filter(c, message)
+    assert message.command == ["c++"] + list("ab")
+
+    message = Message("/c++@username a b")
+    assert await command_filter(c, message)
+    assert message.command == ["c++"] + list("ab")
+
+
+@pytest.mark.asyncio
+async def test_command_that_is_nothing_but_a_metacharacter() -> None:
+    command_filter = filters.command("+")
+
+    message = Message("/+ a")
+    assert await command_filter(c, message)
+    assert message.command == ["+", "a"]
+
+    # The pattern was built for every message carrying the prefix, so an unrelated one
+    #  reached the same uncompilable regex and raised out of the dispatcher.
+    message = Message("/other")
+    assert not await command_filter(c, message)

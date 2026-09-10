@@ -16,6 +16,10 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations as _annotations
+
+from typing import Final
+
 import pytest
 
 import pyrogram
@@ -24,6 +28,7 @@ from pyrogram import enums, raw, types
 CHANNEL_ID = 1000000000
 USER_ID = 777000
 DATE = 1755100000
+_BUTTON_URL: Final[str] = "https://example.com"
 
 
 def client():
@@ -78,3 +83,37 @@ async def test_a_direct_message_with_a_topic_keeps_its_id():
     )
 
     assert parsed.direct_messages_topic_id == USER_ID
+
+
+def message_with_url_button(label: str) -> types.Message:
+    keyboard = types.InlineKeyboardMarkup(
+        [[types.InlineKeyboardButton(label, url=_BUTTON_URL)]],
+    )
+
+    return types.Message(
+        id=1,
+        reply_markup=keyboard,
+    )
+
+
+@pytest.mark.asyncio
+async def test_a_button_is_found_by_its_label() -> None:
+    keyboard_message = message_with_url_button("Open")
+
+    assert await keyboard_message.click("Open") == _BUTTON_URL
+
+
+@pytest.mark.asyncio
+async def test_an_unknown_button_label_names_the_label() -> None:
+    keyboard_message = message_with_url_button("Open")
+
+    with pytest.raises(ValueError, match="The button with label 'Close' doesn't exist"):
+        await keyboard_message.click("Close")
+
+
+@pytest.mark.asyncio
+async def test_an_unknown_button_index_names_the_index() -> None:
+    keyboard_message = message_with_url_button("Open")
+
+    with pytest.raises(ValueError, match="The button at index 9 doesn't exist"):
+        await keyboard_message.click(9)

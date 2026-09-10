@@ -9453,8 +9453,8 @@ class Message(Object, Update):
 
             try:
                 button = next(button for row in keyboard for button in row if label == button.text)
-            except IndexError as e:
-                raise ValueError(f"The button with label '{x}' doesn't exists") from e
+            except StopIteration as e:
+                raise ValueError(f"The button with label '{x}' doesn't exist") from e
         else:
             raise ValueError("Invalid arguments")
 

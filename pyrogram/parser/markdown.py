@@ -129,13 +129,14 @@ class Markdown:
                 continue
 
             elif line.endswith(BLOCKQUOTE_EXPANDABLE_END_DELIM) and inside_blockquote:
-                if line.startswith(BLOCKQUOTE_DELIM):
-                    line = line[
+                unwrapped_line = line
+                if unwrapped_line.startswith(BLOCKQUOTE_DELIM):
+                    unwrapped_line = unwrapped_line[
                         len(BLOCKQUOTE_DELIM)
-                        + (1 if line.startswith(f"{BLOCKQUOTE_DELIM} ") else 0) :
+                        + (1 if unwrapped_line.startswith(f"{BLOCKQUOTE_DELIM} ") else 0) :
                     ]
 
-                delim_stripped_line = line[: -len(BLOCKQUOTE_EXPANDABLE_END_DELIM)]
+                delim_stripped_line = unwrapped_line[: -len(BLOCKQUOTE_EXPANDABLE_END_DELIM)]
 
                 parsed_line = html.escape(delim_stripped_line) if strict else delim_stripped_line
 
@@ -170,8 +171,7 @@ class Markdown:
 
             elif len(to_quote_list) > 0:
                 create_blockquote()
-        else:
-            create_blockquote()
+        create_blockquote()
 
         if strict:
             for idx, line in enumerate(text_lines):

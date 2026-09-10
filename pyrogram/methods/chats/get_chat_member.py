@@ -59,8 +59,8 @@ class GetChatMember:
             members = getattr(r.full_chat.participants, "participants", [])
             users = {i.id: i for i in r.users}
 
-            for member in members:
-                member = await types.ChatMember._parse(self, member, users, {})
+            for raw_member in members:
+                member = await types.ChatMember._parse(self, raw_member, users, {})
 
                 if isinstance(user, raw.types.InputPeerSelf):
                     if member.user.is_self:
@@ -68,8 +68,7 @@ class GetChatMember:
                 else:
                     if member.user.id == user.user_id:
                         return member
-            else:
-                raise UserNotParticipant
+            raise UserNotParticipant
         elif isinstance(chat, raw.types.InputPeerChannel):
             r = await self.invoke(
                 raw.functions.channels.GetParticipant(channel=chat, participant=user)

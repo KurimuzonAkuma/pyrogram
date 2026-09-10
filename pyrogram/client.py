@@ -1140,10 +1140,12 @@ class Client(Methods):
                         continue
 
                     if handlers is None:
-                        handlers = vars(module).keys()
+                        handler_names = vars(module).keys()
                         warn_non_existent_functions = False
+                    else:
+                        handler_names = handlers
 
-                    for name in handlers:
+                    for name in handler_names:
                         target_attr = getattr(module, name, None)
                         target_handlers = _plugin_handlers(target_attr)
 
@@ -1201,10 +1203,12 @@ class Client(Methods):
                         continue
 
                     if handlers is None:
-                        handlers = vars(module).keys()
+                        handler_names = vars(module).keys()
                         warn_non_existent_functions = False
+                    else:
+                        handler_names = handlers
 
-                    for name in handlers:
+                    for name in handler_names:
                         target_attr = getattr(module, name, None)
                         target_handlers = _plugin_handlers(target_attr)
 

@@ -87,6 +87,11 @@ class TLObject(Generic[ReturnType]):
 
         return True
 
+    # Equality is by mutable attribute value (see `__eq__` above), so a stable hash across
+    #  the object's lifetime cannot be guaranteed. Declared explicitly rather than relying on
+    #  the implicit `__hash__ = None` Python already applies when `__eq__` is defined alone.
+    __hash__ = None
+
     def __len__(self) -> int:
         return len(self.write())
 

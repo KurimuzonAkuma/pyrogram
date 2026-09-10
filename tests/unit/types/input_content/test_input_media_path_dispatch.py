@@ -85,3 +85,17 @@ async def test_write_raises_for_a_path_like_that_is_not_a_pathlib_path(tmp_path:
 
     with pytest.raises(FileNotFoundError, match=re.escape(str(missing))):
         await types.InputMediaPhoto(missing).write(client=None)
+
+
+async def test_live_photo_write_rejects_a_local_photo_next_to_a_remote_media(
+    tmp_path: Path,
+) -> None:
+    # The guard used to check only the TYPE of `photo`, so an existing file was reported
+    #  as `No such file or directory`. What is actually wrong is the mix: the call this
+    #  falls through to addresses both `media` and `photo` by file_id.
+    existing = tmp_path / "photo.jpg"
+    existing.write_bytes(b"payload")
+    media = types.InputMediaLivePhoto("not-a-local-path", photo=existing)
+
+    with pytest.raises(ValueError, match="both be local files or both be file_ids"):
+        await media.write(client=None)

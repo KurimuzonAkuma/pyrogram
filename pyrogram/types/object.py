@@ -92,7 +92,7 @@ class Object:
             ),
         )
 
-    def __eq__(self, other: Object) -> bool:
+    def __eq__(self, other: object) -> bool:
         for attr in self.__dict__:
             try:
                 if attr.startswith("_"):
@@ -104,6 +104,11 @@ class Object:
                 return False
 
         return True
+
+    # Equality is by mutable attribute value (see `__eq__` above), so a stable hash across
+    #  the object's lifetime cannot be guaranteed. Declared explicitly rather than relying on
+    #  the implicit `__hash__ = None` Python already applies when `__eq__` is defined alone.
+    __hash__ = None
 
     def __setstate__(self, state):
         for attr in state:

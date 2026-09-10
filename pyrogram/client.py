@@ -1423,8 +1423,8 @@ class Client(Methods):
 
                             # https://core.telegram.org/cdn#verifying-files
                             def _check_all_hashes():
-                                for i, h in enumerate(hashes):
-                                    cdn_chunk = decrypted_chunk[h.limit * i : h.limit * (i + 1)]
+                                for i, h in enumerate(hashes):  # noqa: B023 - awaited before reassigned
+                                    cdn_chunk = decrypted_chunk[h.limit * i : h.limit * (i + 1)]  # noqa: B023
                                     CDNFileHashMismatch.check(
                                         h.hash == sha256(cdn_chunk).digest(),
                                         "h.hash == sha256(cdn_chunk).digest()",

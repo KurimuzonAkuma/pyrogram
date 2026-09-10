@@ -642,6 +642,9 @@ class InputRichBlockTable(InputRichBlock):
         is_striped (``bool``, *optional*):
             Pass True if the table is striped.
 
+        is_compact (``bool``, *optional*):
+            Pass True if the table is compact.
+
         caption (:obj:`~pyrogram.types.RichText`, *optional*):
             Caption of the table.
     """
@@ -651,6 +654,7 @@ class InputRichBlockTable(InputRichBlock):
         cells: list[list[types.RichBlockTableCell]],
         is_bordered: bool | None = None,
         is_striped: bool | None = None,
+        is_compact: bool | None = None,
         caption: types.RichText | None = None,
     ) -> None:
         super().__init__()
@@ -658,6 +662,7 @@ class InputRichBlockTable(InputRichBlock):
         self.cells = cells
         self.is_bordered = is_bordered
         self.is_striped = is_striped
+        self.is_compact = is_compact
         self.caption = caption
 
     async def write(
@@ -677,6 +682,7 @@ class InputRichBlockTable(InputRichBlock):
         return raw.types.PageBlockTable(
             bordered=self.is_bordered,
             striped=self.is_striped,
+            compact=self.is_compact,
             title=await types.RichText._write(client, self.caption),
             rows=rows,
         )

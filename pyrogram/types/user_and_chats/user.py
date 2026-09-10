@@ -32,6 +32,8 @@ log = logging.getLogger(__name__)
 
 
 class Link(str):
+    __slots__ = ("url", "text", "style")
+
     HTML = "<a href={url}>{text}</a>"
     MARKDOWN = "[{text}]({url})"
 

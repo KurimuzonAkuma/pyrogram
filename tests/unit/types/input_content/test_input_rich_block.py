@@ -59,6 +59,8 @@ _EMPTY_CAPTION: Final[raw.types.PageCaption] = raw.types.PageCaption(
     credit=raw.types.TextEmpty(),
 )
 
+_TITLE_TEXT: Final[raw.types.TextPlain] = raw.types.TextPlain(text="Title")
+
 
 async def test_a_paragraph_serializes_its_rich_text() -> None:
     block = types.InputRichBlockParagraph(text=types.RichTextBold(text="hi"))
@@ -75,20 +77,20 @@ async def test_a_paragraph_serializes_its_rich_text() -> None:
 
 
 @pytest.mark.parametrize(
-    ("size", "expected_type"),
+    ("size", "expected"),
     [
-        pytest.param(1, raw.types.PageBlockHeading1, id="h1"),
-        pytest.param(2, raw.types.PageBlockHeading2, id="h2"),
-        pytest.param(3, raw.types.PageBlockHeading3, id="h3"),
-        pytest.param(4, raw.types.PageBlockHeading4, id="h4"),
-        pytest.param(5, raw.types.PageBlockHeading5, id="h5"),
-        pytest.param(6, raw.types.PageBlockHeading6, id="h6"),
+        pytest.param(1, raw.types.PageBlockHeading1(text=_TITLE_TEXT), id="h1"),
+        pytest.param(2, raw.types.PageBlockHeading2(text=_TITLE_TEXT), id="h2"),
+        pytest.param(3, raw.types.PageBlockHeading3(text=_TITLE_TEXT), id="h3"),
+        pytest.param(4, raw.types.PageBlockHeading4(text=_TITLE_TEXT), id="h4"),
+        pytest.param(5, raw.types.PageBlockHeading5(text=_TITLE_TEXT), id="h5"),
+        pytest.param(6, raw.types.PageBlockHeading6(text=_TITLE_TEXT), id="h6"),
     ],
 )
 async def test_a_section_heading_picks_the_constructor_of_its_size(
     size: int,
     *,
-    expected_type: type[raw.core.TLObject],
+    expected: raw.core.TLObject,
 ) -> None:
     block = types.InputRichBlockSectionHeading(
         text="Title",
@@ -101,7 +103,7 @@ async def test_a_section_heading_picks_the_constructor_of_its_size(
         documents=[],
     )
 
-    assert result == expected_type(text=raw.types.TextPlain(text="Title"))
+    assert result == expected
 
 
 async def test_a_section_heading_rejects_an_out_of_range_size() -> None:

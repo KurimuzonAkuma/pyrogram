@@ -764,8 +764,8 @@ class RichBlockTable(RichBlock):
         is_striped (``bool``, *optional*):
             True, if the table is striped.
 
-        caption (:obj:`~pyrogram.types.RichBlockCaption`, *optional*):
-            Caption of the block.
+        caption (:obj:`~pyrogram.types.RichText`, *optional*):
+            Caption of the table.
 
         is_compact (``bool``, *optional*):
             True, if table cells have smaller indents.
@@ -776,7 +776,7 @@ class RichBlockTable(RichBlock):
         cells: list[list[types.RichBlockTableCell]],
         is_bordered: bool | None = None,
         is_striped: bool | None = None,
-        caption: types.RichBlockCaption | None = None,
+        caption: types.RichText | None = None,
         is_compact: bool | None = None,
     ):
         super().__init__()

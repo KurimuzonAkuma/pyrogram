@@ -496,7 +496,7 @@ def sha256(data: bytes) -> bytes:
 
 
 def xor(a: bytes, b: bytes) -> bytes:
-    return bytes(i ^ j for i, j in zip(a, b))
+    return bytes(i ^ j for i, j in zip(a, b, strict=True))
 
 
 def compute_password_hash(

@@ -222,7 +222,6 @@ async def test_a_table_serializes_its_cells_and_flags() -> None:
             ],
         ],
         is_bordered=True,
-        is_compact=True,
         caption="totals",
     )
 
@@ -235,7 +234,7 @@ async def test_a_table_serializes_its_cells_and_flags() -> None:
     assert result == raw.types.PageBlockTable(
         bordered=True,
         striped=None,
-        compact=True,
+        compact=None,
         title=raw.types.TextPlain(text="totals"),
         rows=[
             raw.types.PageTableRow(

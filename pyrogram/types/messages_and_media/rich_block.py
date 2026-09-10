@@ -766,9 +766,6 @@ class RichBlockTable(RichBlock):
 
         caption (:obj:`~pyrogram.types.RichText`, *optional*):
             Caption of the table.
-
-        is_compact (``bool``, *optional*):
-            True, if table cells have smaller indents.
     """
 
     def __init__(
@@ -777,7 +774,6 @@ class RichBlockTable(RichBlock):
         is_bordered: bool | None = None,
         is_striped: bool | None = None,
         caption: types.RichText | None = None,
-        is_compact: bool | None = None,
     ):
         super().__init__()
 
@@ -785,7 +781,6 @@ class RichBlockTable(RichBlock):
         self.is_bordered = is_bordered
         self.is_striped = is_striped
         self.caption = caption
-        self.is_compact = is_compact
 
     @staticmethod
     async def _parse(client, page_block: raw.types.PageBlockTable):
@@ -807,7 +802,6 @@ class RichBlockTable(RichBlock):
             is_bordered=page_block.bordered,
             is_striped=page_block.striped,
             caption=await types.RichText._parse(client, page_block.title),
-            is_compact=page_block.compact,
         )
 
 

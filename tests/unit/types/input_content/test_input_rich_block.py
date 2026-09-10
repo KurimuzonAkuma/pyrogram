@@ -209,7 +209,16 @@ async def test_a_list_without_labels_serializes_as_unordered_with_checkboxes() -
     )
 
 
-async def test_a_table_serializes_its_cells_and_flags() -> None:
+@pytest.mark.parametrize(
+    ("is_compact", "compact"),
+    [
+        pytest.param(None, None, id="default"),
+        pytest.param(True, True, id="compact"),
+    ],
+)
+async def test_a_table_serializes_its_cells_and_flags(
+    is_compact: bool | None, compact: bool | None
+) -> None:
     block = types.InputRichBlockTable(
         cells=[
             [
@@ -222,6 +231,7 @@ async def test_a_table_serializes_its_cells_and_flags() -> None:
             ],
         ],
         is_bordered=True,
+        is_compact=is_compact,
         caption="totals",
     )
 
@@ -234,7 +244,7 @@ async def test_a_table_serializes_its_cells_and_flags() -> None:
     assert result == raw.types.PageBlockTable(
         bordered=True,
         striped=None,
-        compact=None,
+        compact=compact,
         title=raw.types.TextPlain(text="totals"),
         rows=[
             raw.types.PageTableRow(

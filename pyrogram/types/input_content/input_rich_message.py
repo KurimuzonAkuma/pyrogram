@@ -103,6 +103,7 @@ class InputRichMessage(Object):
     ) -> raw.base.InputRichMessage:
         if self.blocks:
             return await self._write_blocks(
+                blocks=self.blocks,
                 client=client,
                 chat_id=chat_id,
             )
@@ -138,24 +139,25 @@ class InputRichMessage(Object):
     async def _write_blocks(
         self,
         *,
+        blocks: list[types.InputRichBlock],
         client: pyrogram.Client,
         chat_id: int | str | None,
     ) -> raw.types.InputRichMessage:
         photos: list[raw.base.InputPhoto] = []
         documents: list[raw.base.InputDocument] = []
 
-        blocks = [
+        raw_blocks = [
             await block.write(
                 client=client,
                 chat_id=chat_id,
                 photos=photos,
                 documents=documents,
             )
-            for block in self.blocks
+            for block in blocks
         ]
 
         users: list[raw.base.InputUser] = []
-        for user_id in _collect_mentioned_user_ids(blocks):
+        for user_id in _collect_mentioned_user_ids(raw_blocks):
             peer = await client.resolve_peer(user_id)
             users.append(
                 raw.types.InputUser(
@@ -167,7 +169,7 @@ class InputRichMessage(Object):
         return raw.types.InputRichMessage(
             rtl=self.is_rtl,
             noautolink=self.skip_entity_detection,
-            blocks=blocks,
+            blocks=raw_blocks,
             photos=photos or None,
             documents=documents or None,
             users=users or None,

@@ -23,6 +23,9 @@ from datetime import datetime
 from pathlib import Path
 from typing import TYPE_CHECKING, BinaryIO, Literal, overload
 
+import aiofiles
+import aiofiles.os
+
 import pyrogram
 from pyrogram import types, utils
 from pyrogram.file_id import PHOTO_TYPES, FileId, FileType
@@ -351,10 +354,10 @@ class DownloadMedia:
                 directory = self.workdir / (directory or DEFAULT_DOWNLOAD_DIR)
 
             if not in_memory:
-                Path(directory).mkdir(parents=True, exist_ok=True)
+                await aiofiles.os.makedirs(directory, exist_ok=True)
 
-            with (Path(directory) / file_name).open("wb") as file:
-                file.write(thumb.getbuffer())
+            async with aiofiles.open(Path(directory) / file_name, "wb") as file:
+                await file.write(thumb.getbuffer())
 
             return str(Path(directory) / file_name)
         elif isinstance(message, types.ChatPhoto):

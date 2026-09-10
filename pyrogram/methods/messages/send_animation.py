@@ -19,12 +19,13 @@
 from __future__ import annotations as _annotations
 
 import logging
-import os
 import re
 from datetime import datetime
 from pathlib import Path
 from typing import BinaryIO
 from collections.abc import Callable
+
+import aiofiles.os
 
 import pyrogram
 from pyrogram import StopTransmission, enums, raw, types, utils
@@ -287,7 +288,7 @@ class SendAnimation:
 
         try:
             if isinstance(animation, (str, Path)):
-                if os.path.isfile(animation):
+                if await aiofiles.os.path.isfile(animation):
                     thumb = await self.save_file(thumb)
                     file = await self.save_file(
                         animation, progress=progress, progress_args=progress_args

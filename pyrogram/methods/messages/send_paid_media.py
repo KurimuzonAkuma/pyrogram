@@ -19,10 +19,11 @@
 from __future__ import annotations as _annotations
 
 import logging
-import os
 import re
 from datetime import datetime
 from pathlib import Path
+
+import aiofiles.os
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -171,7 +172,7 @@ class SendPaidMedia:
         for i in media:
             if isinstance(i, types.InputMediaPhoto):
                 if isinstance(i.media, (str, Path)):
-                    if os.path.isfile(i.media):
+                    if await aiofiles.os.path.isfile(i.media):
                         media = await self.invoke(
                             raw.functions.messages.UploadMedia(
                                 peer=peer,
@@ -226,7 +227,7 @@ class SendPaidMedia:
 
                 if i.video_cover is not None:
                     if isinstance(i.video_cover, (str, Path)):
-                        if os.path.isfile(i.video_cover):
+                        if await aiofiles.os.path.isfile(i.video_cover):
                             vcover_media = await self.invoke(
                                 raw.functions.messages.UploadMedia(
                                     peer=peer,
@@ -268,7 +269,7 @@ class SendPaidMedia:
                         )
 
                 if isinstance(i.media, (str, Path)):
-                    if os.path.isfile(i.media):
+                    if await aiofiles.os.path.isfile(i.media):
                         media = await self.invoke(
                             raw.functions.messages.UploadMedia(
                                 peer=peer,

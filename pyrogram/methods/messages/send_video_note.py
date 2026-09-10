@@ -19,11 +19,12 @@
 from __future__ import annotations as _annotations
 
 import logging
-import os
 from datetime import datetime
 from pathlib import Path
 from typing import BinaryIO
 from collections.abc import Callable
+
+import aiofiles.os
 
 import pyrogram
 from pyrogram import StopTransmission, enums, raw, types, utils
@@ -264,9 +265,9 @@ class SendVideoNote:
 
         try:
             if isinstance(video_note, (str, Path)):
-                if os.path.isfile(video_note):
+                if await aiofiles.os.path.isfile(video_note):
                     # Notify user why the sent video is not video note
-                    file_size = os.path.getsize(video_note)
+                    file_size = await aiofiles.os.path.getsize(video_note)
                     if file_size > _MAX_VIDEO_NOTE_SIZE_BYTES:
                         log.warning(
                             "Video note file size (%.1f MB) exceeds 10 MB limit. "

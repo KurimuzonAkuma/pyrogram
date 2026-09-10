@@ -19,12 +19,13 @@
 from __future__ import annotations as _annotations
 
 import logging
-import os
 import re
 from datetime import datetime
 from pathlib import Path
 from typing import BinaryIO
 from collections.abc import Callable
+
+import aiofiles.os
 
 import pyrogram
 from pyrogram import StopTransmission, enums, raw, types, utils
@@ -264,7 +265,7 @@ class SendDocument:
 
         try:
             if isinstance(document, (str, Path)):
-                if os.path.isfile(document):
+                if await aiofiles.os.path.isfile(document):
                     thumb = await self.save_file(thumb)
                     file = await self.save_file(
                         document, progress=progress, progress_args=progress_args

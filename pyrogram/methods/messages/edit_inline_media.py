@@ -20,10 +20,10 @@ from __future__ import annotations as _annotations
 
 import asyncio
 import io
-import os
 import re
 from pathlib import Path
 
+import aiofiles.os
 
 import pyrogram
 from pyrogram import raw
@@ -87,7 +87,7 @@ class EditInlineMedia:
         caption_entities = media.caption_entities
 
         is_bytes_io = isinstance(media.media, io.BytesIO)
-        is_uploaded_file = is_bytes_io or os.path.isfile(media.media)
+        is_uploaded_file = is_bytes_io or await aiofiles.os.path.isfile(media.media)
 
         if isinstance(media.media, Path) and not is_uploaded_file:
             raise FileNotFoundError(f"No such file or directory: {media.media}")

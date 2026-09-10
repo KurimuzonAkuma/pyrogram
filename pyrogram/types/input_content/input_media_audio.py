@@ -24,6 +24,8 @@ from pathlib import Path
 from typing import BinaryIO
 from collections.abc import Callable
 
+import aiofiles.os
+
 import pyrogram
 from pyrogram import raw, utils
 from pyrogram.file_id import FileType
@@ -115,7 +117,7 @@ class InputMediaAudio(InputMedia):
         else:
             peer = await client.resolve_peer(chat_id)
 
-        if isinstance(self.media, io.BytesIO) or Path(self.media).is_file():
+        if isinstance(self.media, io.BytesIO) or await aiofiles.os.path.isfile(self.media):
             mime_type = client.guess_mime_type(self.media) or "audio/mpeg"
 
             if mime_type == "audio/ogg":

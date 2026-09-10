@@ -18,10 +18,11 @@
 
 from __future__ import annotations as _annotations
 
-import os
 from pathlib import Path
 from typing import BinaryIO
 from collections.abc import Callable
+
+import aiofiles.os
 
 import pyrogram
 from pyrogram import raw, types, utils, StopTransmission
@@ -110,7 +111,7 @@ class EditStoryMedia:
         """
         try:
             if isinstance(media, (str, Path)):
-                if os.path.isfile(media):
+                if await aiofiles.os.path.isfile(media):
                     thumb = await self.save_file(thumb)
                     file = await self.save_file(
                         media, progress=progress, progress_args=progress_args

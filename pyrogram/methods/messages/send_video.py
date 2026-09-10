@@ -19,12 +19,13 @@
 from __future__ import annotations as _annotations
 
 import logging
-import os
 import re
 from datetime import datetime
 from pathlib import Path
 from typing import BinaryIO
 from collections.abc import Callable
+
+import aiofiles.os
 
 import pyrogram
 from pyrogram import StopTransmission, enums, raw, types, utils
@@ -329,7 +330,7 @@ class SendVideo:
         try:
             if video_cover is not None:
                 if isinstance(video_cover, (str, Path)):
-                    if os.path.isfile(video_cover):
+                    if await aiofiles.os.path.isfile(video_cover):
                         vcover_media = await self.invoke(
                             raw.functions.messages.UploadMedia(
                                 peer=peer,
@@ -368,7 +369,7 @@ class SendVideo:
                     )
 
             if isinstance(video, (str, Path)):
-                if os.path.isfile(video):
+                if await aiofiles.os.path.isfile(video):
                     thumb = await self.save_file(thumb)
                     file = await self.save_file(
                         video, progress=progress, progress_args=progress_args

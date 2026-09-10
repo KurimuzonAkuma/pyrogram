@@ -18,10 +18,11 @@
 
 from __future__ import annotations as _annotations
 
-import os
 from pathlib import Path
 from typing import BinaryIO
 from collections.abc import Callable
+
+import aiofiles.os
 
 import pyrogram
 from pyrogram import StopTransmission, raw, utils
@@ -80,7 +81,7 @@ class AddProfileAudio:
 
         try:
             if isinstance(audio, (str, Path)):
-                if os.path.isfile(audio):
+                if await aiofiles.os.path.isfile(audio):
                     mime_type = self.guess_mime_type(audio) or "audio/mpeg"
                     if mime_type == "audio/ogg":
                         mime_type = "audio/opus"

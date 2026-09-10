@@ -19,10 +19,11 @@
 from __future__ import annotations as _annotations
 
 import logging
-import os
 import re
 from datetime import datetime
 from pathlib import Path
+
+import aiofiles.os
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -195,7 +196,7 @@ class SendMediaGroup:
         for i in media:
             if isinstance(i, types.InputMediaPhoto):
                 if isinstance(i.media, (str, Path)):
-                    if os.path.isfile(i.media):
+                    if await aiofiles.os.path.isfile(i.media):
                         media = await self.invoke(
                             raw.functions.messages.UploadMedia(
                                 peer=await self.resolve_peer(chat_id),
@@ -260,7 +261,7 @@ class SendMediaGroup:
                     )
             elif isinstance(i, types.InputMediaVideo):
                 if isinstance(i.media, (str, Path)):
-                    if os.path.isfile(i.media):
+                    if await aiofiles.os.path.isfile(i.media):
                         media = await self.invoke(
                             raw.functions.messages.UploadMedia(
                                 peer=await self.resolve_peer(chat_id),
@@ -359,7 +360,7 @@ class SendMediaGroup:
                     )
             elif isinstance(i, types.InputMediaAudio):
                 if isinstance(i.media, (str, Path)):
-                    if os.path.isfile(i.media):
+                    if await aiofiles.os.path.isfile(i.media):
                         media = await self.invoke(
                             raw.functions.messages.UploadMedia(
                                 peer=await self.resolve_peer(chat_id),
@@ -443,7 +444,7 @@ class SendMediaGroup:
                     )
             elif isinstance(i, types.InputMediaDocument):
                 if isinstance(i.media, (str, Path)):
-                    if os.path.isfile(i.media):
+                    if await aiofiles.os.path.isfile(i.media):
                         media = await self.invoke(
                             raw.functions.messages.UploadMedia(
                                 peer=await self.resolve_peer(chat_id),

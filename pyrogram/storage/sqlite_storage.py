@@ -27,6 +27,8 @@ from pathlib import Path
 from typing import Any
 from collections.abc import Iterable
 
+import aiofiles.os
+
 from pyrogram import raw
 
 from .. import utils
@@ -307,7 +309,7 @@ class SQLiteStorage(Storage):
             return
 
         path = self.database
-        file_exists = isinstance(path, Path) and path.is_file()
+        file_exists = isinstance(path, Path) and await aiofiles.os.path.isfile(path)
 
         self.conn = sqlite3.connect(str(path), timeout=1, check_same_thread=False)
 
@@ -333,7 +335,7 @@ class SQLiteStorage(Storage):
 
     async def delete(self):
         if not self.in_memory:
-            Path(self.database).unlink()
+            await aiofiles.os.remove(self.database)
 
     async def update_peers(self, peers: Iterable[tuple[int, int, str, str | None]]):
         self.conn.executemany(

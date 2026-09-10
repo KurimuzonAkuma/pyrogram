@@ -19,12 +19,13 @@
 from __future__ import annotations as _annotations
 
 import logging
-import os
 import re
 from datetime import datetime
 from pathlib import Path
 from typing import BinaryIO
 from collections.abc import Callable
+
+import aiofiles.os
 
 import pyrogram
 from pyrogram import StopTransmission, enums, raw, types, utils
@@ -259,7 +260,7 @@ class SendVoice:
 
         try:
             if isinstance(voice, (str, Path)):
-                if os.path.isfile(voice):
+                if await aiofiles.os.path.isfile(voice):
                     mime_type = self.guess_mime_type(voice) or "audio/ogg"
                     if mime_type == "audio/mpeg":
                         mime_type = "audio/ogg"

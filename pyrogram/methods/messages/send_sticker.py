@@ -19,12 +19,13 @@
 from __future__ import annotations as _annotations
 
 import logging
-import os
 import re
 from datetime import datetime
 from pathlib import Path
 from typing import BinaryIO
 from collections.abc import Callable
+
+import aiofiles.os
 
 import pyrogram
 from pyrogram import StopTransmission, enums, raw, types, utils
@@ -245,7 +246,7 @@ class SendSticker:
 
         try:
             if isinstance(sticker, (str, Path)):
-                if os.path.isfile(sticker):
+                if await aiofiles.os.path.isfile(sticker):
                     file = await self.save_file(
                         sticker, progress=progress, progress_args=progress_args
                     )

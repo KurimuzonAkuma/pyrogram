@@ -19,7 +19,7 @@
 from __future__ import annotations as _annotations
 
 import pyrogram
-from pyrogram import enums, raw
+from pyrogram import raw
 
 
 class SendChatJoinRequestWebApp:

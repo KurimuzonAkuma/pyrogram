@@ -898,7 +898,6 @@ class Client(Methods):
                 ) or getattr(update, "channel_id", None)
 
                 pts = getattr(update, "pts", None)
-                pts_count = getattr(update, "pts_count", None)
                 qts = getattr(update, "qts", None)
 
                 if pts is not None or qts is not None:

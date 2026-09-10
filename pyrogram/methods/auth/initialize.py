@@ -18,7 +18,6 @@
 
 from __future__ import annotations as _annotations
 
-import asyncio
 import logging
 
 import pyrogram

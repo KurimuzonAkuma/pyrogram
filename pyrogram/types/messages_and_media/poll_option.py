@@ -26,7 +26,7 @@ if TYPE_CHECKING:
     import datetime
 
     import pyrogram
-    from pyrogram import enums, types
+    from pyrogram import types
 
 
 class PollOption(Object):

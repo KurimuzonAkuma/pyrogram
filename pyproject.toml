@@ -202,7 +202,7 @@ quote-style = "double"
 #  --statistics` reports nearly 19000 findings, the bulk of them line length, missing
 #  trailing commas and docstring section formatting.
 select = [
-    "C4",     # Comprehension/generator simplification, e.g. `list()` over a list comprehension.
+    "C4",     # flake8-comprehensions: a comprehension a plain builtin call already expresses.
     "E9",     # Syntax errors and files that cannot be read.
     "EXE",    # flake8-executable: a shebang without the matching executable bit, or vice versa.
     "F",      # Pyflakes: unused imports and locals, wildcard imports, f-strings with no field.

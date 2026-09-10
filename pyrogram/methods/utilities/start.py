@@ -18,7 +18,6 @@
 
 from __future__ import annotations as _annotations
 
-import importlib.util
 import logging
 
 import pyrogram
@@ -42,7 +41,7 @@ class Start:
 
         .. note::
 
-            You should install ``qrcode`` package if you want to use QR code authorization.
+            QR code authorization needs the ``qrcode`` extra: ``pip install "kurigram[qrcode]"``.
 
         Parameters:
             use_qr (``bool``, *optional*):
@@ -58,6 +57,7 @@ class Start:
 
         Raises:
             ConnectionError: In case you try to start an already started client.
+            ImportError: In case ``use_qr`` is True and the ``qrcode`` extra is not installed.
 
         Example:
             .. code-block:: python
@@ -83,15 +83,7 @@ class Start:
         try:
             if not is_authorized:
                 if use_qr:
-                    # `qrcode` is an optional extra, not a dependency.
-                    #  https://docs.kurigram.icu/start/auth
-                    if importlib.util.find_spec("qrcode") is not None:
-                        await self.authorize_qr(except_ids=except_ids)
-                    else:
-                        log.warning(
-                            "qrcode package not found, falling back to authorization prompt"
-                        )
-                        await self.authorize()
+                    await self.authorize_qr(except_ids=except_ids)
                 else:
                     await self.authorize()
 

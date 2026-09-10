@@ -457,9 +457,12 @@ class Gift(Object):
             | raw.types.MessageActionStarGiftUnique
         ),
         receiver: raw.base.User | raw.base.Chat | None = None,
-        users: dict[int, raw.base.User] = {},
-        chats: dict[int, raw.base.Chat] = {},
+        users: dict[int, raw.base.User] | None = None,
+        chats: dict[int, raw.base.Chat] | None = None,
     ):
+        users = users or {}
+        chats = chats or {}
+
         if isinstance(gift, raw.types.StarGift):
             return await Gift._parse_regular(client, gift, receiver, users, chats)
         elif isinstance(gift, raw.types.StarGiftUnique):
@@ -476,9 +479,12 @@ class Gift(Object):
         client: pyrogram.Client,
         star_gift: raw.types.StarGift,
         receiver: raw.base.User | raw.base.Chat | None = None,
-        users: dict[int, raw.base.User] = {},
-        chats: dict[int, raw.base.Chat] = {},
+        users: dict[int, raw.base.User] | None = None,
+        chats: dict[int, raw.base.Chat] | None = None,
     ) -> Gift:
+        users = users or {}
+        chats = chats or {}
+
         if not isinstance(star_gift, raw.types.StarGift):
             return
 
@@ -529,9 +535,12 @@ class Gift(Object):
         client: pyrogram.Client,
         star_gift: raw.types.StarGiftUnique,
         receiver: raw.base.User | raw.base.Chat | None = None,
-        users: dict[int, raw.base.User] = {},
-        chats: dict[int, raw.base.Chat] = {},
+        users: dict[int, raw.base.User] | None = None,
+        chats: dict[int, raw.base.Chat] | None = None,
     ) -> Gift:
+        users = users or {}
+        chats = chats or {}
+
         if not isinstance(star_gift, raw.types.StarGiftUnique):
             return
 
@@ -608,9 +617,12 @@ class Gift(Object):
         client,
         saved_gift: raw.types.SavedStarGift,
         receiver: raw.base.User | raw.base.Chat | None = None,
-        users: dict[int, raw.base.User] = {},
-        chats: dict[int, raw.base.Chat] = {},
+        users: dict[int, raw.base.User] | None = None,
+        chats: dict[int, raw.base.Chat] | None = None,
     ) -> Gift:
+        users = users or {}
+        chats = chats or {}
+
         if not isinstance(saved_gift, raw.types.SavedStarGift):
             return
 
@@ -688,9 +700,12 @@ class Gift(Object):
         client,
         action_gift: raw.types.MessageActionStarGift | raw.types.MessageActionStarGiftUnique,
         receiver: raw.base.User | raw.base.Chat | None = None,
-        users: dict[int, raw.base.User] = {},
-        chats: dict[int, raw.base.Chat] = {},
+        users: dict[int, raw.base.User] | None = None,
+        chats: dict[int, raw.base.Chat] | None = None,
     ) -> Gift:
+        users = users or {}
+        chats = chats or {}
+
         # TODO: fix receiver
         if isinstance(action_gift, raw.types.MessageActionStarGift):
             # auction_acquired

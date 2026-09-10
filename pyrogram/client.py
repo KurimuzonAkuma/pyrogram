@@ -692,10 +692,10 @@ class Client(Methods):
 
         return signed_up
 
-    async def authorize_qr(self, except_ids: list[int] = []) -> User:
+    async def authorize_qr(self, except_ids: list[int] | None = None) -> User:
         from qrcode import QRCode  # ty: ignore[unresolved-import] - optional, not a project dependency
 
-        qr_login = QRLogin(self, except_ids)
+        qr_login = QRLogin(self, except_ids or [])
         await qr_login.recreate()
 
         qr = QRCode(version=1)

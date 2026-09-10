@@ -29,7 +29,7 @@ class Run:
         self: pyrogram.Client,
         *,
         use_qr: bool = False,
-        except_ids: list[int] = [],
+        except_ids: list[int] | None = None,
     ):
         """Start the client, idle the main script and finally stop the client.
 

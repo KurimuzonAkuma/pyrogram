@@ -67,9 +67,12 @@ class RichText(Object):
     async def _parse(
         client: pyrogram.Client,
         rich_text: raw.base.RichText,
-        users: dict[int, raw.base.User] = {},
-        chats: dict[int, raw.base.Chat] = {},
+        users: dict[int, raw.base.User] | None = None,
+        chats: dict[int, raw.base.Chat] | None = None,
     ) -> str | list[RichText] | RichText | None:
+        users = users or {}
+        chats = chats or {}
+
         # TODO: fix anchors and references
         if isinstance(rich_text, raw.types.TextPlain):
             return rich_text.text

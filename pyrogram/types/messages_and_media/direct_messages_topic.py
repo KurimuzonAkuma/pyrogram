@@ -85,10 +85,14 @@ class DirectMessagesTopic(Object):
     async def _parse(
         client: pyrogram.Client,
         topic: raw.types.MonoForumDialog,
-        messages: dict = {},
-        users: dict[int, raw.base.User] = {},
-        chats: dict[int, raw.base.Chat] = {},
+        messages: dict | None = None,
+        users: dict[int, raw.base.User] | None = None,
+        chats: dict[int, raw.base.Chat] | None = None,
     ) -> DirectMessagesTopic:
+        messages = messages or {}
+        users = users or {}
+        chats = chats or {}
+
         if not topic:
             return None
 

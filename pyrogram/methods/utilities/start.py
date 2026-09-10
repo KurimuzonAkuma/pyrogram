@@ -33,7 +33,7 @@ class Start:
         self: pyrogram.Client,
         *,
         use_qr: bool = False,
-        except_ids: list[int] = [],
+        except_ids: list[int] | None = None,
     ) -> pyrogram.Client:
         """Start the client.
 

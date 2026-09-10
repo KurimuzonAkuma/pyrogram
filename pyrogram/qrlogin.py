@@ -30,9 +30,9 @@ log = logging.getLogger(__name__)
 
 
 class QRLogin:
-    def __init__(self, client, except_ids: list[int] = []):
+    def __init__(self, client, except_ids: list[int] | None = None):
         self.client: pyrogram.Client = client
-        self.except_ids: list[int] = except_ids
+        self.except_ids: list[int] = except_ids or []
         self.r: raw.base.auth.LoginToken = None
 
     async def recreate(self):

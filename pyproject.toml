@@ -212,7 +212,7 @@ select = [
     "PLE",    # Pylint Error: real bugs (bad `super()` call, `yield` outside a function, ...).
     "RSE",    # flake8-raise: a parenthesized exception with no arguments, e.g. `raise Exc()`.
     "RUF013", # Implicit `Optional`, e.g. `def method(chat_id: int = None)`.
-    "SLOT",   # flake8-slots — an immutable-builtin subclass missing `__slots__`.
+    "SLOT",   # flake8-slots: an immutable-builtin subclass missing `__slots__`.
     "T10",    # flake8-debugger: a leftover `breakpoint()`/`pdb.set_trace()`.
     "UP",     # pyupgrade: outdated typing syntax, and `.format()` calls an f-string replaces.
     "W",      # pycodestyle warnings: an invalid escape sequence, and whitespace the

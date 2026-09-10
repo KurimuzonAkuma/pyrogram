@@ -20,7 +20,6 @@ from __future__ import annotations as _annotations
 
 import io
 import pathlib
-import re
 from typing import BinaryIO
 from collections.abc import Callable
 

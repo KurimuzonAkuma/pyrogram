@@ -98,7 +98,6 @@ class GetStoryViews:
             )
 
             users = {i.id: i for i in r.users}
-            chats = {i.id: i for i in r.chats}
 
             views = [await types.StoryView._parse(self, i, users) for i in r.views]
 

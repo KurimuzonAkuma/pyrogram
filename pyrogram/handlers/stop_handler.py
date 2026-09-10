@@ -25,7 +25,6 @@ from .handler import Handler
 
 if TYPE_CHECKING:
     import pyrogram
-    from pyrogram import types
 
 
 class StopHandler(Handler):

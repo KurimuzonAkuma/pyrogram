@@ -204,9 +204,7 @@ quote-style = "double"
 select = [
     "E9",     # Syntax errors and files that cannot be read.
     "EXE",    # flake8-executable: a shebang without the matching executable bit, or vice versa.
-    "F632",   # `is` used against a literal.
-    "F821",   # Undefined name.
-    "F822",   # Undefined name in `__all__`.
+    "F",      # Pyflakes: unused imports and locals, wildcard imports, f-strings with no field.
     "ICN",    # flake8-import-conventions: an import that does not follow its usual alias.
     "INT",    # flake8-gettext: a gettext call built from an f-string/concatenation.
     "LOG",    # flake8-logging: stdlib `logging` misuse, e.g. constructing a `Logger` directly.

@@ -25,3 +25,13 @@ from .proxy import (
     SOCKS5Proxy,
     WebProxy,
 )
+
+__all__ = [
+    "Connection",
+    "HTTPProxy",
+    "MTProxy",
+    "Proxy",
+    "SOCKS4Proxy",
+    "SOCKS5Proxy",
+    "WebProxy",
+]

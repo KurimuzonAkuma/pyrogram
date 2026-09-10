@@ -21,7 +21,6 @@ from __future__ import annotations as _annotations
 import asyncio
 import logging
 
-import pyrogram
 from pyrogram.connection.proxy import Proxy
 from pyrogram.connection.transport.tcp.tcp import (
     ABRIDGED_OBFUSCATE_TAG,

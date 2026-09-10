@@ -42,6 +42,8 @@ classifiers = [
 #  works with, and the start of an unbroken range up to the newest. No ceilings, because an
 #  upper bound propagates into every downstream resolve and ages by hand.
 dependencies = [
+    # Async-native replacement for local file I/O, so it does not block the event loop.
+    "aiofiles>=25.1.0",
     # 1.1.0 and below are Python 2 only: the import fails with a `SyntaxError` on a `print`
     #  statement, and 1.0.0 with a `NameError` on `xrange`.
     "pyaes>=1.2.0",

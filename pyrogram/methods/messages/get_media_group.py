@@ -58,7 +58,7 @@ class GetMediaGroup:
         # Get messages with id from `id - 9` to `id + 10` to get all possible media group messages.
         messages = await self.get_messages(
             chat_id=chat_id,
-            message_ids=[msg_id for msg_id in range(message_id - 9, message_id + 10)],
+            message_ids=list(range(message_id - 9, message_id + 10)),
             replies=0,
         )
 

@@ -18,9 +18,16 @@
 
 from __future__ import annotations as _annotations
 
-from collections import namedtuple
+from dataclasses import dataclass
 
-PublicKey = namedtuple("PublicKey", ["m", "e"])
+
+# `m` and `e` are RSA's own names for the modulus and the public exponent, which is
+#  what every reference and the comments on each key below call them.
+@dataclass(frozen=True, slots=True)
+class PublicKey:
+    m: int
+    e: int
+
 
 # To get modulus and exponent:
 #

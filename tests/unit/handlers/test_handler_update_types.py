@@ -29,7 +29,7 @@ import inspect
 import re
 import sys
 import typing
-from typing import Any, Final
+from typing import Final
 from re import Pattern
 from collections.abc import Iterator
 
@@ -127,7 +127,7 @@ def test_every_handler_is_handed_an_update() -> None:
     `stop_propagation()` at all.
     """
     not_updates = sorted(
-        "{}: {}".format(name, handed)
+        f"{name}: {handed}"
         for name, handed in handlers_with_an_update()
         if not issubclass(getattr(types, handed), Update)
     )

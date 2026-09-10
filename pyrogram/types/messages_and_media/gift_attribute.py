@@ -138,7 +138,6 @@ class GiftAttribute(Object):
         sticker = None
         from_user = None
         to_user = None
-        rarity = None
 
         if hasattr(attr, "document"):
             doc = attr.document

@@ -18,7 +18,6 @@
 
 from __future__ import annotations as _annotations
 
-import pyrogram
 from pyrogram import raw
 
 from ..object import Object

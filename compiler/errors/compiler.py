@@ -112,7 +112,7 @@ def _to_pascal_case(name: str) -> str:
 def _read_notice() -> str:
     lines = _NOTICE.read_text(encoding="utf-8").splitlines()
 
-    return "\n".join(["# {}".format(line).strip() for line in lines])
+    return "\n".join([f"# {line}".strip() for line in lines])
 
 
 def _read_templates() -> _Templates:
@@ -126,7 +126,7 @@ def _read_templates() -> _Templates:
 
 
 def _read_template(template_name: str) -> str:
-    return (_HOME / "template" / "{}.txt".format(template_name)).read_text(encoding="utf-8")
+    return (_HOME / "template" / f"{template_name}.txt").read_text(encoding="utf-8")
 
 
 def _read_table(path: Path) -> _Table:
@@ -136,7 +136,7 @@ def _read_table(path: Path) -> _Table:
     return _Table(
         path=path,
         code=int(code),
-        module_name="{}_{}".format(name.lower(), code),
+        module_name=f"{name.lower()}_{code}",
         super_class=_to_pascal_case(name),
         title=" ".join([word.capitalize() for word in words]),
     )
@@ -179,7 +179,7 @@ def _spell_out_leading_digit(name: str, *, error_id: str) -> str:
     word = _LEADING_DIGIT_WORDS.get(name[0])
 
     if word is None:
-        msg = "{} starts with a digit that no word is spelled out for: {}".format(error_id, name[0])
+        msg = f"{error_id} starts with a digit that no word is spelled out for: {name[0]}"
         raise ValueError(msg)
 
     return word + name[1:]
@@ -199,7 +199,7 @@ def _value_name_of(*, error_id: str, message: str) -> str:
     placeholders = re.findall(r"\{(\w*)\}", message)
 
     if len(placeholders) > 1:
-        msg = "{} carries more than one placeholder: {}".format(error_id, message)
+        msg = f"{error_id} carries more than one placeholder: {message}"
         raise ValueError(msg)
 
     if not placeholders:
@@ -216,7 +216,7 @@ def _name_errors(rows: list[_Row]) -> list[_Error]:
 
     for reserved_name in _RESERVED_CLASS_NAMES:
         for row in claimants.pop(reserved_name, []):
-            claimants.setdefault("{}{}".format(reserved_name, row.table.code), []).append(row)
+            claimants.setdefault(f"{reserved_name}{row.table.code}", []).append(row)
 
     named: dict[_Row, _Error] = {}
 
@@ -248,7 +248,7 @@ def _subclass_of(primary: _Error, *, row: _Row) -> _Error:
         # code as a second base, so that `except Forbidden` catches the 403 too.
         return _Error(
             row=row,
-            class_name="{}{}".format(primary.class_name, row.table.code),
+            class_name=f"{primary.class_name}{row.table.code}",
             bases=[primary.class_name, row.table.super_class],
             primary=primary,
         )
@@ -258,7 +258,7 @@ def _subclass_of(primary: _Error, *, row: _Row) -> _Error:
     # the other so both are caught by the plain name.
     return _Error(
         row=row,
-        class_name="{}X".format(primary.class_name),
+        class_name=f"{primary.class_name}X",
         bases=[primary.class_name],
         primary=primary,
     )
@@ -315,9 +315,9 @@ def _import_block(table: _Table, *, errors: list[_Error]) -> str:
         [
             "\nfrom .{} import (\n{}\n)".format(
                 module_name,
-                "".join(
-                    ["    {},\n".format(class_name) for class_name in sorted(class_names)]
-                ).rstrip("\n"),
+                "".join([f"    {class_name},\n" for class_name in sorted(class_names)]).rstrip(
+                    "\n"
+                ),
             )
             for module_name, class_names in sorted(imports.items())
         ]
@@ -325,20 +325,18 @@ def _import_block(table: _Table, *, errors: list[_Error]) -> str:
 
 
 def _write_init(tables: list[_Table], *, notice: str) -> None:
-    imports = ["from .{} import *".format(table.module_name) for table in tables]
+    imports = [f"from .{table.module_name} import *" for table in tables]
 
     _write(_DEST / "__init__.py", lines=[notice, ""] + imports)
 
 
 def _write_all(tables: dict[_Table, list[_Error]], *, notice: str, count: int) -> None:
-    lines: list[str] = [notice, "", "count = {}".format(count), "", "exceptions = {"]
+    lines: list[str] = [notice, "", f"count = {count}", "", "exceptions = {"]
 
     for table, errors in tables.items():
-        lines.append("    {}: {{".format(table.code))
-        lines.append('        "_": "{}",'.format(table.super_class))
-        lines.extend(
-            ['        "{}": "{}",'.format(error.row.error_id, error.class_name) for error in errors]
-        )
+        lines.append(f"    {table.code}: {{")
+        lines.append(f'        "_": "{table.super_class}",')
+        lines.extend([f'        "{error.row.error_id}": "{error.class_name}",' for error in errors])
         lines.append("    },")
 
     lines.append("}")
@@ -360,16 +358,14 @@ def _write_module(
         primary = error.primary
 
         if primary is not None and primary.table == table and primary.class_name not in written:
-            msg = "{} is written before the {} it subclasses".format(
-                error.class_name, primary.class_name
-            )
+            msg = f"{error.class_name} is written before the {primary.class_name} it subclasses"
             raise RuntimeError(msg)
 
         sub_class = templates.sub_class.format(
             sub_class=error.class_name,
             bases=", ".join(error.bases),
-            id='"{}"'.format(error.row.error_id),
-            docstring='"""{}"""'.format(error.row.message),
+            id=f'"{error.row.error_id}"',
+            docstring=f'"""{error.row.message}"""',
             code_and_name=_code_and_name_block(templates, error=error),
             value_property=_value_block(templates, error=error),
         )
@@ -382,11 +378,11 @@ def _write_module(
         imports=_import_block(table, errors=errors),
         super_class=table.super_class,
         code=table.code,
-        docstring='"""{}"""'.format(table.title),
+        docstring=f'"""{table.title}"""',
         sub_classes="".join(sub_classes),
     )
 
-    (_DEST / "{}.py".format(table.module_name)).write_text(module, encoding="utf-8")
+    (_DEST / f"{table.module_name}.py").write_text(module, encoding="utf-8")
 
 
 def start() -> None:

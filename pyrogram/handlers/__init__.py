@@ -47,3 +47,37 @@ from .stop_handler import StopHandler
 from .stopped_message_generation_handler import StoppedMessageGenerationHandler
 from .story_handler import StoryHandler
 from .user_status_handler import UserStatusHandler
+
+__all__ = [
+    "BusinessConnectionHandler",
+    "BusinessMessageHandler",
+    "CallbackQueryHandler",
+    "ChatBoostHandler",
+    "ChatJoinRequestHandler",
+    "ChatMemberUpdatedHandler",
+    "ChosenInlineResultHandler",
+    "ConnectHandler",
+    "DeletedBusinessMessagesHandler",
+    "DeletedMessagesHandler",
+    "DisconnectHandler",
+    "EditedBusinessMessageHandler",
+    "EditedMessageHandler",
+    "ErrorHandler",
+    "GuestMessageHandler",
+    "Handler",
+    "InlineQueryHandler",
+    "ManagedBotUpdatedHandler",
+    "MessageHandler",
+    "MessageReactionCountHandler",
+    "MessageReactionHandler",
+    "PollHandler",
+    "PreCheckoutQueryHandler",
+    "PurchasedPaidMediaHandler",
+    "RawUpdateHandler",
+    "ShippingQueryHandler",
+    "StartHandler",
+    "StopHandler",
+    "StoppedMessageGenerationHandler",
+    "StoryHandler",
+    "UserStatusHandler",
+]

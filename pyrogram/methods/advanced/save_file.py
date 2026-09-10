@@ -33,7 +33,6 @@ from collections.abc import Callable
 import pyrogram
 from pyrogram import StopTransmission
 from pyrogram import raw
-from pyrogram.session import Session
 
 log = logging.getLogger(__name__)
 

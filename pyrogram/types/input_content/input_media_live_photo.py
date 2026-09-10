@@ -19,7 +19,7 @@
 from __future__ import annotations as _annotations
 
 import io
-import pathlib
+from pathlib import Path
 from typing import BinaryIO
 from collections.abc import Callable
 
@@ -36,14 +36,14 @@ class InputMediaLivePhoto(InputMedia):
     """Represents a live photo to be sent.
 
     Parameters:
-        media (``str`` | ``BinaryIO``):
+        media (``str`` | ``pathlib.Path`` | ``BinaryIO``):
             Video of the live photo to send.
             Pass a file_id as string to send a video that exists on the Telegram servers or
             pass a file path as string to upload a new video that exists on your local machine or
             pass a binary file-like object with its attribute “.name” set for in-memory uploads or
             pass an HTTP URL as a string for Telegram to get a video from the Internet.
 
-        photo (``str`` | ``BinaryIO``):
+        photo (``str`` | ``pathlib.Path`` | ``BinaryIO``):
             The static photo to send.
             Pass a file_id as string to send a video that exists on the Telegram servers or
             pass a file path as string to upload a new video that exists on your local machine or
@@ -66,13 +66,16 @@ class InputMediaLivePhoto(InputMedia):
 
         has_spoiler (``bool``, *optional*):
             Pass True if the photo needs to be covered with a spoiler animation.
+
+    Raises:
+        FileNotFoundError: In case a local ``pathlib.Path`` doesn't point to an existing file.
     """
 
     def __init__(
         self,
-        media: str | BinaryIO,
-        photo: str | BinaryIO,
-        thumb: str | None = None,
+        media: str | Path | BinaryIO,
+        photo: str | Path | BinaryIO,
+        thumb: str | Path | None = None,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[MessageEntity] | None = None,
@@ -102,7 +105,7 @@ class InputMediaLivePhoto(InputMedia):
         else:
             peer = await client.resolve_peer(chat_id)
 
-        if isinstance(self.media, io.BytesIO) or pathlib.Path(self.media).is_file():
+        if isinstance(self.media, io.BytesIO) or Path(self.media).is_file():
             uploaded_media = await client.invoke(
                 raw.functions.messages.UploadMedia(
                     peer=peer,
@@ -153,6 +156,12 @@ class InputMediaLivePhoto(InputMedia):
                     file_reference=uploaded_media.document.file_reference,
                 ),
             )
+
+        if isinstance(self.media, Path):
+            raise FileNotFoundError(f"No such file or directory: {self.media}")
+
+        if isinstance(self.photo, Path):
+            raise FileNotFoundError(f"No such file or directory: {self.photo}")
 
         return utils.get_input_media_from_file_id(
             self.photo,

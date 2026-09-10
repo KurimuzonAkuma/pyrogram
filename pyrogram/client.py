@@ -1282,7 +1282,7 @@ class Client(Methods):
                 return file
             else:
                 file.close()
-                file_path = os.path.splitext(temp_file_path)[0]
+                file_path = str(Path(temp_file_path).with_suffix(""))
                 shutil.move(temp_file_path, file_path)
                 return file_path
 
@@ -1704,7 +1704,7 @@ class Client(Methods):
             self.message_split_ranges = await self.invoke(raw.functions.messages.GetSplitRanges())
         return self.message_split_ranges
 
-    def guess_mime_type(self, filename: str | BytesIO) -> str | None:
+    def guess_mime_type(self, filename: str | Path | BytesIO) -> str | None:
         if isinstance(filename, BytesIO):
             return self.mimetypes.guess_type(filename.name)[0]
 

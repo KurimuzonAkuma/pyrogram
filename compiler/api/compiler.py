@@ -19,7 +19,6 @@
 from __future__ import annotations as _annotations
 
 import json
-import os
 import re
 import shutil
 from functools import partial
@@ -361,7 +360,7 @@ def start(format: bool = False):
         if module == "Updates":
             module = "UpdatesT"
 
-        os.makedirs(dir_path, exist_ok=True)
+        dir_path.mkdir(parents=True, exist_ok=True)
 
         constructors = sorted(qualtype_constructors)
         constr_count = len(constructors)
@@ -643,7 +642,7 @@ def start(format: bool = False):
 
         dir_path = DESTINATION_PATH / directory / c.namespace
 
-        os.makedirs(dir_path, exist_ok=True)
+        dir_path.mkdir(parents=True, exist_ok=True)
 
         module = c.name
 
@@ -730,7 +729,7 @@ def start(format: bool = False):
 
 
 if "__main__" == __name__:
-    HOME_PATH = Path(".")
+    HOME_PATH = Path()
     DESTINATION_PATH = Path("../../pyrogram/raw")
     NOTICE_PATH = Path("../../NOTICE")
 

@@ -468,8 +468,8 @@ class TCP:
             await asyncio.wait_for(self._connect(address), timeout=TCP.TIMEOUT)
         except (
             asyncio.TimeoutError
-        ):  # Re-raise as TimeoutError. asyncio.TimeoutError is deprecated in 3.11
-            raise TimeoutError("Connection timed out")
+        ) as e:  # Re-raise as TimeoutError. asyncio.TimeoutError is deprecated in 3.11
+            raise TimeoutError("Connection timed out") from e
 
     async def close(self) -> None:
         async with self.lock:
@@ -508,9 +508,9 @@ class TCP:
                 log.debug("Waiting for marker event before sending")
                 try:
                     await asyncio.wait_for(self.marker_event.wait(), timeout=TCP.TIMEOUT)
-                except asyncio.TimeoutError:
+                except asyncio.TimeoutError as e:
                     log.error("Timed out waiting for marker event after %ss", TCP.TIMEOUT)
-                    raise TimeoutError
+                    raise TimeoutError from e
                 log.debug("Marker event received, proceeding with send")
 
             if self._encrypt is not None:
@@ -531,7 +531,7 @@ class TCP:
                 log.debug("Send complete")
             except Exception as e:
                 log.error("Send failed: %s %s", type(e).__name__, e)
-                raise OSError(e)
+                raise OSError(e) from e
 
     async def recv(self, length: int = 0) -> bytes | None:
         if self._web_carrier is not None:

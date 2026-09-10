@@ -90,10 +90,10 @@ class UpgradeGift:
 
             if star_count is not None:
                 if star_count < 0:
-                    raise ValueError("Invalid amount of Telegram Stars specified.")
+                    raise ValueError("Invalid amount of Telegram Stars specified.") from None
 
                 if form.invoice.prices[0].amount > star_count:
-                    raise ValueError("Have not enough Telegram Stars.")
+                    raise ValueError("Have not enough Telegram Stars.") from None
 
             r = await self.invoke(
                 raw.functions.payments.SendStarsForm(form_id=form.form_id, invoice=invoice),

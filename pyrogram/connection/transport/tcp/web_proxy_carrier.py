@@ -569,10 +569,10 @@ class WebProxyCarrier:
         try:
             await asyncio.wait_for(self._welcome_event.wait(), timeout=_WELCOME_TIMEOUT)
 
-        except asyncio.TimeoutError:
+        except asyncio.TimeoutError as e:
             exc = WebCarrierError("timed out waiting for WELCOME")
             await self._fail(exc)
-            raise exc
+            raise exc from e
 
         if self._fail_exc is not None:
             raise self._fail_exc
@@ -734,10 +734,10 @@ class WebProxyCarrier:
             try:
                 await asyncio.wait_for(self._send_window_event.wait(), timeout=_CREDIT_WAIT_TIMEOUT)
 
-            except asyncio.TimeoutError:
+            except asyncio.TimeoutError as e:
                 exc = WebCarrierError("timed out waiting for uplink WINDOW credit")
                 await self._fail(exc)
-                raise exc
+                raise exc from e
 
         self._send_window -= amount
 

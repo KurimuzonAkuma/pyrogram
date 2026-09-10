@@ -63,6 +63,24 @@ class RichText(Object):
     def __init__(self):
         super().__init__()
 
+    async def write(self, client: pyrogram.Client) -> raw.base.RichText:
+        raise NotImplementedError
+
+    @staticmethod
+    async def _write(client: pyrogram.Client, text: types.RichText | None) -> raw.base.RichText:
+        if text is None:
+            return raw.types.TextEmpty()
+
+        if isinstance(text, str):
+            return raw.types.TextPlain(text=text)
+
+        if isinstance(text, (list, types.List)):
+            return raw.types.TextConcat(
+                texts=[await RichText._write(client, item) for item in text]
+            )
+
+        return await text.write(client)
+
     @staticmethod
     async def _parse(
         client: pyrogram.Client,
@@ -277,6 +295,9 @@ class RichTextBold(RichText):
 
         self.text = text
 
+    async def write(self, client: pyrogram.Client) -> raw.base.RichText:
+        return raw.types.TextBold(text=await RichText._write(client, self.text))
+
 
 class RichTextItalic(RichText):
     """A italicized text.
@@ -293,6 +314,9 @@ class RichTextItalic(RichText):
         super().__init__()
 
         self.text = text
+
+    async def write(self, client: pyrogram.Client) -> raw.base.RichText:
+        return raw.types.TextItalic(text=await RichText._write(client, self.text))
 
 
 class RichTextUnderline(RichText):
@@ -311,6 +335,9 @@ class RichTextUnderline(RichText):
 
         self.text = text
 
+    async def write(self, client: pyrogram.Client) -> raw.base.RichText:
+        return raw.types.TextUnderline(text=await RichText._write(client, self.text))
+
 
 class RichTextStrikethrough(RichText):
     """A strikethrough text.
@@ -328,6 +355,9 @@ class RichTextStrikethrough(RichText):
 
         self.text = text
 
+    async def write(self, client: pyrogram.Client) -> raw.base.RichText:
+        return raw.types.TextStrike(text=await RichText._write(client, self.text))
+
 
 class RichTextSpoiler(RichText):
     """A text covered by a spoiler.
@@ -344,6 +374,9 @@ class RichTextSpoiler(RichText):
         super().__init__()
 
         self.text = text
+
+    async def write(self, client: pyrogram.Client) -> raw.base.RichText:
+        return raw.types.TextSpoiler(text=await RichText._write(client, self.text))
 
 
 class RichTextDateTime(RichText):
@@ -373,6 +406,42 @@ class RichTextDateTime(RichText):
         self.date = date
         self.date_time_format = date_time_format
 
+    async def write(self, client: pyrogram.Client) -> raw.base.RichText:
+        relative: bool | None = None
+        short_time: bool | None = None
+        long_time: bool | None = None
+        short_date: bool | None = None
+        long_date: bool | None = None
+        day_of_week: bool | None = None
+
+        if self.date_time_format:
+            if "r" in self.date_time_format:
+                relative = True
+            else:
+                if "w" in self.date_time_format:
+                    day_of_week = True
+
+                if "d" in self.date_time_format:
+                    short_date = True
+                elif "D" in self.date_time_format:
+                    long_date = True
+
+                if "t" in self.date_time_format:
+                    short_time = True
+                elif "T" in self.date_time_format:
+                    long_time = True
+
+        return raw.types.TextDate(
+            text=await RichText._write(client, self.text),
+            date=utils.datetime_to_timestamp(self.date),
+            relative=relative,
+            short_time=short_time,
+            long_time=long_time,
+            short_date=short_date,
+            long_date=long_date,
+            day_of_week=day_of_week,
+        )
+
 
 class RichTextTextMention(RichText):
     """A mention of a Telegram user by their identifier.
@@ -395,6 +464,12 @@ class RichTextTextMention(RichText):
         self.text = text
         self.user = user
 
+    async def write(self, client: pyrogram.Client) -> raw.base.RichText:
+        return raw.types.TextMentionName(
+            text=await RichText._write(client, self.text),
+            user_id=self.user.id,
+        )
+
 
 class RichTextSubscript(RichText):
     """A subscript text.
@@ -411,6 +486,9 @@ class RichTextSubscript(RichText):
         super().__init__()
 
         self.text = text
+
+    async def write(self, client: pyrogram.Client) -> raw.base.RichText:
+        return raw.types.TextSubscript(text=await RichText._write(client, self.text))
 
 
 class RichTextSuperscript(RichText):
@@ -429,6 +507,9 @@ class RichTextSuperscript(RichText):
 
         self.text = text
 
+    async def write(self, client: pyrogram.Client) -> raw.base.RichText:
+        return raw.types.TextSuperscript(text=await RichText._write(client, self.text))
+
 
 class RichTextMarked(RichText):
     """A marked text.
@@ -446,6 +527,9 @@ class RichTextMarked(RichText):
 
         self.text = text
 
+    async def write(self, client: pyrogram.Client) -> raw.base.RichText:
+        return raw.types.TextMarked(text=await RichText._write(client, self.text))
+
 
 class RichTextCode(RichText):
     """A monowidth text.
@@ -462,6 +546,9 @@ class RichTextCode(RichText):
         super().__init__()
 
         self.text = text
+
+    async def write(self, client: pyrogram.Client) -> raw.base.RichText:
+        return raw.types.TextFixed(text=await RichText._write(client, self.text))
 
 
 class RichTextCustomEmoji(RichText):
@@ -482,6 +569,12 @@ class RichTextCustomEmoji(RichText):
         self.custom_emoji_id = custom_emoji_id
         self.alternative_text = alternative_text
 
+    async def write(self, client: pyrogram.Client) -> raw.base.RichText:
+        return raw.types.TextCustomEmoji(
+            document_id=int(self.custom_emoji_id),
+            alt=self.alternative_text,
+        )
+
 
 class RichTextMathematicalExpression(RichText):
     """A mathematical expression.
@@ -498,6 +591,9 @@ class RichTextMathematicalExpression(RichText):
         super().__init__()
 
         self.expression = expression
+
+    async def write(self, client: pyrogram.Client) -> raw.base.RichText:
+        return raw.types.TextMath(source=self.expression)
 
 
 class RichTextUrl(RichText):
@@ -517,6 +613,14 @@ class RichTextUrl(RichText):
         self.text = text
         self.url = url
 
+    async def write(self, client: pyrogram.Client) -> raw.base.RichText:
+        # `webpage_id` is unknown at send time: the server resolves the preview itself.
+        return raw.types.TextUrl(
+            text=await RichText._write(client, self.text),
+            url=self.url,
+            webpage_id=0,
+        )
+
 
 class RichTextEmailAddress(RichText):
     """A text with an email address.
@@ -534,6 +638,12 @@ class RichTextEmailAddress(RichText):
 
         self.text = text
         self.email_address = email_address
+
+    async def write(self, client: pyrogram.Client) -> raw.base.RichText:
+        return raw.types.TextEmail(
+            text=await RichText._write(client, self.text),
+            email=self.email_address,
+        )
 
 
 class RichTextPhoneNumber(RichText):
@@ -553,6 +663,12 @@ class RichTextPhoneNumber(RichText):
         self.text = text
         self.phone_number = phone_number
 
+    async def write(self, client: pyrogram.Client) -> raw.base.RichText:
+        return raw.types.TextPhone(
+            text=await RichText._write(client, self.text),
+            phone=self.phone_number,
+        )
+
 
 class RichTextBankCardNumber(RichText):
     """A text with a bank card number.
@@ -570,6 +686,9 @@ class RichTextBankCardNumber(RichText):
 
         self.text = text
         self.bank_card_number = bank_card_number
+
+    async def write(self, client: pyrogram.Client) -> raw.base.RichText:
+        return raw.types.TextBankCard(text=await RichText._write(client, self.text))
 
 
 class RichTextMention(RichText):
@@ -589,6 +708,9 @@ class RichTextMention(RichText):
         self.text = text
         self.username = username
 
+    async def write(self, client: pyrogram.Client) -> raw.base.RichText:
+        return raw.types.TextMention(text=await RichText._write(client, self.text))
+
 
 class RichTextHashtag(RichText):
     """A hashtag.
@@ -606,6 +728,9 @@ class RichTextHashtag(RichText):
 
         self.text = text
         self.hashtag = hashtag
+
+    async def write(self, client: pyrogram.Client) -> raw.base.RichText:
+        return raw.types.TextHashtag(text=await RichText._write(client, self.text))
 
 
 class RichTextCashtag(RichText):
@@ -625,6 +750,9 @@ class RichTextCashtag(RichText):
         self.text = text
         self.cashtag = cashtag
 
+    async def write(self, client: pyrogram.Client) -> raw.base.RichText:
+        return raw.types.TextCashtag(text=await RichText._write(client, self.text))
+
 
 class RichTextBotCommand(RichText):
     """A bot command.
@@ -643,6 +771,9 @@ class RichTextBotCommand(RichText):
         self.text = text
         self.bot_command = bot_command
 
+    async def write(self, client: pyrogram.Client) -> raw.base.RichText:
+        return raw.types.TextBotCommand(text=await RichText._write(client, self.text))
+
 
 class RichTextAnchor(RichText):
     """An anchor.
@@ -660,6 +791,12 @@ class RichTextAnchor(RichText):
 
         self.text = text
         self.name = name
+
+    async def write(self, client: pyrogram.Client) -> raw.base.RichText:
+        return raw.types.TextAnchor(
+            text=await RichText._write(client, self.text),
+            name=self.name,
+        )
 
 
 class RichTextAnchorLink(RichText):
@@ -680,6 +817,14 @@ class RichTextAnchorLink(RichText):
         self.text = text
         self.anchor_name = anchor_name
 
+    async def write(self, client: pyrogram.Client) -> raw.base.RichText:
+        # An in-page link is a `textUrl` whose URL is the anchor name prefixed with `#`.
+        return raw.types.TextUrl(
+            text=await RichText._write(client, self.text),
+            url=f"#{self.anchor_name}",
+            webpage_id=0,
+        )
+
 
 class RichTextReference(RichText):
     """A reference.
@@ -698,6 +843,12 @@ class RichTextReference(RichText):
         self.text = text
         self.name = name
 
+    async def write(self, client: pyrogram.Client) -> raw.base.RichText:
+        return raw.types.TextAnchor(
+            text=await RichText._write(client, self.text),
+            name=self.name,
+        )
+
 
 class RichTextReferenceLink(RichText):
     """A link to a reference.
@@ -715,3 +866,11 @@ class RichTextReferenceLink(RichText):
 
         self.text = text
         self.reference_name = reference_name
+
+    async def write(self, client: pyrogram.Client) -> raw.base.RichText:
+        # A reference link uses the same `textUrl` encoding as `RichTextAnchorLink`.
+        return raw.types.TextUrl(
+            text=await RichText._write(client, self.text),
+            url=f"#{self.reference_name}",
+            webpage_id=0,
+        )

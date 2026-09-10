@@ -133,7 +133,10 @@ class SendRichMessage:
                 anchor=ephemeral_message_parameters.replace_callback_query_message,
                 reply_markup=await reply_markup.write(self) if reply_markup else None,
                 message="",
-                rich_message=rich_message.write(),
+                rich_message=await rich_message.write(
+                    client=self,
+                    chat_id=chat_id,
+                ),
             )
         else:
             rpc = raw.functions.messages.SendMessage(
@@ -150,7 +153,10 @@ class SendRichMessage:
                 reply_markup=await reply_markup.write(self) if reply_markup else None,
                 message="",
                 noforwards=protect_content,
-                rich_message=rich_message.write(),
+                rich_message=await rich_message.write(
+                    client=self,
+                    chat_id=chat_id,
+                ),
                 effect=effect_id,
             )
 

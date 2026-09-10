@@ -93,7 +93,12 @@ class EditEphemeralMessageText:
                 invert_media=getattr(link_preview_options, "show_above_text", None),
                 reply_markup=await reply_markup.write(self) if reply_markup else None,
                 message=message,
-                rich_message=rich_message.write() if rich_message else None,
+                rich_message=await rich_message.write(
+                    client=self,
+                    chat_id=chat_id,
+                )
+                if rich_message
+                else None,
                 media=(
                     raw.types.InputMediaWebPage(
                         url=link_preview_options.url,

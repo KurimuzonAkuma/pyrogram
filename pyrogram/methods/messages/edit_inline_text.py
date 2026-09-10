@@ -117,7 +117,7 @@ class EditInlineText:
                 await utils.parse_text_entities(self, text, parse_mode, entities)
             ).values()
         elif rich_message is not None:
-            input_rich_message = rich_message.write()
+            input_rich_message = await rich_message.write(client=self)
         else:
             raise ValueError("Either text or rich_message must be specified")
 

@@ -211,7 +211,7 @@ select = [
     "ISC",    # flake8-implicit-str-concat: a `+` between adjacent literals, or two on one line.
     "LOG",    # flake8-logging: stdlib `logging` misuse, e.g. constructing a `Logger` directly.
     "PGH",    # pygrep-hooks: a blanket `# noqa`/`# type: ignore` with no code, or `eval()`.
-    "PIE",    # flake8-pie: misc simplifications, e.g. a redundant `range(0, ...)` start.
+    "PIE",    # flake8-pie: a `range(0, ...)` start, a stray `pass`, a duplicate class field.
     "PLC",    # Pylint convention: dict `.items()` misuse, deferred imports, `str.split` maxsplit.
     "PLE",    # Pylint Error: real bugs (bad `super()` call, `yield` outside a function, ...).
     "PLW",    # Pylint warning: dead loop-else, shadowed loop vars, self-assignment, eq/hash.

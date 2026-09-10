@@ -52,9 +52,7 @@ async def ainput(
     prompt: str = "", *, hide: bool = False, loop: asyncio.AbstractEventLoop | None = None
 ):
     """Just like the built-in input, but async"""
-    if isinstance(loop, asyncio.AbstractEventLoop):
-        loop = loop
-    else:
+    if not isinstance(loop, asyncio.AbstractEventLoop):
         loop = get_event_loop()
 
     with ThreadPoolExecutor(1) as executor:
@@ -587,7 +585,7 @@ async def parse_text_entities(
         for entity in entities:
             entity._client = client
 
-        text, entities = text, [await entity.write() for entity in entities] or None
+        entities = [await entity.write() for entity in entities] or None
     else:
         text, entities = (await client.parser.parse(text, parse_mode)).values()
 

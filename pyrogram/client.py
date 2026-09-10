@@ -1139,10 +1139,11 @@ class Client(Methods):
                         log.warning('[%s] [LOAD] Ignoring namespace "%s"', self.name, module_path)
                         continue
 
-                    handler_names = vars(module).keys() if handlers is None else handlers
-
                     if handlers is None:
+                        handler_names = vars(module).keys()
                         warn_non_existent_functions = False
+                    else:
+                        handler_names = handlers
 
                     for name in handler_names:
                         target_attr = getattr(module, name, None)
@@ -1201,10 +1202,11 @@ class Client(Methods):
                         log.warning('[%s] [UNLOAD] Ignoring namespace "%s"', self.name, module_path)
                         continue
 
-                    handler_names = vars(module).keys() if handlers is None else handlers
-
                     if handlers is None:
+                        handler_names = vars(module).keys()
                         warn_non_existent_functions = False
+                    else:
+                        handler_names = handlers
 
                     for name in handler_names:
                         target_attr = getattr(module, name, None)

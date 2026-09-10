@@ -19,7 +19,7 @@
 from __future__ import annotations as _annotations
 
 import re
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 import pytest
 
@@ -74,3 +74,14 @@ async def test_video_write_raises_for_a_video_cover_path_that_does_not_exist(
 
     with pytest.raises(FileNotFoundError, match=re.escape(str(missing))):
         await media.write(client=None)
+
+
+async def test_write_raises_for_a_path_like_that_is_not_a_pathlib_path(tmp_path: Path) -> None:
+    # `save_file` opens anything `os.PathLike`, so the dispatch has to recognise the same
+    #  set. Narrowing on `pathlib.Path` alone let a `PurePath` fall through to
+    #  `re.match()`, which raised `TypeError: expected string or bytes-like object, got
+    #  'PurePosixPath'` instead of naming the missing file.
+    missing = PurePosixPath(tmp_path / "missing.jpg")
+
+    with pytest.raises(FileNotFoundError, match=re.escape(str(missing))):
+        await types.InputMediaPhoto(missing).write(client=None)

@@ -19,6 +19,7 @@
 from __future__ import annotations as _annotations
 
 import logging
+import os
 import re
 from datetime import datetime
 from pathlib import Path
@@ -264,7 +265,7 @@ class SendDocument:
         file = None
 
         try:
-            if isinstance(document, (str, Path)):
+            if isinstance(document, (str, os.PathLike)):
                 if await aiofiles.os.path.isfile(document):
                     thumb = await self.save_file(thumb)
                     file = await self.save_file(

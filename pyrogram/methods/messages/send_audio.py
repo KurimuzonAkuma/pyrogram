@@ -19,6 +19,7 @@
 from __future__ import annotations as _annotations
 
 import logging
+import os
 import re
 from datetime import datetime
 from pathlib import Path
@@ -277,7 +278,7 @@ class SendAudio:
         file = None
 
         try:
-            if isinstance(audio, (str, Path)):
+            if isinstance(audio, (str, os.PathLike)):
                 if await aiofiles.os.path.isfile(audio):
                     mime_type = self.guess_mime_type(audio) or "audio/mpeg"
                     if mime_type == "audio/ogg":

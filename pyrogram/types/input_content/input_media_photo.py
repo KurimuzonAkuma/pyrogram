@@ -19,6 +19,7 @@
 from __future__ import annotations as _annotations
 
 import io
+import os
 import re
 from pathlib import Path
 from typing import BinaryIO
@@ -116,7 +117,7 @@ class InputMediaPhoto(InputMedia):
                 ttl_seconds=ttl_seconds,
             )
 
-        if isinstance(self.media, Path):
+        if isinstance(self.media, os.PathLike):
             raise FileNotFoundError(f"No such file or directory: {self.media}")
 
         if re.match("^https?://", self.media):

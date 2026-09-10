@@ -19,6 +19,7 @@
 from __future__ import annotations as _annotations
 
 import logging
+import os
 import re
 from datetime import datetime
 from pathlib import Path
@@ -245,7 +246,7 @@ class SendSticker:
         file = None
 
         try:
-            if isinstance(sticker, (str, Path)):
+            if isinstance(sticker, (str, os.PathLike)):
                 if await aiofiles.os.path.isfile(sticker):
                     file = await self.save_file(
                         sticker, progress=progress, progress_args=progress_args

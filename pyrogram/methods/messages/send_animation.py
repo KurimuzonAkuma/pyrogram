@@ -19,6 +19,7 @@
 from __future__ import annotations as _annotations
 
 import logging
+import os
 import re
 from datetime import datetime
 from pathlib import Path
@@ -287,7 +288,7 @@ class SendAnimation:
         file = None
 
         try:
-            if isinstance(animation, (str, Path)):
+            if isinstance(animation, (str, os.PathLike)):
                 if await aiofiles.os.path.isfile(animation):
                     thumb = await self.save_file(thumb)
                     file = await self.save_file(

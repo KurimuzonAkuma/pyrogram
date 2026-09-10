@@ -19,6 +19,7 @@
 from __future__ import annotations as _annotations
 
 import logging
+import os
 from datetime import datetime
 from pathlib import Path
 from typing import BinaryIO
@@ -264,7 +265,7 @@ class SendVideoNote:
         file = None
 
         try:
-            if isinstance(video_note, (str, Path)):
+            if isinstance(video_note, (str, os.PathLike)):
                 if await aiofiles.os.path.isfile(video_note):
                     # Notify user why the sent video is not video note
                     file_size = await aiofiles.os.path.getsize(video_note)

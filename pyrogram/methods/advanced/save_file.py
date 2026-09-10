@@ -161,7 +161,7 @@ class SaveFile:
 
             part_size = 512 * 1024
 
-            if isinstance(path, (str, PurePath)):
+            if isinstance(path, (str, os.PathLike)):
                 fp = await aiofiles.open(path, "rb")
             elif isinstance(path, io.IOBase):
                 # `aiofiles.threadpool.wrap()` only recognizes stdlib file types — a `SpooledTemporaryFile`
@@ -260,7 +260,7 @@ class SaveFile:
 
                 # Only what this method opened: a file the caller handed over stays open,
                 #  the same way it did before the upload.
-                if isinstance(path, (str, PurePath)):
+                if isinstance(path, (str, os.PathLike)):
                     await fp.close()
 
             # Outside the `finally` on purpose: a worker only reports a failed part once it has been

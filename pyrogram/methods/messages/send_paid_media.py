@@ -19,6 +19,7 @@
 from __future__ import annotations as _annotations
 
 import logging
+import os
 import re
 from datetime import datetime
 from pathlib import Path
@@ -171,7 +172,7 @@ class SendPaidMedia:
 
         for i in media:
             if isinstance(i, types.InputMediaPhoto):
-                if isinstance(i.media, (str, Path)):
+                if isinstance(i.media, (str, os.PathLike)):
                     if await aiofiles.os.path.isfile(i.media):
                         media = await self.invoke(
                             raw.functions.messages.UploadMedia(
@@ -226,7 +227,7 @@ class SendPaidMedia:
                 vcover_media = None
 
                 if i.video_cover is not None:
-                    if isinstance(i.video_cover, (str, Path)):
+                    if isinstance(i.video_cover, (str, os.PathLike)):
                         if await aiofiles.os.path.isfile(i.video_cover):
                             vcover_media = await self.invoke(
                                 raw.functions.messages.UploadMedia(
@@ -268,7 +269,7 @@ class SendPaidMedia:
                             file_reference=vcover_media.photo.file_reference,
                         )
 
-                if isinstance(i.media, (str, Path)):
+                if isinstance(i.media, (str, os.PathLike)):
                     if await aiofiles.os.path.isfile(i.media):
                         media = await self.invoke(
                             raw.functions.messages.UploadMedia(

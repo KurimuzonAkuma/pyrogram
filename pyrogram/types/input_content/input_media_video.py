@@ -19,6 +19,7 @@
 from __future__ import annotations as _annotations
 
 import io
+import os
 import re
 from pathlib import Path
 from typing import BinaryIO
@@ -167,7 +168,7 @@ class InputMediaVideo(InputMedia):
                     access_hash=uploaded_media.photo.access_hash,
                     file_reference=uploaded_media.photo.file_reference,
                 )
-            elif isinstance(self.video_cover, Path):
+            elif isinstance(self.video_cover, os.PathLike):
                 raise FileNotFoundError(f"No such file or directory: {self.video_cover}")
             elif re.match("^https?://", self.video_cover):
                 uploaded_media = await client.invoke(
@@ -228,7 +229,7 @@ class InputMediaVideo(InputMedia):
                 video_timestamp=self.video_start_timestamp,
             )
 
-        if isinstance(self.media, Path):
+        if isinstance(self.media, os.PathLike):
             raise FileNotFoundError(f"No such file or directory: {self.media}")
 
         if re.match("^https?://", self.media):

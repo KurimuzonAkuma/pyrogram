@@ -18,6 +18,7 @@
 
 from __future__ import annotations as _annotations
 
+import os
 from pathlib import Path
 from typing import BinaryIO
 from collections.abc import Callable
@@ -110,7 +111,7 @@ class EditStoryMedia:
                 await app.edit_story_media(chat_id, story_id, "new_video.mp4")
         """
         try:
-            if isinstance(media, (str, Path)):
+            if isinstance(media, (str, os.PathLike)):
                 if await aiofiles.os.path.isfile(media):
                     thumb = await self.save_file(thumb)
                     file = await self.save_file(

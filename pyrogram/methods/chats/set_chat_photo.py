@@ -18,6 +18,7 @@
 
 from __future__ import annotations as _annotations
 
+import os
 from pathlib import Path
 from typing import BinaryIO
 
@@ -91,7 +92,7 @@ class SetChatPhoto:
         """
         peer = await self.resolve_peer(chat_id)
 
-        if isinstance(photo, (str, Path)):
+        if isinstance(photo, (str, os.PathLike)):
             if await aiofiles.os.path.isfile(photo):
                 photo = raw.types.InputChatUploadedPhoto(
                     file=await self.save_file(photo),

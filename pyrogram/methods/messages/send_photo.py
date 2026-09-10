@@ -19,6 +19,7 @@
 from __future__ import annotations as _annotations
 
 import logging
+import os
 import re
 from datetime import datetime
 from pathlib import Path
@@ -268,7 +269,7 @@ class SendPhoto:
         file = None
 
         try:
-            if isinstance(photo, (str, Path)):
+            if isinstance(photo, (str, os.PathLike)):
                 if await aiofiles.os.path.isfile(photo):
                     file = await self.save_file(
                         photo, progress=progress, progress_args=progress_args

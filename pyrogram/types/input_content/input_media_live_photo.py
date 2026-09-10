@@ -19,6 +19,7 @@
 from __future__ import annotations as _annotations
 
 import io
+import os
 from pathlib import Path
 from typing import BinaryIO
 from collections.abc import Callable
@@ -159,10 +160,10 @@ class InputMediaLivePhoto(InputMedia):
                 ),
             )
 
-        if isinstance(self.media, Path):
+        if isinstance(self.media, os.PathLike):
             raise FileNotFoundError(f"No such file or directory: {self.media}")
 
-        if isinstance(self.photo, Path):
+        if isinstance(self.photo, os.PathLike):
             raise FileNotFoundError(f"No such file or directory: {self.photo}")
 
         return utils.get_input_media_from_file_id(

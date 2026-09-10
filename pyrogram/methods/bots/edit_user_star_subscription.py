@@ -41,8 +41,8 @@ class EditUserStarSubscription:
                 Telegram payment identifier of the subscription.
 
             is_canceled (``bool``):
-                Pass True to cancel the subscription.
-                Pass False to allow the user to enable it.
+                Pass *True* to cancel extension of the user subscription, the subscription must be active up to the end of the current subscription period.
+                Pass *False* to allow the user to re-enable a subscription that was previously canceled by the bot.
 
         Returns:
             ``bool``: On success, True is returned.

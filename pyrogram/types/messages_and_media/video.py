@@ -130,8 +130,10 @@ class Video(Object):
         ttl_seconds: int | None = None,
         video_cover=None,
         video_start_timestamp: int | None = None,
-        alternative_videos: list[raw.types.Document] = [],
+        alternative_videos: list[raw.types.Document] | None = None,
     ) -> Video:
+        alternative_videos = alternative_videos or []
+
         _alt_videos = types.List()
 
         for alt_doc in alternative_videos:

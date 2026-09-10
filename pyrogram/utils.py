@@ -72,11 +72,11 @@ def get_input_media_from_file_id(
 ) -> raw.types.InputMediaPhoto | raw.types.InputMediaDocument:
     try:
         decoded = FileId.decode(file_id)
-    except Exception:
+    except Exception as e:
         raise ValueError(
             f'Failed to decode "{file_id}". The value does not represent an existing local file, '
             f"HTTP URL, or valid file id."
-        )
+        ) from e
 
     file_type = decoded.file_type
 
@@ -494,7 +494,7 @@ def sha256(data: bytes) -> bytes:
 
 
 def xor(a: bytes, b: bytes) -> bytes:
-    return bytes(i ^ j for i, j in zip(a, b))
+    return bytes(i ^ j for i, j in zip(a, b, strict=True))
 
 
 def compute_password_hash(

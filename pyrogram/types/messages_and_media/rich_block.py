@@ -109,12 +109,17 @@ class RichBlock(Object):
     async def _parse(
         client: pyrogram.Client,
         rich_block: raw.base.PageBlock,
-        photos: dict[int, raw.base.Photo] = {},
-        documents: dict[int, raw.base.Document] = {},
+        photos: dict[int, raw.base.Photo] | None = None,
+        documents: dict[int, raw.base.Document] | None = None,
         part: bool | None = None,
-        users: dict[int, raw.base.User] = {},
-        chats: dict[int, raw.base.Chat] = {},
+        users: dict[int, raw.base.User] | None = None,
+        chats: dict[int, raw.base.Chat] | None = None,
     ) -> RichBlock:
+        photos = photos or {}
+        documents = documents or {}
+        users = users or {}
+        chats = chats or {}
+
         if isinstance(rich_block, raw.types.PageBlockParagraph):
             return RichBlockParagraph(
                 text=await types.RichText._parse(client, rich_block.text),

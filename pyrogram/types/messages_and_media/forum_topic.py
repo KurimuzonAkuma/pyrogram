@@ -126,10 +126,14 @@ class ForumTopic(Object):
     async def _parse(
         client: pyrogram.Client,
         forum_topic: raw.types.ForumTopic,
-        messages: dict = {},
-        users: dict = {},
-        chats: dict = {},
+        messages: dict | None = None,
+        users: dict | None = None,
+        chats: dict | None = None,
     ) -> ForumTopic:
+        messages = messages or {}
+        users = users or {}
+        chats = chats or {}
+
         if not forum_topic:
             return None
 

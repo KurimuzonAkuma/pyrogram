@@ -165,7 +165,7 @@ class Sticker(Object):
             Sticker.cache[(set_id, set_access_hash)] = name
 
             if len(Sticker.cache) > 250:
-                for i in range(50):
+                for _ in range(50):
                     Sticker.cache.pop(next(iter(Sticker.cache)))
 
             return name

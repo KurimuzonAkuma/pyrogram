@@ -33,11 +33,12 @@ async def get_chunk(
     limit: int = 0,
     offset: int = 0,
     from_message_id: int = 0,
-    from_date: datetime = utils.zero_datetime(),
+    from_date: datetime | None = None,
     min_id: int = 0,
     max_id: int = 0,
     reverse: bool = False,
 ):
+    from_date = from_date or utils.zero_datetime()
     from_message_id = from_message_id or (1 if reverse else 0)
 
     messages = await client.invoke(
@@ -70,7 +71,7 @@ class GetDirectMessagesChatTopicHistory:
         limit: int = 0,
         offset: int = 0,
         offset_id: int = 0,
-        offset_date: datetime = utils.zero_datetime(),
+        offset_date: datetime | None = None,
         min_id: int = 0,
         max_id: int = 0,
         reverse: bool = False,

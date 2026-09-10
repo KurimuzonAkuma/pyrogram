@@ -35,11 +35,13 @@ async def get_chunk(
     limit: int = 0,
     offset: int = 0,
     offset_id: int = 0,
-    from_date: datetime = utils.zero_datetime(),
+    from_date: datetime | None = None,
     min_id: int = 0,  # Inclusive
     max_id: int = 0,  # Inclusive
     reverse: bool = False,
 ) -> list[types.Message]:
+    from_date = from_date or utils.zero_datetime()
+
     # Telegram API requires `offset_id` as starting point, boundaries alone don't work
     if (min_id or max_id) and not offset_id:
         if max_id:
@@ -79,7 +81,7 @@ class GetChatHistory:
         limit: int = 0,
         offset: int = 0,
         offset_id: int | None = None,
-        offset_date: datetime = utils.zero_datetime(),
+        offset_date: datetime | None = None,
         min_id: int = 0,
         max_id: int = 0,
         reverse: bool = False,

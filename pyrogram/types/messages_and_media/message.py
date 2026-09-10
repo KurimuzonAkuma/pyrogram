@@ -9441,20 +9441,20 @@ class Message(Object, Update):
         if isinstance(x, int) and y is None:
             try:
                 button = [button for row in keyboard for button in row][x]
-            except IndexError:
-                raise ValueError(f"The button at index {x} doesn't exist")
+            except IndexError as e:
+                raise ValueError(f"The button at index {x} doesn't exist") from e
         elif isinstance(x, int) and isinstance(y, int):
             try:
                 button = keyboard[y][x]
-            except IndexError:
-                raise ValueError(f"The button at position ({x}, {y}) doesn't exist")
+            except IndexError as e:
+                raise ValueError(f"The button at position ({x}, {y}) doesn't exist") from e
         elif isinstance(x, str) and y is None:
             label = x.encode("utf-16", "surrogatepass").decode("utf-16")
 
             try:
                 button = next(button for row in keyboard for button in row if label == button.text)
-            except IndexError:
-                raise ValueError(f"The button with label '{x}' doesn't exists")
+            except IndexError as e:
+                raise ValueError(f"The button with label '{x}' doesn't exists") from e
         else:
             raise ValueError("Invalid arguments")
 

@@ -71,8 +71,10 @@ class BusinessConnection(Object, Update):
         connection: raw.types.BotBusinessConnection
         | raw.types.UpdateBotBusinessConnect
         | None = None,
-        users={},
+        users: dict[int, raw.base.User] | None = None,
     ) -> BusinessConnection | None:
+        users = users or {}
+
         if not connection:
             return None
 

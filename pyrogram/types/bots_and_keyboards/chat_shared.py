@@ -50,8 +50,10 @@ class ChatShared(Object):
     async def _parse(
         client: pyrogram.Client,
         action: raw.types.MessageActionRequestedPeer | raw.types.MessageActionRequestedPeerSentMe,
-        chats: dict[int, raw.base.Chat] = {},
+        chats: dict[int, raw.base.Chat] | None = None,
     ) -> ChatShared | None:
+        chats = chats or {}
+
         peer = action.peers[0]
 
         if isinstance(peer, (raw.types.PeerUser, raw.types.RequestedPeerUser)):

@@ -50,8 +50,10 @@ class UsersShared(Object):
     async def _parse(
         client: pyrogram.Client,
         action: raw.types.MessageActionRequestedPeer | raw.types.MessageActionRequestedPeerSentMe,
-        users: dict[int, raw.base.User] = {},
+        users: dict[int, raw.base.User] | None = None,
     ) -> UsersShared:
+        users = users or {}
+
         requested_users = types.List()
 
         for peer in action.peers:

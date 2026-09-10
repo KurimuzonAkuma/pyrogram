@@ -151,9 +151,12 @@ class Poll(Object, Update):
         client,
         media_poll: raw.types.MessageMediaPoll | raw.types.UpdateMessagePoll,
         description: types.FormattedText | None = None,
-        users: dict[int, raw.types.User] = {},
-        chats: dict[int, raw.types.Chat] = {},
+        users: dict[int, raw.types.User] | None = None,
+        chats: dict[int, raw.types.Chat] | None = None,
     ) -> Poll:
+        users = users or {}
+        chats = chats or {}
+
         poll: raw.types.Poll = media_poll.poll
         poll_results: raw.types.PollResults = media_poll.results
         results: list[raw.types.PollAnswerVoters] = poll_results.results
@@ -266,9 +269,12 @@ class Poll(Object, Update):
     async def _parse_update(
         client,
         update: raw.types.UpdateMessagePoll | raw.types.UpdateMessagePollVote,
-        users: dict[int, raw.types.User] = {},
-        chats: dict[int, raw.types.Chat] = {},
+        users: dict[int, raw.types.User] | None = None,
+        chats: dict[int, raw.types.Chat] | None = None,
     ) -> Poll:
+        users = users or {}
+        chats = chats or {}
+
         if isinstance(update, raw.types.UpdateMessagePoll):
             if update.poll is not None:
                 return await Poll._parse(client, update, users=users, chats=chats)
@@ -350,7 +356,7 @@ class Poll(Object, Update):
             options[key]["count"] += 1
 
         sorted_options = []
-        for key, opt in options.items():
+        for opt in options.values():
             pos = opt["pos"]
             vc = voter_counts[pos]
             g = gap[pos]

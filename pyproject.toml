@@ -202,6 +202,8 @@ quote-style = "double"
 #  --statistics` reports nearly 19000 findings, the bulk of them line length, missing
 #  trailing commas and docstring section formatting.
 select = [
+    "B",      # flake8-bugbear: mutable/call-based argument defaults, bare `except: raise`,
+              #  unused loop variables, `zip()` without `strict=`.
     "C4",     # flake8-comprehensions: a comprehension a plain builtin call already expresses.
     "E9",     # Syntax errors and files that cannot be read.
     "EXE",    # flake8-executable: a shebang without the matching executable bit, or vice versa.

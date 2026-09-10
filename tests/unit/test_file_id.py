@@ -492,7 +492,7 @@ def test_every_source_survives_a_round_trip_at_its_extremes(thumbnail_source):
     The hand-built fixtures pin the layout; this pins the widths. A `<q` typed as `<i` somewhere
     still round trips small numbers and only shows up at the ends of the range.
     """
-    for big, small in zip(EXTREMES, SMALL_EXTREMES * 2):
+    for big, small in zip(EXTREMES, SMALL_EXTREMES * 2, strict=False):
         # Before minor 32 every source shared one layout, and the ones added for it cannot occur.
         minors = [32] if thumbnail_source >= ThumbnailSource.FULL_LEGACY else [30, 32]
 

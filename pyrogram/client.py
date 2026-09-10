@@ -692,7 +692,7 @@ class Client(Methods):
 
         return signed_up
 
-    async def authorize_qr(self, except_ids: list[int] = []) -> User:
+    async def authorize_qr(self, except_ids: list[int] | None = None) -> User:
         # `qrcode` is an optional extra, so importing it at module level would break
         #  `import pyrogram` for everyone who did not install it.
         try:
@@ -702,7 +702,7 @@ class Client(Methods):
                 "`qrcode` is not installed, run `pip install 'kurigram[qrcode]'`"
             ) from er
 
-        qr_login = QRLogin(self, except_ids)
+        qr_login = QRLogin(self, except_ids or [])
         await qr_login.recreate()
 
         qr = QRCode(version=1)
@@ -1433,7 +1433,10 @@ class Client(Methods):
                             )
 
                             # https://core.telegram.org/cdn#verifying-files
-                            def _check_all_hashes():
+                            def _check_all_hashes(
+                                hashes: list[raw.base.FileHash],
+                                decrypted_chunk: bytes,
+                            ) -> None:
                                 for i, h in enumerate(hashes):
                                     cdn_chunk = decrypted_chunk[h.limit * i : h.limit * (i + 1)]
                                     CDNFileHashMismatch.check(
@@ -1441,7 +1444,12 @@ class Client(Methods):
                                         "h.hash == sha256(cdn_chunk).digest()",
                                     )
 
-                            await self.loop.run_in_executor(self.executor, _check_all_hashes)
+                            await self.loop.run_in_executor(
+                                self.executor,
+                                _check_all_hashes,
+                                hashes,
+                                decrypted_chunk,
+                            )
 
                             yield decrypted_chunk
 

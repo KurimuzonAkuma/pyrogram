@@ -433,7 +433,7 @@ def start(format: bool = False):
         else:
             combinator_docs = docs["constructor"]
 
-        for i, arg in enumerate(sorted_args):
+        for arg in sorted_args:
             arg_name, arg_type = arg
             is_optional = FLAGS_RE.match(arg_type)
             arg_type = arg_type.split("?")[-1]

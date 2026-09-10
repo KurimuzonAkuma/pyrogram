@@ -112,7 +112,7 @@ class SuccessfulPayment(Object):
 
             telegram_payment_charge_id = payment.charge.id
             provider_payment_charge_id = payment.charge.provider_charge_id
-            shipping_option_id = getattr(payment, "shipping_option_id")
+            shipping_option_id = payment.shipping_option_id
 
             if payment.info:
                 payment_info = payment.info

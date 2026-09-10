@@ -153,9 +153,12 @@ class MessageContent(Object):
         client,
         media: raw.base.MessageMedia,
         message: raw.base.TextWithEntities | None = None,
-        users: dict[int, raw.types.User] = {},
-        chats: dict[int, raw.types.Chat] = {},
+        users: dict[int, raw.types.User] | None = None,
+        chats: dict[int, raw.types.Chat] | None = None,
     ) -> MessageContent:
+        users = users or {}
+        chats = chats or {}
+
         photo = None
         location = None
         contact = None

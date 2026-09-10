@@ -33,14 +33,17 @@ async def get_chunk(
     filter: enums.MessagesFilter = enums.MessagesFilter.EMPTY,
     offset: int = 0,
     offset_id: int = 0,
-    min_date: datetime = utils.zero_datetime(),
-    max_date: datetime = utils.zero_datetime(),
+    min_date: datetime | None = None,
+    max_date: datetime | None = None,
     limit: int = 100,
     min_id: int = 0,
     max_id: int = 0,
     from_user: int | str | None = None,
     message_thread_id: int | None = None,
 ) -> list[types.Message]:
+    min_date = min_date or utils.zero_datetime()
+    max_date = max_date or utils.zero_datetime()
+
     r = await client.invoke(
         raw.functions.messages.Search(
             peer=await client.resolve_peer(chat_id),
@@ -71,8 +74,8 @@ class SearchMessages:
         query: str = "",
         offset: int = 0,
         offset_id: int = 0,
-        min_date: datetime = utils.zero_datetime(),
-        max_date: datetime = utils.zero_datetime(),
+        min_date: datetime | None = None,
+        max_date: datetime | None = None,
         min_id: int = 0,
         max_id: int = 0,
         filter: enums.MessagesFilter = enums.MessagesFilter.EMPTY,

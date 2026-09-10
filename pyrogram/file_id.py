@@ -413,8 +413,8 @@ class FileId:
 
         try:
             file_type = FileType(file_type)
-        except ValueError:
-            raise ValueError(f"Unknown file_type {file_type} of file_id {file_id}")
+        except ValueError as e:
+            raise ValueError(f"Unknown file_type {file_type} of file_id {file_id}") from e
 
         if has_web_location:
             url = String.read(buffer)
@@ -440,10 +440,10 @@ class FileId:
 
             try:
                 thumbnail_source = ThumbnailSource(thumbnail_source)
-            except ValueError:
+            except ValueError as e:
                 raise ValueError(
                     f"Unknown thumbnail_source {thumbnail_source} of file_id {file_id}"
-                )
+                ) from e
 
             tail = read_photo_tail(buffer, thumbnail_source=thumbnail_source)
 
@@ -566,10 +566,10 @@ class FileUniqueId:
 
         try:
             file_unique_type = FileUniqueType(file_unique_type)
-        except ValueError:
+        except ValueError as e:
             raise ValueError(
                 f"Unknown file_unique_type {file_unique_type} of file_unique_id {file_unique_id}"
-            )
+            ) from e
 
         if file_unique_type == FileUniqueType.WEB:
             url = String.read(buffer)

@@ -52,6 +52,9 @@ class InputRichMessage(Object):
     Exactly one of the fields *html*, *markdown*, or *blocks* must be used.
 
     Parameters:
+        blocks (List of :obj:`~pyrogram.types.InputRichBlock`, *optional*):
+            Content of the rich message to send described as a list of blocks.
+
         html (``str``, *optional*):
             Content of the rich message to send described using HTML formatting.
             See `rich message formatting options <https://core.telegram.org/bots/api#rich-message-formatting-options>`__ for more details.
@@ -62,38 +65,35 @@ class InputRichMessage(Object):
             See `rich message formatting options <https://core.telegram.org/bots/api#rich-message-formatting-options>`__ for more details.
             Use *media* field to specify the media used in the message.
 
+        media (List of :obj:`~pyrogram.types.InputRichMessageMedia`, *optional*):
+            List of media that are specified in the *markdown* or *html* fields using
+            ``tg://photo?id=``, ``tg://video?id=``, ``tg://document?id=``, and ``tg://audio?id=`` links.
+
         is_rtl (``bool``, *optional*):
             Pass *True* if the rich message must be shown right-to-left.
 
         skip_entity_detection (``bool``, *optional*):
             Pass *True* to skip automatic detection of entities
             (e.g., URLs, email addresses, username mentions, hashtags, cashtags, bot commands, or phone numbers) in the text.
-
-        blocks (List of :obj:`~pyrogram.types.InputRichBlock`, *optional*):
-            Content of the rich message to send described as a list of blocks.
-
-        media (List of :obj:`~pyrogram.types.InputRichMessageMedia`, *optional*):
-            List of media that are specified in the *markdown* or *html* fields using
-            ``tg://photo?id=``, ``tg://video?id=``, ``tg://document?id=``, and ``tg://audio?id=`` links.
     """
 
     def __init__(
         self,
+        blocks: list[types.InputRichBlock] | None = None,
         html: str | None = None,
         markdown: str | None = None,
+        media: list[types.InputRichMessageMedia] | None = None,
         is_rtl: bool | None = None,
         skip_entity_detection: bool | None = None,
-        blocks: list[types.InputRichBlock] | None = None,
-        media: list[types.InputRichMessageMedia] | None = None,
     ) -> None:
         super().__init__()
 
+        self.blocks = blocks
         self.html = html
         self.markdown = markdown
+        self.media = media
         self.is_rtl = is_rtl
         self.skip_entity_detection = skip_entity_detection
-        self.blocks = blocks
-        self.media = media
 
     async def write(
         self,

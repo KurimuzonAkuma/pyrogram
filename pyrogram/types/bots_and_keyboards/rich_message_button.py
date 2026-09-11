@@ -216,6 +216,30 @@ class RichMessageButton(Object):
             else None
         )
 
+        set_fields = [
+            name
+            for name, value in (
+                ("url", self.url),
+                ("callback_data", self.callback_data),
+                ("web_app", self.web_app),
+                ("login_url", self.login_url),
+                ("switch_inline_query", self.switch_inline_query),
+                ("switch_inline_query_current_chat", self.switch_inline_query_current_chat),
+                ("switch_inline_query_chosen_chat", self.switch_inline_query_chosen_chat),
+                ("copy_text", self.copy_text),
+                ("disabled", self.disabled),
+            )
+            if value is not None
+        ]
+
+        # The raw button carries one `InlineButtonType`, so a second field set here would
+        #  overwrite the first without a word, and none at all sends a button with no type.
+        if len(set_fields) != 1:
+            raise ValueError(
+                "Exactly one field other than `text` and `style` must be set, "
+                f"got {set_fields or 'none'}"
+            )
+
         button_type = None
 
         if self.callback_data is not None:

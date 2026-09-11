@@ -197,6 +197,11 @@ class RichMessageButton(Object):
                 style=button_style,
             )
 
+        # `InlineButtonType` holds constructors a rich button cannot express, `inlineButtonTypeBuy`
+        #  and `inlineButtonTypeGame` among them, and the server may add more. Falling through used
+        #  to hand a `None` to `RichBlockButtons.buttons`, which then fails wherever it is read.
+        return RichMessageButton(text=button_text, style=button_style)
+
     async def write(
         self, client: pyrogram.Client, is_block: bool = False
     ) -> raw.types.TextButton | raw.types.PageButton:

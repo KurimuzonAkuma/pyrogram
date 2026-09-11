@@ -277,9 +277,9 @@ class RichMessageButton(Object):
 
         if self.login_url is not None:
             button_type = raw.types.InputInlineButtonTypeUrlAuth(
-                url=self.url,
-                request_write_access=self.request_write_access,
-                fwd_text=self.forward_text,
+                url=self.login_url.url,
+                request_write_access=self.login_url.request_write_access,
+                fwd_text=self.login_url.forward_text,
                 bot=await client.resolve_peer(self.login_url.bot_username or "self"),
             )
 

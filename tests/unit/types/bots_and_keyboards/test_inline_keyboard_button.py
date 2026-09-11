@@ -46,3 +46,22 @@ async def test_a_chosen_chat_button_carries_its_own_query() -> None:
         peer_types=[raw.types.InlineQueryPeerTypePM()],
     )
 
+
+async def test_a_login_url_button_carries_the_url_of_its_login_url() -> None:
+    button = types.InlineKeyboardButton(
+        "text",
+        login_url=types.LoginUrl(
+            url="https://example.com",
+            forward_text="Sign in",
+            request_write_access=True,
+        ),
+    )
+
+    written = await button.write(PeerResolver())
+
+    assert written.type == raw.types.InputInlineButtonTypeUrlAuth(
+        url="https://example.com",
+        request_write_access=True,
+        fwd_text="Sign in",
+        bot=raw.types.InputUserSelf(),
+    )

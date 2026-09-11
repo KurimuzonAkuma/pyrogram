@@ -91,7 +91,7 @@ class RichMessageButton(Object):
         switch_inline_query_current_chat: str | None = None,
         switch_inline_query_chosen_chat: types.SwitchInlineQueryChosenChat | None = None,
         copy_text: types.CopyTextButton | None = None,
-        disabled: bool | None = None,
+        disabled: types.DisabledButton | None = None,
     ):
         super().__init__()
 

@@ -169,13 +169,23 @@ class RichBlock(Object):
         if isinstance(rich_block, raw.types.PageBlockList):
             return RichBlockList(
                 items=types.List(
-                    [await types.RichBlockListItem._parse(client, i) for i in rich_block.items]
+                    [
+                        await types.RichBlockListItem._parse(
+                            client, i, photos, documents, part, users, chats
+                        )
+                        for i in rich_block.items
+                    ]
                 )
             )
         if isinstance(rich_block, raw.types.PageBlockOrderedList):
             return RichBlockList(
                 items=types.List(
-                    [await types.RichBlockListItem._parse(client, i) for i in rich_block.items]
+                    [
+                        await types.RichBlockListItem._parse(
+                            client, i, photos, documents, part, users, chats
+                        )
+                        for i in rich_block.items
+                    ]
                 )
             )
         if isinstance(rich_block, raw.types.PageBlockBlockquoteBlocks):
@@ -276,6 +286,10 @@ class RichBlock(Object):
             )
         if isinstance(rich_block, raw.types.PageBlockVideo):
             doc = documents.get(rich_block.video_id)
+
+            if not isinstance(doc, raw.types.Document):
+                return RichBlockUnsupported()
+
             attributes = {type(i): i for i in doc.attributes}
 
             file_name = getattr(
@@ -313,6 +327,10 @@ class RichBlock(Object):
                     )
         if isinstance(rich_block, raw.types.PageBlockDocument):
             doc = documents.get(rich_block.document_id)
+
+            if not isinstance(doc, raw.types.Document):
+                return RichBlockUnsupported()
+
             attributes = {type(i): i for i in doc.attributes}
 
             file_name = getattr(
@@ -325,6 +343,10 @@ class RichBlock(Object):
             )
         if isinstance(rich_block, raw.types.PageBlockAudio):
             doc = documents.get(rich_block.audio_id)
+
+            if not isinstance(doc, raw.types.Document):
+                return RichBlockUnsupported()
+
             attributes = {type(i): i for i in doc.attributes}
 
             file_name = getattr(
@@ -534,10 +556,23 @@ class RichBlockListItem(RichBlock):
         self.type = type
 
     @staticmethod
-    async def _parse(client, list_item: raw.base.PageListItem | raw.base.PageListOrderedItem):
+    async def _parse(
+        client: pyrogram.Client,
+        list_item: raw.base.PageListItem | raw.base.PageListOrderedItem,
+        photos: dict[int, raw.base.Photo] | None = None,
+        documents: dict[int, raw.base.Document] | None = None,
+        part: bool | None = None,
+        users: dict[int, raw.base.User] | None = None,
+        chats: dict[int, raw.base.Chat] | None = None,
+    ) -> RichBlockListItem | None:
         if isinstance(list_item, raw.types.PageListItemBlocks):
             blocks = types.List(
-                [await types.RichBlock._parse(client, block) for block in list_item.blocks]
+                [
+                    await types.RichBlock._parse(
+                        client, block, photos, documents, part, users, chats
+                    )
+                    for block in list_item.blocks
+                ]
             )
             label = "•"
             has_checkbox = list_item.checkbox
@@ -557,7 +592,12 @@ class RichBlockListItem(RichBlock):
 
         elif isinstance(list_item, raw.types.PageListOrderedItemBlocks):
             blocks = types.List(
-                [await types.RichBlock._parse(client, block) for block in list_item.blocks]
+                [
+                    await types.RichBlock._parse(
+                        client, block, photos, documents, part, users, chats
+                    )
+                    for block in list_item.blocks
+                ]
             )
             has_checkbox = list_item.checkbox
             is_checked = list_item.checked

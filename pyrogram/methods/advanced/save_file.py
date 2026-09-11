@@ -26,6 +26,7 @@ import logging
 import math
 import os
 from hashlib import md5
+from tempfile import SpooledTemporaryFile
 from typing import BinaryIO, overload
 from collections.abc import Callable
 
@@ -162,9 +163,12 @@ class SaveFile:
 
             if isinstance(path, (str, os.PathLike)):
                 fp = await aiofiles.open(path, "rb")
-            elif isinstance(path, io.IOBase):
-                # `aiofiles.threadpool.wrap()` only recognizes stdlib file types — a `SpooledTemporaryFile`
-                #  or custom `io.IOBase` raises there, though both are accepted here.
+            elif isinstance(path, (io.IOBase, SpooledTemporaryFile)):
+                # `SpooledTemporaryFile` only became an `io.IOBase` in Python 3.11 (the floor
+                #  here is 3.10), so it needs naming on its own to keep accepting it below that.
+                # `aiofiles.threadpool.wrap()` only recognizes stdlib file types (a
+                #  `SpooledTemporaryFile` or custom `io.IOBase` raises there), though both are
+                #  accepted here.
                 fp = AsyncBufferedIOBase(path, loop=None, executor=None)
             else:
                 raise ValueError(

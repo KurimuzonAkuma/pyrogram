@@ -179,7 +179,8 @@ async def test_a_file_object_that_has_a_name_uploads_under_it() -> None:
 @pytest.mark.asyncio
 async def test_a_file_object_the_caller_opened_stays_open(three_parts: str) -> None:
     # It is the caller's file: they may still read it, and they are the ones who close it.
-    with open(three_parts, "rb") as fp:
+    #  A real sync `io.IOBase` is the point of the test, not a stand-in `aiofiles` would give.
+    with open(three_parts, "rb") as fp:  # noqa: ASYNC230 - needs a real sync file object
         await Uploader(Media()).save_file(fp)
 
         assert not fp.closed

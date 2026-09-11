@@ -214,6 +214,8 @@ quote-style = "double"
 #  --statistics` reports nearly 19000 findings, the bulk of them line length, missing
 #  trailing commas and docstring section formatting.
 select = [
+    "ASYNC",  # flake8-async: a blocking call (`open`, `time.sleep`, pathlib I/O, ...) inside
+              #  an `async def`, which stalls the event loop instead of yielding to it.
     "B",      # flake8-bugbear: mutable/call-based argument defaults, bare `except: raise`,
               #  unused loop variables, `zip()` without `strict=`.
     "C4",     # flake8-comprehensions: a comprehension a plain builtin call already expresses.

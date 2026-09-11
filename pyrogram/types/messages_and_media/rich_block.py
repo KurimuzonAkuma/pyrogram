@@ -287,7 +287,7 @@ class RichBlock(Object):
         if isinstance(rich_block, raw.types.PageBlockVideo):
             doc = documents.get(rich_block.video_id)
 
-            if doc is None:
+            if not isinstance(doc, raw.types.Document):
                 return RichBlockUnsupported()
 
             attributes = {type(i): i for i in doc.attributes}
@@ -328,7 +328,7 @@ class RichBlock(Object):
         if isinstance(rich_block, raw.types.PageBlockDocument):
             doc = documents.get(rich_block.document_id)
 
-            if doc is None:
+            if not isinstance(doc, raw.types.Document):
                 return RichBlockUnsupported()
 
             attributes = {type(i): i for i in doc.attributes}
@@ -344,7 +344,7 @@ class RichBlock(Object):
         if isinstance(rich_block, raw.types.PageBlockAudio):
             doc = documents.get(rich_block.audio_id)
 
-            if doc is None:
+            if not isinstance(doc, raw.types.Document):
                 return RichBlockUnsupported()
 
             attributes = {type(i): i for i in doc.attributes}

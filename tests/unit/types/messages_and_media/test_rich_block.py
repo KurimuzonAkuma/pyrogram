@@ -390,10 +390,19 @@ async def test_a_document_block_parses_the_document_it_points_at() -> None:
         ),
     ],
 )
-async def test_a_media_block_the_page_carries_no_document_for_is_unsupported(
+@pytest.mark.parametrize(
+    "documents",
+    [
+        pytest.param({}, id="absent"),
+        pytest.param({1: raw.types.DocumentEmpty(id=1)}, id="empty"),
+    ],
+)
+async def test_a_media_block_without_a_usable_document_is_unsupported(
     block: raw.base.PageBlock,
+    *,
+    documents: dict[int, raw.base.Document],
 ) -> None:
-    parsed = await _parse(block)
+    parsed = await types.RichBlock._parse(None, block, {}, documents, None, {}, {})
 
     # `type()` rather than `==`: `Object.__eq__` iterates `self.__dict__`, so an attribute-less
     #  object compares equal to everything, `None` included.

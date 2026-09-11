@@ -25,7 +25,7 @@ import pyrogram
 from pyrogram import raw
 from pyrogram import utils
 from pyrogram import types
-from pyrogram._typehints import PathType
+from pyrogram._typing import PathType
 from pyrogram.file_id import FileType
 
 

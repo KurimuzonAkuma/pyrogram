@@ -20,7 +20,7 @@ from __future__ import annotations as _annotations
 
 from typing import TYPE_CHECKING, BinaryIO
 
-from ..._typehints import PathType
+from ..._typing import PathType
 from ..messages_and_media import MessageEntity
 from .input_media import InputMedia
 

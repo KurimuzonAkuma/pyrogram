@@ -27,7 +27,7 @@ from collections.abc import Callable
 
 import pyrogram
 from pyrogram import raw, utils
-from pyrogram._typehints import PathType
+from pyrogram._typing import PathType
 from pyrogram.file_id import FileType
 
 from ... import enums

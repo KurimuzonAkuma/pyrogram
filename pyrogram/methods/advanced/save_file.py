@@ -32,7 +32,7 @@ from collections.abc import Callable
 import pyrogram
 from pyrogram import StopTransmission
 from pyrogram import raw
-from pyrogram._typehints import PathType
+from pyrogram._typing import PathType
 
 log = logging.getLogger(__name__)
 

@@ -24,7 +24,7 @@ from collections.abc import Callable
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
-from pyrogram._typehints import PathType
+from pyrogram._typing import PathType
 from pyrogram.errors import ChannelInvalid, ChannelPrivate
 
 from ..object import Object

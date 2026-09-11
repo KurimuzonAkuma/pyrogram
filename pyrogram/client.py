@@ -41,7 +41,7 @@ from collections.abc import AsyncGenerator, Callable, Sequence
 
 import pyrogram
 from pyrogram import __license__, __version__, enums, raw, utils
-from pyrogram._typehints import PathType
+from pyrogram._typing import PathType
 from pyrogram.connection import Proxy
 from pyrogram.connection.proxy import ProxyDict, normalize_proxy
 from pyrogram.crypto import aes

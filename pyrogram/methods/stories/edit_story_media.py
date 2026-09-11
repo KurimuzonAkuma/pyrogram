@@ -25,7 +25,7 @@ from collections.abc import Callable
 
 import pyrogram
 from pyrogram import raw, types, utils, StopTransmission
-from pyrogram._typehints import PathType
+from pyrogram._typing import PathType
 from pyrogram.errors import FilePartMissing
 
 

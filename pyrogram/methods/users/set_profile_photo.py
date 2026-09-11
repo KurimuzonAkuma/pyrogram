@@ -23,7 +23,7 @@ from typing import BinaryIO
 
 import pyrogram
 from pyrogram import raw, types
-from pyrogram._typehints import PathType
+from pyrogram._typing import PathType
 
 log = logging.getLogger(__name__)
 

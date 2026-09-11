@@ -25,7 +25,7 @@ from collections.abc import AsyncGenerator
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
-from pyrogram._typehints import PathType
+from pyrogram._typing import PathType
 
 from ..object import Object
 

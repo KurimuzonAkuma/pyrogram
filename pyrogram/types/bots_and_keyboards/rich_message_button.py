@@ -24,29 +24,28 @@ from pyrogram import enums, raw, types
 from ..object import Object
 
 
-class InlineKeyboardButton(Object):
-    """One button of an inline keyboard.
+class RichMessageButton(Object):
+    """This object represents a button in a :obj:`~pyrogram.types.RichMessage`.
 
-    You must use exactly one of the optional fields.
+    Exactly one of the fields other than *text* and *style* must be used to specify the type of the button.
 
     Parameters:
-        text (``str``):
-            Label text on the button.
-
-        icon_custom_emoji_id (``str``, *optional*):
-            Identifier of the custom emoji that must be shown on the button.
+        text (:obj:`~pyrogram.types.RichText`):
+            Text of the button.
+            May contain only plain text, :obj:`~pyrogram.types.RichTextCustomEmoji` and :obj:`~pyrogram.types.RichTextDateTime` entities.
 
         style (:obj:`~pyrogram.enums.ButtonStyle`, *optional*):
             Style of the button.
+            Must be one of :obj:`~pyrogram.enums.ButtonStyle.DANGER`, :obj:`~pyrogram.enums.ButtonStyle.SUCCESS`, :obj:`~pyrogram.enums.ButtonStyle.PRIMARY`, or :obj:`~pyrogram.enums.ButtonStyle.LINK` (the button is shown as a regular link without borders).
+            Apps may use theme-specific colors for the button background and text based on the style.
+            The style “link” is allowed only for callback buttons.
 
         url (``str``, *optional*):
-            HTTP url to be opened when button is pressed.
+            HTTP or tg:// URL to be opened when the button is pressed.
+            Links ``tg://user?id=<user_id>`` can be used to mention a user by their identifier without using a username, if this is allowed by their privacy settings.
 
         callback_data (``str`` | ``bytes``, *optional*):
             Data to be sent in a callback query to the bot when button is pressed, 1-64 bytes.
-
-        requires_password (``bool``, *optional*):
-            A button that asks for the 2-step verification password of the current user and then sends a callback query to a bot Data to be sent to the bot via a callback query.
 
         web_app (:obj:`~pyrogram.types.WebAppInfo`, *optional*):
             Description of the `Web App <https://core.telegram.org/bots/webapps>`_ that will be launched when the user
@@ -55,45 +54,26 @@ class InlineKeyboardButton(Object):
             bot.
 
         login_url (:obj:`~pyrogram.types.LoginUrl`, *optional*):
-             An HTTP URL used to automatically authorize the user. Can be used as a replacement for
-             the `Telegram Login Widget <https://core.telegram.org/widgets/login>`_.
-
-        user_id (``int``, *optional*):
-            User id, for links to the user profile.
+            An HTTP URL used to automatically authorize the user. Can be used as a replacement for
+            the `Telegram Login Widget <https://core.telegram.org/widgets/login>`_.
 
         switch_inline_query (``str``, *optional*):
-            If set, pressing the button will prompt the user to select one of their chats, open that chat and insert
-            the bot's username and the specified inline query in the input field. Can be empty, in which case just
-            the bot's username will be inserted.Note: This offers an easy way for users to start using your bot in
-            inline mode when they are currently in a private chat with it. Especially useful when combined with
-            switch_pm… actions – in this case the user will be automatically returned to the chat they switched from,
-            skipping the chat selection screen.
+            If set, pressing the button will prompt the user to select one of their chats, open that chat and insert the bot's username and the specified inline query in the input field.
+            May be empty, in which case just the bot's username will be inserted.
+            Not supported for messages sent in channel direct messages chats and on behalf of a business account.
 
         switch_inline_query_current_chat (``str``, *optional*):
-            If set, pressing the button will insert the bot's username and the specified inline query in the current
-            chat's input field. Can be empty, in which case only the bot's username will be inserted.This offers a
-            quick way for the user to open your bot in inline mode in the same chat – good for selecting something
-            from multiple options.
+            If set, pressing the button will insert the bot's username and the specified inline query in the current chat's input field.
+            May be empty, in which case only the bot's username will be inserted.
+            Not supported in channels and for messages sent in channel direct messages chats and on behalf of a business account.
 
         switch_inline_query_chosen_chat (:obj:`~pyrogram.types.SwitchInlineQueryChosenChat`, *optional*):
-            If set, pressing the button will prompt the user to select one of their chats of the specified type, open that chat and insert
-            the bot's username and the specified inline query in the input field.
+            If set, pressing the button will prompt the user to select one of their chats of the specified type, open that chat and insert the bot's username and the specified inline query in the input field.
             Not supported for messages sent in channel direct messages chats and on behalf of a business account.
 
         copy_text (:obj:`~pyrogram.types.CopyTextButton`, *optional*):
             A button that copies specified text to clipboard.
             Limited to 256 character.
-
-        callback_game (:obj:`~pyrogram.types.CallbackGame`, *optional*):
-            Description of the game that will be launched when the user presses the button.
-            **NOTE**: This type of button **must** always be the first button in the first row.
-
-        pay (``bool``, *optional*):
-            Pass True, to send a Pay button.
-            Substrings `⭐` and `XTR` in the buttons's text will be replaced with a Telegram Star icon.
-            Available in :meth:`~pyrogram.Client.send_invoice`.
-
-            **NOTE**: This type of button **must** always be the first button in the first row and can only be used in invoice messages.
 
         disabled (:obj:`~pyrogram.types.DisabledButton`, *optional*):
             If set, then the button is disabled and does nothing.
@@ -101,49 +81,39 @@ class InlineKeyboardButton(Object):
 
     def __init__(
         self,
-        text: str,
-        icon_custom_emoji_id: str | None = None,
+        text: types.RichText,
         style: enums.ButtonStyle = enums.ButtonStyle.DEFAULT,
         url: str | None = None,
         callback_data: str | bytes | None = None,
-        requires_password: bool | None = None,
         web_app: types.WebAppInfo | None = None,
         login_url: types.LoginUrl | None = None,
-        user_id: int | None = None,
         switch_inline_query: str | None = None,
         switch_inline_query_current_chat: str | None = None,
         switch_inline_query_chosen_chat: types.SwitchInlineQueryChosenChat | None = None,
         copy_text: types.CopyTextButton | None = None,
-        callback_game: types.CallbackGame | None = None,
-        pay: bool | None = None,
         disabled: types.DisabledButton | None = None,
     ):
         super().__init__()
 
-        self.text = str(text)
-        self.icon_custom_emoji_id = icon_custom_emoji_id
+        self.text = text
         self.style = style
         self.url = url
         self.callback_data = callback_data
-        self.requires_password = requires_password
         self.web_app = web_app
         self.login_url = login_url
-        self.user_id = user_id
         self.switch_inline_query = switch_inline_query
         self.switch_inline_query_current_chat = switch_inline_query_current_chat
         self.switch_inline_query_chosen_chat = switch_inline_query_chosen_chat
         self.copy_text = copy_text
-        self.callback_game = callback_game
-        self.pay = pay
         self.disabled = disabled
 
     @staticmethod
-    def read(button: raw.base.KeyboardInlineButton):
-        button_text = button.text
+    async def _parse(
+        client: pyrogram.Client, button: raw.types.TextButton | raw.types.PageButton
+    ) -> RichMessageButton:
+        button_text = await types.RichText._parse(client, button.text)
         button_type = button.type
         button_style = enums.ButtonStyle.DEFAULT
-
-        icon_custom_emoji_id = None
 
         if button.style:
             if button.style.bg_primary:
@@ -152,17 +122,8 @@ class InlineKeyboardButton(Object):
                 button_style = enums.ButtonStyle.DANGER
             elif button.style.bg_success:
                 button_style = enums.ButtonStyle.SUCCESS
-
-            if button.style.icon:
-                icon_custom_emoji_id = str(button.style.icon)
-
-        if isinstance(button_type, raw.types.InlineButtonTypeBuy):
-            return InlineKeyboardButton(
-                text=button_text,
-                pay=True,
-                style=button_style,
-                icon_custom_emoji_id=icon_custom_emoji_id,
-            )
+            elif button.style.link:
+                button_style = enums.ButtonStyle.LINK
 
         if isinstance(button_type, raw.types.InlineButtonTypeCallback):
             # Try decode data to keep it as string, but if fails, fallback to bytes so we don't lose any information,
@@ -172,119 +133,114 @@ class InlineKeyboardButton(Object):
             except UnicodeDecodeError:
                 data = button_type.data
 
-            return InlineKeyboardButton(
+            return RichMessageButton(
                 text=button_text,
                 callback_data=data,
-                requires_password=button_type.requires_password,
                 style=button_style,
-                icon_custom_emoji_id=icon_custom_emoji_id,
             )
 
         if isinstance(button_type, raw.types.InlineButtonTypeCopy):
-            return InlineKeyboardButton(
+            return RichMessageButton(
                 text=button_text,
                 copy_text=types.CopyTextButton(text=button_type.copy_text),
                 style=button_style,
-                icon_custom_emoji_id=icon_custom_emoji_id,
             )
 
         if isinstance(button_type, raw.types.InlineButtonTypeDisabled):
-            return InlineKeyboardButton(
+            return RichMessageButton(
                 text=button_text,
                 disabled=types.DisabledButton(),
                 style=button_style,
-                icon_custom_emoji_id=icon_custom_emoji_id,
-            )
-
-        if isinstance(button_type, raw.types.InlineButtonTypeGame):
-            return InlineKeyboardButton(
-                text=button_text,
-                callback_game=types.CallbackGame(),
-                style=button_style,
-                icon_custom_emoji_id=icon_custom_emoji_id,
             )
 
         if isinstance(button_type, raw.types.InlineButtonTypeSwitchInline):
             if button_type.peer_types:
-                return InlineKeyboardButton(
+                return RichMessageButton(
                     text=button_text,
                     switch_inline_query_chosen_chat=types.SwitchInlineQueryChosenChat._parse(
                         button_type
                     ),
                     style=button_style,
-                    icon_custom_emoji_id=icon_custom_emoji_id,
                 )
 
             if button_type.same_peer:
-                return InlineKeyboardButton(
+                return RichMessageButton(
                     text=button_text,
                     switch_inline_query_current_chat=button_type.query,
                     style=button_style,
-                    icon_custom_emoji_id=icon_custom_emoji_id,
                 )
 
-            return InlineKeyboardButton(
+            return RichMessageButton(
                 text=button_text,
                 switch_inline_query=button_type.query,
                 style=button_style,
-                icon_custom_emoji_id=icon_custom_emoji_id,
             )
 
         if isinstance(button_type, raw.types.InlineButtonTypeUrl):
-            return InlineKeyboardButton(
+            return RichMessageButton(
                 text=button_text,
                 url=button_type.url,
                 style=button_style,
-                icon_custom_emoji_id=icon_custom_emoji_id,
             )
 
         if isinstance(button_type, raw.types.InlineButtonTypeUrlAuth):
-            return InlineKeyboardButton(
+            return RichMessageButton(
                 text=button_text,
                 login_url=types.LoginUrl.read(button_type),
                 style=button_style,
-                icon_custom_emoji_id=icon_custom_emoji_id,
-            )
-
-        if isinstance(button_type, raw.types.InlineButtonTypeUserProfile):
-            return InlineKeyboardButton(
-                text=button_text,
-                user_id=button_type.user_id,
-                style=button_style,
-                icon_custom_emoji_id=icon_custom_emoji_id,
             )
 
         if isinstance(button_type, raw.types.InlineButtonTypeWebView):
-            return InlineKeyboardButton(
+            return RichMessageButton(
                 text=button_text,
                 web_app=types.WebAppInfo(url=button_type.url),
                 style=button_style,
-                icon_custom_emoji_id=icon_custom_emoji_id,
             )
 
-    async def write(self, client: pyrogram.Client) -> raw.types.KeyboardInlineButton:
-        if self.style is enums.ButtonStyle.LINK:
-            # `keyboardButtonStyle` carries no `link` flag, so the style would go out empty.
-            #  `compiler/api/source/main_api.tl:2188`
-            raise ValueError("`ButtonStyle.LINK` is only available on `RichMessageButton`")
+        # `InlineButtonType` holds constructors a rich button cannot express, `inlineButtonTypeBuy`
+        #  and `inlineButtonTypeGame` among them, and the server may add more. Falling through used
+        #  to hand a `None` to `RichBlockButtons.buttons`, which then fails wherever it is read.
+        return RichMessageButton(text=button_text, style=button_style)
 
+    async def write(
+        self, client: pyrogram.Client, is_block: bool = False
+    ) -> raw.types.TextButton | raw.types.PageButton:
         style = (
-            raw.types.KeyboardButtonStyle(
+            raw.types.RichButtonStyle(
                 bg_primary=self.style == enums.ButtonStyle.PRIMARY,
                 bg_danger=self.style == enums.ButtonStyle.DANGER,
                 bg_success=self.style == enums.ButtonStyle.SUCCESS,
-                icon=int(self.icon_custom_emoji_id)
-                if self.icon_custom_emoji_id is not None
-                else None,
+                link=self.style == enums.ButtonStyle.LINK,
             )
-            if self.style != enums.ButtonStyle.DEFAULT or self.icon_custom_emoji_id is not None
+            if self.style != enums.ButtonStyle.DEFAULT
             else None
         )
 
-        button_type = None
+        set_fields = [
+            name
+            for name, value in (
+                ("url", self.url),
+                ("callback_data", self.callback_data),
+                ("web_app", self.web_app),
+                ("login_url", self.login_url),
+                ("switch_inline_query", self.switch_inline_query),
+                ("switch_inline_query_current_chat", self.switch_inline_query_current_chat),
+                ("switch_inline_query_chosen_chat", self.switch_inline_query_chosen_chat),
+                ("copy_text", self.copy_text),
+                ("disabled", self.disabled),
+            )
+            if value is not None
+        ]
 
-        if self.pay is not None:
-            button_type = raw.types.InlineButtonTypeBuy()
+        # The raw button carries one `InlineButtonType`, so a second field set here would
+        #  overwrite the first without a word, and none at all sends a button with no type.
+        if len(set_fields) != 1:
+            raise ValueError(
+                "Exactly one field other than `text` and `style` must be set, "
+                f"got {set_fields or 'none'}"
+            )
+
+        button_type = None
 
         if self.callback_data is not None:
             # Telegram only wants bytes, but we are allowed to pass strings too, for convenience.
@@ -304,9 +260,6 @@ class InlineKeyboardButton(Object):
         if self.disabled is not None:
             button_type = raw.types.InlineButtonTypeDisabled()
 
-        if self.callback_game is not None:
-            button_type = raw.types.InlineButtonTypeGame()
-
         if self.switch_inline_query is not None:
             button_type = raw.types.InlineButtonTypeSwitchInline(
                 query=self.switch_inline_query,
@@ -319,7 +272,10 @@ class InlineKeyboardButton(Object):
                 peer_types.append(raw.types.InlineQueryPeerTypePM())
             if self.switch_inline_query_chosen_chat.allow_bot_chats:
                 peer_types.extend(
-                    (raw.types.InlineQueryPeerTypeBotPM(), raw.types.InlineQueryPeerTypeSameBotPM())
+                    (
+                        raw.types.InlineQueryPeerTypeBotPM(),
+                        raw.types.InlineQueryPeerTypeSameBotPM(),
+                    )
                 )
             if self.switch_inline_query_chosen_chat.allow_group_chats:
                 peer_types.extend(
@@ -329,8 +285,7 @@ class InlineKeyboardButton(Object):
                 peer_types.append(raw.types.InlineQueryPeerTypeBroadcast())
 
             button_type = raw.types.InlineButtonTypeSwitchInline(
-                query=self.switch_inline_query_chosen_chat.query,
-                peer_types=peer_types,
+                query=self.switch_inline_query_chosen_chat.query, peer_types=peer_types
             )
 
         if self.switch_inline_query_current_chat is not None:
@@ -352,18 +307,20 @@ class InlineKeyboardButton(Object):
                 bot=await client.resolve_peer(self.login_url.bot_username or "self"),
             )
 
-        if self.user_id is not None:
-            button_type = raw.types.InputInlineButtonTypeUserProfile(
-                user_id=await client.resolve_peer(self.user_id),
-            )
-
         if self.web_app is not None:
             button_type = raw.types.InlineButtonTypeWebView(
                 url=self.web_app.url,
             )
 
-        return raw.types.KeyboardInlineButton(
-            text=self.text,
+        if is_block:
+            return raw.types.PageButton(
+                text=await types.RichText._write(client, self.text),
+                type=button_type,
+                style=style,
+            )
+
+        return raw.types.TextButton(
+            text=await types.RichText._write(client, self.text),
             type=button_type,
             style=style,
         )

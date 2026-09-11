@@ -111,14 +111,17 @@ class InputRichBlock(Object):
     - :obj:`~pyrogram.types.InputRichBlockAnchor`
     - :obj:`~pyrogram.types.InputRichBlockList`
     - :obj:`~pyrogram.types.InputRichBlockBlockQuotation`
+    - :obj:`~pyrogram.types.InputRichBlockExpandableBlockQuotation`
     - :obj:`~pyrogram.types.InputRichBlockPullQuotation`
     - :obj:`~pyrogram.types.InputRichBlockCollage`
     - :obj:`~pyrogram.types.InputRichBlockSlideshow`
     - :obj:`~pyrogram.types.InputRichBlockTable`
     - :obj:`~pyrogram.types.InputRichBlockDetails`
     - :obj:`~pyrogram.types.InputRichBlockMap`
+    - :obj:`~pyrogram.types.InputRichBlockButtons`
     - :obj:`~pyrogram.types.InputRichBlockAnimation`
     - :obj:`~pyrogram.types.InputRichBlockAudio`
+    - :obj:`~pyrogram.types.InputRichBlockDocument`
     - :obj:`~pyrogram.types.InputRichBlockPhoto`
     - :obj:`~pyrogram.types.InputRichBlockVideo`
     - :obj:`~pyrogram.types.InputRichBlockVoiceNote`
@@ -504,6 +507,42 @@ class InputRichBlockBlockQuotation(InputRichBlock):
         )
 
 
+class InputRichBlockExpandableBlockQuotation(InputRichBlock):
+    """A block quotation, corresponding to the HTML tag ``<blockquote>`` with custom attribute ``"expandable"``.
+
+    Parameters:
+        text (:obj:`~pyrogram.types.RichText`):
+            Content of the block.
+
+        credit (:obj:`~pyrogram.types.RichText`, *optional*):
+            Credit of the block.
+    """
+
+    def __init__(
+        self,
+        text: types.RichText,
+        credit: types.RichText | None = None,
+    ) -> None:
+        super().__init__()
+
+        self.text = text
+        self.credit = credit
+
+    async def write(
+        self,
+        *,
+        client: pyrogram.Client,
+        chat_id: int | str | None = None,
+        photos: list[raw.base.InputPhoto],
+        documents: list[raw.base.InputDocument],
+    ) -> raw.base.PageBlock:
+        return raw.types.PageBlockBlockquote(
+            text=await types.RichText._write(client, self.text),
+            caption=await types.RichText._write(client, self.credit),
+            collapsed=True,
+        )
+
+
 class InputRichBlockPullQuotation(InputRichBlock):
     """A quotation with centered text, loosely corresponding to the HTML tag ``<aside>``.
 
@@ -799,6 +838,44 @@ class InputRichBlockMap(InputRichBlock):
         )
 
 
+class InputRichBlockButtons(InputRichBlock):
+    """A block containing a list of buttons that are shown in one row, corresponding to the custom HTML tag ``<tg-button-row>``.
+
+    Parameters:
+        buttons (List of :obj:`~pyrogram.types.RichMessageButton`):
+            List of 1-8 buttons to send.
+
+        align (``str``, *optional*):
+            Horizontal alignment of the buttons.
+            Currently, must be one of "left", "center", or "right".
+    """
+
+    def __init__(
+        self,
+        buttons: list[types.RichMessageButton],
+        align: str | None = None,
+    ) -> None:
+        super().__init__()
+
+        self.buttons = buttons
+        self.align = align
+
+    async def write(
+        self,
+        *,
+        client: pyrogram.Client,
+        chat_id: int | str | None = None,
+        photos: list[raw.base.InputPhoto],
+        documents: list[raw.base.InputDocument],
+    ) -> raw.base.PageBlock:
+        return raw.types.PageBlockButtonRow(
+            buttons=[await button.write(client, is_block=True) for button in self.buttons],
+            align_left=self.align == "left",
+            align_center=self.align == "center",
+            align_right=self.align == "right",
+        )
+
+
 class InputRichBlockAnimation(InputRichBlock):
     """A block with an animation, corresponding to the HTML tag ``<video>``.
 
@@ -889,6 +966,53 @@ class InputRichBlockAudio(InputRichBlock):
 
         return raw.types.PageBlockAudio(
             audio_id=input_document.id,
+            caption=await _write_caption(client, caption=self.caption),
+        )
+
+
+class InputRichBlockDocument(InputRichBlock):
+    """A block with a general file, corresponding to the custom HTML tag ``<tg-document>``.
+
+    Parameters:
+        document (:obj:`~pyrogram.types.InputMediaDocument`):
+            The document. Caption is ignored.
+
+        caption (:obj:`~pyrogram.types.RichBlockCaption`, *optional*):
+            Caption of the block.
+    """
+
+    def __init__(
+        self,
+        document: types.InputMediaDocument,
+        caption: types.RichBlockCaption | None = None,
+    ) -> None:
+        super().__init__()
+
+        self.document = document
+        self.caption = caption
+
+    async def write(
+        self,
+        *,
+        client: pyrogram.Client,
+        chat_id: int | str | None = None,
+        photos: list[raw.base.InputPhoto],
+        documents: list[raw.base.InputDocument],
+    ) -> raw.base.PageBlock:
+        input_media = await self.document.write(
+            client=client,
+            chat_id=chat_id,
+        )
+
+        input_document = await _get_input_document(
+            client,
+            chat_id=chat_id,
+            input_media=input_media,
+        )
+        documents.append(input_document)
+
+        return raw.types.PageBlockDocument(
+            document_id=input_document.id,
             caption=await _write_caption(client, caption=self.caption),
         )
 

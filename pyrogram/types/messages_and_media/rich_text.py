@@ -247,9 +247,7 @@ class RichText(Object):
             )
 
         if isinstance(rich_text, raw.types.TextButton):
-            return RichTextButton(
-                button=await types.RichMessageButton._parse(client, rich_text)
-            )
+            return RichTextButton(button=await types.RichMessageButton._parse(client, rich_text))
 
         if isinstance(rich_text, raw.types.TextAnchor):
             if isinstance(rich_text.text, raw.types.TextEmpty):

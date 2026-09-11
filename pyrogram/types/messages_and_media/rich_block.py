@@ -267,7 +267,8 @@ class RichBlock(Object):
 
             return RichBlockButtons(
                 buttons=[
-                    await types.RichMessageButton._parse(client, button) for button in rich_block.buttons
+                    await types.RichMessageButton._parse(client, button)
+                    for button in rich_block.buttons
                 ],
                 align=align,
             )

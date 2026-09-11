@@ -266,10 +266,12 @@ class RichBlock(Object):
                 align = "right"
 
             return RichBlockButtons(
-                buttons=[
-                    await types.RichMessageButton._parse(client, button)
-                    for button in rich_block.buttons
-                ],
+                buttons=types.List(
+                    [
+                        await types.RichMessageButton._parse(client, button)
+                        for button in rich_block.buttons
+                    ]
+                ),
                 align=align,
             )
         if isinstance(rich_block, raw.types.PageBlockVideo):

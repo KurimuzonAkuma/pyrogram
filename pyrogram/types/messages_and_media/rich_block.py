@@ -740,7 +740,7 @@ class RichBlockExpandableBlockQuotation(RichBlock):
     """A block quotation, corresponding to the HTML tag ``<blockquote>`` with custom attribute ``"expandable"``.
 
     Parameters:
-        text (List of :obj:`pyrogram.types.RichText`):
+        text (:obj:`~pyrogram.types.RichText`):
             Content of the block.
 
         credit (:obj:`~pyrogram.types.RichText`, *optional*):

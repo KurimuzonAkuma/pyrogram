@@ -87,13 +87,16 @@ class RichBlock(Object):
     - :obj:`~pyrogram.types.RichBlockAnchor`
     - :obj:`~pyrogram.types.RichBlockList`
     - :obj:`~pyrogram.types.RichBlockBlockQuotation`
+    - :obj:`~pyrogram.types.RichBlockExpandableBlockQuotation`
     - :obj:`~pyrogram.types.RichBlockPullQuotation`
     - :obj:`~pyrogram.types.RichBlockCollage`
     - :obj:`~pyrogram.types.RichBlockSlideshow`
     - :obj:`~pyrogram.types.RichBlockTable`
     - :obj:`~pyrogram.types.RichBlockDetails`
     - :obj:`~pyrogram.types.RichBlockMap`
+    - :obj:`~pyrogram.types.RichBlockButtons`
     - :obj:`~pyrogram.types.RichBlockAnimation`
+    - :obj:`~pyrogram.types.RichBlockDocument`
     - :obj:`~pyrogram.types.RichBlockAudio`
     - :obj:`~pyrogram.types.RichBlockPhoto`
     - :obj:`~pyrogram.types.RichBlockVideo`
@@ -188,6 +191,12 @@ class RichBlock(Object):
                 credit=await types.RichText._parse(client, rich_block.caption),
             )
         if isinstance(rich_block, raw.types.PageBlockBlockquote):
+            if rich_block.collapsed:
+                return RichBlockExpandableBlockQuotation(
+                    text=await types.RichText._parse(client, rich_block.text),
+                    credit=await types.RichText._parse(client, rich_block.caption),
+                )
+
             return RichBlockBlockQuotation(
                 blocks=types.List(
                     [RichBlockParagraph(text=await types.RichText._parse(client, rich_block.text))]
@@ -246,6 +255,22 @@ class RichBlock(Object):
                 height=rich_block.h,
                 caption=await types.RichBlockCaption._parse(client, rich_block.caption),
             )
+        if isinstance(rich_block, raw.types.PageBlockButtonRow):
+            align = None
+
+            if rich_block.align_left:
+                align = "left"
+            elif rich_block.align_center:
+                align = "center"
+            elif rich_block.align_right:
+                align = "right"
+
+            return RichBlockButtons(
+                buttons=[
+                    await types.RichMessageButton._parse(client, button) for button in rich_block.buttons
+                ],
+                align=align,
+            )
         if isinstance(rich_block, raw.types.PageBlockVideo):
             doc = documents.get(rich_block.video_id)
             attributes = {type(i): i for i in doc.attributes}
@@ -283,6 +308,18 @@ class RichBlock(Object):
                         audio=types.Audio._parse(client, doc, audio_attributes, file_name),
                         caption=await types.RichBlockCaption._parse(client, rich_block.caption),
                     )
+        if isinstance(rich_block, raw.types.PageBlockDocument):
+            doc = documents.get(rich_block.document_id)
+            attributes = {type(i): i for i in doc.attributes}
+
+            file_name = getattr(
+                attributes.get(raw.types.DocumentAttributeFilename, None), "file_name", None
+            )
+
+            return RichBlockDocument(
+                document=types.Document._parse(client, doc, file_name),
+                caption=await types.RichBlockCaption._parse(client, rich_block.caption),
+            )
         if isinstance(rich_block, raw.types.PageBlockAudio):
             doc = documents.get(rich_block.audio_id)
             attributes = {type(i): i for i in doc.attributes}
@@ -507,7 +544,11 @@ class RichBlockListItem(RichBlock):
 
         elif isinstance(list_item, raw.types.PageListItemText):
             blocks = types.List(
-                [types.RichBlockParagraph(text=await types.RichText._parse(client, list_item.text))]
+                [
+                    types.RichBlockParagraph(
+                        text=await types.RichText._parse(client, list_item.text)
+                    )
+                ]
             )
             label = "•"
             has_checkbox = list_item.checkbox
@@ -531,7 +572,11 @@ class RichBlockListItem(RichBlock):
 
         elif isinstance(list_item, raw.types.PageListOrderedItemText):
             blocks = types.List(
-                [types.RichBlockParagraph(text=await types.RichText._parse(client, list_item.text))]
+                [
+                    types.RichBlockParagraph(
+                        text=await types.RichText._parse(client, list_item.text)
+                    )
+                ]
             )
             has_checkbox = list_item.checkbox
             is_checked = list_item.checked
@@ -695,6 +740,24 @@ class RichBlockBlockQuotation(RichBlock):
         super().__init__()
 
         self.blocks = blocks
+        self.credit = credit
+
+
+class RichBlockExpandableBlockQuotation(RichBlock):
+    """A block quotation, corresponding to the HTML tag ``<blockquote>`` with custom attribute ``"expandable"``.
+
+    Parameters:
+        text (List of :obj:`pyrogram.types.RichText`):
+            Content of the block.
+
+        credit (:obj:`~pyrogram.types.RichText`, *optional*):
+            Credit of the block.
+    """
+
+    def __init__(self, text: types.RichText, credit: types.RichText | None = None):
+        super().__init__()
+
+        self.text = text
         self.credit = credit
 
 
@@ -880,6 +943,29 @@ class RichBlockMap(RichBlock):
         self.caption = caption
 
 
+class RichBlockButtons(RichBlock):
+    """A block containing a list of buttons that are shown in one row, corresponding to the custom HTML tag ``<tg-button-row>``.
+
+    Parameters:
+        buttons (List of :obj:`~pyrogram.types.RichMessageButton`):
+            The buttons.
+
+        align (``str``, *optional*):
+            Horizontal alignment of the buttons.
+            Currently, must be one of "left", "center", or "right".
+    """
+
+    def __init__(
+        self,
+        buttons: list[types.RichMessageButton],
+        align: str | None = None,
+    ):
+        super().__init__()
+
+        self.buttons = buttons
+        self.align = align
+
+
 class RichBlockAnimation(RichBlock):
     """A block with an animation, corresponding to the HTML tag ``<video>``.
 
@@ -922,6 +1008,28 @@ class RichBlockAudio(RichBlock):
         super().__init__()
 
         self.audio = audio
+        self.caption = caption
+
+
+class RichBlockDocument(RichBlock):
+    """A block with a general file, corresponding to the custom HTML tag ``<tg-document>``.
+
+    Parameters:
+        document (:obj:`~pyrogram.types.Document`):
+            The document.
+
+        caption (:obj:`~pyrogram.types.RichBlockCaption`, *optional*):
+            Caption of the block.
+    """
+
+    def __init__(
+        self,
+        document: types.Document,
+        caption: types.RichBlockCaption | None = None,
+    ):
+        super().__init__()
+
+        self.document = document
         self.caption = caption
 
 

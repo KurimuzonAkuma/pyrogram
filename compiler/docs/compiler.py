@@ -816,6 +816,8 @@ def pyrogram_api():
             RichBlockMathematicalExpression
             RichBlockParagraph
             RichBlockPhoto
+            RichBlockDocument
+            RichBlockExpandableBlockQuotation
             RichBlockPreformatted
             RichBlockPullQuotation
             RichBlockSectionHeading
@@ -828,6 +830,7 @@ def pyrogram_api():
             RichBlockUnsupported
             RichMessage
             RichText
+            RichTextButton
             RichTextAnchor
             RichTextAnchorLink
             RichTextBankCardNumber
@@ -965,6 +968,8 @@ def pyrogram_api():
             ReplyKeyboardMarkup
             KeyboardButton
             ReplyKeyboardRemove
+            RichMessageButton
+            RichBlockButtons
             SentGuestMessage
             InlineKeyboardMarkup
             InlineKeyboardButton
@@ -1047,6 +1052,9 @@ def pyrogram_api():
             InputRichBlockAnchor
             InputRichBlockAnimation
             InputRichBlockAudio
+            InputRichBlockDocument
+            InputRichBlockButtons
+            InputRichBlockExpandableBlockQuotation
             InputRichBlockBlockQuotation
             InputRichBlockCollage
             InputRichBlockDetails

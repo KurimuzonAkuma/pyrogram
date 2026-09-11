@@ -116,7 +116,7 @@ class InlineKeyboardButton(Object):
         copy_text: types.CopyTextButton | None = None,
         callback_game: types.CallbackGame | None = None,
         pay: bool | None = None,
-        disabled: bool | None = None,
+        disabled: types.DisabledButton | None = None,
     ):
         super().__init__()
 
@@ -329,7 +329,8 @@ class InlineKeyboardButton(Object):
                 peer_types.append(raw.types.InlineQueryPeerTypeBroadcast())
 
             button_type = raw.types.InlineButtonTypeSwitchInline(
-                query=self.switch_inline_query_current_chat, peer_types=peer_types
+                query=self.switch_inline_query_chosen_chat.query,
+                peer_types=peer_types,
             )
 
         if self.switch_inline_query_current_chat is not None:
@@ -345,9 +346,9 @@ class InlineKeyboardButton(Object):
 
         if self.login_url is not None:
             button_type = raw.types.InputInlineButtonTypeUrlAuth(
-                url=self.url,
-                request_write_access=self.request_write_access,
-                fwd_text=self.forward_text,
+                url=self.login_url.url,
+                request_write_access=self.login_url.request_write_access,
+                fwd_text=self.login_url.forward_text,
                 bot=await client.resolve_peer(self.login_url.bot_username or "self"),
             )
 

@@ -29,6 +29,12 @@ class LoginUrl(Object):
     Serves as a great replacement for the Telegram Login Widget when the user is coming from Telegram.
     All the user needs to do is tap/click a button and confirm that they want to log in.
 
+    .. note::
+
+        A button received from Telegram carries neither *bot_username* nor
+        *request_write_access*: the incoming ``inlineButtonTypeUrlAuth`` constructor has no
+        field for either, so both are always ``None`` on a parsed button.
+
     Parameters:
         url (``str``):
             An HTTP URL to be opened with user authorization data added to the query string when the button is pressed.
@@ -51,7 +57,7 @@ class LoginUrl(Object):
             See `Linking your domain to the bot <https://core.telegram.org/widgets/login#linking-your-domain-to-the-bot>`_
             for more details.
 
-        request_write_access (``str``, *optional*):
+        request_write_access (``bool``, *optional*):
             Pass True to request the permission for your bot to send messages to the user.
 
         button_id (``int``):
@@ -64,7 +70,7 @@ class LoginUrl(Object):
         url: str,
         forward_text: str | None = None,
         bot_username: str | None = None,
-        request_write_access: str | None = None,
+        request_write_access: bool | None = None,
         button_id: int | None = None,
     ):
         super().__init__()

@@ -54,6 +54,7 @@ class RichText(Object):
     - :obj:`~pyrogram.types.RichTextHashtag`
     - :obj:`~pyrogram.types.RichTextCashtag`
     - :obj:`~pyrogram.types.RichTextBotCommand`
+    - :obj:`~pyrogram.types.RichTextButton`
     - :obj:`~pyrogram.types.RichTextAnchor`
     - :obj:`~pyrogram.types.RichTextAnchorLink`
     - :obj:`~pyrogram.types.RichTextReference`
@@ -244,6 +245,9 @@ class RichText(Object):
                 text=content,
                 bot_command=RichText._to_plain_text(content).lstrip("/"),
             )
+
+        if isinstance(rich_text, raw.types.TextButton):
+            return RichTextButton(button=await types.RichMessageButton._parse(client, rich_text))
 
         if isinstance(rich_text, raw.types.TextAnchor):
             if isinstance(rich_text.text, raw.types.TextEmpty):
@@ -773,6 +777,23 @@ class RichTextBotCommand(RichText):
 
     async def write(self, client: pyrogram.Client) -> raw.base.RichText:
         return raw.types.TextBotCommand(text=await RichText._write(client, self.text))
+
+
+class RichTextButton(RichText):
+    """A button.
+
+    Parameters:
+        button (:obj:`~pyrogram.types.RichMessageButton`):
+            The button.
+    """
+
+    def __init__(self, button: types.RichMessageButton):
+        super().__init__()
+
+        self.button = button
+
+    async def write(self, client: pyrogram.Client) -> raw.base.RichText:
+        return await self.button.write(client)
 
 
 class RichTextAnchor(RichText):

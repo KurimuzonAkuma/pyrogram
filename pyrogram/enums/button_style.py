@@ -22,7 +22,7 @@ from .auto_name import AutoName
 
 
 class ButtonStyle(AutoName):
-    """Button style type enumeration used in :obj:`~pyrogram.types.KeyboardButton` and :obj:`~pyrogram.types.InlineKeyboardButton`."""
+    """Button style type enumeration used in :obj:`~pyrogram.types.KeyboardButton`, :obj:`~pyrogram.types.InlineKeyboardButton` and :obj:`~pyrogram.types.RichMessageButton`."""
 
     DEFAULT = auto()
     "The button has default style"
@@ -35,3 +35,6 @@ class ButtonStyle(AutoName):
 
     SUCCESS = auto()
     "The button has green color"
+
+    LINK = auto()
+    "The button is shown as a regular link without borders. For rich buttons only"

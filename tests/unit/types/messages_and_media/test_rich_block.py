@@ -232,3 +232,126 @@ async def test_message_parses_rich_message_with_compact_table() -> None:
     assert parsed_msg.rich_message is not None
     assert isinstance(parsed_msg.rich_message.blocks[0], types.RichBlockTable)
     assert parsed_msg.rich_message.blocks[0].is_compact is True
+
+
+@pytest.mark.parametrize(
+    ("collapsed", "expected"),
+    [
+        pytest.param(True, types.RichBlockExpandableBlockQuotation, id="collapsed"),
+        pytest.param(None, types.RichBlockBlockQuotation, id="not-collapsed"),
+    ],
+)
+async def test_a_blockquote_picks_its_class_from_the_collapsed_flag(
+    collapsed: bool | None,
+    *,
+    expected: type[types.RichBlock],
+) -> None:
+    parsed = await _parse(
+        raw.types.PageBlockBlockquote(
+            text=raw.types.TextPlain(text="quote"),
+            caption=raw.types.TextPlain(text="credit"),
+            collapsed=collapsed,
+        )
+    )
+
+    assert type(parsed) is expected
+    assert parsed.credit == "credit"
+
+
+async def test_an_expandable_quotation_keeps_its_text_flat() -> None:
+    parsed = await _parse(
+        raw.types.PageBlockBlockquote(
+            text=raw.types.TextPlain(text="quote"),
+            caption=raw.types.TextEmpty(),
+            collapsed=True,
+        )
+    )
+
+    assert parsed.text == "quote"
+
+
+@pytest.mark.parametrize(
+    ("flag", "expected"),
+    [
+        pytest.param("align_left", "left", id="left"),
+        pytest.param("align_center", "center", id="center"),
+        pytest.param("align_right", "right", id="right"),
+        pytest.param(None, None, id="unaligned"),
+    ],
+)
+async def test_a_button_row_reads_its_alignment_off_the_flag_that_is_set(
+    flag: str | None,
+    *,
+    expected: str | None,
+) -> None:
+    alignment = {flag: True} if flag is not None else {}
+
+    parsed = await _parse(raw.types.PageBlockButtonRow(buttons=[], **alignment))
+
+    assert parsed.align == expected
+
+
+async def test_a_button_row_parses_every_button_it_carries() -> None:
+    parsed = await _parse(
+        raw.types.PageBlockButtonRow(
+            buttons=[
+                raw.types.PageButton(
+                    text=raw.types.TextPlain(text="open"),
+                    type=raw.types.InlineButtonTypeUrl(url="https://example.com"),
+                ),
+            ],
+        )
+    )
+
+    assert isinstance(parsed.buttons, types.List)
+    assert [button.text for button in parsed.buttons] == ["open"]
+    assert parsed.buttons[0].url == "https://example.com"
+
+
+async def test_a_button_of_a_type_a_rich_button_cannot_express_keeps_its_text() -> None:
+    # `InlineButtonType` holds constructors with no `RichMessageButton` field, and the server
+    #  may add more. Parsing one used to fall through and give a `None` back.
+    parsed = await _parse(
+        raw.types.PageBlockButtonRow(
+            buttons=[
+                raw.types.PageButton(
+                    text=raw.types.TextPlain(text="buy"),
+                    type=raw.types.InlineButtonTypeBuy(),
+                ),
+            ],
+        )
+    )
+
+    assert parsed.buttons[0].text == "buy"
+
+
+async def test_a_document_block_parses_the_document_it_points_at() -> None:
+    document = raw.types.Document(
+        id=555,
+        access_hash=666,
+        file_reference=b"ref",
+        date=0,
+        mime_type="application/pdf",
+        size=10,
+        dc_id=2,
+        attributes=[raw.types.DocumentAttributeFilename(file_name="a.pdf")],
+    )
+
+    parsed = await types.RichBlock._parse(
+        None,
+        raw.types.PageBlockDocument(
+            document_id=555,
+            caption=raw.types.PageCaption(
+                text=raw.types.TextPlain(text="caption"),
+                credit=raw.types.TextEmpty(),
+            ),
+        ),
+        {},
+        {555: document},
+        None,
+        {},
+        {},
+    )
+
+    assert parsed.document.file_name == "a.pdf"
+    assert parsed.caption.text == "caption"

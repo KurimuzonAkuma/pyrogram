@@ -56,6 +56,7 @@ from .pre_checkout_query import PreCheckoutQuery
 from .purchased_paid_media import PurchasedPaidMedia
 from .reply_keyboard_markup import ReplyKeyboardMarkup
 from .reply_keyboard_remove import ReplyKeyboardRemove
+from .rich_message_button import RichMessageButton
 from .sent_guest_message import SentGuestMessage
 from .sent_web_app_message import SentWebAppMessage
 from .shipping_address import ShippingAddress
@@ -106,6 +107,7 @@ __all__ = [
     "PurchasedPaidMedia",
     "ReplyKeyboardMarkup",
     "ReplyKeyboardRemove",
+    "RichMessageButton",
     "SentGuestMessage",
     "SentWebAppMessage",
     "ShippingAddress",

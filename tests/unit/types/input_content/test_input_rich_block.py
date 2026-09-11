@@ -54,6 +54,14 @@ _AUDIO_FILE_ID: Final[str] = FileId(
     file_reference=b"ref",
 ).encode()
 
+_DOCUMENT_FILE_ID: Final[str] = FileId(
+    file_type=FileType.DOCUMENT,
+    dc_id=2,
+    media_id=777,
+    access_hash=888,
+    file_reference=b"ref",
+).encode()
+
 _EMPTY_CAPTION: Final[raw.types.PageCaption] = raw.types.PageCaption(
     text=raw.types.TextEmpty(),
     credit=raw.types.TextEmpty(),
@@ -392,6 +400,101 @@ async def test_an_audio_block_from_a_file_id_collects_its_input_document() -> No
         raw.types.InputDocument(
             id=555,
             access_hash=666,
+            file_reference=b"ref",
+        ),
+    ]
+
+
+async def test_an_expandable_quotation_serializes_as_a_collapsed_blockquote() -> None:
+    block = types.InputRichBlockExpandableBlockQuotation(
+        text=types.RichTextBold(text="quote"),
+        credit=types.RichTextItalic(text="credit"),
+    )
+
+    result = await block.write(
+        client=None,
+        photos=[],
+        documents=[],
+    )
+
+    assert result == raw.types.PageBlockBlockquote(
+        text=raw.types.TextBold(text=raw.types.TextPlain(text="quote")),
+        caption=raw.types.TextItalic(text=raw.types.TextPlain(text="credit")),
+        collapsed=True,
+    )
+
+
+@pytest.mark.parametrize(
+    ("align", "expected"),
+    [
+        pytest.param("left", (True, False, False), id="left"),
+        pytest.param("center", (False, True, False), id="center"),
+        pytest.param("right", (False, False, True), id="right"),
+        pytest.param(None, (False, False, False), id="unaligned"),
+    ],
+)
+async def test_a_buttons_block_sets_the_alignment_flag_its_name_picks(
+    align: str | None,
+    *,
+    expected: tuple[bool, bool, bool],
+) -> None:
+    block = types.InputRichBlockButtons(
+        buttons=[],
+        align=align,
+    )
+
+    result = await block.write(
+        client=None,
+        photos=[],
+        documents=[],
+    )
+
+    assert (result.align_left, result.align_center, result.align_right) == expected
+
+
+async def test_a_buttons_block_serializes_its_buttons_as_page_buttons() -> None:
+    block = types.InputRichBlockButtons(
+        buttons=[
+            types.RichMessageButton(
+                text="open",
+                url="https://example.com",
+            ),
+        ],
+    )
+
+    result = await block.write(
+        client=None,
+        photos=[],
+        documents=[],
+    )
+
+    assert result.buttons == [
+        raw.types.PageButton(
+            text=raw.types.TextPlain(text="open"),
+            type=raw.types.InlineButtonTypeUrl(url="https://example.com"),
+            style=None,
+        ),
+    ]
+
+
+async def test_a_document_block_from_a_file_id_collects_its_input_document() -> None:
+    documents: list[raw.base.InputDocument] = []
+    block = types.InputRichBlockDocument(document=types.InputMediaDocument(_DOCUMENT_FILE_ID))
+
+    result = await block.write(
+        client=None,
+        photos=[],
+        documents=documents,
+    )
+
+    assert result == raw.types.PageBlockDocument(
+        document_id=777,
+        caption=_EMPTY_CAPTION,
+    )
+    assert documents == [
+        raw.types.InputDocument(
+            id=777,
+            access_hash=888,
             file_reference=b"ref",
         ),
     ]

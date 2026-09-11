@@ -398,3 +398,39 @@ async def test_a_media_block_the_page_carries_no_document_for_is_unsupported(
     # `type()` rather than `==`: `Object.__eq__` iterates `self.__dict__`, so an attribute-less
     #  object compares equal to everything, `None` included.
     assert type(parsed) is types.RichBlockUnsupported
+
+
+async def test_a_media_block_inside_a_list_item_still_finds_its_document() -> None:
+    document = raw.types.Document(
+        id=555,
+        access_hash=666,
+        file_reference=b"ref",
+        date=0,
+        mime_type="application/pdf",
+        size=10,
+        dc_id=2,
+        attributes=[raw.types.DocumentAttributeFilename(file_name="a.pdf")],
+    )
+
+    parsed = await types.RichBlock._parse(
+        None,
+        raw.types.PageBlockList(
+            items=[
+                raw.types.PageListItemBlocks(
+                    blocks=[
+                        raw.types.PageBlockDocument(
+                            document_id=555,
+                            caption=_EMPTY_CAPTION,
+                        )
+                    ]
+                )
+            ]
+        ),
+        {},
+        {555: document},
+        None,
+        {},
+        {},
+    )
+
+    assert parsed.items[0].blocks[0].document.file_name == "a.pdf"

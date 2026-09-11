@@ -324,7 +324,8 @@ class InlineKeyboardButton(Object):
                 peer_types.append(raw.types.InlineQueryPeerTypeBroadcast())
 
             button_type = raw.types.InlineButtonTypeSwitchInline(
-                query=self.switch_inline_query_current_chat, peer_types=peer_types
+                query=self.switch_inline_query_chosen_chat.query,
+                peer_types=peer_types,
             )
 
         if self.switch_inline_query_current_chat is not None:

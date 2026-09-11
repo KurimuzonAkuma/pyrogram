@@ -26,9 +26,12 @@ import logging
 import math
 import os
 from hashlib import md5
-from pathlib import PurePath
+from tempfile import SpooledTemporaryFile
 from typing import BinaryIO, overload
 from collections.abc import Callable
+
+import aiofiles
+from aiofiles.threadpool.binary import AsyncBufferedIOBase
 
 import pyrogram
 from pyrogram import StopTransmission
@@ -57,7 +60,7 @@ class SaveFile:
     @overload
     async def save_file(
         self: pyrogram.Client,
-        path: str | BinaryIO,
+        path: str | os.PathLike[str] | BinaryIO,
         file_id: int,
         file_part: int = 0,
         progress: Callable | None = None,
@@ -67,7 +70,7 @@ class SaveFile:
     @overload
     async def save_file(
         self: pyrogram.Client,
-        path: str | BinaryIO,
+        path: str | os.PathLike[str] | BinaryIO,
         file_id: None = None,
         file_part: int = 0,
         progress: Callable | None = None,
@@ -76,7 +79,7 @@ class SaveFile:
 
     async def save_file(
         self: pyrogram.Client,
-        path: str | BinaryIO | None,
+        path: str | os.PathLike[str] | BinaryIO | None,
         file_id: int | None = None,
         file_part: int = 0,
         progress: Callable | None = None,
@@ -94,7 +97,7 @@ class SaveFile:
         .. include:: /_includes/usable-by/users-bots.rst
 
         Parameters:
-            path (``str`` | ``BinaryIO``):
+            path (``str`` | ``os.PathLike`` | ``BinaryIO``):
                 The path of the file you want to upload that exists on your local machine or a binary file-like object
                 with its attribute ".name" set for in-memory uploads.
 
@@ -158,10 +161,15 @@ class SaveFile:
 
             part_size = 512 * 1024
 
-            if isinstance(path, (str, PurePath)):
-                fp = open(path, "rb")
-            elif isinstance(path, io.IOBase):
-                fp = path
+            if isinstance(path, (str, os.PathLike)):
+                fp = await aiofiles.open(path, "rb")
+            elif isinstance(path, (io.IOBase, SpooledTemporaryFile)):
+                # `SpooledTemporaryFile` only became an `io.IOBase` in Python 3.11 (the floor
+                #  here is 3.10), so it needs naming on its own to keep accepting it below that.
+                # `aiofiles.threadpool.wrap()` only recognizes stdlib file types (a
+                #  `SpooledTemporaryFile` or custom `io.IOBase` raises there), though both are
+                #  accepted here.
+                fp = AsyncBufferedIOBase(path, loop=None, executor=None)
             else:
                 raise ValueError(
                     "Invalid file. Expected a file path as string or a binary (not text) file pointer"
@@ -169,9 +177,9 @@ class SaveFile:
 
             file_name = getattr(fp, "name", "file.jpg")
 
-            fp.seek(0, os.SEEK_END)
-            file_size = fp.tell()
-            fp.seek(0)
+            await fp.seek(0, os.SEEK_END)
+            file_size = await fp.tell()
+            await fp.seek(0)
 
             if file_size == 0:
                 raise ValueError("File size equals to 0 B")
@@ -198,10 +206,10 @@ class SaveFile:
             queue = asyncio.Queue(1)
 
             try:
-                fp.seek(part_size * file_part)
+                await fp.seek(part_size * file_part)
 
                 while True:
-                    chunk = fp.read(part_size)
+                    chunk = await fp.read(part_size)
 
                     if not chunk:
                         if not is_big and not is_missing_part:
@@ -253,8 +261,10 @@ class SaveFile:
 
                 await asyncio.gather(*workers)
 
-                if isinstance(path, (str, PurePath)):
-                    fp.close()
+                # Only what this method opened: a file the caller handed over stays open,
+                #  the same way it did before the upload.
+                if isinstance(path, (str, os.PathLike)):
+                    await fp.close()
 
             # Outside the `finally` on purpose: a worker only reports a failed part once it has been
             #  woken up and drained above, so a check any earlier can miss it.

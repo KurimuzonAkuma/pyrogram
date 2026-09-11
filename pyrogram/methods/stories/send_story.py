@@ -19,8 +19,11 @@
 from __future__ import annotations as _annotations
 
 import os
+from pathlib import Path
 from typing import BinaryIO
 from collections.abc import Callable
+
+import aiofiles.os
 
 import pyrogram
 from pyrogram import StopTransmission, enums, raw, types, utils
@@ -31,14 +34,14 @@ class SendStory:
     async def send_story(
         self: pyrogram.Client,
         chat_id: int | str,
-        media: str | BinaryIO,
+        media: str | Path | BinaryIO,
         caption: str | None = None,
         period: int | None = None,
         media_areas: list[types.MediaArea] | None = None,
         duration: int = 0,
         width: int = 0,
         height: int = 0,
-        thumb: str | BinaryIO | None = None,
+        thumb: str | Path | BinaryIO | None = None,
         supports_streaming: bool = True,
         file_name: str | None = None,
         privacy: enums.StoriesPrivacyRules | None = None,
@@ -60,7 +63,7 @@ class SendStory:
                 Unique identifier (int) or username (str) of the target chat.
                 For your personal cloud (Saved Messages) you can simply use "me" or "self".
 
-            media (``str`` | ``BinaryIO``):
+            media (``str`` | ``pathlib.Path`` | ``BinaryIO``):
                 Video or photo to send.
                 Pass a file_id as string to send a animation that exists on the Telegram servers,
                 pass a file path as string to upload a new animation that exists on your local machine, or
@@ -86,7 +89,7 @@ class SendStory:
             height (``int``, *optional*):
                 Video height.
 
-            thumb (``str`` | ``BinaryIO``, *optional*):
+            thumb (``str`` | ``pathlib.Path`` | ``BinaryIO``, *optional*):
                 Thumbnail of the video sent.
                 The thumbnail should be in JPEG format and less than 200 KB in size.
                 A thumbnail's width and height should not exceed 320 pixels.
@@ -154,14 +157,15 @@ class SendStory:
 
         Raises:
             ValueError: In case of invalid arguments.
+            FileNotFoundError: In case a local ``pathlib.Path`` doesn't point to an existing file.
         """
         message, entities = (
             await utils.parse_text_entities(self, caption, parse_mode, caption_entities)
         ).values()
 
         try:
-            if isinstance(media, str):
-                if os.path.isfile(media):
+            if isinstance(media, (str, os.PathLike)):
+                if await aiofiles.os.path.isfile(media):
                     thumb = await self.save_file(thumb)
                     file = await self.save_file(
                         media, progress=progress, progress_args=progress_args
@@ -179,7 +183,7 @@ class SendStory:
                                     h=height,
                                 ),
                                 raw.types.DocumentAttributeFilename(
-                                    file_name=file_name or os.path.basename(media)
+                                    file_name=file_name or Path(media).name
                                 ),
                             ],
                         )
@@ -187,8 +191,10 @@ class SendStory:
                         media = raw.types.InputMediaUploadedPhoto(
                             file=file,
                         )
-                else:
+                elif isinstance(media, str):
                     media = utils.get_input_media_from_file_id(media)
+                else:
+                    raise FileNotFoundError(f"No such file or directory: {media}")
             else:
                 thumb = await self.save_file(thumb)
                 file = await self.save_file(media, progress=progress, progress_args=progress_args)

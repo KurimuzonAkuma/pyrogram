@@ -19,10 +19,13 @@
 from __future__ import annotations as _annotations
 
 import io
-import pathlib
+import os
 import re
+from pathlib import Path
 from typing import BinaryIO
 from collections.abc import Callable
+
+import aiofiles.os
 
 import pyrogram
 from pyrogram import raw, utils
@@ -39,7 +42,7 @@ class InputMediaVoiceNote(InputMedia):
     It is intended to be used with :obj:`~pyrogram.types.InputRichBlockVoiceNote`.
 
     Parameters:
-        media (``str`` | ``BinaryIO``):
+        media (``str`` | ``pathlib.Path`` | ``BinaryIO``):
             Voice note to send.
             Pass a file_id as string to send a voice note that exists on the Telegram servers or
             pass a file path as string to upload a new voice note that exists on your local machine or
@@ -59,11 +62,14 @@ class InputMediaVoiceNote(InputMedia):
 
         duration (``int``, *optional*):
             Duration of the voice note in seconds
+
+    Raises:
+        FileNotFoundError: In case a local ``pathlib.Path`` doesn't point to an existing file.
     """
 
     def __init__(
         self,
-        media: str | BinaryIO,
+        media: str | Path | BinaryIO,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[MessageEntity] | None = None,
@@ -88,7 +94,7 @@ class InputMediaVoiceNote(InputMedia):
         else:
             peer = await client.resolve_peer(chat_id)
 
-        if isinstance(self.media, io.BytesIO) or pathlib.Path(self.media).is_file():
+        if isinstance(self.media, io.BytesIO) or await aiofiles.os.path.isfile(self.media):
             mime_type: str = client.guess_mime_type(self.media) or "audio/ogg"
 
             if mime_type == "audio/mpeg":
@@ -122,6 +128,9 @@ class InputMediaVoiceNote(InputMedia):
                     file_reference=uploaded_media.document.file_reference,
                 ),
             )
+
+        if isinstance(self.media, os.PathLike):
+            raise FileNotFoundError(f"No such file or directory: {self.media}")
 
         if re.match("^https?://", self.media):
             return raw.types.InputMediaDocumentExternal(

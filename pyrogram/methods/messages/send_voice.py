@@ -22,8 +22,11 @@ import logging
 import os
 import re
 from datetime import datetime
+from pathlib import Path
 from typing import BinaryIO
 from collections.abc import Callable
+
+import aiofiles.os
 
 import pyrogram
 from pyrogram import StopTransmission, enums, raw, types, utils
@@ -37,7 +40,7 @@ class SendVoice:
     async def send_voice(
         self: pyrogram.Client,
         chat_id: int | str,
-        voice: str | BinaryIO,
+        voice: str | Path | BinaryIO,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[types.MessageEntity] | None = None,
@@ -83,7 +86,7 @@ class SendVoice:
                 For your personal cloud (Saved Messages) you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
 
-            voice (``str`` | ``BinaryIO``):
+            voice (``str`` | ``pathlib.Path`` | ``BinaryIO``):
                 Audio file to send.
                 Pass a file_id as string to send an audio that exists on the Telegram servers,
                 pass an HTTP URL as a string for Telegram to get an audio from the Internet,
@@ -186,6 +189,9 @@ class SendVoice:
             :obj:`~pyrogram.types.Message` | ``None``: On success, the sent voice message is returned, otherwise, in
             case the upload is deliberately stopped with :meth:`~pyrogram.Client.stop_transmission`, None is returned.
 
+        Raises:
+            FileNotFoundError: In case a local ``pathlib.Path`` doesn't point to an existing file.
+
         Example:
             .. code-block:: python
 
@@ -254,8 +260,8 @@ class SendVoice:
         file = None
 
         try:
-            if isinstance(voice, str):
-                if os.path.isfile(voice):
+            if isinstance(voice, (str, os.PathLike)):
+                if await aiofiles.os.path.isfile(voice):
                     mime_type = self.guess_mime_type(voice) or "audio/ogg"
                     if mime_type == "audio/mpeg":
                         mime_type = "audio/ogg"
@@ -274,10 +280,12 @@ class SendVoice:
                         ],
                         ttl_seconds=(1 << 31) - 1 if view_once else None,
                     )
-                elif re.match("^https?://", voice):
+                elif isinstance(voice, str) and re.match("^https?://", voice):
                     media = raw.types.InputMediaDocumentExternal(url=voice)
-                else:
+                elif isinstance(voice, str):
                     media = utils.get_input_media_from_file_id(voice, FileType.VOICE)
+                else:
+                    raise FileNotFoundError(f"No such file or directory: {voice}")
             else:
                 mime_type = self.guess_mime_type(voice.name) or "audio/ogg"
                 if mime_type == "audio/mpeg":

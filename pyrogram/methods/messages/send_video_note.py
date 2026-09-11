@@ -21,8 +21,11 @@ from __future__ import annotations as _annotations
 import logging
 import os
 from datetime import datetime
+from pathlib import Path
 from typing import BinaryIO
 from collections.abc import Callable
+
+import aiofiles.os
 
 import pyrogram
 from pyrogram import StopTransmission, enums, raw, types, utils
@@ -39,10 +42,10 @@ class SendVideoNote:
     async def send_video_note(
         self: pyrogram.Client,
         chat_id: int | str,
-        video_note: str | BinaryIO,
+        video_note: str | Path | BinaryIO,
         duration: int = 0,
         length: int = 1,
-        thumb: str | BinaryIO | None = None,
+        thumb: str | Path | BinaryIO | None = None,
         disable_notification: bool | None = None,
         message_thread_id: int | None = None,
         direct_messages_topic_id: int | None = None,
@@ -84,7 +87,7 @@ class SendVideoNote:
                 For your personal cloud (Saved Messages) you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
 
-            video_note (``str`` | ``BinaryIO``):
+            video_note (``str`` | ``pathlib.Path`` | ``BinaryIO``):
                 Video note to send.
                 Pass a file_id as string to send a video note that exists on the Telegram servers,
                 pass a file path as string to upload a new video note that exists on your local machine, or
@@ -101,7 +104,7 @@ class SendVideoNote:
             length (``int``, *optional*):
                 Video width and height.
 
-            thumb (``str`` | ``BinaryIO``, *optional*):
+            thumb (``str`` | ``pathlib.Path`` | ``BinaryIO``, *optional*):
                 Thumbnail of the video sent.
                 The thumbnail should be in JPEG format and less than 200 KB in size.
                 A thumbnail's width and height should not exceed 320 pixels.
@@ -188,6 +191,9 @@ class SendVideoNote:
             in case the upload is deliberately stopped with :meth:`~pyrogram.Client.stop_transmission`, None is
             returned.
 
+        Raises:
+            FileNotFoundError: In case a local ``pathlib.Path`` doesn't point to an existing file.
+
         Example:
             .. code-block:: python
 
@@ -259,10 +265,10 @@ class SendVideoNote:
         file = None
 
         try:
-            if isinstance(video_note, str):
-                if os.path.isfile(video_note):
+            if isinstance(video_note, (str, os.PathLike)):
+                if await aiofiles.os.path.isfile(video_note):
                     # Notify user why the sent video is not video note
-                    file_size = os.path.getsize(video_note)
+                    file_size = await aiofiles.os.path.getsize(video_note)
                     if file_size > _MAX_VIDEO_NOTE_SIZE_BYTES:
                         log.warning(
                             "Video note file size (%.1f MB) exceeds 10 MB limit. "
@@ -285,8 +291,10 @@ class SendVideoNote:
                         ],
                         ttl_seconds=(1 << 31) - 1 if view_once else None,
                     )
-                else:
+                elif isinstance(video_note, str):
                     media = utils.get_input_media_from_file_id(video_note, FileType.VIDEO_NOTE)
+                else:
+                    raise FileNotFoundError(f"No such file or directory: {video_note}")
             else:
                 thumb = await self.save_file(thumb)
                 file = await self.save_file(

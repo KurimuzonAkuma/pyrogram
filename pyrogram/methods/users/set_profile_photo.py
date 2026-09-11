@@ -19,6 +19,7 @@
 from __future__ import annotations as _annotations
 
 import logging
+from pathlib import Path
 from typing import BinaryIO
 
 import pyrogram
@@ -33,7 +34,7 @@ class SetProfilePhoto:
         photo: types.InputChatPhoto | None = None,
         is_public: bool | None = None,
         *,
-        video: str | BinaryIO | None = None,
+        video: str | Path | BinaryIO | None = None,
     ) -> bool:
         """Changes a profile photo for the current user.
 

@@ -22,6 +22,9 @@ import logging
 import os
 import re
 from datetime import datetime
+from pathlib import Path
+
+import aiofiles.os
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -116,6 +119,9 @@ class SendMediaGroup:
         Returns:
             List of :obj:`~pyrogram.types.Message`: On success, a list of the sent messages is returned.
 
+        Raises:
+            FileNotFoundError: In case a local ``pathlib.Path`` doesn't point to an existing file.
+
         Example:
             .. code-block:: python
 
@@ -190,8 +196,8 @@ class SendMediaGroup:
 
         for i in media:
             if isinstance(i, types.InputMediaPhoto):
-                if isinstance(i.media, str):
-                    if os.path.isfile(i.media):
+                if isinstance(i.media, (str, os.PathLike)):
+                    if await aiofiles.os.path.isfile(i.media):
                         media = await self.invoke(
                             raw.functions.messages.UploadMedia(
                                 peer=await self.resolve_peer(chat_id),
@@ -210,7 +216,7 @@ class SendMediaGroup:
                             ),
                             spoiler=i.has_spoiler,
                         )
-                    elif re.match("^https?://", i.media):
+                    elif isinstance(i.media, str) and re.match("^https?://", i.media):
                         media = await self.invoke(
                             raw.functions.messages.UploadMedia(
                                 peer=await self.resolve_peer(chat_id),
@@ -229,10 +235,12 @@ class SendMediaGroup:
                             ),
                             spoiler=i.has_spoiler,
                         )
-                    else:
+                    elif isinstance(i.media, str):
                         media = utils.get_input_media_from_file_id(
                             i.media, FileType.PHOTO, has_spoiler=i.has_spoiler
                         )
+                    else:
+                        raise FileNotFoundError(f"No such file or directory: {i.media}")
                 else:
                     media = await self.invoke(
                         raw.functions.messages.UploadMedia(
@@ -253,8 +261,8 @@ class SendMediaGroup:
                         spoiler=i.has_spoiler,
                     )
             elif isinstance(i, types.InputMediaVideo):
-                if isinstance(i.media, str):
-                    if os.path.isfile(i.media):
+                if isinstance(i.media, (str, os.PathLike)):
+                    if await aiofiles.os.path.isfile(i.media):
                         media = await self.invoke(
                             raw.functions.messages.UploadMedia(
                                 peer=await self.resolve_peer(chat_id),
@@ -272,7 +280,7 @@ class SendMediaGroup:
                                             h=i.height,
                                         ),
                                         raw.types.DocumentAttributeFilename(
-                                            file_name=i.file_name or os.path.basename(i.media)
+                                            file_name=i.file_name or Path(i.media).name
                                         ),
                                     ],
                                 ),
@@ -288,7 +296,7 @@ class SendMediaGroup:
                             ),
                             spoiler=i.has_spoiler,
                         )
-                    elif re.match("^https?://", i.media):
+                    elif isinstance(i.media, str) and re.match("^https?://", i.media):
                         media = await self.invoke(
                             raw.functions.messages.UploadMedia(
                                 peer=await self.resolve_peer(chat_id),
@@ -307,10 +315,12 @@ class SendMediaGroup:
                             ),
                             spoiler=i.has_spoiler,
                         )
-                    else:
+                    elif isinstance(i.media, str):
                         media = utils.get_input_media_from_file_id(
                             i.media, FileType.VIDEO, has_spoiler=i.has_spoiler
                         )
+                    else:
+                        raise FileNotFoundError(f"No such file or directory: {i.media}")
                 else:
                     media = await self.invoke(
                         raw.functions.messages.UploadMedia(
@@ -350,8 +360,8 @@ class SendMediaGroup:
                         spoiler=i.has_spoiler,
                     )
             elif isinstance(i, types.InputMediaAudio):
-                if isinstance(i.media, str):
-                    if os.path.isfile(i.media):
+                if isinstance(i.media, (str, os.PathLike)):
+                    if await aiofiles.os.path.isfile(i.media):
                         media = await self.invoke(
                             raw.functions.messages.UploadMedia(
                                 peer=await self.resolve_peer(chat_id),
@@ -366,7 +376,7 @@ class SendMediaGroup:
                                             title=i.title,
                                         ),
                                         raw.types.DocumentAttributeFilename(
-                                            file_name=i.file_name or os.path.basename(i.media)
+                                            file_name=i.file_name or Path(i.media).name
                                         ),
                                     ],
                                 ),
@@ -381,7 +391,7 @@ class SendMediaGroup:
                                 file_reference=media.document.file_reference,
                             )
                         )
-                    elif re.match("^https?://", i.media):
+                    elif isinstance(i.media, str) and re.match("^https?://", i.media):
                         media = await self.invoke(
                             raw.functions.messages.UploadMedia(
                                 peer=await self.resolve_peer(chat_id),
@@ -397,8 +407,10 @@ class SendMediaGroup:
                                 file_reference=media.document.file_reference,
                             )
                         )
-                    else:
+                    elif isinstance(i.media, str):
                         media = utils.get_input_media_from_file_id(i.media, FileType.AUDIO)
+                    else:
+                        raise FileNotFoundError(f"No such file or directory: {i.media}")
                 else:
                     media = await self.invoke(
                         raw.functions.messages.UploadMedia(
@@ -432,8 +444,8 @@ class SendMediaGroup:
                         )
                     )
             elif isinstance(i, types.InputMediaDocument):
-                if isinstance(i.media, str):
-                    if os.path.isfile(i.media):
+                if isinstance(i.media, (str, os.PathLike)):
+                    if await aiofiles.os.path.isfile(i.media):
                         media = await self.invoke(
                             raw.functions.messages.UploadMedia(
                                 peer=await self.resolve_peer(chat_id),
@@ -443,7 +455,7 @@ class SendMediaGroup:
                                     thumb=await self.save_file(i.thumb),
                                     attributes=[
                                         raw.types.DocumentAttributeFilename(
-                                            file_name=i.file_name or os.path.basename(i.media)
+                                            file_name=i.file_name or Path(i.media).name
                                         )
                                     ],
                                 ),
@@ -458,7 +470,7 @@ class SendMediaGroup:
                                 file_reference=media.document.file_reference,
                             )
                         )
-                    elif re.match("^https?://", i.media):
+                    elif isinstance(i.media, str) and re.match("^https?://", i.media):
                         media = await self.invoke(
                             raw.functions.messages.UploadMedia(
                                 peer=await self.resolve_peer(chat_id),
@@ -474,8 +486,10 @@ class SendMediaGroup:
                                 file_reference=media.document.file_reference,
                             )
                         )
-                    else:
+                    elif isinstance(i.media, str):
                         media = utils.get_input_media_from_file_id(i.media, FileType.DOCUMENT)
+                    else:
+                        raise FileNotFoundError(f"No such file or directory: {i.media}")
                 else:
                     media = await self.invoke(
                         raw.functions.messages.UploadMedia(

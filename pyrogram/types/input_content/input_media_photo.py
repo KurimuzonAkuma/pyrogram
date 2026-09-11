@@ -19,10 +19,13 @@
 from __future__ import annotations as _annotations
 
 import io
-import pathlib
+import os
 import re
+from pathlib import Path
 from typing import BinaryIO
 from collections.abc import Callable
+
+import aiofiles.os
 
 import pyrogram
 from pyrogram import raw, utils
@@ -38,7 +41,7 @@ class InputMediaPhoto(InputMedia):
     It is intended to be used with :obj:`~pyrogram.Client.send_media_group`.
 
     Parameters:
-        media (``str`` | ``BinaryIO``):
+        media (``str`` | ``pathlib.Path`` | ``BinaryIO``):
             Photo to send.
             Pass a file_id as string to send a photo that exists on the Telegram servers or
             pass a file path as string to upload a new photo that exists on your local machine or
@@ -58,11 +61,14 @@ class InputMediaPhoto(InputMedia):
 
         has_spoiler (``bool``, *optional*):
             Pass True if the photo needs to be covered with a spoiler animation.
+
+    Raises:
+        FileNotFoundError: In case a local ``pathlib.Path`` doesn't point to an existing file.
     """
 
     def __init__(
         self,
-        media: str | BinaryIO,
+        media: str | Path | BinaryIO,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[MessageEntity] | None = None,
@@ -87,7 +93,7 @@ class InputMediaPhoto(InputMedia):
         else:
             peer = await client.resolve_peer(chat_id)
 
-        if isinstance(self.media, io.BytesIO) or pathlib.Path(self.media).is_file():
+        if isinstance(self.media, io.BytesIO) or await aiofiles.os.path.isfile(self.media):
             uploaded_media = await client.invoke(
                 raw.functions.messages.UploadMedia(
                     peer=peer,
@@ -110,6 +116,9 @@ class InputMediaPhoto(InputMedia):
                 spoiler=self.has_spoiler,
                 ttl_seconds=ttl_seconds,
             )
+
+        if isinstance(self.media, os.PathLike):
+            raise FileNotFoundError(f"No such file or directory: {self.media}")
 
         if re.match("^https?://", self.media):
             return raw.types.InputMediaPhotoExternal(

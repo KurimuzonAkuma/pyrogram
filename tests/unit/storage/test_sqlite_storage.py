@@ -31,7 +31,7 @@ async def test_conn_property_round_trips_the_connection() -> None:
     #  `# type:` comment but assigned None in __init__) to a property backed by
     #  self._conn, so open()/close() and every query still have to see the same
     #  connection object through the ordinary self.conn read/write syntax.
-    storage = SQLiteStorage("test", Path("."), in_memory=True)
+    storage = SQLiteStorage("test", Path(), in_memory=True)
 
     await storage.open()
     assert await storage.is_bot() is None
@@ -43,7 +43,7 @@ async def test_conn_property_round_trips_the_connection() -> None:
 
 
 def test_conn_raises_before_open() -> None:
-    storage = SQLiteStorage("test", Path("."), in_memory=True)
+    storage = SQLiteStorage("test", Path(), in_memory=True)
 
     with pytest.raises(RuntimeError):
         _ = storage.conn

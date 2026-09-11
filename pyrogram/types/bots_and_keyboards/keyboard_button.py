@@ -206,6 +206,11 @@ class KeyboardButton(Object):
             )
 
     def write(self) -> raw.types.KeyboardButton:
+        if self.style is enums.ButtonStyle.LINK:
+            # `keyboardButtonStyle` carries no `link` flag, so the style would go out empty.
+            #  `compiler/api/source/main_api.tl:2188`
+            raise ValueError("`ButtonStyle.LINK` is only available on `RichMessageButton`")
+
         style = (
             raw.types.KeyboardButtonStyle(
                 bg_primary=self.style == enums.ButtonStyle.PRIMARY,

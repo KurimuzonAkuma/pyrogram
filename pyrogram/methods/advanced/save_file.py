@@ -30,6 +30,9 @@ from pathlib import PurePath
 from typing import BinaryIO, overload
 from collections.abc import Callable
 
+import aiofiles
+from aiofiles.threadpool.binary import AsyncBufferedIOBase
+
 import pyrogram
 from pyrogram import StopTransmission
 from pyrogram import raw
@@ -159,9 +162,11 @@ class SaveFile:
             part_size = 512 * 1024
 
             if isinstance(path, (str, PurePath)):
-                fp = open(path, "rb")
+                fp = await aiofiles.open(path, "rb")
             elif isinstance(path, io.IOBase):
-                fp = path
+                # `aiofiles.threadpool.wrap()` only recognizes stdlib file types — a `SpooledTemporaryFile`
+                #  or custom `io.IOBase` raises there, though both are accepted here.
+                fp = AsyncBufferedIOBase(path, loop=None, executor=None)
             else:
                 raise ValueError(
                     "Invalid file. Expected a file path as string or a binary (not text) file pointer"
@@ -169,9 +174,9 @@ class SaveFile:
 
             file_name = getattr(fp, "name", "file.jpg")
 
-            fp.seek(0, os.SEEK_END)
-            file_size = fp.tell()
-            fp.seek(0)
+            await fp.seek(0, os.SEEK_END)
+            file_size = await fp.tell()
+            await fp.seek(0)
 
             if file_size == 0:
                 raise ValueError("File size equals to 0 B")
@@ -198,10 +203,10 @@ class SaveFile:
             queue = asyncio.Queue(1)
 
             try:
-                fp.seek(part_size * file_part)
+                await fp.seek(part_size * file_part)
 
                 while True:
-                    chunk = fp.read(part_size)
+                    chunk = await fp.read(part_size)
 
                     if not chunk:
                         if not is_big and not is_missing_part:
@@ -253,8 +258,10 @@ class SaveFile:
 
                 await asyncio.gather(*workers)
 
+                # Only what this method opened: a file the caller handed over stays open,
+                #  the same way it did before the upload.
                 if isinstance(path, (str, PurePath)):
-                    fp.close()
+                    await fp.close()
 
             # Outside the `finally` on purpose: a worker only reports a failed part once it has been
             #  woken up and drained above, so a check any earlier can miss it.

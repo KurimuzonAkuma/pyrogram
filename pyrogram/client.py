@@ -19,6 +19,7 @@
 from __future__ import annotations as _annotations
 
 import asyncio
+import contextlib
 import functools
 import inspect
 import logging
@@ -38,6 +39,10 @@ from mimetypes import MimeTypes
 from pathlib import Path
 from typing import Any
 from collections.abc import AsyncGenerator, Callable, Sequence
+
+import aiofiles
+import aiofiles.os
+from aiofiles.threadpool import wrap
 
 import pyrogram
 from pyrogram import __license__, __version__, enums, raw, utils
@@ -1258,33 +1263,41 @@ class Client(Methods):
     async def handle_download(self, packet):
         file_id, directory, file_name, in_memory, file_size, progress, progress_args = packet
 
-        os.makedirs(directory, exist_ok=True) if not in_memory else None
-        temp_file_path = (
-            os.path.abspath(re.sub("\\\\", "/", os.path.join(directory, file_name))) + ".temp"
-        )
-        file = BytesIO() if in_memory else open(temp_file_path, "wb")
+        if in_memory:
+            memory_file = BytesIO()
+            file = wrap(memory_file)
+            temp_file_path = None
+        else:
+            memory_file = None
+            await aiofiles.os.makedirs(directory, exist_ok=True)
+            temp_file_path = (
+                await aiofiles.os.path.abspath(Path(directory, file_name).as_posix()) + ".temp"
+            )
+            file = await aiofiles.open(temp_file_path, "wb")
 
         try:
             async for chunk in self.get_file(file_id, file_size, 0, 0, progress, progress_args):
-                file.write(chunk)
+                await file.write(chunk)
         except BaseException as e:
-            if not in_memory:
-                file.close()
-                os.remove(temp_file_path)
+            await file.close()
+
+            if temp_file_path is not None:
+                with contextlib.suppress(OSError):
+                    await aiofiles.os.remove(temp_file_path)
 
             if isinstance(e, pyrogram.StopTransmission):
                 return None
 
-            raise e
-        else:
-            if in_memory:
-                file.name = file_name
-                return file
-            else:
-                file.close()
-                file_path = str(Path(temp_file_path).with_suffix(""))
-                shutil.move(temp_file_path, file_path)
-                return file_path
+            raise
+
+        if memory_file is not None:
+            memory_file.name = file_name
+            return memory_file
+
+        await file.close()
+        file_path = str(Path(temp_file_path).with_suffix(""))
+        shutil.move(temp_file_path, file_path)
+        return file_path
 
     async def get_file(
         self,

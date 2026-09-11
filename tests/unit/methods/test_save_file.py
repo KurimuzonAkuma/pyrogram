@@ -20,7 +20,9 @@ from __future__ import annotations as _annotations
 
 import asyncio
 from concurrent.futures import Executor
+from io import BytesIO
 from pathlib import Path
+from tempfile import SpooledTemporaryFile
 from typing import Final
 
 import pytest
@@ -139,3 +141,62 @@ async def test_a_missing_part_the_server_refused_reaches_the_caller_too(three_pa
 @pytest.mark.asyncio
 async def test_no_path_is_not_an_upload_at_all() -> None:
     assert await Uploader(Media()).save_file(None) is None
+
+
+@pytest.mark.asyncio
+async def test_a_file_object_is_uploaded_part_by_part_like_a_path() -> None:
+    media = Media()
+
+    file = await Uploader(media).save_file(BytesIO(b"x" * (2 * _PART_SIZE + 1)))
+
+    assert isinstance(file, raw.types.InputFile)
+    assert file.parts == 3
+    assert media.saved_parts == [0, 1, 2]
+
+
+@pytest.mark.asyncio
+async def test_a_file_object_without_a_name_uploads_under_the_fallback_one() -> None:
+    # A `BytesIO` carries no `.name`, and the answer for one that does not is "file.jpg".
+    #  Anything standing in for the file that answers `.name` with `None` rather than not
+    #  answering at all puts that `None` into `InputFile`, where it fails to serialize.
+    file = await Uploader(Media()).save_file(BytesIO(b"x"))
+
+    assert isinstance(file, raw.types.InputFile)
+    assert file.name == "file.jpg"
+
+
+@pytest.mark.asyncio
+async def test_a_file_object_that_has_a_name_uploads_under_it() -> None:
+    payload = BytesIO(b"x")
+    payload.name = "note.txt"
+
+    file = await Uploader(Media()).save_file(payload)
+
+    assert isinstance(file, raw.types.InputFile)
+    assert file.name == "note.txt"
+
+
+@pytest.mark.asyncio
+async def test_a_file_object_the_caller_opened_stays_open(three_parts: str) -> None:
+    # It is the caller's file: they may still read it, and they are the ones who close it.
+    with open(three_parts, "rb") as fp:
+        await Uploader(Media()).save_file(fp)
+
+        assert not fp.closed
+
+
+@pytest.mark.asyncio
+async def test_a_spooled_temporary_file_is_a_file_object_too() -> None:
+    # It is an `io.IOBase`, so it has always been accepted here, but it is not one of the
+    #  concrete types `aiofiles.threadpool.wrap()` dispatches on - hence the wrapper being
+    #  built directly rather than looked up.
+    media = Media()
+
+    with SpooledTemporaryFile() as fp:
+        fp.write(b"x" * (_PART_SIZE + 1))
+
+        file = await Uploader(media).save_file(fp)
+
+    assert isinstance(file, raw.types.InputFile)
+    assert file.parts == 2
+    assert media.saved_parts == [0, 1]

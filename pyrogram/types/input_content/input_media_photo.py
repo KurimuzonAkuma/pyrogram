@@ -27,6 +27,7 @@ from collections.abc import Callable
 
 import pyrogram
 from pyrogram import raw, utils
+from pyrogram._typing import PathType
 from pyrogram.file_id import FileType
 
 from ... import enums
@@ -39,7 +40,7 @@ class InputMediaPhoto(InputMedia):
     It is intended to be used with :obj:`~pyrogram.Client.send_media_group`.
 
     Parameters:
-        media (``str`` | ``pathlib.Path`` | ``BinaryIO``):
+        media (``str`` | ``os.PathLike`` | ``BinaryIO``):
             Photo to send.
             Pass a file_id as string to send a photo that exists on the Telegram servers or
             pass a file path as string to upload a new photo that exists on your local machine or
@@ -61,12 +62,12 @@ class InputMediaPhoto(InputMedia):
             Pass True if the photo needs to be covered with a spoiler animation.
 
     Raises:
-        FileNotFoundError: In case a local ``pathlib.Path`` doesn't point to an existing file.
+        FileNotFoundError: In case a local ``os.PathLike`` doesn't point to an existing file.
     """
 
     def __init__(
         self,
-        media: str | Path | BinaryIO,
+        media: PathType | BinaryIO,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[MessageEntity] | None = None,

@@ -25,6 +25,7 @@ from collections.abc import Callable
 
 import pyrogram
 from pyrogram import raw, types, utils, StopTransmission
+from pyrogram._typing import PathType
 from pyrogram.errors import FilePartMissing
 
 
@@ -33,12 +34,12 @@ class EditStoryMedia:
         self: pyrogram.Client,
         chat_id: int | str,
         story_id: int,
-        media: str | Path | BinaryIO | None = None,
+        media: PathType | BinaryIO | None = None,
         media_areas: list[types.MediaArea] | None = None,
         duration: int = 0,
         width: int = 0,
         height: int = 0,
-        thumb: str | Path | BinaryIO | None = None,
+        thumb: PathType | BinaryIO | None = None,
         supports_streaming: bool = True,
         file_name: str | None = None,
         progress: Callable | None = None,
@@ -56,7 +57,7 @@ class EditStoryMedia:
             story_id (``int``):
                 Story identifier in the chat specified in chat_id.
 
-            media (``str`` | ``pathlib.Path`` | ``BinaryIO``, *optional*):
+            media (``str`` | ``os.PathLike`` | ``BinaryIO``, *optional*):
                 Video or photo to send.
                 Pass a file_id as string to send a animation that exists on the Telegram servers,
                 pass a file path as string to upload a new animation that exists on your local machine, or
@@ -74,7 +75,7 @@ class EditStoryMedia:
             height (``int``, *optional*):
                 Video height.
 
-            thumb (``str`` | ``pathlib.Path`` | ``BinaryIO``, *optional*):
+            thumb (``str`` | ``os.PathLike`` | ``BinaryIO``, *optional*):
                 Thumbnail of the video sent.
                 The thumbnail should be in JPEG format and less than 200 KB in size.
                 A thumbnail's width and height should not exceed 320 pixels.
@@ -97,7 +98,7 @@ class EditStoryMedia:
             None is returned.
 
         Raises:
-            FileNotFoundError: In case a local ``pathlib.Path`` doesn't point to an existing file.
+            FileNotFoundError: In case a local ``os.PathLike`` doesn't point to an existing file.
 
         Example:
             .. code-block:: python

@@ -28,6 +28,7 @@ from collections.abc import Callable
 
 import pyrogram
 from pyrogram import StopTransmission, enums, raw, types, utils
+from pyrogram._typing import PathType
 from pyrogram.errors import FilePartMissing
 from pyrogram.file_id import FileType
 
@@ -38,7 +39,7 @@ class SendAnimation:
     async def send_animation(
         self: pyrogram.Client,
         chat_id: int | str,
-        animation: str | Path | BinaryIO,
+        animation: PathType | BinaryIO,
         caption: str = "",
         unsave: bool = False,
         parse_mode: enums.ParseMode | None = None,
@@ -47,7 +48,7 @@ class SendAnimation:
         duration: int = 0,
         width: int = 0,
         height: int = 0,
-        thumb: str | Path | BinaryIO | None = None,
+        thumb: PathType | BinaryIO | None = None,
         file_name: str | None = None,
         disable_notification: bool | None = None,
         message_thread_id: int | None = None,
@@ -89,7 +90,7 @@ class SendAnimation:
                 For your personal cloud (Saved Messages) you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
 
-            animation (``str`` | ``pathlib.Path`` | ``BinaryIO``):
+            animation (``str`` | ``os.PathLike`` | ``BinaryIO``):
                 Animation to send.
                 Pass a file_id as string to send an animation that exists on the Telegram servers,
                 pass an HTTP URL as a string for Telegram to get an animation from the Internet,
@@ -122,7 +123,7 @@ class SendAnimation:
             height (``int``, *optional*):
                 Animation height.
 
-            thumb (``str`` | ``pathlib.Path`` | ``BinaryIO``, *optional*):
+            thumb (``str`` | ``os.PathLike`` | ``BinaryIO``, *optional*):
                 Thumbnail of the animation file sent.
                 The thumbnail should be in JPEG format and less than 200 KB in size.
                 A thumbnail's width and height should not exceed 320 pixels.
@@ -213,7 +214,7 @@ class SendAnimation:
             returned.
 
         Raises:
-            FileNotFoundError: In case a local ``pathlib.Path`` doesn't point to an existing file.
+            FileNotFoundError: In case a local ``os.PathLike`` doesn't point to an existing file.
 
         Example:
             .. code-block:: python

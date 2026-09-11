@@ -27,6 +27,7 @@ from collections.abc import Callable
 
 import pyrogram
 from pyrogram import raw, utils
+from pyrogram._typing import PathType
 from pyrogram.file_id import FileType
 
 from ... import enums
@@ -40,7 +41,7 @@ class InputMediaVideo(InputMedia):
     It is intended to be used with :obj:`~pyrogram.Client.send_media_group` or :obj:`~pyrogram.Client.send_paid_media`.
 
     Parameters:
-        media (``str`` | ``pathlib.Path`` | ``BinaryIO``):
+        media (``str`` | ``os.PathLike`` | ``BinaryIO``):
             Video to send.
             Pass a file_id as string to send a video that exists on the Telegram servers or
             pass a file path as string to upload a new video that exists on your local machine or
@@ -90,7 +91,7 @@ class InputMediaVideo(InputMedia):
         video_start_timestamp (``int``, *optional*):
             Video startpoint, in seconds.
 
-        video_cover (``str`` | ``pathlib.Path`` | ``BinaryIO``, *optional*):
+        video_cover (``str`` | ``os.PathLike`` | ``BinaryIO``, *optional*):
             Video cover.
             Pass a file_id as string to attach a photo that exists on the Telegram servers,
             pass an HTTP URL as a string for Telegram to get a photo from the Internet,
@@ -98,13 +99,13 @@ class InputMediaVideo(InputMedia):
             pass a binary file-like object with its attribute ".name" set for in-memory uploads.
 
     Raises:
-        FileNotFoundError: In case a local ``pathlib.Path`` doesn't point to an existing file.
+        FileNotFoundError: In case a local ``os.PathLike`` doesn't point to an existing file.
     """
 
     def __init__(
         self,
-        media: str | Path | BinaryIO,
-        thumb: str | Path | None = None,
+        media: PathType | BinaryIO,
+        thumb: PathType | None = None,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[MessageEntity] | None = None,
@@ -116,7 +117,7 @@ class InputMediaVideo(InputMedia):
         has_spoiler: bool | None = None,
         no_sound: bool | None = None,
         video_start_timestamp: int | None = None,
-        video_cover: str | Path | BinaryIO | None = None,
+        video_cover: PathType | BinaryIO | None = None,
     ):
         super().__init__(media, caption, parse_mode, caption_entities)
 

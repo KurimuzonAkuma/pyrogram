@@ -22,12 +22,12 @@ import logging
 import os
 import re
 from datetime import datetime
-from pathlib import Path
 from typing import BinaryIO
 from collections.abc import Callable
 
 import pyrogram
 from pyrogram import StopTransmission, enums, raw, types, utils
+from pyrogram._typing import PathType
 from pyrogram.errors import FilePartMissing
 from pyrogram.file_id import FileType
 
@@ -38,7 +38,7 @@ class SendVoice:
     async def send_voice(
         self: pyrogram.Client,
         chat_id: int | str,
-        voice: str | Path | BinaryIO,
+        voice: PathType | BinaryIO,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[types.MessageEntity] | None = None,
@@ -84,7 +84,7 @@ class SendVoice:
                 For your personal cloud (Saved Messages) you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
 
-            voice (``str`` | ``pathlib.Path`` | ``BinaryIO``):
+            voice (``str`` | ``os.PathLike`` | ``BinaryIO``):
                 Audio file to send.
                 Pass a file_id as string to send an audio that exists on the Telegram servers,
                 pass an HTTP URL as a string for Telegram to get an audio from the Internet,
@@ -188,7 +188,7 @@ class SendVoice:
             case the upload is deliberately stopped with :meth:`~pyrogram.Client.stop_transmission`, None is returned.
 
         Raises:
-            FileNotFoundError: In case a local ``pathlib.Path`` doesn't point to an existing file.
+            FileNotFoundError: In case a local ``os.PathLike`` doesn't point to an existing file.
 
         Example:
             .. code-block:: python

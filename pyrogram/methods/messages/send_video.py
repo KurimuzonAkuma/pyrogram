@@ -28,6 +28,7 @@ from collections.abc import Callable
 
 import pyrogram
 from pyrogram import StopTransmission, enums, raw, types, utils
+from pyrogram._typing import PathType
 from pyrogram.errors import FilePartMissing
 from pyrogram.file_id import FileType
 
@@ -38,7 +39,7 @@ class SendVideo:
     async def send_video(
         self: pyrogram.Client,
         chat_id: int | str,
-        video: str | Path | BinaryIO,
+        video: PathType | BinaryIO,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[types.MessageEntity] | None = None,
@@ -49,8 +50,8 @@ class SendVideo:
         width: int = 0,
         height: int = 0,
         video_start_timestamp: int | None = None,
-        video_cover: str | Path | BinaryIO | None = None,
-        thumb: str | Path | BinaryIO | None = None,
+        video_cover: PathType | BinaryIO | None = None,
+        thumb: PathType | BinaryIO | None = None,
         file_name: str | None = None,
         supports_streaming: bool = True,
         disable_notification: bool | None = None,
@@ -99,7 +100,7 @@ class SendVideo:
                 For your personal cloud (Saved Messages) you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
 
-            video (``str`` | ``pathlib.Path`` | ``BinaryIO``):
+            video (``str`` | ``os.PathLike`` | ``BinaryIO``):
                 Video to send.
                 Pass a file_id as string to send a video that exists on the Telegram servers,
                 pass an HTTP URL as a string for Telegram to get a video from the Internet,
@@ -140,14 +141,14 @@ class SendVideo:
             video_start_timestamp (``int``, *optional*):
                 Video startpoint, in seconds.
 
-            video_cover (``str`` | ``pathlib.Path`` | ``BinaryIO``, *optional*):
+            video_cover (``str`` | ``os.PathLike`` | ``BinaryIO``, *optional*):
                 Video cover.
                 Pass a file_id as string to attach a photo that exists on the Telegram servers,
                 pass an HTTP URL as a string for Telegram to get a photo from the Internet,
                 pass a file path as string to upload a new photo that exists on your local machine, or
                 pass a binary file-like object with its attribute ".name" set for in-memory uploads.
 
-            thumb (``str`` | ``pathlib.Path`` | ``BinaryIO``, *optional*):
+            thumb (``str`` | ``os.PathLike`` | ``BinaryIO``, *optional*):
                 Thumbnail of the video sent.
                 The thumbnail should be in JPEG format and less than 200 KB in size.
                 A thumbnail's width and height should not exceed 320 pixels.
@@ -245,7 +246,7 @@ class SendVideo:
             case the upload is deliberately stopped with :meth:`~pyrogram.Client.stop_transmission`, None is returned.
 
         Raises:
-            FileNotFoundError: In case a local ``pathlib.Path`` doesn't point to an existing file.
+            FileNotFoundError: In case a local ``os.PathLike`` doesn't point to an existing file.
 
         Example:
             .. code-block:: python

@@ -28,6 +28,7 @@ from collections.abc import Callable
 
 import pyrogram
 from pyrogram import StopTransmission, enums, raw, types, utils
+from pyrogram._typing import PathType
 from pyrogram.errors import FilePartMissing
 from pyrogram.file_id import FileType
 
@@ -38,8 +39,8 @@ class SendDocument:
     async def send_document(
         self: pyrogram.Client,
         chat_id: int | str,
-        document: str | Path | BinaryIO,
-        thumb: str | Path | BinaryIO | None = None,
+        document: PathType | BinaryIO,
+        thumb: PathType | BinaryIO | None = None,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[types.MessageEntity] | None = None,
@@ -84,14 +85,14 @@ class SendDocument:
                 For your personal cloud (Saved Messages) you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
 
-            document (``str`` | ``pathlib.Path`` | ``BinaryIO``):
+            document (``str`` | ``os.PathLike`` | ``BinaryIO``):
                 File to send.
                 Pass a file_id as string to send a file that exists on the Telegram servers,
                 pass an HTTP URL as a string for Telegram to get a file from the Internet,
                 pass a file path as string to upload a new file that exists on your local machine, or
                 pass a binary file-like object with its attribute ".name" set for in-memory uploads.
 
-            thumb (``str`` | ``pathlib.Path`` | ``BinaryIO``, *optional*):
+            thumb (``str`` | ``os.PathLike`` | ``BinaryIO``, *optional*):
                 Thumbnail of the file sent.
                 The thumbnail should be in JPEG format and less than 200 KB in size.
                 A thumbnail's width and height should not exceed 320 pixels.
@@ -193,7 +194,7 @@ class SendDocument:
             case the upload is deliberately stopped with :meth:`~pyrogram.Client.stop_transmission`, None is returned.
 
         Raises:
-            FileNotFoundError: In case a local ``pathlib.Path`` doesn't point to an existing file.
+            FileNotFoundError: In case a local ``os.PathLike`` doesn't point to an existing file.
 
         Example:
             .. code-block:: python

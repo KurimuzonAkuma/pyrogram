@@ -27,6 +27,7 @@ from collections.abc import Callable
 
 import pyrogram
 from pyrogram import raw, utils
+from pyrogram._typing import PathType
 from pyrogram.file_id import FileType
 
 from ... import enums
@@ -40,7 +41,7 @@ class InputMediaVoiceNote(InputMedia):
     It is intended to be used with :obj:`~pyrogram.types.InputRichBlockVoiceNote`.
 
     Parameters:
-        media (``str`` | ``pathlib.Path`` | ``BinaryIO``):
+        media (``str`` | ``os.PathLike`` | ``BinaryIO``):
             Voice note to send.
             Pass a file_id as string to send a voice note that exists on the Telegram servers or
             pass a file path as string to upload a new voice note that exists on your local machine or
@@ -62,12 +63,12 @@ class InputMediaVoiceNote(InputMedia):
             Duration of the voice note in seconds
 
     Raises:
-        FileNotFoundError: In case a local ``pathlib.Path`` doesn't point to an existing file.
+        FileNotFoundError: In case a local ``os.PathLike`` doesn't point to an existing file.
     """
 
     def __init__(
         self,
-        media: str | Path | BinaryIO,
+        media: PathType | BinaryIO,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[MessageEntity] | None = None,

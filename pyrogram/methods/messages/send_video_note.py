@@ -21,12 +21,12 @@ from __future__ import annotations as _annotations
 import logging
 import os
 from datetime import datetime
-from pathlib import Path
 from typing import BinaryIO
 from collections.abc import Callable
 
 import pyrogram
 from pyrogram import StopTransmission, enums, raw, types, utils
+from pyrogram._typing import PathType
 from pyrogram.errors import FilePartMissing
 from pyrogram.file_id import FileType
 
@@ -40,10 +40,10 @@ class SendVideoNote:
     async def send_video_note(
         self: pyrogram.Client,
         chat_id: int | str,
-        video_note: str | Path | BinaryIO,
+        video_note: PathType | BinaryIO,
         duration: int = 0,
         length: int = 1,
-        thumb: str | Path | BinaryIO | None = None,
+        thumb: PathType | BinaryIO | None = None,
         disable_notification: bool | None = None,
         message_thread_id: int | None = None,
         direct_messages_topic_id: int | None = None,
@@ -85,7 +85,7 @@ class SendVideoNote:
                 For your personal cloud (Saved Messages) you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
 
-            video_note (``str`` | ``pathlib.Path`` | ``BinaryIO``):
+            video_note (``str`` | ``os.PathLike`` | ``BinaryIO``):
                 Video note to send.
                 Pass a file_id as string to send a video note that exists on the Telegram servers,
                 pass a file path as string to upload a new video note that exists on your local machine, or
@@ -102,7 +102,7 @@ class SendVideoNote:
             length (``int``, *optional*):
                 Video width and height.
 
-            thumb (``str`` | ``pathlib.Path`` | ``BinaryIO``, *optional*):
+            thumb (``str`` | ``os.PathLike`` | ``BinaryIO``, *optional*):
                 Thumbnail of the video sent.
                 The thumbnail should be in JPEG format and less than 200 KB in size.
                 A thumbnail's width and height should not exceed 320 pixels.
@@ -190,7 +190,7 @@ class SendVideoNote:
             returned.
 
         Raises:
-            FileNotFoundError: In case a local ``pathlib.Path`` doesn't point to an existing file.
+            FileNotFoundError: In case a local ``os.PathLike`` doesn't point to an existing file.
 
         Example:
             .. code-block:: python

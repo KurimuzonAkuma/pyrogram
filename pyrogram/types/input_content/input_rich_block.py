@@ -111,6 +111,7 @@ class InputRichBlock(Object):
     - :obj:`~pyrogram.types.InputRichBlockAnchor`
     - :obj:`~pyrogram.types.InputRichBlockList`
     - :obj:`~pyrogram.types.InputRichBlockBlockQuotation`
+    - :obj:`~pyrogram.types.InputRichBlockExpandableBlockQuotation`
     - :obj:`~pyrogram.types.InputRichBlockPullQuotation`
     - :obj:`~pyrogram.types.InputRichBlockCollage`
     - :obj:`~pyrogram.types.InputRichBlockSlideshow`
@@ -120,6 +121,7 @@ class InputRichBlock(Object):
     - :obj:`~pyrogram.types.InputRichBlockButtons`
     - :obj:`~pyrogram.types.InputRichBlockAnimation`
     - :obj:`~pyrogram.types.InputRichBlockAudio`
+    - :obj:`~pyrogram.types.InputRichBlockDocument`
     - :obj:`~pyrogram.types.InputRichBlockPhoto`
     - :obj:`~pyrogram.types.InputRichBlockVideo`
     - :obj:`~pyrogram.types.InputRichBlockVoiceNote`

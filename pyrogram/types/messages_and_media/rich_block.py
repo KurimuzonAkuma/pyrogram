@@ -96,8 +96,8 @@ class RichBlock(Object):
     - :obj:`~pyrogram.types.RichBlockMap`
     - :obj:`~pyrogram.types.RichBlockButtons`
     - :obj:`~pyrogram.types.RichBlockAnimation`
-    - :obj:`~pyrogram.types.RichBlockDocument`
     - :obj:`~pyrogram.types.RichBlockAudio`
+    - :obj:`~pyrogram.types.RichBlockDocument`
     - :obj:`~pyrogram.types.RichBlockPhoto`
     - :obj:`~pyrogram.types.RichBlockVideo`
     - :obj:`~pyrogram.types.RichBlockVoiceNote`

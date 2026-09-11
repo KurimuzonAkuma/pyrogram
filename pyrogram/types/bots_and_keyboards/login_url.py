@@ -51,11 +51,15 @@ class LoginUrl(Object):
             See `Linking your domain to the bot <https://core.telegram.org/widgets/login#linking-your-domain-to-the-bot>`_
             for more details.
 
-        request_write_access (``str``, *optional*):
+        request_write_access (``bool``, *optional*):
             Pass True to request the permission for your bot to send messages to the user.
 
         button_id (``int``):
             Button identifier.
+
+    **NOTE**: A button received from Telegram never carries *bot_username* or
+    *request_write_access*: the incoming ``inlineButtonTypeUrlAuth`` constructor has no field
+    for either, so both are always ``None`` on a parsed button.
     """
 
     def __init__(
@@ -64,7 +68,7 @@ class LoginUrl(Object):
         url: str,
         forward_text: str | None = None,
         bot_username: str | None = None,
-        request_write_access: str | None = None,
+        request_write_access: bool | None = None,
         button_id: int | None = None,
     ):
         super().__init__()

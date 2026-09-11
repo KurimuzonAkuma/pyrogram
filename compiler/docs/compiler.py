@@ -805,10 +805,13 @@ def pyrogram_api():
             RichBlockAnimation
             RichBlockAudio
             RichBlockBlockQuotation
+            RichBlockButtons
             RichBlockCaption
             RichBlockCollage
             RichBlockDetails
             RichBlockDivider
+            RichBlockDocument
+            RichBlockExpandableBlockQuotation
             RichBlockFooter
             RichBlockList
             RichBlockListItem
@@ -816,8 +819,6 @@ def pyrogram_api():
             RichBlockMathematicalExpression
             RichBlockParagraph
             RichBlockPhoto
-            RichBlockDocument
-            RichBlockExpandableBlockQuotation
             RichBlockPreformatted
             RichBlockPullQuotation
             RichBlockSectionHeading
@@ -830,12 +831,12 @@ def pyrogram_api():
             RichBlockUnsupported
             RichMessage
             RichText
-            RichTextButton
             RichTextAnchor
             RichTextAnchorLink
             RichTextBankCardNumber
             RichTextBold
             RichTextBotCommand
+            RichTextButton
             RichTextCashtag
             RichTextCode
             RichTextCustomEmoji
@@ -969,7 +970,6 @@ def pyrogram_api():
             KeyboardButton
             ReplyKeyboardRemove
             RichMessageButton
-            RichBlockButtons
             SentGuestMessage
             InlineKeyboardMarkup
             InlineKeyboardButton
@@ -1052,13 +1052,13 @@ def pyrogram_api():
             InputRichBlockAnchor
             InputRichBlockAnimation
             InputRichBlockAudio
-            InputRichBlockDocument
-            InputRichBlockButtons
-            InputRichBlockExpandableBlockQuotation
             InputRichBlockBlockQuotation
+            InputRichBlockButtons
             InputRichBlockCollage
             InputRichBlockDetails
             InputRichBlockDivider
+            InputRichBlockDocument
+            InputRichBlockExpandableBlockQuotation
             InputRichBlockFooter
             InputRichBlockList
             InputRichBlockListItem

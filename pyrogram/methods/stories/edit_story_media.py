@@ -19,11 +19,13 @@
 from __future__ import annotations as _annotations
 
 import os
+from pathlib import Path
 from typing import BinaryIO
 from collections.abc import Callable
 
 import pyrogram
 from pyrogram import raw, types, utils, StopTransmission
+from pyrogram._typing import PathType
 from pyrogram.errors import FilePartMissing
 
 
@@ -32,12 +34,12 @@ class EditStoryMedia:
         self: pyrogram.Client,
         chat_id: int | str,
         story_id: int,
-        media: str | BinaryIO | None = None,
+        media: PathType | BinaryIO | None = None,
         media_areas: list[types.MediaArea] | None = None,
         duration: int = 0,
         width: int = 0,
         height: int = 0,
-        thumb: str | BinaryIO | None = None,
+        thumb: PathType | BinaryIO | None = None,
         supports_streaming: bool = True,
         file_name: str | None = None,
         progress: Callable | None = None,
@@ -55,7 +57,7 @@ class EditStoryMedia:
             story_id (``int``):
                 Story identifier in the chat specified in chat_id.
 
-            media (``str`` | ``BinaryIO``, *optional*):
+            media (``str`` | ``os.PathLike`` | ``BinaryIO``, *optional*):
                 Video or photo to send.
                 Pass a file_id as string to send a animation that exists on the Telegram servers,
                 pass a file path as string to upload a new animation that exists on your local machine, or
@@ -73,7 +75,7 @@ class EditStoryMedia:
             height (``int``, *optional*):
                 Video height.
 
-            thumb (``str`` | ``BinaryIO``, *optional*):
+            thumb (``str`` | ``os.PathLike`` | ``BinaryIO``, *optional*):
                 Thumbnail of the video sent.
                 The thumbnail should be in JPEG format and less than 200 KB in size.
                 A thumbnail's width and height should not exceed 320 pixels.
@@ -95,6 +97,9 @@ class EditStoryMedia:
             in case the upload is deliberately stopped with :meth:`~pyrogram.Client.stop_transmission`,
             None is returned.
 
+        Raises:
+            FileNotFoundError: In case a local ``os.PathLike`` doesn't point to an existing file.
+
         Example:
             .. code-block:: python
 
@@ -105,7 +110,7 @@ class EditStoryMedia:
                 await app.edit_story_media(chat_id, story_id, "new_video.mp4")
         """
         try:
-            if isinstance(media, str):
+            if isinstance(media, (str, os.PathLike)):
                 if os.path.isfile(media):
                     thumb = await self.save_file(thumb)
                     file = await self.save_file(
@@ -124,7 +129,7 @@ class EditStoryMedia:
                                     h=height,
                                 ),
                                 raw.types.DocumentAttributeFilename(
-                                    file_name=file_name or os.path.basename(media)
+                                    file_name=file_name or Path(media).name
                                 ),
                             ],
                         )
@@ -132,8 +137,10 @@ class EditStoryMedia:
                         media = raw.types.InputMediaUploadedPhoto(
                             file=file,
                         )
-                else:
+                elif isinstance(media, str):
                     media = utils.get_input_media_from_file_id(media)
+                else:
+                    raise FileNotFoundError(f"No such file or directory: {media}")
             else:
                 thumb = await self.save_file(thumb)
                 file = await self.save_file(media, progress=progress, progress_args=progress_args)

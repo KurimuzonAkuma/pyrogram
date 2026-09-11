@@ -25,6 +25,7 @@ from typing import TYPE_CHECKING, BinaryIO, Literal, overload
 
 import pyrogram
 from pyrogram import types, utils
+from pyrogram._typing import PathType
 from pyrogram.file_id import PHOTO_TYPES, FileId, FileType
 
 if TYPE_CHECKING:
@@ -55,7 +56,7 @@ class DownloadMedia:
             | types.PaidMediaPreview
             | types.ChatPhoto
         ),
-        file_name: str = DEFAULT_DOWNLOAD_DIR,
+        file_name: PathType = DEFAULT_DOWNLOAD_DIR,
         in_memory: Literal[False] = False,
         block: Literal[True] = True,
         progress: Callable | None = None,
@@ -83,7 +84,7 @@ class DownloadMedia:
             | types.PaidMediaPreview
             | types.ChatPhoto
         ),
-        file_name: str = DEFAULT_DOWNLOAD_DIR,
+        file_name: PathType = DEFAULT_DOWNLOAD_DIR,
         in_memory: Literal[True] = True,
         block: Literal[True] = True,
         progress: Callable | None = None,
@@ -111,7 +112,7 @@ class DownloadMedia:
             | types.PaidMediaPreview
             | types.ChatPhoto
         ),
-        file_name: str = DEFAULT_DOWNLOAD_DIR,
+        file_name: PathType = DEFAULT_DOWNLOAD_DIR,
         *,
         in_memory: bool = False,
         block: Literal[False],
@@ -140,7 +141,7 @@ class DownloadMedia:
             | types.PaidMediaPreview
             | types.ChatPhoto
         ),
-        file_name: str,
+        file_name: PathType,
         in_memory: bool,
         block: Literal[False],
         progress: Callable | None = None,
@@ -168,7 +169,7 @@ class DownloadMedia:
             | types.PaidMediaPreview
             | types.ChatPhoto
         ),
-        file_name: str = DEFAULT_DOWNLOAD_DIR,
+        file_name: PathType = DEFAULT_DOWNLOAD_DIR,
         in_memory: bool = False,
         block: bool = True,
         progress: Callable | None = None,
@@ -195,7 +196,7 @@ class DownloadMedia:
             | types.PaidMediaPreview
             | types.ChatPhoto
         ),
-        file_name: str = DEFAULT_DOWNLOAD_DIR,
+        file_name: PathType = DEFAULT_DOWNLOAD_DIR,
         in_memory: bool = False,
         block: bool = True,
         progress: Callable | None = None,
@@ -210,7 +211,7 @@ class DownloadMedia:
                 Pass a object containing the media, the media itself (message.audio, message.video, ...) or a file id
                 as string.
 
-            file_name (``str``, *optional*):
+            file_name (``str`` | ``os.PathLike``, *optional*):
                 A custom *file_name* to be used instead of the one provided by Telegram.
                 By default, all files are downloaded in the *downloads* folder in your working directory.
                 You can also specify a path for downloading files in a custom location: paths that end with "/"

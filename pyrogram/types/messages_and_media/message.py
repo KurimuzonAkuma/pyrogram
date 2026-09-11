@@ -28,6 +28,7 @@ from collections.abc import Callable
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
+from pyrogram._typing import PathType
 from pyrogram.errors import (
     ChannelForumMissing,
     ChannelInvalid,
@@ -2479,7 +2480,7 @@ class Message(Object, Update):
 
     async def reply_animation(
         self,
-        animation: str | BinaryIO,
+        animation: PathType | BinaryIO,
         caption: str = "",
         unsave: bool = False,
         parse_mode: enums.ParseMode | None = None,
@@ -2489,7 +2490,7 @@ class Message(Object, Update):
         duration: int = 0,
         width: int = 0,
         height: int = 0,
-        thumb: str | BinaryIO | None = None,
+        thumb: PathType | BinaryIO | None = None,
         file_name: str | None = None,
         disable_notification: bool | None = None,
         effect_id: int | None = None,
@@ -2554,7 +2555,7 @@ class Message(Object, Update):
             height (``int``, *optional*):
                 Animation height.
 
-            thumb (``str`` | ``BinaryIO``, *optional*):
+            thumb (``str`` | ``os.PathLike`` | ``BinaryIO``, *optional*):
                 Thumbnail of the animation file sent.
                 The thumbnail should be in JPEG format and less than 200 KB in size.
                 A thumbnail's width and height should not exceed 320 pixels.
@@ -2669,7 +2670,7 @@ class Message(Object, Update):
 
     async def answer_animation(
         self,
-        animation: str | BinaryIO,
+        animation: PathType | BinaryIO,
         caption: str = "",
         unsave: bool = False,
         parse_mode: enums.ParseMode | None = None,
@@ -2679,7 +2680,7 @@ class Message(Object, Update):
         duration: int = 0,
         width: int = 0,
         height: int = 0,
-        thumb: str | BinaryIO | None = None,
+        thumb: PathType | BinaryIO | None = None,
         file_name: str | None = None,
         disable_notification: bool | None = None,
         effect_id: int | None = None,
@@ -2744,7 +2745,7 @@ class Message(Object, Update):
             height (``int``, *optional*):
                 Animation height.
 
-            thumb (``str`` | ``BinaryIO``, *optional*):
+            thumb (``str`` | ``os.PathLike`` | ``BinaryIO``, *optional*):
                 Thumbnail of the animation file sent.
                 The thumbnail should be in JPEG format and less than 200 KB in size.
                 A thumbnail's width and height should not exceed 320 pixels.
@@ -2857,14 +2858,14 @@ class Message(Object, Update):
 
     async def reply_audio(
         self,
-        audio: str | BinaryIO,
+        audio: PathType | BinaryIO,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[types.MessageEntity] | None = None,
         duration: int = 0,
         performer: str | None = None,
         title: str | None = None,
-        thumb: str | BinaryIO | None = None,
+        thumb: PathType | BinaryIO | None = None,
         file_name: str | None = None,
         disable_notification: bool | None = None,
         effect_id: int | None = None,
@@ -2919,7 +2920,7 @@ class Message(Object, Update):
             title (``str``, *optional*):
                 Track name.
 
-            thumb (``str`` | ``BinaryIO``, *optional*):
+            thumb (``str`` | ``os.PathLike`` | ``BinaryIO``, *optional*):
                 Thumbnail of the music file album cover.
                 The thumbnail should be in JPEG format and less than 200 KB in size.
                 A thumbnail's width and height should not exceed 320 pixels.
@@ -3031,14 +3032,14 @@ class Message(Object, Update):
 
     async def answer_audio(
         self,
-        audio: str | BinaryIO,
+        audio: PathType | BinaryIO,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[types.MessageEntity] | None = None,
         duration: int = 0,
         performer: str | None = None,
         title: str | None = None,
-        thumb: str | BinaryIO | None = None,
+        thumb: PathType | BinaryIO | None = None,
         file_name: str | None = None,
         disable_notification: bool | None = None,
         effect_id: int | None = None,
@@ -3093,7 +3094,7 @@ class Message(Object, Update):
             title (``str``, *optional*):
                 Track name.
 
-            thumb (``str`` | ``BinaryIO``, *optional*):
+            thumb (``str`` | ``os.PathLike`` | ``BinaryIO``, *optional*):
                 Thumbnail of the music file album cover.
                 The thumbnail should be in JPEG format and less than 200 KB in size.
                 A thumbnail's width and height should not exceed 320 pixels.
@@ -3421,8 +3422,8 @@ class Message(Object, Update):
 
     async def reply_document(
         self,
-        document: str | BinaryIO,
-        thumb: str | BinaryIO | None = None,
+        document: PathType | BinaryIO,
+        thumb: PathType | BinaryIO | None = None,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[types.MessageEntity] | None = None,
@@ -3462,7 +3463,7 @@ class Message(Object, Update):
                 pass an HTTP URL as a string for Telegram to get a file from the Internet, or
                 pass a file path as string to upload a new file that exists on your local machine.
 
-            thumb (``str`` | ``BinaryIO``, *optional*):
+            thumb (``str`` | ``os.PathLike`` | ``BinaryIO``, *optional*):
                 Thumbnail of the file sent.
                 The thumbnail should be in JPEG format and less than 200 KB in size.
                 A thumbnail's width and height should not exceed 320 pixels.
@@ -3587,8 +3588,8 @@ class Message(Object, Update):
 
     async def answer_document(
         self,
-        document: str | BinaryIO,
-        thumb: str | BinaryIO | None = None,
+        document: PathType | BinaryIO,
+        thumb: PathType | BinaryIO | None = None,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[types.MessageEntity] | None = None,
@@ -3628,7 +3629,7 @@ class Message(Object, Update):
                 pass an HTTP URL as a string for Telegram to get a file from the Internet, or
                 pass a file path as string to upload a new file that exists on your local machine.
 
-            thumb (``str`` | ``BinaryIO``, *optional*):
+            thumb (``str`` | ``os.PathLike`` | ``BinaryIO``, *optional*):
                 Thumbnail of the file sent.
                 The thumbnail should be in JPEG format and less than 200 KB in size.
                 A thumbnail's width and height should not exceed 320 pixels.
@@ -4908,7 +4909,7 @@ class Message(Object, Update):
 
     async def reply_photo(
         self,
-        photo: str | BinaryIO,
+        photo: PathType | BinaryIO,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[types.MessageEntity] | None = None,
@@ -5076,7 +5077,7 @@ class Message(Object, Update):
 
     async def answer_photo(
         self,
-        photo: str | BinaryIO,
+        photo: PathType | BinaryIO,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[types.MessageEntity] | None = None,
@@ -5242,8 +5243,8 @@ class Message(Object, Update):
 
     async def reply_live_photo(
         self,
-        live_photo: str | BinaryIO,
-        photo: str | BinaryIO,
+        live_photo: PathType | BinaryIO,
+        photo: PathType | BinaryIO,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[types.MessageEntity] | None = None,
@@ -5279,7 +5280,7 @@ class Message(Object, Update):
         * ephemeral_message_parameters
 
         Parameters:
-            live_photo (``str`` | ``BinaryIO``):
+            live_photo (``str`` | ``os.PathLike`` | ``BinaryIO``):
                 Live photo video to send.
                 The video must be no longer than 10 seconds and must not exceed 10 MB in size.
                 Pass a file_id as string to send a video that exists on the Telegram servers,
@@ -5287,7 +5288,7 @@ class Message(Object, Update):
                 pass a file path as string to upload a new video that exists on your local machine, or
                 pass a binary file-like object with its attribute ".name" set for in-memory uploads.
 
-            photo (``str`` | ``BinaryIO``):
+            photo (``str`` | ``os.PathLike`` | ``BinaryIO``):
                 The static photo to send.
                 The video must be no longer than 10 seconds and must not exceed 10 MB in size.
                 Pass a file_id as string to send a video that exists on the Telegram servers,
@@ -5419,8 +5420,8 @@ class Message(Object, Update):
 
     async def answer_live_photo(
         self,
-        live_photo: str | BinaryIO,
-        photo: str | BinaryIO,
+        live_photo: PathType | BinaryIO,
+        photo: PathType | BinaryIO,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[types.MessageEntity] | None = None,
@@ -5456,7 +5457,7 @@ class Message(Object, Update):
         * ephemeral_message_parameters
 
         Parameters:
-            live_photo (``str`` | ``BinaryIO``):
+            live_photo (``str`` | ``os.PathLike`` | ``BinaryIO``):
                 Live photo video to send.
                 The video must be no longer than 10 seconds and must not exceed 10 MB in size.
                 Pass a file_id as string to send a video that exists on the Telegram servers,
@@ -5464,7 +5465,7 @@ class Message(Object, Update):
                 pass a file path as string to upload a new video that exists on your local machine, or
                 pass a binary file-like object with its attribute ".name" set for in-memory uploads.
 
-            photo (``str`` | ``BinaryIO``):
+            photo (``str`` | ``os.PathLike`` | ``BinaryIO``):
                 The static photo to send.
                 The video must be no longer than 10 seconds and must not exceed 10 MB in size.
                 Pass a file_id as string to send a video that exists on the Telegram servers,
@@ -6150,7 +6151,7 @@ class Message(Object, Update):
 
     async def reply_sticker(
         self,
-        sticker: str | BinaryIO,
+        sticker: PathType | BinaryIO,
         emoji: str = "",
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
@@ -6300,7 +6301,7 @@ class Message(Object, Update):
 
     async def answer_sticker(
         self,
-        sticker: str | BinaryIO,
+        sticker: PathType | BinaryIO,
         emoji: str = "",
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
@@ -6688,7 +6689,7 @@ class Message(Object, Update):
 
     async def reply_video(
         self,
-        video: str | BinaryIO,
+        video: PathType | BinaryIO,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[types.MessageEntity] | None = None,
@@ -6700,8 +6701,8 @@ class Message(Object, Update):
         width: int = 0,
         height: int = 0,
         video_start_timestamp: int | None = None,
-        video_cover: str | BinaryIO | None = None,
-        thumb: str | BinaryIO | None = None,
+        video_cover: PathType | BinaryIO | None = None,
+        thumb: PathType | BinaryIO | None = None,
         file_name: str | None = None,
         supports_streaming: bool = True,
         disable_notification: bool | None = None,
@@ -6776,14 +6777,14 @@ class Message(Object, Update):
             video_start_timestamp (``int``, *optional*):
                 Video startpoint, in seconds.
 
-            video_cover (``str`` | ``BinaryIO``, *optional*):
+            video_cover (``str`` | ``os.PathLike`` | ``BinaryIO``, *optional*):
                 Video cover.
                 Pass a file_id as string to attach a photo that exists on the Telegram servers,
                 pass an HTTP URL as a string for Telegram to get a photo from the Internet,
                 pass a file path as string to upload a new photo that exists on your local machine, or
                 pass a binary file-like object with its attribute ".name" set for in-memory uploads.
 
-            thumb (``str`` | ``BinaryIO``, *optional*):
+            thumb (``str`` | ``os.PathLike`` | ``BinaryIO``, *optional*):
                 Thumbnail of the video sent.
                 The thumbnail should be in JPEG format and less than 200 KB in size.
                 A thumbnail's width and height should not exceed 320 pixels.
@@ -6910,7 +6911,7 @@ class Message(Object, Update):
 
     async def answer_video(
         self,
-        video: str | BinaryIO,
+        video: PathType | BinaryIO,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[types.MessageEntity] | None = None,
@@ -6922,8 +6923,8 @@ class Message(Object, Update):
         width: int = 0,
         height: int = 0,
         video_start_timestamp: int | None = None,
-        video_cover: str | BinaryIO | None = None,
-        thumb: str | BinaryIO | None = None,
+        video_cover: PathType | BinaryIO | None = None,
+        thumb: PathType | BinaryIO | None = None,
         file_name: str | None = None,
         supports_streaming: bool = True,
         disable_notification: bool | None = None,
@@ -6998,14 +6999,14 @@ class Message(Object, Update):
             video_start_timestamp (``int``, *optional*):
                 Video startpoint, in seconds.
 
-            video_cover (``str`` | ``BinaryIO``, *optional*):
+            video_cover (``str`` | ``os.PathLike`` | ``BinaryIO``, *optional*):
                 Video cover.
                 Pass a file_id as string to attach a photo that exists on the Telegram servers,
                 pass an HTTP URL as a string for Telegram to get a photo from the Internet,
                 pass a file path as string to upload a new photo that exists on your local machine, or
                 pass a binary file-like object with its attribute ".name" set for in-memory uploads.
 
-            thumb (``str`` | ``BinaryIO``, *optional*):
+            thumb (``str`` | ``os.PathLike`` | ``BinaryIO``, *optional*):
                 Thumbnail of the video sent.
                 The thumbnail should be in JPEG format and less than 200 KB in size.
                 A thumbnail's width and height should not exceed 320 pixels.
@@ -7130,10 +7131,10 @@ class Message(Object, Update):
 
     async def reply_video_note(
         self,
-        video_note: str | BinaryIO,
+        video_note: PathType | BinaryIO,
         duration: int = 0,
         length: int = 1,
-        thumb: str | BinaryIO | None = None,
+        thumb: PathType | BinaryIO | None = None,
         disable_notification: bool | None = None,
         effect_id: int | None = None,
         schedule_date: datetime | None = None,
@@ -7175,7 +7176,7 @@ class Message(Object, Update):
             length (``int``, *optional*):
                 Video width and height.
 
-            thumb (``str`` | ``BinaryIO``, *optional*):
+            thumb (``str`` | ``os.PathLike`` | ``BinaryIO``, *optional*):
                 Thumbnail of the video sent.
                 The thumbnail should be in JPEG format and less than 200 KB in size.
                 A thumbnail's width and height should not exceed 320 pixels.
@@ -7283,10 +7284,10 @@ class Message(Object, Update):
 
     async def answer_video_note(
         self,
-        video_note: str | BinaryIO,
+        video_note: PathType | BinaryIO,
         duration: int = 0,
         length: int = 1,
-        thumb: str | BinaryIO | None = None,
+        thumb: PathType | BinaryIO | None = None,
         disable_notification: bool | None = None,
         effect_id: int | None = None,
         reply_parameters: types.ReplyParameters | None = None,
@@ -7328,7 +7329,7 @@ class Message(Object, Update):
             length (``int``, *optional*):
                 Video width and height.
 
-            thumb (``str`` | ``BinaryIO``, *optional*):
+            thumb (``str`` | ``os.PathLike`` | ``BinaryIO``, *optional*):
                 Thumbnail of the video sent.
                 The thumbnail should be in JPEG format and less than 200 KB in size.
                 A thumbnail's width and height should not exceed 320 pixels.
@@ -7434,7 +7435,7 @@ class Message(Object, Update):
 
     async def reply_voice(
         self,
-        voice: str | BinaryIO,
+        voice: PathType | BinaryIO,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[types.MessageEntity] | None = None,
@@ -7596,7 +7597,7 @@ class Message(Object, Update):
 
     async def answer_voice(
         self,
-        voice: str | BinaryIO,
+        voice: PathType | BinaryIO,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[types.MessageEntity] | None = None,
@@ -9571,7 +9572,7 @@ class Message(Object, Update):
 
     async def download(
         self,
-        file_name: str = "",
+        file_name: PathType = "",
         in_memory: bool = False,
         block: bool = True,
         progress: Callable | None = None,
@@ -9582,7 +9583,7 @@ class Message(Object, Update):
         * message
 
         Parameters:
-            file_name (``str``, *optional*):
+            file_name (``str`` | ``os.PathLike``, *optional*):
                 A custom *file_name* to be used instead of the one provided by Telegram.
                 By default, all files are downloaded in the *downloads* folder in your working directory.
                 You can also specify a path for downloading files in a custom location: paths that end with "/"

@@ -19,13 +19,15 @@
 from __future__ import annotations as _annotations
 
 import io
-import pathlib
+import os
 import re
+from pathlib import Path
 from typing import BinaryIO
 from collections.abc import Callable
 
 import pyrogram
 from pyrogram import raw, utils
+from pyrogram._typing import PathType
 from pyrogram.file_id import FileType
 
 from ... import enums
@@ -37,14 +39,14 @@ class InputMediaDocument(InputMedia):
     """A generic file to be sent inside an album.
 
     Parameters:
-        media (``str`` | ``BinaryIO``):
+        media (``str`` | ``os.PathLike`` | ``BinaryIO``):
             File to send.
             Pass a file_id as string to send a file that exists on the Telegram servers or
             pass a file path as string to upload a new file that exists on your local machine or
             pass a binary file-like object with its attribute “.name” set for in-memory uploads or
             pass an HTTP URL as a string for Telegram to get a file from the Internet.
 
-        thumb (``str``):
+        thumb (``str`` | ``os.PathLike``):
             Thumbnail of the file sent.
             The thumbnail should be in JPEG format and less than 200 KB in size.
             A thumbnail's width and height should not exceed 320 pixels.
@@ -64,12 +66,15 @@ class InputMediaDocument(InputMedia):
         file_name (``str``, *optional*):
             File name of the document sent.
             Defaults to file's path basename.
+
+    Raises:
+        FileNotFoundError: In case a local ``os.PathLike`` doesn't point to an existing file.
     """
 
     def __init__(
         self,
-        media: str | BinaryIO,
-        thumb: str | None = None,
+        media: PathType | BinaryIO,
+        thumb: PathType | None = None,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[MessageEntity] | None = None,
@@ -94,7 +99,7 @@ class InputMediaDocument(InputMedia):
         else:
             peer = await client.resolve_peer(chat_id)
 
-        if isinstance(self.media, io.BytesIO) or pathlib.Path(self.media).is_file():
+        if isinstance(self.media, io.BytesIO) or Path(self.media).is_file():
             uploaded_media = await client.invoke(
                 raw.functions.messages.UploadMedia(
                     peer=peer,
@@ -121,6 +126,9 @@ class InputMediaDocument(InputMedia):
                     file_reference=uploaded_media.document.file_reference,
                 ),
             )
+
+        if isinstance(self.media, os.PathLike):
+            raise FileNotFoundError(f"No such file or directory: {self.media}")
 
         if re.match("^https?://", self.media):
             return raw.types.InputMediaDocumentExternal(

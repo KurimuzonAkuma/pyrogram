@@ -19,13 +19,15 @@
 from __future__ import annotations as _annotations
 
 import io
-import pathlib
+import os
 import re
+from pathlib import Path
 from typing import BinaryIO
 from collections.abc import Callable
 
 import pyrogram
 from pyrogram import raw, utils
+from pyrogram._typing import PathType
 from pyrogram.file_id import FileType
 
 from .input_media import InputMedia
@@ -35,7 +37,7 @@ class InputMediaSticker(InputMedia):
     """A sticker to be attached.
 
     Parameters:
-        media (``str`` | ``BinaryIO``):
+        media (``str`` | ``os.PathLike`` | ``BinaryIO``):
             Sticker to send.
             Pass a file_id as string to send a file that exists on the Telegram servers or
             pass a file path as string to upload a new file that exists on your local machine or
@@ -45,11 +47,14 @@ class InputMediaSticker(InputMedia):
         emoji (``str``, *optional*):
             Emoji associated with this sticker.
             Only for just uploaded stickers.
+
+    Raises:
+        FileNotFoundError: In case a local ``os.PathLike`` doesn't point to an existing file.
     """
 
     def __init__(
         self,
-        media: str | BinaryIO,
+        media: PathType | BinaryIO,
         emoji: str = "",
     ) -> None:
         super().__init__(media)
@@ -70,7 +75,7 @@ class InputMediaSticker(InputMedia):
         else:
             peer = await client.resolve_peer(chat_id)
 
-        if isinstance(self.media, io.BytesIO) or pathlib.Path(self.media).is_file():
+        if isinstance(self.media, io.BytesIO) or Path(self.media).is_file():
             uploaded_media = await client.invoke(
                 raw.functions.messages.UploadMedia(
                     peer=peer,
@@ -98,6 +103,9 @@ class InputMediaSticker(InputMedia):
                     file_reference=uploaded_media.document.file_reference,
                 ),
             )
+
+        if isinstance(self.media, os.PathLike):
+            raise FileNotFoundError(f"No such file or directory: {self.media}")
 
         if re.match("^https?://", self.media):
             return raw.types.InputMediaDocumentExternal(

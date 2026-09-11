@@ -22,6 +22,7 @@ import logging
 import os
 import re
 from datetime import datetime
+from pathlib import Path
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -109,6 +110,9 @@ class SendPaidMedia:
         Returns:
             List of :obj:`~pyrogram.types.Message`: On success, a list of messages is returned.
 
+        Raises:
+            FileNotFoundError: In case a local ``os.PathLike`` doesn't point to an existing file.
+
         Example:
             .. code-block:: python
 
@@ -166,7 +170,7 @@ class SendPaidMedia:
 
         for i in media:
             if isinstance(i, types.InputMediaPhoto):
-                if isinstance(i.media, str):
+                if isinstance(i.media, (str, os.PathLike)):
                     if os.path.isfile(i.media):
                         media = await self.invoke(
                             raw.functions.messages.UploadMedia(
@@ -185,17 +189,19 @@ class SendPaidMedia:
                             ),
                             spoiler=i.has_spoiler,
                         )
-                    elif re.match("^https?://", i.media):
+                    elif isinstance(i.media, str) and re.match("^https?://", i.media):
                         media = await self.invoke(
                             raw.functions.messages.UploadMedia(
                                 peer=await self.resolve_peer(chat_id),
                                 media=raw.types.InputMediaPhotoExternal(url=i.media),
                             )
                         )
-                    else:
+                    elif isinstance(i.media, str):
                         media = utils.get_input_media_from_file_id(
                             i.media, FileType.PHOTO, has_spoiler=i.has_spoiler
                         )
+                    else:
+                        raise FileNotFoundError(f"No such file or directory: {i.media}")
                 else:
                     media = await self.invoke(
                         raw.functions.messages.UploadMedia(
@@ -219,7 +225,7 @@ class SendPaidMedia:
                 vcover_media = None
 
                 if i.video_cover is not None:
-                    if isinstance(i.video_cover, str):
+                    if isinstance(i.video_cover, (str, os.PathLike)):
                         if os.path.isfile(i.video_cover):
                             vcover_media = await self.invoke(
                                 raw.functions.messages.UploadMedia(
@@ -229,17 +235,21 @@ class SendPaidMedia:
                                     ),
                                 )
                             )
-                        elif re.match("^https?://", i.video_cover):
+                        elif isinstance(i.video_cover, str) and re.match(
+                            "^https?://", i.video_cover
+                        ):
                             vcover_media = await self.invoke(
                                 raw.functions.messages.UploadMedia(
                                     peer=peer,
                                     media=raw.types.InputMediaPhotoExternal(url=i.video_cover),
                                 )
                             )
-                        else:
+                        elif isinstance(i.video_cover, str):
                             vcover_file = utils.get_input_media_from_file_id(
                                 i.video_cover, FileType.PHOTO
                             ).id
+                        else:
+                            raise FileNotFoundError(f"No such file or directory: {i.video_cover}")
                     else:
                         vcover_media = await self.invoke(
                             raw.functions.messages.UploadMedia(
@@ -257,7 +267,7 @@ class SendPaidMedia:
                             file_reference=vcover_media.photo.file_reference,
                         )
 
-                if isinstance(i.media, str):
+                if isinstance(i.media, (str, os.PathLike)):
                     if os.path.isfile(i.media):
                         media = await self.invoke(
                             raw.functions.messages.UploadMedia(
@@ -278,7 +288,7 @@ class SendPaidMedia:
                                             h=i.height,
                                         ),
                                         raw.types.DocumentAttributeFilename(
-                                            file_name=os.path.basename(i.media)
+                                            file_name=Path(i.media).name
                                         ),
                                     ],
                                 ),
@@ -295,7 +305,7 @@ class SendPaidMedia:
                             video_cover=vcover_file,
                             video_timestamp=i.video_start_timestamp,
                         )
-                    elif re.match("^https?://", i.media):
+                    elif isinstance(i.media, str) and re.match("^https?://", i.media):
                         media = await self.invoke(
                             raw.functions.messages.UploadMedia(
                                 peer=await self.resolve_peer(chat_id),
@@ -306,7 +316,7 @@ class SendPaidMedia:
                                 ),
                             )
                         )
-                    else:
+                    elif isinstance(i.media, str):
                         media = utils.get_input_media_from_file_id(
                             i.media,
                             FileType.VIDEO,
@@ -314,6 +324,8 @@ class SendPaidMedia:
                             video_cover=vcover_file,
                             video_start_timestamp=i.video_start_timestamp,
                         )
+                    else:
+                        raise FileNotFoundError(f"No such file or directory: {i.media}")
                 else:
                     media = await self.invoke(
                         raw.functions.messages.UploadMedia(

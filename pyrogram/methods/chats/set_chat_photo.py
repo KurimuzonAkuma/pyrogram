@@ -25,6 +25,7 @@ import pyrogram
 from pyrogram import raw
 from pyrogram import utils
 from pyrogram import types
+from pyrogram._typing import PathType
 from pyrogram.file_id import FileType
 
 
@@ -33,8 +34,8 @@ class SetChatPhoto:
         self: pyrogram.Client,
         chat_id: int | str,
         *,
-        photo: str | BinaryIO | None = None,
-        video: str | BinaryIO | None = None,
+        photo: PathType | BinaryIO | None = None,
+        video: PathType | BinaryIO | None = None,
         video_start_ts: float | None = None,
     ) -> types.Message | None:
         """Set a new chat photo or video (H.264/MPEG-4 AVC video, max 5 seconds).
@@ -50,12 +51,12 @@ class SetChatPhoto:
             chat_id (``int`` | ``str``):
                 Unique identifier (int) or username (str) of the target chat.
 
-            photo (``str`` | ``BinaryIO``, *optional*):
+            photo (``str`` | ``os.PathLike`` | ``BinaryIO``, *optional*):
                 New chat photo. You can pass a :obj:`~pyrogram.types.Photo` file_id, a file path to upload a new photo
                 from your local machine or a binary file-like object with its attribute
                 ".name" set for in-memory uploads.
 
-            video (``str`` | ``BinaryIO``, *optional*):
+            video (``str`` | ``os.PathLike`` | ``BinaryIO``, *optional*):
                 New chat video. You can pass a :obj:`~pyrogram.types.Video` file_id, a file path to upload a new video
                 from your local machine or a binary file-like object with its attribute
                 ".name" set for in-memory uploads.
@@ -69,6 +70,7 @@ class SetChatPhoto:
 
         Raises:
             ValueError: if a chat_id belongs to user.
+            FileNotFoundError: In case a local ``os.PathLike`` doesn't point to an existing file.
 
         Example:
             .. code-block:: python
@@ -88,16 +90,18 @@ class SetChatPhoto:
         """
         peer = await self.resolve_peer(chat_id)
 
-        if isinstance(photo, str):
+        if isinstance(photo, (str, os.PathLike)):
             if os.path.isfile(photo):
                 photo = raw.types.InputChatUploadedPhoto(
                     file=await self.save_file(photo),
                     video=await self.save_file(video),
                     video_start_ts=video_start_ts,
                 )
-            else:
+            elif isinstance(photo, str):
                 photo = utils.get_input_media_from_file_id(photo, FileType.PHOTO)
                 photo = raw.types.InputChatPhoto(id=photo.id)
+            else:
+                raise FileNotFoundError(f"No such file or directory: {photo}")
         else:
             photo = raw.types.InputChatUploadedPhoto(
                 file=await self.save_file(photo),

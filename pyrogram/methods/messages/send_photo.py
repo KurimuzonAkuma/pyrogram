@@ -27,6 +27,7 @@ from collections.abc import Callable
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
+from pyrogram._typing import PathType
 from pyrogram.errors import FilePartMissing
 from pyrogram.file_id import FileType
 
@@ -37,7 +38,7 @@ class SendPhoto:
     async def send_photo(
         self: pyrogram.Client,
         chat_id: int | str,
-        photo: str | BinaryIO,
+        photo: PathType | BinaryIO,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[types.MessageEntity] | None = None,
@@ -84,7 +85,7 @@ class SendPhoto:
                 For your personal cloud (Saved Messages) you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
 
-            photo (``str`` | ``BinaryIO``):
+            photo (``str`` | ``os.PathLike`` | ``BinaryIO``):
                 Photo to send.
                 Pass a file_id as string to send a photo that exists on the Telegram servers,
                 pass an HTTP URL as a string for Telegram to get a photo from the Internet,
@@ -192,6 +193,9 @@ class SendPhoto:
             :obj:`~pyrogram.types.Message` | ``None``: On success, the sent photo message is returned, otherwise, in
             case the upload is deliberately stopped with :meth:`~pyrogram.Client.stop_transmission`, None is returned.
 
+        Raises:
+            FileNotFoundError: In case a local ``os.PathLike`` doesn't point to an existing file.
+
         Example:
             .. code-block:: python
 
@@ -263,7 +267,7 @@ class SendPhoto:
         file = None
 
         try:
-            if isinstance(photo, str):
+            if isinstance(photo, (str, os.PathLike)):
                 if os.path.isfile(photo):
                     file = await self.save_file(
                         photo, progress=progress, progress_args=progress_args
@@ -273,19 +277,21 @@ class SendPhoto:
                         ttl_seconds=(1 << 31) - 1 if view_once else ttl_seconds,
                         spoiler=has_spoiler,
                     )
-                elif re.match("^https?://", photo):
+                elif isinstance(photo, str) and re.match("^https?://", photo):
                     media = raw.types.InputMediaPhotoExternal(
                         url=photo,
                         ttl_seconds=(1 << 31) - 1 if view_once else ttl_seconds,
                         spoiler=has_spoiler,
                     )
-                else:
+                elif isinstance(photo, str):
                     media = utils.get_input_media_from_file_id(
                         photo,
                         FileType.PHOTO,
                         ttl_seconds=(1 << 31) - 1 if view_once else ttl_seconds,
                         has_spoiler=has_spoiler,
                     )
+                else:
+                    raise FileNotFoundError(f"No such file or directory: {photo}")
             else:
                 file = await self.save_file(photo, progress=progress, progress_args=progress_args)
                 media = raw.types.InputMediaUploadedPhoto(

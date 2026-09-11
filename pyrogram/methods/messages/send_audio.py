@@ -22,11 +22,13 @@ import logging
 import os
 import re
 from datetime import datetime
+from pathlib import Path
 from typing import BinaryIO
 from collections.abc import Callable
 
 import pyrogram
 from pyrogram import StopTransmission, enums, raw, types, utils
+from pyrogram._typing import PathType
 from pyrogram.errors import FilePartMissing
 from pyrogram.file_id import FileType
 
@@ -37,14 +39,14 @@ class SendAudio:
     async def send_audio(
         self: pyrogram.Client,
         chat_id: int | str,
-        audio: str | BinaryIO,
+        audio: PathType | BinaryIO,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[types.MessageEntity] | None = None,
         duration: int = 0,
         performer: str | None = None,
         title: str | None = None,
-        thumb: str | BinaryIO | None = None,
+        thumb: PathType | BinaryIO | None = None,
         file_name: str | None = None,
         disable_notification: bool | None = None,
         message_thread_id: int | None = None,
@@ -87,7 +89,7 @@ class SendAudio:
                 For your personal cloud (Saved Messages) you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
 
-            audio (``str`` | ``BinaryIO``):
+            audio (``str`` | ``os.PathLike`` | ``BinaryIO``):
                 Audio file to send.
                 Pass a file_id as string to send an audio file that exists on the Telegram servers,
                 pass an HTTP URL as a string for Telegram to get an audio file from the Internet,
@@ -113,7 +115,7 @@ class SendAudio:
             title (``str``, *optional*):
                 Track name.
 
-            thumb (``str`` | ``BinaryIO``, *optional*):
+            thumb (``str`` | ``os.PathLike`` | ``BinaryIO``, *optional*):
                 Thumbnail of the music file album cover.
                 The thumbnail should be in JPEG format and less than 200 KB in size.
                 A thumbnail's width and height should not exceed 320 pixels.
@@ -199,6 +201,9 @@ class SendAudio:
             :obj:`~pyrogram.types.Message` | ``None``: On success, the sent audio message is returned, otherwise, in
             case the upload is deliberately stopped with :meth:`~pyrogram.Client.stop_transmission`, None is returned.
 
+        Raises:
+            FileNotFoundError: In case a local ``os.PathLike`` doesn't point to an existing file.
+
         Example:
             .. code-block:: python
 
@@ -272,7 +277,7 @@ class SendAudio:
         file = None
 
         try:
-            if isinstance(audio, str):
+            if isinstance(audio, (str, os.PathLike)):
                 if os.path.isfile(audio):
                     mime_type = self.guess_mime_type(audio) or "audio/mpeg"
                     if mime_type == "audio/ogg":
@@ -290,14 +295,16 @@ class SendAudio:
                                 duration=duration, performer=performer, title=title
                             ),
                             raw.types.DocumentAttributeFilename(
-                                file_name=file_name or os.path.basename(audio)
+                                file_name=file_name or Path(audio).name
                             ),
                         ],
                     )
-                elif re.match("^https?://", audio):
+                elif isinstance(audio, str) and re.match("^https?://", audio):
                     media = raw.types.InputMediaDocumentExternal(url=audio)
-                else:
+                elif isinstance(audio, str):
                     media = utils.get_input_media_from_file_id(audio, FileType.AUDIO)
+                else:
+                    raise FileNotFoundError(f"No such file or directory: {audio}")
             else:
                 mime_type = self.guess_mime_type(file_name or audio.name) or "audio/mpeg"
                 if mime_type == "audio/ogg":

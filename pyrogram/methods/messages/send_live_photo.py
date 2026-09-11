@@ -25,6 +25,7 @@ from collections.abc import Callable
 
 import pyrogram
 from pyrogram import StopTransmission, enums, raw, types, utils
+from pyrogram._typing import PathType
 from pyrogram.errors import FilePartMissing
 
 log = logging.getLogger(__name__)
@@ -34,8 +35,8 @@ class SendLivePhoto:
     async def send_live_photo(
         self: pyrogram.Client,
         chat_id: int | str,
-        live_photo: str | BinaryIO,
-        photo: str | BinaryIO,
+        live_photo: PathType | BinaryIO,
+        photo: PathType | BinaryIO,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[types.MessageEntity] | None = None,
@@ -76,7 +77,7 @@ class SendLivePhoto:
                 For your personal cloud (Saved Messages) you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
 
-            live_photo (``str`` | ``BinaryIO``):
+            live_photo (``str`` | ``os.PathLike`` | ``BinaryIO``):
                 Live photo video to send.
                 The video must be no longer than 10 seconds and must not exceed 10 MB in size.
                 Pass a file_id as string to send a video that exists on the Telegram servers,
@@ -84,7 +85,7 @@ class SendLivePhoto:
                 pass a file path as string to upload a new video that exists on your local machine, or
                 pass a binary file-like object with its attribute ".name" set for in-memory uploads.
 
-            photo (``str`` | ``BinaryIO``):
+            photo (``str`` | ``os.PathLike`` | ``BinaryIO``):
                 The static photo to send.
                 The video must be no longer than 10 seconds and must not exceed 10 MB in size.
                 Pass a file_id as string to send a video that exists on the Telegram servers,

@@ -22,11 +22,13 @@ import logging
 import os
 import re
 from datetime import datetime
+from pathlib import Path
 from typing import BinaryIO
 from collections.abc import Callable
 
 import pyrogram
 from pyrogram import StopTransmission, enums, raw, types, utils
+from pyrogram._typing import PathType
 from pyrogram.errors import FilePartMissing
 from pyrogram.file_id import FileType
 
@@ -37,7 +39,7 @@ class SendVideo:
     async def send_video(
         self: pyrogram.Client,
         chat_id: int | str,
-        video: str | BinaryIO,
+        video: PathType | BinaryIO,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[types.MessageEntity] | None = None,
@@ -48,8 +50,8 @@ class SendVideo:
         width: int = 0,
         height: int = 0,
         video_start_timestamp: int | None = None,
-        video_cover: str | BinaryIO | None = None,
-        thumb: str | BinaryIO | None = None,
+        video_cover: PathType | BinaryIO | None = None,
+        thumb: PathType | BinaryIO | None = None,
         file_name: str | None = None,
         supports_streaming: bool = True,
         disable_notification: bool | None = None,
@@ -98,7 +100,7 @@ class SendVideo:
                 For your personal cloud (Saved Messages) you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
 
-            video (``str`` | ``BinaryIO``):
+            video (``str`` | ``os.PathLike`` | ``BinaryIO``):
                 Video to send.
                 Pass a file_id as string to send a video that exists on the Telegram servers,
                 pass an HTTP URL as a string for Telegram to get a video from the Internet,
@@ -139,14 +141,14 @@ class SendVideo:
             video_start_timestamp (``int``, *optional*):
                 Video startpoint, in seconds.
 
-            video_cover (``str`` | ``BinaryIO``, *optional*):
+            video_cover (``str`` | ``os.PathLike`` | ``BinaryIO``, *optional*):
                 Video cover.
                 Pass a file_id as string to attach a photo that exists on the Telegram servers,
                 pass an HTTP URL as a string for Telegram to get a photo from the Internet,
                 pass a file path as string to upload a new photo that exists on your local machine, or
                 pass a binary file-like object with its attribute ".name" set for in-memory uploads.
 
-            thumb (``str`` | ``BinaryIO``, *optional*):
+            thumb (``str`` | ``os.PathLike`` | ``BinaryIO``, *optional*):
                 Thumbnail of the video sent.
                 The thumbnail should be in JPEG format and less than 200 KB in size.
                 A thumbnail's width and height should not exceed 320 pixels.
@@ -243,6 +245,9 @@ class SendVideo:
             :obj:`~pyrogram.types.Message` | ``None``: On success, the sent video message is returned, otherwise, in
             case the upload is deliberately stopped with :meth:`~pyrogram.Client.stop_transmission`, None is returned.
 
+        Raises:
+            FileNotFoundError: In case a local ``os.PathLike`` doesn't point to an existing file.
+
         Example:
             .. code-block:: python
 
@@ -324,7 +329,7 @@ class SendVideo:
 
         try:
             if video_cover is not None:
-                if isinstance(video_cover, str):
+                if isinstance(video_cover, (str, os.PathLike)):
                     if os.path.isfile(video_cover):
                         vcover_media = await self.invoke(
                             raw.functions.messages.UploadMedia(
@@ -334,16 +339,18 @@ class SendVideo:
                                 ),
                             )
                         )
-                    elif re.match("^https?://", video_cover):
+                    elif isinstance(video_cover, str) and re.match("^https?://", video_cover):
                         vcover_media = await self.invoke(
                             raw.functions.messages.UploadMedia(
                                 peer=peer, media=raw.types.InputMediaPhotoExternal(url=video_cover)
                             )
                         )
-                    else:
+                    elif isinstance(video_cover, str):
                         vcover_file = utils.get_input_media_from_file_id(
                             video_cover, FileType.PHOTO
                         ).id
+                    else:
+                        raise FileNotFoundError(f"No such file or directory: {video_cover}")
                 else:
                     vcover_media = await self.invoke(
                         raw.functions.messages.UploadMedia(
@@ -361,7 +368,7 @@ class SendVideo:
                         file_reference=vcover_media.photo.file_reference,
                     )
 
-            if isinstance(video, str):
+            if isinstance(video, (str, os.PathLike)):
                 if os.path.isfile(video):
                     thumb = await self.save_file(thumb)
                     file = await self.save_file(
@@ -384,11 +391,11 @@ class SendVideo:
                                 h=height,
                             ),
                             raw.types.DocumentAttributeFilename(
-                                file_name=file_name or os.path.basename(video)
+                                file_name=file_name or Path(video).name
                             ),
                         ],
                     )
-                elif re.match("^https?://", video):
+                elif isinstance(video, str) and re.match("^https?://", video):
                     media = raw.types.InputMediaDocumentExternal(
                         url=video,
                         ttl_seconds=(1 << 31) - 1 if view_once else ttl_seconds,
@@ -396,7 +403,7 @@ class SendVideo:
                         video_cover=vcover_file,
                         video_timestamp=video_start_timestamp,
                     )
-                else:
+                elif isinstance(video, str):
                     media = utils.get_input_media_from_file_id(
                         video,
                         FileType.VIDEO,
@@ -405,6 +412,8 @@ class SendVideo:
                     )
                     media.video_cover = vcover_file
                     media.video_timestamp = video_start_timestamp
+                else:
+                    raise FileNotFoundError(f"No such file or directory: {video}")
             else:
                 thumb = await self.save_file(thumb)
                 file = await self.save_file(video, progress=progress, progress_args=progress_args)

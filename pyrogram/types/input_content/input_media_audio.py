@@ -19,13 +19,15 @@
 from __future__ import annotations as _annotations
 
 import io
-import pathlib
+import os
 import re
+from pathlib import Path
 from typing import BinaryIO
 from collections.abc import Callable
 
 import pyrogram
 from pyrogram import raw, utils
+from pyrogram._typing import PathType
 from pyrogram.file_id import FileType
 
 from ... import enums
@@ -39,14 +41,14 @@ class InputMediaAudio(InputMedia):
     It is intended to be used with :meth:`~pyrogram.Client.send_media_group`.
 
     Parameters:
-        media (``str`` | ``BinaryIO``):
+        media (``str`` | ``os.PathLike`` | ``BinaryIO``):
             Audio to send.
             Pass a file_id as string to send an audio that exists on the Telegram servers or
             pass a file path as string to upload a new audio that exists on your local machine or
             pass a binary file-like object with its attribute “.name” set for in-memory uploads or
             pass an HTTP URL as a string for Telegram to get an audio file from the Internet.
 
-        thumb (``str``, *optional*):
+        thumb (``str`` | ``os.PathLike``, *optional*):
             Thumbnail of the music file album cover.
             The thumbnail should be in JPEG format and less than 200 KB in size.
             A thumbnail's width and height should not exceed 320 pixels.
@@ -75,12 +77,15 @@ class InputMediaAudio(InputMedia):
         file_name (``str``, *optional*):
             File name of the audio sent.
             Defaults to file's path basename.
+
+    Raises:
+        FileNotFoundError: In case a local ``os.PathLike`` doesn't point to an existing file.
     """
 
     def __init__(
         self,
-        media: str | BinaryIO,
-        thumb: str | None = None,
+        media: PathType | BinaryIO,
+        thumb: PathType | None = None,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[MessageEntity] | None = None,
@@ -112,7 +117,7 @@ class InputMediaAudio(InputMedia):
         else:
             peer = await client.resolve_peer(chat_id)
 
-        if isinstance(self.media, io.BytesIO) or pathlib.Path(self.media).is_file():
+        if isinstance(self.media, io.BytesIO) or Path(self.media).is_file():
             mime_type = client.guess_mime_type(self.media) or "audio/mpeg"
 
             if mime_type == "audio/ogg":
@@ -150,6 +155,9 @@ class InputMediaAudio(InputMedia):
                     file_reference=uploaded_media.document.file_reference,
                 ),
             )
+
+        if isinstance(self.media, os.PathLike):
+            raise FileNotFoundError(f"No such file or directory: {self.media}")
 
         if re.match("^https?://", self.media):
             return raw.types.InputMediaDocumentExternal(

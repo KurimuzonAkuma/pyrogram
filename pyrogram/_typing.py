@@ -16,20 +16,11 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-import csv
-from pathlib import Path
+"""Type aliases used by Pyrogram's own signatures. Not part of the public API."""
 
-for p in Path("source").glob("*.tsv"):
-    with p.open() as f:
-        reader = csv.reader(f, delimiter="\t")
-        dct = {k: v for k, v in reader if k != "id"}
-        keys = sorted(dct)
+import os
 
-    with p.open("w") as f:
-        f.write("id\tmessage\n")
-
-        for i, item in enumerate(keys, start=1):
-            f.write(f"{item}\t{dct[item]}")
-
-            if i != len(keys):
-                f.write("\n")
+# `[str]` rather than a bare `os.PathLike`: a bytes path satisfies the `isinstance` checks
+#  the upload sites use, then fails in `Path()` with "argument should be a str object or
+#  an os.PathLike object returning str, not <class 'bytes'>".
+PathType = str | os.PathLike[str]

@@ -22,6 +22,7 @@ import asyncio
 import io
 import os
 import re
+from pathlib import Path
 
 
 import pyrogram
@@ -62,6 +63,9 @@ class EditInlineMedia:
         Returns:
             ``bool``: On success, True is returned.
 
+        Raises:
+            FileNotFoundError: In case a local ``os.PathLike`` doesn't point to an existing file.
+
         Example:
             .. code-block:: python
 
@@ -85,6 +89,9 @@ class EditInlineMedia:
         is_bytes_io = isinstance(media.media, io.BytesIO)
         is_uploaded_file = is_bytes_io or os.path.isfile(media.media)
 
+        if isinstance(media.media, os.PathLike) and not is_uploaded_file:
+            raise FileNotFoundError(f"No such file or directory: {media.media}")
+
         is_external_url = not is_uploaded_file and re.match("^https?://", media.media)
 
         if is_bytes_io and not hasattr(media.media, "name"):
@@ -93,7 +100,7 @@ class EditInlineMedia:
         if is_uploaded_file:
             filename_attribute = [
                 raw.types.DocumentAttributeFilename(
-                    file_name=media.media.name if is_bytes_io else os.path.basename(media.media)
+                    file_name=media.media.name if is_bytes_io else Path(media.media).name
                 )
             ]
         else:

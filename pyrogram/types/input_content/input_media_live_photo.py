@@ -19,12 +19,14 @@
 from __future__ import annotations as _annotations
 
 import io
-import pathlib
+import os
+from pathlib import Path
 from typing import BinaryIO
 from collections.abc import Callable
 
 import pyrogram
 from pyrogram import raw, utils
+from pyrogram._typing import PathType
 from pyrogram.file_id import FileType
 
 from ... import enums
@@ -36,14 +38,14 @@ class InputMediaLivePhoto(InputMedia):
     """Represents a live photo to be sent.
 
     Parameters:
-        media (``str`` | ``BinaryIO``):
+        media (``str`` | ``os.PathLike`` | ``BinaryIO``):
             Video of the live photo to send.
             Pass a file_id as string to send a video that exists on the Telegram servers or
             pass a file path as string to upload a new video that exists on your local machine or
             pass a binary file-like object with its attribute “.name” set for in-memory uploads or
             pass an HTTP URL as a string for Telegram to get a video from the Internet.
 
-        photo (``str`` | ``BinaryIO``):
+        photo (``str`` | ``os.PathLike`` | ``BinaryIO``):
             The static photo to send.
             Pass a file_id as string to send a video that exists on the Telegram servers or
             pass a file path as string to upload a new video that exists on your local machine or
@@ -66,13 +68,17 @@ class InputMediaLivePhoto(InputMedia):
 
         has_spoiler (``bool``, *optional*):
             Pass True if the photo needs to be covered with a spoiler animation.
+
+    Raises:
+        FileNotFoundError: In case a local ``os.PathLike`` doesn't point to an existing file.
+        ValueError: In case ``media`` and ``photo`` are not both local files or both file_ids.
     """
 
     def __init__(
         self,
-        media: str | BinaryIO,
-        photo: str | BinaryIO,
-        thumb: str | None = None,
+        media: PathType | BinaryIO,
+        photo: PathType | BinaryIO,
+        thumb: PathType | None = None,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[MessageEntity] | None = None,
@@ -102,7 +108,7 @@ class InputMediaLivePhoto(InputMedia):
         else:
             peer = await client.resolve_peer(chat_id)
 
-        if isinstance(self.media, io.BytesIO) or pathlib.Path(self.media).is_file():
+        if isinstance(self.media, io.BytesIO) or Path(self.media).is_file():
             uploaded_media = await client.invoke(
                 raw.functions.messages.UploadMedia(
                     peer=peer,
@@ -152,6 +158,20 @@ class InputMediaLivePhoto(InputMedia):
                     access_hash=uploaded_media.document.access_hash,
                     file_reference=uploaded_media.document.file_reference,
                 ),
+            )
+
+        if isinstance(self.media, os.PathLike):
+            raise FileNotFoundError(f"No such file or directory: {self.media}")
+
+        # Only reachable while `media` is not a local file, so an existing `photo` cannot be
+        #  uploaded either: the call below addresses both of them by file_id.
+        if isinstance(self.photo, os.PathLike):
+            if not Path(self.photo).is_file():
+                raise FileNotFoundError(f"No such file or directory: {self.photo}")
+
+            raise ValueError(
+                "`media` and `photo` must both be local files or both be file_ids, "
+                f"but `photo` is a local file while `media` is not: {self.media}"
             )
 
         return utils.get_input_media_from_file_id(

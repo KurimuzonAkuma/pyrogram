@@ -41,6 +41,7 @@ from collections.abc import AsyncGenerator, Callable, Sequence
 
 import pyrogram
 from pyrogram import __license__, __version__, enums, raw, utils
+from pyrogram._typing import PathType
 from pyrogram.connection import Proxy
 from pyrogram.connection.proxy import ProxyDict, normalize_proxy
 from pyrogram.crypto import aes
@@ -184,7 +185,7 @@ class Client(Methods):
             Number of maximum concurrent workers for handling incoming updates.
             Defaults to ``min(32, os.cpu_count() + 4)``.
 
-        workdir (``str``, *optional*):
+        workdir (``str`` | ``os.PathLike``, *optional*):
             Define a custom working directory.
             The working directory is the location in the filesystem where Pyrogram will store the session files.
             Defaults to the parent directory of the main script.
@@ -332,7 +333,7 @@ class Client(Methods):
         phone_code: str | None = None,
         password: str | None = None,
         workers: int = WORKERS,
-        workdir: str | Path = WORKDIR,
+        workdir: PathType = WORKDIR,
         plugins: dict | None = None,
         parse_mode: enums.ParseMode = enums.ParseMode.DEFAULT,
         no_updates: bool | None = None,
@@ -1282,7 +1283,7 @@ class Client(Methods):
                 return file
             else:
                 file.close()
-                file_path = os.path.splitext(temp_file_path)[0]
+                file_path = str(Path(temp_file_path).with_suffix(""))
                 shutil.move(temp_file_path, file_path)
                 return file_path
 
@@ -1704,7 +1705,7 @@ class Client(Methods):
             self.message_split_ranges = await self.invoke(raw.functions.messages.GetSplitRanges())
         return self.message_split_ranges
 
-    def guess_mime_type(self, filename: str | BytesIO) -> str | None:
+    def guess_mime_type(self, filename: PathType | BytesIO) -> str | None:
         if isinstance(filename, BytesIO):
             return self.mimetypes.guess_type(filename.name)[0]
 

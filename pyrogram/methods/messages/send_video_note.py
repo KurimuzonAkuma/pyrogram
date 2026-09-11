@@ -26,6 +26,7 @@ from collections.abc import Callable
 
 import pyrogram
 from pyrogram import StopTransmission, enums, raw, types, utils
+from pyrogram._typing import PathType
 from pyrogram.errors import FilePartMissing
 from pyrogram.file_id import FileType
 
@@ -39,10 +40,10 @@ class SendVideoNote:
     async def send_video_note(
         self: pyrogram.Client,
         chat_id: int | str,
-        video_note: str | BinaryIO,
+        video_note: PathType | BinaryIO,
         duration: int = 0,
         length: int = 1,
-        thumb: str | BinaryIO | None = None,
+        thumb: PathType | BinaryIO | None = None,
         disable_notification: bool | None = None,
         message_thread_id: int | None = None,
         direct_messages_topic_id: int | None = None,
@@ -84,7 +85,7 @@ class SendVideoNote:
                 For your personal cloud (Saved Messages) you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
 
-            video_note (``str`` | ``BinaryIO``):
+            video_note (``str`` | ``os.PathLike`` | ``BinaryIO``):
                 Video note to send.
                 Pass a file_id as string to send a video note that exists on the Telegram servers,
                 pass a file path as string to upload a new video note that exists on your local machine, or
@@ -101,7 +102,7 @@ class SendVideoNote:
             length (``int``, *optional*):
                 Video width and height.
 
-            thumb (``str`` | ``BinaryIO``, *optional*):
+            thumb (``str`` | ``os.PathLike`` | ``BinaryIO``, *optional*):
                 Thumbnail of the video sent.
                 The thumbnail should be in JPEG format and less than 200 KB in size.
                 A thumbnail's width and height should not exceed 320 pixels.
@@ -188,6 +189,9 @@ class SendVideoNote:
             in case the upload is deliberately stopped with :meth:`~pyrogram.Client.stop_transmission`, None is
             returned.
 
+        Raises:
+            FileNotFoundError: In case a local ``os.PathLike`` doesn't point to an existing file.
+
         Example:
             .. code-block:: python
 
@@ -259,7 +263,7 @@ class SendVideoNote:
         file = None
 
         try:
-            if isinstance(video_note, str):
+            if isinstance(video_note, (str, os.PathLike)):
                 if os.path.isfile(video_note):
                     # Notify user why the sent video is not video note
                     file_size = os.path.getsize(video_note)
@@ -285,8 +289,10 @@ class SendVideoNote:
                         ],
                         ttl_seconds=(1 << 31) - 1 if view_once else None,
                     )
-                else:
+                elif isinstance(video_note, str):
                     media = utils.get_input_media_from_file_id(video_note, FileType.VIDEO_NOTE)
+                else:
+                    raise FileNotFoundError(f"No such file or directory: {video_note}")
             else:
                 thumb = await self.save_file(thumb)
                 file = await self.save_file(

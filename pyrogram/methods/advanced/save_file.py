@@ -26,13 +26,13 @@ import logging
 import math
 import os
 from hashlib import md5
-from pathlib import PurePath
 from typing import BinaryIO, overload
 from collections.abc import Callable
 
 import pyrogram
 from pyrogram import StopTransmission
 from pyrogram import raw
+from pyrogram._typing import PathType
 
 log = logging.getLogger(__name__)
 
@@ -57,7 +57,7 @@ class SaveFile:
     @overload
     async def save_file(
         self: pyrogram.Client,
-        path: str | BinaryIO,
+        path: PathType | BinaryIO,
         file_id: int,
         file_part: int = 0,
         progress: Callable | None = None,
@@ -67,7 +67,7 @@ class SaveFile:
     @overload
     async def save_file(
         self: pyrogram.Client,
-        path: str | BinaryIO,
+        path: PathType | BinaryIO,
         file_id: None = None,
         file_part: int = 0,
         progress: Callable | None = None,
@@ -76,7 +76,7 @@ class SaveFile:
 
     async def save_file(
         self: pyrogram.Client,
-        path: str | BinaryIO | None,
+        path: PathType | BinaryIO | None,
         file_id: int | None = None,
         file_part: int = 0,
         progress: Callable | None = None,
@@ -94,7 +94,7 @@ class SaveFile:
         .. include:: /_includes/usable-by/users-bots.rst
 
         Parameters:
-            path (``str`` | ``BinaryIO``):
+            path (``str`` | ``os.PathLike`` | ``BinaryIO``):
                 The path of the file you want to upload that exists on your local machine or a binary file-like object
                 with its attribute ".name" set for in-memory uploads.
 
@@ -158,7 +158,7 @@ class SaveFile:
 
             part_size = 512 * 1024
 
-            if isinstance(path, (str, PurePath)):
+            if isinstance(path, (str, os.PathLike)):
                 fp = open(path, "rb")
             elif isinstance(path, io.IOBase):
                 fp = path
@@ -253,7 +253,7 @@ class SaveFile:
 
                 await asyncio.gather(*workers)
 
-                if isinstance(path, (str, PurePath)):
+                if isinstance(path, (str, os.PathLike)):
                     fp.close()
 
             # Outside the `finally` on purpose: a worker only reports a failed part once it has been

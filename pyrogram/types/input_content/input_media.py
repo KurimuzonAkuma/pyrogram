@@ -20,6 +20,7 @@ from __future__ import annotations as _annotations
 
 from typing import TYPE_CHECKING, BinaryIO
 
+from ..._typing import PathType
 from ..messages_and_media import MessageEntity
 from ..object import Object
 
@@ -42,7 +43,7 @@ class InputMedia(Object):
 
     def __init__(
         self,
-        media: str | BinaryIO | None = None,
+        media: PathType | BinaryIO | None = None,
         caption: str = "",
         parse_mode: str | None = None,
         caption_entities: list[MessageEntity] | None = None,

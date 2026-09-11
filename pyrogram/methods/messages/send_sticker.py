@@ -22,11 +22,13 @@ import logging
 import os
 import re
 from datetime import datetime
+from pathlib import Path
 from typing import BinaryIO
 from collections.abc import Callable
 
 import pyrogram
 from pyrogram import StopTransmission, enums, raw, types, utils
+from pyrogram._typing import PathType
 from pyrogram.errors import FilePartMissing
 from pyrogram.file_id import FileType
 
@@ -37,7 +39,7 @@ class SendSticker:
     async def send_sticker(
         self: pyrogram.Client,
         chat_id: int | str,
-        sticker: str | BinaryIO,
+        sticker: PathType | BinaryIO,
         emoji: str = "",
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
@@ -81,7 +83,7 @@ class SendSticker:
                 For your personal cloud (Saved Messages) you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
 
-            sticker (``str`` | ``BinaryIO``):
+            sticker (``str`` | ``os.PathLike`` | ``BinaryIO``):
                 Sticker to send.
                 Pass a file_id as string to send a sticker that exists on the Telegram servers,
                 pass an HTTP URL as a string for Telegram to get a .webp sticker file from the Internet,
@@ -178,6 +180,9 @@ class SendSticker:
             in case the upload is deliberately stopped with :meth:`~pyrogram.Client.stop_transmission`, None is
             returned.
 
+        Raises:
+            FileNotFoundError: In case a local ``os.PathLike`` doesn't point to an existing file.
+
         Example:
             .. code-block:: python
 
@@ -240,7 +245,7 @@ class SendSticker:
         file = None
 
         try:
-            if isinstance(sticker, str):
+            if isinstance(sticker, (str, os.PathLike)):
                 if os.path.isfile(sticker):
                     file = await self.save_file(
                         sticker, progress=progress, progress_args=progress_args
@@ -249,18 +254,18 @@ class SendSticker:
                         mime_type=self.guess_mime_type(sticker) or "image/webp",
                         file=file,
                         attributes=[
-                            raw.types.DocumentAttributeFilename(
-                                file_name=os.path.basename(sticker)
-                            ),
+                            raw.types.DocumentAttributeFilename(file_name=Path(sticker).name),
                             raw.types.DocumentAttributeSticker(
                                 alt=emoji, stickerset=raw.types.InputStickerSetEmpty()
                             ),
                         ],
                     )
-                elif re.match("^https?://", sticker):
+                elif isinstance(sticker, str) and re.match("^https?://", sticker):
                     media = raw.types.InputMediaDocumentExternal(url=sticker)
-                else:
+                elif isinstance(sticker, str):
                     media = utils.get_input_media_from_file_id(sticker, FileType.STICKER)
+                else:
+                    raise FileNotFoundError(f"No such file or directory: {sticker}")
             else:
                 file = await self.save_file(sticker, progress=progress, progress_args=progress_args)
                 media = raw.types.InputMediaUploadedDocument(

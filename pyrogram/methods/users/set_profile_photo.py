@@ -23,6 +23,7 @@ from typing import BinaryIO
 
 import pyrogram
 from pyrogram import raw, types
+from pyrogram._typing import PathType
 
 log = logging.getLogger(__name__)
 
@@ -33,7 +34,7 @@ class SetProfilePhoto:
         photo: types.InputChatPhoto | None = None,
         is_public: bool | None = None,
         *,
-        video: str | BinaryIO | None = None,
+        video: PathType | BinaryIO | None = None,
     ) -> bool:
         """Changes a profile photo for the current user.
 

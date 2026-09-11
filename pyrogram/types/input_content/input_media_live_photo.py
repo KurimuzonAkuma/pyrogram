@@ -26,6 +26,7 @@ from collections.abc import Callable
 
 import pyrogram
 from pyrogram import raw, utils
+from pyrogram._typehints import PathType
 from pyrogram.file_id import FileType
 
 from ... import enums
@@ -37,14 +38,14 @@ class InputMediaLivePhoto(InputMedia):
     """Represents a live photo to be sent.
 
     Parameters:
-        media (``str`` | ``pathlib.Path`` | ``BinaryIO``):
+        media (``str`` | ``os.PathLike`` | ``BinaryIO``):
             Video of the live photo to send.
             Pass a file_id as string to send a video that exists on the Telegram servers or
             pass a file path as string to upload a new video that exists on your local machine or
             pass a binary file-like object with its attribute “.name” set for in-memory uploads or
             pass an HTTP URL as a string for Telegram to get a video from the Internet.
 
-        photo (``str`` | ``pathlib.Path`` | ``BinaryIO``):
+        photo (``str`` | ``os.PathLike`` | ``BinaryIO``):
             The static photo to send.
             Pass a file_id as string to send a video that exists on the Telegram servers or
             pass a file path as string to upload a new video that exists on your local machine or
@@ -69,15 +70,15 @@ class InputMediaLivePhoto(InputMedia):
             Pass True if the photo needs to be covered with a spoiler animation.
 
     Raises:
-        FileNotFoundError: In case a local ``pathlib.Path`` doesn't point to an existing file.
+        FileNotFoundError: In case a local ``os.PathLike`` doesn't point to an existing file.
         ValueError: In case ``media`` and ``photo`` are not both local files or both file_ids.
     """
 
     def __init__(
         self,
-        media: str | Path | BinaryIO,
-        photo: str | Path | BinaryIO,
-        thumb: str | Path | None = None,
+        media: PathType | BinaryIO,
+        photo: PathType | BinaryIO,
+        thumb: PathType | None = None,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[MessageEntity] | None = None,

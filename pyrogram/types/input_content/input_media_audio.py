@@ -27,6 +27,7 @@ from collections.abc import Callable
 
 import pyrogram
 from pyrogram import raw, utils
+from pyrogram._typehints import PathType
 from pyrogram.file_id import FileType
 
 from ... import enums
@@ -40,14 +41,14 @@ class InputMediaAudio(InputMedia):
     It is intended to be used with :meth:`~pyrogram.Client.send_media_group`.
 
     Parameters:
-        media (``str`` | ``pathlib.Path`` | ``BinaryIO``):
+        media (``str`` | ``os.PathLike`` | ``BinaryIO``):
             Audio to send.
             Pass a file_id as string to send an audio that exists on the Telegram servers or
             pass a file path as string to upload a new audio that exists on your local machine or
             pass a binary file-like object with its attribute “.name” set for in-memory uploads or
             pass an HTTP URL as a string for Telegram to get an audio file from the Internet.
 
-        thumb (``str`` | ``pathlib.Path``, *optional*):
+        thumb (``str`` | ``os.PathLike``, *optional*):
             Thumbnail of the music file album cover.
             The thumbnail should be in JPEG format and less than 200 KB in size.
             A thumbnail's width and height should not exceed 320 pixels.
@@ -78,13 +79,13 @@ class InputMediaAudio(InputMedia):
             Defaults to file's path basename.
 
     Raises:
-        FileNotFoundError: In case a local ``pathlib.Path`` doesn't point to an existing file.
+        FileNotFoundError: In case a local ``os.PathLike`` doesn't point to an existing file.
     """
 
     def __init__(
         self,
-        media: str | Path | BinaryIO,
-        thumb: str | Path | None = None,
+        media: PathType | BinaryIO,
+        thumb: PathType | None = None,
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
         caption_entities: list[MessageEntity] | None = None,

@@ -27,6 +27,7 @@ from collections.abc import Callable
 
 import pyrogram
 from pyrogram import raw, utils
+from pyrogram._typehints import PathType
 from pyrogram.file_id import FileType
 
 from .input_media import InputMedia
@@ -36,7 +37,7 @@ class InputMediaSticker(InputMedia):
     """A sticker to be attached.
 
     Parameters:
-        media (``str`` | ``pathlib.Path`` | ``BinaryIO``):
+        media (``str`` | ``os.PathLike`` | ``BinaryIO``):
             Sticker to send.
             Pass a file_id as string to send a file that exists on the Telegram servers or
             pass a file path as string to upload a new file that exists on your local machine or
@@ -48,12 +49,12 @@ class InputMediaSticker(InputMedia):
             Only for just uploaded stickers.
 
     Raises:
-        FileNotFoundError: In case a local ``pathlib.Path`` doesn't point to an existing file.
+        FileNotFoundError: In case a local ``os.PathLike`` doesn't point to an existing file.
     """
 
     def __init__(
         self,
-        media: str | Path | BinaryIO,
+        media: PathType | BinaryIO,
         emoji: str = "",
     ) -> None:
         super().__init__(media)

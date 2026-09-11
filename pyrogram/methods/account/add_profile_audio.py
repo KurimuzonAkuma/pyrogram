@@ -25,6 +25,7 @@ from collections.abc import Callable
 
 import pyrogram
 from pyrogram import StopTransmission, raw, utils
+from pyrogram._typehints import PathType
 from pyrogram.errors import FilePartMissing
 from pyrogram.file_id import FileType
 
@@ -32,11 +33,11 @@ from pyrogram.file_id import FileType
 class AddProfileAudio:
     async def add_profile_audio(
         self: pyrogram.Client,
-        audio: str | Path | BinaryIO,
+        audio: PathType | BinaryIO,
         duration: int = 0,
         performer: str | None = None,
         title: str | None = None,
-        thumb: str | Path | BinaryIO | None = None,
+        thumb: PathType | BinaryIO | None = None,
         file_name: str | None = None,
         progress: Callable | None = None,
         progress_args: tuple = (),
@@ -46,7 +47,7 @@ class AddProfileAudio:
         .. include:: /_includes/usable-by/users.rst
 
         Parameters:
-            audio (``str`` | ``pathlib.Path`` | ``BinaryIO``):
+            audio (``str`` | ``os.PathLike`` | ``BinaryIO``):
                 Audio file to add.
                 Pass a file_id as string to add an audio file that exists on the Telegram servers,
                 pass a file path as string to upload a new audio file that exists on your local machine, or
@@ -57,7 +58,7 @@ class AddProfileAudio:
             case the upload is deliberately stopped with :meth:`~pyrogram.Client.stop_transmission`, None is returned.
 
         Raises:
-            FileNotFoundError: In case a local ``pathlib.Path`` doesn't point to an existing file.
+            FileNotFoundError: In case a local ``os.PathLike`` doesn't point to an existing file.
 
         Example:
             .. code-block:: python

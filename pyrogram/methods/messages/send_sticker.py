@@ -28,6 +28,7 @@ from collections.abc import Callable
 
 import pyrogram
 from pyrogram import StopTransmission, enums, raw, types, utils
+from pyrogram._typehints import PathType
 from pyrogram.errors import FilePartMissing
 from pyrogram.file_id import FileType
 
@@ -38,7 +39,7 @@ class SendSticker:
     async def send_sticker(
         self: pyrogram.Client,
         chat_id: int | str,
-        sticker: str | Path | BinaryIO,
+        sticker: PathType | BinaryIO,
         emoji: str = "",
         caption: str = "",
         parse_mode: enums.ParseMode | None = None,
@@ -82,7 +83,7 @@ class SendSticker:
                 For your personal cloud (Saved Messages) you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
 
-            sticker (``str`` | ``pathlib.Path`` | ``BinaryIO``):
+            sticker (``str`` | ``os.PathLike`` | ``BinaryIO``):
                 Sticker to send.
                 Pass a file_id as string to send a sticker that exists on the Telegram servers,
                 pass an HTTP URL as a string for Telegram to get a .webp sticker file from the Internet,
@@ -180,7 +181,7 @@ class SendSticker:
             returned.
 
         Raises:
-            FileNotFoundError: In case a local ``pathlib.Path`` doesn't point to an existing file.
+            FileNotFoundError: In case a local ``os.PathLike`` doesn't point to an existing file.
 
         Example:
             .. code-block:: python

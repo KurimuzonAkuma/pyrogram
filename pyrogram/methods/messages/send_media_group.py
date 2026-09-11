@@ -118,7 +118,7 @@ class SendMediaGroup:
             List of :obj:`~pyrogram.types.Message`: On success, a list of the sent messages is returned.
 
         Raises:
-            FileNotFoundError: In case a local ``pathlib.Path`` doesn't point to an existing file.
+            FileNotFoundError: In case a local ``os.PathLike`` doesn't point to an existing file.
 
         Example:
             .. code-block:: python

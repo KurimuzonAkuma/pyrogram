@@ -32,6 +32,7 @@ from collections.abc import Callable
 import pyrogram
 from pyrogram import StopTransmission
 from pyrogram import raw
+from pyrogram._typehints import PathType
 
 log = logging.getLogger(__name__)
 
@@ -56,7 +57,7 @@ class SaveFile:
     @overload
     async def save_file(
         self: pyrogram.Client,
-        path: str | os.PathLike[str] | BinaryIO,
+        path: PathType | BinaryIO,
         file_id: int,
         file_part: int = 0,
         progress: Callable | None = None,
@@ -66,7 +67,7 @@ class SaveFile:
     @overload
     async def save_file(
         self: pyrogram.Client,
-        path: str | os.PathLike[str] | BinaryIO,
+        path: PathType | BinaryIO,
         file_id: None = None,
         file_part: int = 0,
         progress: Callable | None = None,
@@ -75,7 +76,7 @@ class SaveFile:
 
     async def save_file(
         self: pyrogram.Client,
-        path: str | os.PathLike[str] | BinaryIO | None,
+        path: PathType | BinaryIO | None,
         file_id: int | None = None,
         file_part: int = 0,
         progress: Callable | None = None,

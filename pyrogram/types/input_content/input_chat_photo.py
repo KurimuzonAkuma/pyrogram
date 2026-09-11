@@ -18,11 +18,11 @@
 
 from __future__ import annotations as _annotations
 
-from pathlib import Path
 from typing import BinaryIO, cast
 
 import pyrogram
 from pyrogram import raw, utils
+from pyrogram._typehints import PathType
 from pyrogram.file_id import FileType
 
 from ..object import Object
@@ -74,11 +74,11 @@ class InputChatPhotoStatic(InputChatPhoto):
     """A static photo in JPEG format.
 
     Parameters:
-        photo (``str`` | ``pathlib.Path`` | ``BinaryIO``):
+        photo (``str`` | ``os.PathLike`` | ``BinaryIO``):
             Photo to be set as profile photo.
     """
 
-    def __init__(self, photo: str | Path | BinaryIO):
+    def __init__(self, photo: PathType | BinaryIO):
         super().__init__()
 
         self.photo = photo
@@ -95,14 +95,14 @@ class InputChatPhotoAnimation(InputChatPhoto):
         Must be square, at most 10 seconds long, have width between 160 and 1280 and be at most 2MB in size
 
     Parameters:
-        animation (``str`` | ``pathlib.Path`` | ``BinaryIO``):
+        animation (``str`` | ``os.PathLike`` | ``BinaryIO``):
             Animation to be set as profile photo.
 
         main_frame_timestamp (``float``):
             Timestamp of the frame, which will be used as static chat photo.
     """
 
-    def __init__(self, animation: str | Path | BinaryIO, main_frame_timestamp: float | None = None):
+    def __init__(self, animation: PathType | BinaryIO, main_frame_timestamp: float | None = None):
         super().__init__()
 
         self.animation = animation

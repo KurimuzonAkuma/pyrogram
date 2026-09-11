@@ -19,11 +19,18 @@
 from __future__ import annotations as _annotations
 
 import json
+from typing import Final
 
 import pytest
 
 import pyrogram
 from pyrogram import raw, types
+
+
+_EMPTY_CAPTION: Final[raw.types.PageCaption] = raw.types.PageCaption(
+    text=raw.types.TextEmpty(),
+    credit=raw.types.TextEmpty(),
+)
 
 
 async def _parse(block: raw.base.PageBlock) -> types.RichBlock:
@@ -355,3 +362,39 @@ async def test_a_document_block_parses_the_document_it_points_at() -> None:
 
     assert parsed.document.file_name == "a.pdf"
     assert parsed.caption.text == "caption"
+
+
+@pytest.mark.parametrize(
+    "block",
+    [
+        pytest.param(
+            raw.types.PageBlockVideo(
+                video_id=1,
+                caption=_EMPTY_CAPTION,
+            ),
+            id="video",
+        ),
+        pytest.param(
+            raw.types.PageBlockDocument(
+                document_id=1,
+                caption=_EMPTY_CAPTION,
+            ),
+            id="document",
+        ),
+        pytest.param(
+            raw.types.PageBlockAudio(
+                audio_id=1,
+                caption=_EMPTY_CAPTION,
+            ),
+            id="audio",
+        ),
+    ],
+)
+async def test_a_media_block_the_page_carries_no_document_for_is_unsupported(
+    block: raw.base.PageBlock,
+) -> None:
+    parsed = await _parse(block)
+
+    # `type()` rather than `==`: `Object.__eq__` iterates `self.__dict__`, so an attribute-less
+    #  object compares equal to everything, `None` included.
+    assert type(parsed) is types.RichBlockUnsupported

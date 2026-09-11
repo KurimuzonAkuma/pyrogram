@@ -276,6 +276,10 @@ class RichBlock(Object):
             )
         if isinstance(rich_block, raw.types.PageBlockVideo):
             doc = documents.get(rich_block.video_id)
+
+            if doc is None:
+                return RichBlockUnsupported()
+
             attributes = {type(i): i for i in doc.attributes}
 
             file_name = getattr(
@@ -313,6 +317,10 @@ class RichBlock(Object):
                     )
         if isinstance(rich_block, raw.types.PageBlockDocument):
             doc = documents.get(rich_block.document_id)
+
+            if doc is None:
+                return RichBlockUnsupported()
+
             attributes = {type(i): i for i in doc.attributes}
 
             file_name = getattr(
@@ -325,6 +333,10 @@ class RichBlock(Object):
             )
         if isinstance(rich_block, raw.types.PageBlockAudio):
             doc = documents.get(rich_block.audio_id)
+
+            if doc is None:
+                return RichBlockUnsupported()
+
             attributes = {type(i): i for i in doc.attributes}
 
             file_name = getattr(

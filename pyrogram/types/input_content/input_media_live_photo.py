@@ -167,7 +167,7 @@ class InputMediaLivePhoto(InputMedia):
         # Only reachable while `media` is not a local file, so an existing `photo` cannot be
         #  uploaded either: the call below addresses both of them by file_id.
         if isinstance(self.photo, os.PathLike):
-            if not Path(self.photo).is_file():
+            if not await aiofiles.os.path.isfile(self.photo):
                 raise FileNotFoundError(f"No such file or directory: {self.photo}")
 
             raise ValueError(

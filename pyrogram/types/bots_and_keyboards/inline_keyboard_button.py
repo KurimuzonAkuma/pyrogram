@@ -116,7 +116,7 @@ class InlineKeyboardButton(Object):
         copy_text: types.CopyTextButton | None = None,
         callback_game: types.CallbackGame | None = None,
         pay: bool | None = None,
-        disabled: bool | None = None,
+        disabled: types.DisabledButton | None = None,
     ):
         super().__init__()
 

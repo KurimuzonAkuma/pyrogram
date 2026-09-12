@@ -16,7 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-__version__ = "2.2.25"
+__version__ = "2.2.26"
 __license__ = "GNU Lesser General Public License v3.0 (LGPL-3.0)"
 __copyright__ = "Copyright (C) 2017-present Dan <https://github.com/delivrance>"
 
@@ -33,20 +33,20 @@ class ContinuePropagation(StopAsyncIteration):
     pass
 
 
-from . import raw, types, filters, handlers, enums
+from . import enums, filters, handlers, raw, types
 from .client import Client
-from .sync import idle, compose
+from .sync import compose, idle
 
 __all__ = [
-    "StopTransmission",
-    "StopPropagation",
+    "Client",
     "ContinuePropagation",
-    "raw",
-    "types",
+    "StopPropagation",
+    "StopTransmission",
+    "compose",
+    "enums",
     "filters",
     "handlers",
-    "enums",
-    "Client",
     "idle",
-    "compose",
+    "raw",
+    "types",
 ]

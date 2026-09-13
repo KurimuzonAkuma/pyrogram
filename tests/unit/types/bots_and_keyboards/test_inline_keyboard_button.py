@@ -65,3 +65,28 @@ async def test_a_login_url_button_carries_the_url_of_its_login_url() -> None:
         fwd_text="Sign in",
         bot=raw.types.InputUserSelf(),
     )
+
+
+async def test_a_copy_text_button_carries_its_text_when_passed_as_object() -> None:
+    button = types.InlineKeyboardButton(
+        "Copy",
+        copy_text=types.CopyTextButton(text="abc"),
+    )
+
+    written = await button.write(PeerResolver())
+
+    assert written.type == raw.types.InlineButtonTypeCopy(copy_text="abc")
+
+
+async def test_a_copy_text_button_accepts_str_directly() -> None:
+    button = types.InlineKeyboardButton(
+        "Copy Phone",
+        copy_text="+18005550199",
+    )
+
+    assert isinstance(button.copy_text, types.CopyTextButton)
+    assert button.copy_text.text == "+18005550199"
+
+    written = await button.write(PeerResolver())
+
+    assert written.type == raw.types.InlineButtonTypeCopy(copy_text="+18005550199")

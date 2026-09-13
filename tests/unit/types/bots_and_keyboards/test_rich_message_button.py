@@ -128,3 +128,28 @@ async def test_an_inline_keyboard_button_rejects_the_link_style() -> None:
 
     with pytest.raises(ValueError, match=_NO_LINK_FLAG):
         await button.write(PeerResolver())
+
+
+async def test_a_rich_message_copy_text_button_carries_its_text_when_passed_as_object() -> None:
+    button = types.RichMessageButton(
+        text="Copy",
+        copy_text=types.CopyTextButton(text="abc"),
+    )
+
+    written = await button.write(PeerResolver())
+
+    assert written.type == raw.types.InlineButtonTypeCopy(copy_text="abc")
+
+
+async def test_a_rich_message_copy_text_button_accepts_str_directly() -> None:
+    button = types.RichMessageButton(
+        text="Copy Link",
+        copy_text="https://example.com",
+    )
+
+    assert isinstance(button.copy_text, types.CopyTextButton)
+    assert button.copy_text.text == "https://example.com"
+
+    written = await button.write(PeerResolver())
+
+    assert written.type == raw.types.InlineButtonTypeCopy(copy_text="https://example.com")

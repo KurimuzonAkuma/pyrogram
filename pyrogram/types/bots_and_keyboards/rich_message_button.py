@@ -71,9 +71,9 @@ class RichMessageButton(Object):
             If set, pressing the button will prompt the user to select one of their chats of the specified type, open that chat and insert the bot's username and the specified inline query in the input field.
             Not supported for messages sent in channel direct messages chats and on behalf of a business account.
 
-        copy_text (:obj:`~pyrogram.types.CopyTextButton`, *optional*):
+        copy_text (:obj:`~pyrogram.types.CopyTextButton` | ``str``, *optional*):
             A button that copies specified text to clipboard.
-            Limited to 256 character.
+            Limited to 256 characters.
 
         disabled (:obj:`~pyrogram.types.DisabledButton`, *optional*):
             If set, then the button is disabled and does nothing.
@@ -90,7 +90,7 @@ class RichMessageButton(Object):
         switch_inline_query: str | None = None,
         switch_inline_query_current_chat: str | None = None,
         switch_inline_query_chosen_chat: types.SwitchInlineQueryChosenChat | None = None,
-        copy_text: types.CopyTextButton | None = None,
+        copy_text: types.CopyTextButton | str | None = None,
         disabled: types.DisabledButton | None = None,
     ):
         super().__init__()
@@ -104,6 +104,9 @@ class RichMessageButton(Object):
         self.switch_inline_query = switch_inline_query
         self.switch_inline_query_current_chat = switch_inline_query_current_chat
         self.switch_inline_query_chosen_chat = switch_inline_query_chosen_chat
+        if isinstance(copy_text, str):
+            copy_text = types.CopyTextButton(text=copy_text)
+
         self.copy_text = copy_text
         self.disabled = disabled
 
@@ -254,7 +257,11 @@ class RichMessageButton(Object):
 
         if self.copy_text is not None:
             button_type = raw.types.InlineButtonTypeCopy(
-                copy_text=self.copy_text.text,
+                copy_text=(
+                    self.copy_text.text
+                    if isinstance(self.copy_text, types.CopyTextButton)
+                    else str(self.copy_text)
+                ),
             )
 
         if self.disabled is not None:

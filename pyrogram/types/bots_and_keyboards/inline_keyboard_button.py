@@ -80,9 +80,9 @@ class InlineKeyboardButton(Object):
             the bot's username and the specified inline query in the input field.
             Not supported for messages sent in channel direct messages chats and on behalf of a business account.
 
-        copy_text (:obj:`~pyrogram.types.CopyTextButton`, *optional*):
+        copy_text (:obj:`~pyrogram.types.CopyTextButton` | ``str``, *optional*):
             A button that copies specified text to clipboard.
-            Limited to 256 character.
+            Limited to 256 characters.
 
         callback_game (:obj:`~pyrogram.types.CallbackGame`, *optional*):
             Description of the game that will be launched when the user presses the button.
@@ -113,7 +113,7 @@ class InlineKeyboardButton(Object):
         switch_inline_query: str | None = None,
         switch_inline_query_current_chat: str | None = None,
         switch_inline_query_chosen_chat: types.SwitchInlineQueryChosenChat | None = None,
-        copy_text: types.CopyTextButton | None = None,
+        copy_text: types.CopyTextButton | str | None = None,
         callback_game: types.CallbackGame | None = None,
         pay: bool | None = None,
         disabled: types.DisabledButton | None = None,
@@ -132,6 +132,9 @@ class InlineKeyboardButton(Object):
         self.switch_inline_query = switch_inline_query
         self.switch_inline_query_current_chat = switch_inline_query_current_chat
         self.switch_inline_query_chosen_chat = switch_inline_query_chosen_chat
+        if isinstance(copy_text, str):
+            copy_text = types.CopyTextButton(text=copy_text)
+
         self.copy_text = copy_text
         self.callback_game = callback_game
         self.pay = pay
@@ -298,7 +301,11 @@ class InlineKeyboardButton(Object):
 
         if self.copy_text is not None:
             button_type = raw.types.InlineButtonTypeCopy(
-                copy_text=self.copy_text.text,
+                copy_text=(
+                    self.copy_text.text
+                    if isinstance(self.copy_text, types.CopyTextButton)
+                    else str(self.copy_text)
+                ),
             )
 
         if self.disabled is not None:
